@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { requestMagicLink, type AuthFormState } from "@/features/auth/actions";
+import { signInWithJournalPassword, type AuthFormState } from "@/features/auth/actions";
 
 const initialAuthFormState: AuthFormState = { message: "", status: "idle" };
 
@@ -10,17 +10,25 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button className="primary-button auth-submit" type="submit" disabled={pending}>
-      {pending ? "Sending…" : "Send my private link"}
+      {pending ? "Unlocking…" : "Unlock journal"}
     </button>
   );
 }
 
-export function MagicLinkForm() {
-  const [state, formAction] = useActionState(requestMagicLink, initialAuthFormState);
+export function PasswordForm() {
+  const [state, formAction] = useActionState(signInWithJournalPassword, initialAuthFormState);
   return (
     <form className="auth-form" action={formAction}>
-      <label htmlFor="email">Email address</label>
-      <input id="email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" required />
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        inputMode="numeric"
+        autoComplete="current-password"
+        autoFocus
+        required
+      />
       <SubmitButton />
       <p className={`form-message ${state.status}`} aria-live="polite">{state.message}</p>
     </form>

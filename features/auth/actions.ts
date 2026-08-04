@@ -1,33 +1,46 @@
 "use server";
 
-import { headers } from "next/headers";
+import { timingSafeEqual } from "node:crypto";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthFormState = { message: string; status: "idle" | "success" | "error" };
 
-export async function requestMagicLink(
+function passwordsMatch(candidate: string, expected: string) {
+  const candidateBuffer = Buffer.from(candidate);
+  const expectedBuffer = Buffer.from(expected);
+  return candidateBuffer.length === expectedBuffer.length
+    && timingSafeEqual(candidateBuffer, expectedBuffer);
+}
+
+export async function signInWithJournalPassword(
   _previousState: AuthFormState,
   formData: FormData,
 ): Promise<AuthFormState> {
-  const email = formData.get("email");
-  if (typeof email !== "string" || !email.includes("@")) {
-    return { status: "error", message: "Enter a valid email address." };
+  const password = formData.get("password");
+  const journalPassword = process.env.LIFE_JOURNAL_PASSWORD;
+  const ownerEmail = process.env.LIFE_JOURNAL_OWNER_EMAIL;
+  const ownerAuthPassword = process.env.LIFE_JOURNAL_OWNER_AUTH_PASSWORD;
+
+  if (!journalPassword || !ownerEmail || !ownerAuthPassword) {
+    return { status: "error", message: "The journal lock is not configured." };
   }
 
-  const requestHeaders = await headers();
-  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? requestHeaders.get("origin") ?? "http://localhost:3000").replace(/\/$/, "");
+  if (typeof password !== "string" || !passwordsMatch(password, journalPassword)) {
+    return { status: "error", message: "Incorrect password." };
+  }
+
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithOtp({
-    email: email.trim(),
-    options: { emailRedirectTo: `${origin}/auth/callback?next=/journal` },
+  const { error } = await supabase.auth.signInWithPassword({
+    email: ownerEmail,
+    password: ownerAuthPassword,
   });
 
   if (error) {
-    return { status: "error", message: "We could not send the sign-in link. Please try again." };
+    return { status: "error", message: "The journal could not be unlocked. Please try again." };
   }
 
-  return { status: "success", message: "Check your inbox. Your private sign-in link is on its way." };
+  redirect("/journal");
 }
 
 export async function signOut() {

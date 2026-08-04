@@ -9,27 +9,27 @@ export default async function Home() {
 
   return (
     <main className="home-shell">
-      <nav className="topbar" aria-label="Primary navigation">
+      <nav className="topbar" aria-label="Основна навигация">
         <BrandLink />
-        <span className="eyebrow">Your story starts here</span>
+        <span className="eyebrow">Твоята история започва тук</span>
       </nav>
 
       <section className="hero" aria-labelledby="welcome-title">
         <div className="hero-copy">
-          <p className="kicker">A place for the days worth remembering</p>
-          <h1 id="welcome-title">Turn your journeys into stories.</h1>
+          <p className="kicker">Място за дните, които си струва да помниш</p>
+          <h1 id="welcome-title">Превърни пътуванията си в истории.</h1>
           <p className="intro">
-            Collect the places, moments, and small details that made each trip yours.
-            Begin with one journey — the rest can unfold naturally.
+            Запази местата, моментите и малките детайли, които правят всяко пътуване твое.
+            Започни с едно пътешествие — останалото ще се разгърне естествено.
           </p>
           <Link className="primary-button" href={user ? "/journal" : "/login"}>
             <span aria-hidden="true">+</span>
-            Create your first trip
+            Създай първото си пътуване
           </Link>
-          <p className="helper">It only takes a moment to begin.</p>
+          <p className="helper">Нужен е само миг, за да започнеш.</p>
         </div>
 
-        <div className="memory-card" aria-label="A preview of your future travel journal">
+        <div className="memory-card" aria-label="Преглед на бъдещия ти дневник за пътувания">
           <div className="memory-image" aria-hidden="true">
             <div className="sun" />
             <div className="hill hill-back" />
@@ -37,8 +37,8 @@ export default async function Home() {
           </div>
           <div className="memory-meta">
             <div>
-              <p className="memory-place">Somewhere unforgettable</p>
-              <p className="memory-date">Your first journey</p>
+              <p className="memory-place">Някъде незабравимо</p>
+              <p className="memory-date">Твоето първо пътешествие</p>
             </div>
             <span className="memory-number">01</span>
           </div>
@@ -46,7 +46,7 @@ export default async function Home() {
       </section>
 
       <footer className="footer">
-        <span>Made for a life well remembered.</span>
+        <span>Създаден за живот, който си струва да помниш.</span>
         <span aria-hidden="true">✦</span>
       </footer>
     </main>

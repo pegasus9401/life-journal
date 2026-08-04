@@ -10,7 +10,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button className="primary-button auth-submit" type="submit" disabled={pending}>
-      {pending ? "Unlocking…" : "Unlock journal"}
+      {pending ? "Отключване…" : "Отключи дневника"}
     </button>
   );
 }
@@ -19,7 +19,7 @@ export function PasswordForm() {
   const [state, formAction] = useActionState(signInWithJournalPassword, initialAuthFormState);
   return (
     <form className="auth-form" action={formAction}>
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password">Парола</label>
       <input
         id="password"
         name="password"

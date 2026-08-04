@@ -11,8 +11,8 @@ import { RichTextEditor } from "./rich-text-editor";
 
 const emptyStory: JSONContent = { type: "doc", content: [{ type: "paragraph" }] };
 const moodLabels: Record<Mood, string> = {
-  joyful: "Joyful", peaceful: "Peaceful", excited: "Excited",
-  reflective: "Reflective", tired: "Tired", challenging: "Challenging",
+  joyful: "Радостно", peaceful: "Спокойно", excited: "Вълнуващо",
+  reflective: "Замислено", tired: "Уморено", challenging: "Предизвикателно",
 };
 const acceptedExtensions = new Set(["jpg", "jpeg", "png", "webp", "heic", "heif"]);
 const mimeByExtension: Record<string, string> = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", heic: "image/heic", heif: "image/heif" };
@@ -57,7 +57,7 @@ export function EntryForm({ userId, entry }: { userId: string; entry?: JournalEn
       const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
       return (file.type.startsWith("image/") || acceptedExtensions.has(extension)) && file.size <= 15 * 1024 * 1024;
     });
-    if (accepted.length !== files.length) setMessage("Some photos were skipped. Use images under 15 MB, up to 30 per entry.");
+    if (accepted.length !== files.length) setMessage("Някои снимки бяха пропуснати. Използвай до 30 снимки под 15 MB.");
     const additions = accepted.map((file) => {
       const previewUrl = URL.createObjectURL(file);
       previewUrls.current.add(previewUrl);
@@ -88,7 +88,7 @@ export function EntryForm({ userId, entry }: { userId: string; entry?: JournalEn
       const { error } = await supabase.storage.from("journal-photos").upload(storage_path, photo.file, { contentType: mimeType, upsert: false });
       if (error) {
         if (uploaded.length) await supabase.storage.from("journal-photos").remove(uploaded.map((item) => item.storage_path));
-        throw new Error("One of the photos could not be uploaded. Check your connection and try again.");
+        throw new Error("Една от снимките не можа да бъде качена. Провери връзката си и опитай отново.");
       }
       uploaded.push({ storage_path, file_name: photo.file.name, mime_type: mimeType, file_size: photo.file.size });
     }
@@ -97,9 +97,9 @@ export function EntryForm({ userId, entry }: { userId: string; entry?: JournalEn
 
   async function submit(status: EntryStatus) {
     setMessage("");
-    if (!title.trim()) return setMessage("Give this day a title.");
-    if (status === "published" && !contentText.trim()) return setMessage("Write something before publishing.");
-    if (tags.length > 12) return setMessage("Use no more than 12 tags.");
+    if (!title.trim()) return setMessage("Дай заглавие на този ден.");
+    if (status === "published" && !contentText.trim()) return setMessage("Напиши нещо преди публикуване.");
+    if (tags.length > 12) return setMessage("Използвай не повече от 12 етикета.");
 
     setSaving(status);
     let uploaded: UploadedPhoto[] = [];
@@ -128,7 +128,7 @@ export function EntryForm({ userId, entry }: { userId: string; entry?: JournalEn
       router.push(`/journal/${result.id}`);
       router.refresh();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Something went wrong. Try again.");
+      setMessage(error instanceof Error ? error.message : "Нещо се обърка. Опитай отново.");
     } finally {
       setSaving(null);
     }
@@ -137,38 +137,38 @@ export function EntryForm({ userId, entry }: { userId: string; entry?: JournalEn
   return (
     <div className="entry-form">
       <header className="entry-form-header">
-        <div><p className="kicker">{entry ? "Edit memory" : "New journal entry"}</p><h1>{entry ? "Return to this day." : "Remember today."}</h1></div>
-        <label className="favorite-control"><input type="checkbox" checked={favorite} onChange={(event) => setFavorite(event.target.checked)} /><span aria-hidden="true">♥</span> Favorite</label>
+        <div><p className="kicker">{entry ? "Редактиране на спомен" : "Нов запис в дневника"}</p><h1>{entry ? "Върни се към този ден." : "Запомни днешния ден."}</h1></div>
+        <label className="favorite-control"><input type="checkbox" checked={favorite} onChange={(event) => setFavorite(event.target.checked)} /><span aria-hidden="true">♥</span> Любим</label>
       </header>
 
       <div className="entry-grid">
         <section className="entry-main-fields">
-          <label className="field"><span>Date</span><input type="date" value={entryDate} onChange={(event) => setEntryDate(event.target.value)} required /></label>
-          <label className="field title-field"><span>Title</span><input type="text" value={title} onChange={(event) => setTitle(event.target.value)} maxLength={140} placeholder="A golden afternoon in Seville" autoFocus /></label>
-          <div className="field"><span>Story</span><RichTextEditor value={content} onChange={(nextContent, text) => { setContent(nextContent); setContentText(text); }} /></div>
+          <label className="field"><span>Дата</span><input type="date" value={entryDate} onChange={(event) => setEntryDate(event.target.value)} required /></label>
+          <label className="field title-field"><span>Заглавие</span><input type="text" value={title} onChange={(event) => setTitle(event.target.value)} maxLength={140} placeholder="Златен следобед в Севиля" autoFocus /></label>
+          <div className="field"><span>История</span><RichTextEditor value={content} onChange={(nextContent, text) => { setContent(nextContent); setContentText(text); }} /></div>
         </section>
 
         <aside className="entry-details">
-          <fieldset className="field"><legend>Mood</legend><div className="mood-picker">{moods.map((item) => <button key={item} type="button" className={mood === item ? "selected" : ""} aria-pressed={mood === item} onClick={() => setMood(mood === item ? null : item)}>{moodLabels[item]}</button>)}</div></fieldset>
-          <label className="field"><span>Weather</span><input value={weather} onChange={(event) => setWeather(event.target.value)} maxLength={80} placeholder="Warm, clear evening" /></label>
-          <label className="field"><span>Location</span><input value={locationName} onChange={(event) => setLocationName(event.target.value)} maxLength={160} placeholder="Seville, Spain" /></label>
-          <label className="field"><span>Tags <small>separated by commas</small></span><input value={tagsText} onChange={(event) => setTagsText(event.target.value)} placeholder="spain, tapas, sunset" /></label>
+          <fieldset className="field"><legend>Настроение</legend><div className="mood-picker">{moods.map((item) => <button key={item} type="button" className={mood === item ? "selected" : ""} aria-pressed={mood === item} onClick={() => setMood(mood === item ? null : item)}>{moodLabels[item]}</button>)}</div></fieldset>
+          <label className="field"><span>Време</span><input value={weather} onChange={(event) => setWeather(event.target.value)} maxLength={80} placeholder="Топла и ясна вечер" /></label>
+          <label className="field"><span>Място</span><input value={locationName} onChange={(event) => setLocationName(event.target.value)} maxLength={160} placeholder="Севиля, Испания" /></label>
+          <label className="field"><span>Етикети <small>разделени със запетаи</small></span><input value={tagsText} onChange={(event) => setTagsText(event.target.value)} placeholder="испания, тапас, залез" /></label>
         </aside>
       </div>
 
       <section className="photo-field" aria-labelledby="photos-label">
-        <div><p id="photos-label" className="field-label">Photos</p><p className="field-help">The first photo becomes the cover. Up to 30 images, 15 MB each.</p></div>
-        <label className="photo-picker"><input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple onChange={(event) => { addPhotos(event.target.files); event.target.value = ""; }} /><span>＋ Add photos</span></label>
+        <div><p id="photos-label" className="field-label">Снимки</p><p className="field-help">Първата снимка става корица. До 30 снимки по 15 MB.</p></div>
+        <label className="photo-picker"><input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple onChange={(event) => { addPhotos(event.target.files); event.target.value = ""; }} /><span>＋ Добави снимки</span></label>
         {photoCount > 0 ? <div className="photo-preview-grid">
-          {existingPhotos.map((photo, index) => <div className="photo-preview" key={photo.id}>{photo.signedUrl ? <Image src={photo.signedUrl} alt={`Journal photo ${index + 1}`} fill sizes="(max-width: 700px) 45vw, 220px" /> : null}<button type="button" aria-label={`Remove ${photo.file_name}`} onClick={() => setExistingPhotos((current) => current.filter((item) => item.id !== photo.id))}>×</button>{index === 0 ? <span>Cover</span> : null}</div>)}
-          {pendingPhotos.map((photo, index) => <div className="photo-preview" key={photo.id}><Image src={photo.previewUrl} alt={`New journal photo ${index + 1}`} fill unoptimized sizes="(max-width: 700px) 45vw, 220px" /><button type="button" aria-label={`Remove ${photo.file.name}`} onClick={() => removePending(photo.id)}>×</button>{existingPhotos.length === 0 && index === 0 ? <span>Cover</span> : null}</div>)}
+          {existingPhotos.map((photo, index) => <div className="photo-preview" key={photo.id}>{photo.signedUrl ? <Image src={photo.signedUrl} alt={`Снимка от дневника ${index + 1}`} fill sizes="(max-width: 700px) 45vw, 220px" /> : null}<button type="button" aria-label={`Премахни ${photo.file_name}`} onClick={() => setExistingPhotos((current) => current.filter((item) => item.id !== photo.id))}>×</button>{index === 0 ? <span>Корица</span> : null}</div>)}
+          {pendingPhotos.map((photo, index) => <div className="photo-preview" key={photo.id}><Image src={photo.previewUrl} alt={`Нова снимка ${index + 1}`} fill unoptimized sizes="(max-width: 700px) 45vw, 220px" /><button type="button" aria-label={`Премахни ${photo.file.name}`} onClick={() => removePending(photo.id)}>×</button>{existingPhotos.length === 0 && index === 0 ? <span>Корица</span> : null}</div>)}
         </div> : null}
       </section>
 
       <div className="form-actions">
         <p className="form-message error" aria-live="polite">{message}</p>
-        <button className="secondary-button" type="button" disabled={saving !== null} onClick={() => submit("draft")}>{saving === "draft" ? "Saving…" : "Save draft"}</button>
-        <button className="primary-button" type="button" disabled={saving !== null} onClick={() => submit("published")}>{saving === "published" ? "Publishing…" : "Publish entry"}</button>
+        <button className="secondary-button" type="button" disabled={saving !== null} onClick={() => submit("draft")}>{saving === "draft" ? "Запазване…" : "Запази чернова"}</button>
+        <button className="primary-button" type="button" disabled={saving !== null} onClick={() => submit("published")}>{saving === "published" ? "Публикуване…" : "Публикувай записа"}</button>
       </div>
     </div>
   );

@@ -23,11 +23,11 @@ export async function signInWithJournalPassword(
   const ownerAuthPassword = process.env.LIFE_JOURNAL_OWNER_AUTH_PASSWORD;
 
   if (!journalPassword || !ownerEmail || !ownerAuthPassword) {
-    return { status: "error", message: "The journal lock is not configured." };
+    return { status: "error", message: "Заключването на дневника не е настроено." };
   }
 
   if (typeof password !== "string" || !passwordsMatch(password, journalPassword)) {
-    return { status: "error", message: "Incorrect password." };
+    return { status: "error", message: "Грешна парола." };
   }
 
   const supabase = await createClient();
@@ -37,7 +37,7 @@ export async function signInWithJournalPassword(
   });
 
   if (error) {
-    return { status: "error", message: "The journal could not be unlocked. Please try again." };
+    return { status: "error", message: "Дневникът не можа да бъде отключен. Опитай отново." };
   }
 
   redirect("/journal");

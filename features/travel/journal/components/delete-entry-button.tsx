@@ -9,7 +9,7 @@ export function DeleteEntryButton({ entryId }: { entryId: string }) {
   const [pending, setPending] = useState(false);
 
   async function handleDelete() {
-    if (!window.confirm("Delete this journal entry and all of its photos? This cannot be undone.")) return;
+    if (!window.confirm("Да изтрия ли този запис и всички негови снимки? Действието е необратимо.")) return;
     setPending(true);
     const result = await deleteJournalEntry(entryId);
     if (result.ok) router.push("/journal");
@@ -19,5 +19,5 @@ export function DeleteEntryButton({ entryId }: { entryId: string }) {
     }
   }
 
-  return <button className="danger-button" type="button" disabled={pending} onClick={handleDelete}>{pending ? "Deleting…" : "Delete entry"}</button>;
+  return <button className="danger-button" type="button" disabled={pending} onClick={handleDelete}>{pending ? "Изтриване…" : "Изтрий записа"}</button>;
 }

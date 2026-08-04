@@ -6,15 +6,15 @@ import { journalEntrySchema, type JournalEntryInput } from "./schema";
 
 export async function saveJournalEntry(input: JournalEntryInput) {
   const parsed = journalEntrySchema.safeParse(input);
-  if (!parsed.success) return { ok: false as const, message: parsed.error.issues[0]?.message ?? "Check the entry and try again." };
+  if (!parsed.success) return { ok: false as const, message: parsed.error.issues[0]?.message ?? "Провери записа и опитай отново." };
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { ok: false as const, message: "Your session expired. Sign in again." };
+  if (!user) return { ok: false as const, message: "Сесията ти изтече. Влез отново." };
 
   const value = parsed.data;
   if (value.newPhotos.some((photo) => !photo.storage_path.startsWith(`${user.id}/`))) {
-    return { ok: false as const, message: "A photo upload path was invalid." };
+    return { ok: false as const, message: "Пътят за качване на снимката е невалиден." };
   }
   const entryData = {
     owner_id: user.id,
@@ -34,10 +34,10 @@ export async function saveJournalEntry(input: JournalEntryInput) {
   let entryId = value.id;
   if (entryId) {
     const { error } = await supabase.from("journal_entries").update(entryData).eq("id", entryId).eq("owner_id", user.id);
-    if (error) return { ok: false as const, message: "This entry could not be updated." };
+    if (error) return { ok: false as const, message: "Записът не можа да бъде обновен." };
   } else {
     const { data, error } = await supabase.from("journal_entries").insert(entryData).select("id").single();
-    if (error || !data) return { ok: false as const, message: "This entry could not be saved." };
+    if (error || !data) return { ok: false as const, message: "Записът не можа да бъде запазен." };
     entryId = data.id;
   }
 
@@ -62,7 +62,7 @@ export async function saveJournalEntry(input: JournalEntryInput) {
       position: startPosition + index,
     }));
     const { error } = await supabase.from("journal_photos").insert(rows);
-    if (error) return { ok: false as const, message: "The entry was saved, but its new photos could not be attached." };
+    if (error) return { ok: false as const, message: "Записът беше запазен, но новите снимки не можаха да бъдат добавени." };
   }
 
   revalidatePath("/journal");
@@ -73,11 +73,11 @@ export async function saveJournalEntry(input: JournalEntryInput) {
 export async function deleteJournalEntry(id: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { ok: false as const, message: "Your session expired." };
+  if (!user) return { ok: false as const, message: "Сесията ти изтече." };
 
   const { data: photos } = await supabase.from("journal_photos").select("storage_path").eq("entry_id", id);
   const { error } = await supabase.from("journal_entries").delete().eq("id", id).eq("owner_id", user.id);
-  if (error) return { ok: false as const, message: "The entry could not be deleted." };
+  if (error) return { ok: false as const, message: "Записът не можа да бъде изтрит." };
 
   if (photos?.length) await supabase.storage.from("journal-photos").remove(photos.map((photo) => photo.storage_path));
   revalidatePath("/journal");

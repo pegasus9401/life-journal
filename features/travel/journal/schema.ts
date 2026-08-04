@@ -8,8 +8,8 @@ const jsonContentSchema: z.ZodType<unknown> = z.lazy(() =>
 export const journalEntrySchema = z.object({
   id: z.uuid().optional(),
   entryDate: z.iso.date(),
-  title: z.string().trim().min(1, "Give this day a title.").max(140),
-  content: jsonContentSchema.refine((content) => JSON.stringify(content).length <= 250000, "The story is too large."),
+  title: z.string().trim().min(1, "Дай заглавие на този ден.").max(140),
+  content: jsonContentSchema.refine((content) => JSON.stringify(content).length <= 250000, "Историята е прекалено дълга."),
   contentText: z.string().trim().max(50000),
   mood: z.enum(moods).nullable(),
   weather: z.string().trim().max(80).nullable(),
@@ -25,7 +25,7 @@ export const journalEntrySchema = z.object({
     file_size: z.number().int().positive().max(15 * 1024 * 1024),
   })).max(30),
 }).refine((value) => value.status === "draft" || value.contentText.length > 0, {
-  message: "Write something before publishing.", path: ["contentText"],
+  message: "Напиши нещо преди публикуване.", path: ["contentText"],
 });
 
 export type JournalEntryInput = z.infer<typeof journalEntrySchema>;

@@ -1,13 +1,16 @@
-import { CreateTripButton } from "@/components/create-trip-button";
+import Link from "next/link";
 
-export default function Home() {
+import { BrandLink } from "@/components/brand-link";
+import { createClient } from "@/lib/supabase/server";
+
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <main className="home-shell">
       <nav className="topbar" aria-label="Primary navigation">
-        <a className="brand" href="/" aria-label="Life Journal home">
-          <span className="brand-mark" aria-hidden="true">LJ</span>
-          <span>Life Journal</span>
-        </a>
+        <BrandLink />
         <span className="eyebrow">Your story starts here</span>
       </nav>
 
@@ -19,7 +22,10 @@ export default function Home() {
             Collect the places, moments, and small details that made each trip yours.
             Begin with one journey — the rest can unfold naturally.
           </p>
-          <CreateTripButton />
+          <Link className="primary-button" href={user ? "/journal" : "/login"}>
+            <span aria-hidden="true">+</span>
+            Create your first trip
+          </Link>
           <p className="helper">It only takes a moment to begin.</p>
         </div>
 

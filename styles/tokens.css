@@ -1,0 +1,25 @@
+:root {
+  --ink: #203027;
+  --muted: #68766d;
+  --paper: #f5f1e8;
+  --card: #fffdf8;
+  --sage: #345b47;
+  --line: rgba(32, 48, 39, 0.14);
+  --soft: #ebe5d9;
+  --danger: #9a4038;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #ece8df;
+    --muted: #a9afa9;
+    --paper: #101512;
+    --card: #171d19;
+    --sage: #6f9d82;
+    --line: rgba(236, 232, 223, 0.13);
+    --soft: #222a25;
+    --danger: #e18b81;
+    color-scheme: dark;
+  }
+}

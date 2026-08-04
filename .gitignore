@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+/.pnpm-store
+/store
+
+# Next.js
+/.next/
+/out/
+
+# production
+/build
+
+# local environment variables
+.env*
+!.env.example
+
+# Vercel
+.vercel
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo

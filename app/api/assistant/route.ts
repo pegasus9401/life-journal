@@ -65,6 +65,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Изпълних действията, но задачата стана твърде дълга. Кажи ми да продължа.", actions });
   } catch (error) {
     console.error("Assistant error", error);
+    if (error instanceof Error && error.message.toLowerCase().includes("credit card")) {
+      return NextResponse.json({ error: "За да заработи AI асистентът, Vercel изисква да добавиш карта в AI Gateway — включително за безплатните AI кредити." }, { status: 402 });
+    }
     return NextResponse.json({ error: "AI асистентът временно не е достъпен. Опитай отново след малко." }, { status: 502 });
   } finally {
     ["/today", "/calendar", "/journal", "/nutrition", "/workouts"].forEach((path) => revalidatePath(path));

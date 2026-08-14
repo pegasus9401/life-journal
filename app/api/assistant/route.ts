@@ -68,7 +68,8 @@ export async function POST(request: Request) {
     if (error instanceof Error && error.message.toLowerCase().includes("credit card")) {
       return NextResponse.json({ error: "За да заработи AI асистентът, Vercel изисква да добавиш карта в AI Gateway — включително за безплатните AI кредити." }, { status: 402 });
     }
-    return NextResponse.json({ error: "AI асистентът временно не е достъпен. Опитай отново след малко." }, { status: 502 });
+    const detail = error instanceof Error ? error.message.slice(0, 500) : "Неизвестна грешка от AI Gateway.";
+    return NextResponse.json({ error: `AI Gateway отказа заявката: ${detail}` }, { status: 502 });
   } finally {
     ["/today", "/calendar", "/journal", "/nutrition", "/workouts"].forEach((path) => revalidatePath(path));
   }

@@ -371,6 +371,44 @@ h1 { max-width: 720px; margin: 0; font-family: Georgia, "Times New Roman", serif
 .nutrition-macro-inputs label { display: grid; gap: 7px; color: #aaa4bb; font-size: 11px; }
 .nutrition-modal .primary-button { justify-content: center; }
 
+/* Workouts */
+.workout-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding: clamp(46px, 7vw, 88px) 0 36px; }
+.workout-header h1 { margin: 0; color: var(--life-ink); font: 400 clamp(44px, 6vw, 76px)/1 Georgia, serif; letter-spacing: -.045em; text-transform: capitalize; }
+.workout-header > div:first-child > p:last-child { margin: 16px 0 0; color: var(--life-muted); }
+.workout-summary { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)) auto; align-items: center; gap: 14px; padding: clamp(20px, 3vw, 30px); border: 1px solid var(--life-line); border-radius: 24px; background: linear-gradient(145deg, rgba(32,73,68,.46), rgba(23,21,34,.94)); }
+.workout-summary article { display: grid; gap: 7px; padding-right: 20px; border-right: 1px solid var(--life-line); }
+.workout-summary article span { color: var(--life-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.workout-summary article strong { font: 400 30px/1 Georgia, serif; }
+.workout-summary article small { color: var(--life-muted); font: 400 12px/1 Arial, sans-serif; }
+.workout-summary .primary-button { justify-content: center; text-decoration: none; }
+.workout-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
+.workout-card { min-width: 0; padding: clamp(22px, 3vw, 32px); border: 1px solid var(--life-line); border-radius: 24px; background: rgba(23,21,34,.9); box-shadow: 0 22px 60px rgba(0,0,0,.16); }
+.workout-card > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.workout-card h2 { margin: 12px 0 0; font: 400 30px/1.1 Georgia, serif; letter-spacing: -.025em; }
+.workout-type { display: inline-flex; padding: 6px 9px; border-radius: 999px; color: #c4b5fd; background: rgba(167,139,250,.1); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.workout-type.type-cardio { color: #fda4af; background: rgba(251,113,133,.1); }.workout-type.type-mobility { color: #6ee7b7; background: rgba(52,211,153,.1); }.workout-type.type-sport { color: #fcd34d; background: rgba(251,191,36,.1); }
+.workout-complete { display: grid; flex: 0 0 auto; width: 38px; height: 38px; place-items: center; border: 1px solid var(--life-line); border-radius: 50%; color: var(--life-muted); background: transparent; cursor: pointer; font-size: 18px; }
+.workout-card.completed .workout-complete { border-color: #34d399; color: #10241d; background: #34d399; }
+.workout-card-stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+.workout-card-stats span { padding: 7px 9px; border-radius: 8px; color: var(--life-muted); background: rgba(255,255,255,.045); font-size: 10px; }
+.workout-exercises { display: grid; border-top: 1px solid var(--life-line); }
+.workout-exercises > div { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px 0; border-bottom: 1px solid var(--life-line); }
+.workout-exercises strong { font-size: 13px; }.workout-exercises span { color: var(--life-muted); font-size: 11px; white-space: nowrap; }
+.workout-no-exercises, .workout-notes { color: var(--life-muted); font-size: 12px; line-height: 1.65; }
+.workout-notes { margin-top: 20px; }
+.workout-card footer { display: flex; gap: 18px; margin-top: 24px; }
+.workout-card footer button { padding: 0; border: 0; color: var(--life-muted); background: transparent; cursor: pointer; font-size: 11px; }
+.workout-card footer button:last-child:hover { color: #fb7185; }
+.workout-empty { display: grid; min-height: 390px; margin-top: 22px; place-content: center; justify-items: start; padding: clamp(28px, 6vw, 72px); border: 1px solid var(--life-line); border-radius: 26px; background: radial-gradient(circle at 75% 35%, rgba(52,211,153,.12), transparent 20rem), var(--life-surface); }
+.workout-empty h2 { margin: 0; font: 400 clamp(38px, 6vw, 64px)/1 Georgia, serif; letter-spacing: -.04em; }.workout-empty > p:not(.life-kicker) { max-width: 540px; margin: 22px 0 30px; color: var(--life-muted); line-height: 1.7; }
+.workout-modal { z-index: 80; }.workout-sheet { width: min(820px, 100%); }.workout-form { margin-top: 28px; }
+.workout-exercise-builder { display: grid; gap: 10px; margin: 0; padding: 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; }
+.workout-exercise-builder legend { padding: 0 6px; color: #aaa4bb; font-size: 11px; }
+.workout-exercise-row { display: grid; grid-template-columns: minmax(140px, 1fr) 80px 80px 80px 30px; gap: 8px; }
+.workout-exercise-row input { min-width: 0; min-height: 42px; padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; color: #f7f4ff; background: #201d2e; }
+.workout-exercise-row button { border: 0; color: #aaa4bb; background: transparent; cursor: pointer; font-size: 18px; }
+.workout-add-exercise { justify-self: start; padding: 8px 0; border: 0; color: var(--life-accent); background: transparent; cursor: pointer; font-size: 12px; }
+
 @media (max-width: 820px) {
   .life-app-shell { padding-right: 14px; padding-left: 14px; }
   .app-nav { min-height: 72px; }
@@ -399,4 +437,15 @@ h1 { max-width: 720px; margin: 0; font-family: Georgia, "Times New Roman", serif
   .nutrition-goals-button { justify-self: center; }
   .nutrition-meals { grid-template-columns: 1fr; }
   .nutrition-macro-inputs { grid-template-columns: 1fr; }
+  .app-nav-links { max-width: calc(100vw - 72px); overflow-x: auto; scrollbar-width: none; }
+  .app-nav-links::-webkit-scrollbar { display: none; }
+  .workout-header { display: grid; padding-top: 40px; }
+  .workout-summary { grid-template-columns: repeat(3, 1fr); }
+  .workout-summary article { padding-right: 8px; }
+  .workout-summary article strong { font-size: 24px; }
+  .workout-summary .primary-button { grid-column: 1 / -1; }
+  .workout-list { grid-template-columns: 1fr; }
+  .workout-exercise-row { grid-template-columns: 1fr 1fr; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .workout-exercise-row input:first-child { grid-column: 1 / -1; }
+  .workout-exercise-row button { grid-column: 2; justify-self: end; }
 }

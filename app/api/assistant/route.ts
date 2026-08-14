@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Сесията изтече." }, { status: 401 });
-  const token = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN;
+  const token = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || request.headers.get("x-vercel-oidc-token");
   if (!token) return NextResponse.json({ error: "AI Gateway все още не е активиран за проекта." }, { status: 503 });
 
   const body = await request.json().catch(() => null) as { messages?: Array<{ role?: string; content?: string }> } | null;

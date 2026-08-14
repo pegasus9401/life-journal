@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { BrandLink } from "@/components/brand-link";
-import { signOut } from "@/features/auth/actions";
+import { AppNavigation } from "@/components/app-navigation";
 import { getJournalEntries } from "@/features/travel/journal/queries";
 
 export const metadata = { title: "Дневник за пътувания · Дневник на живота" };
@@ -19,10 +18,7 @@ export default async function JournalPage() {
 
   return (
     <main className="journal-shell">
-      <nav className="topbar" aria-label="Навигация на дневника">
-        <BrandLink />
-        <div className="nav-actions"><Link className="quiet-link" href="/journal/new">Нов запис</Link><form action={signOut}><button className="quiet-button" type="submit">Изход</button></form></div>
-      </nav>
+      <AppNavigation active="journal" />
       <header className="journal-index-header">
         <div><p className="kicker">Дневник за пътувания</p><h1>Дни, които си струва да запазиш.</h1><p className="intro">Тихо място за всяко посетено място и чувството да бъдеш там.</p></div>
         <Link className="primary-button" href="/journal/new"><span aria-hidden="true">+</span>Запиши днешния ден</Link>

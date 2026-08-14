@@ -44,3 +44,11 @@ Future modules receive independent tables and schemas where useful. They may ref
 ## Migration policy
 
 All schema changes are forward migrations in `supabase/migrations`. Production history is immutable; fixes use a new migration. Seeds contain synthetic data only. Backups, export, and restore are verified before storing irreplaceable memories.
+
+## Календар и „Днес“
+
+- `calendar_events` пази часови, целодневни, много-дневни и повтарящи се събития.
+- `tasks` пази задачи със срок, приоритет, състояние и повторение.
+- `birthdays` е отделен първокласен източник, който се показва ежегодно.
+
+Часовите събития се пазят като UTC момент с IANA часова зона. Календарните дати без час използват `date`, за да не се изместват. Повторенията се разгръщат само за видимия диапазон. Всички таблици имат `owner_id`, индекси, RLS и политики само за собственика.

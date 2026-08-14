@@ -22,9 +22,9 @@ export default async function Home() {
             Запази местата, моментите и малките детайли, които правят всяко пътуване твое.
             Започни с едно пътешествие — останалото ще се разгърне естествено.
           </p>
-          <Link className="primary-button" href={user ? "/journal" : "/login"}>
+          <Link className="primary-button" href={user ? "/today" : "/login"}>
             <span aria-hidden="true">+</span>
-            Създай първото си пътуване
+            {user ? "Отвори днешния ден" : "Отключи своя дневник"}
           </Link>
           <p className="helper">Нужен е само миг, за да започнеш.</p>
         </div>

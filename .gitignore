@@ -21,3 +21,4 @@
 .DS_Store
 *.pem
 *.tsbuildinfo
+.codex-ssh-wrapper.cmd

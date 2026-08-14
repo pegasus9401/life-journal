@@ -46,3 +46,9 @@ Every user-owned table has `owner_id`, Row Level Security, explicit policies, an
 ## Evolution
 
 Begin with a modular monolith. Extract a service only when scale, isolation, or operational ownership makes the cost worthwhile. Future Life modules get their own feature boundary and migrations without sharing Travel-specific entities.
+
+## Calendar and Today foundation
+
+`features/calendar` owns validation, authenticated Server Actions, queries, recurrence expansion and normalization. `features/today` owns only the personal daily presentation and consumes normalized calendar items.
+
+The shared `CalendarItem` projection is the integration boundary. Events, tasks and birthdays map into it today; future sources can add adapters without coupling their database tables to the calendar UI.

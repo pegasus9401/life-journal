@@ -40,7 +40,7 @@ export async function signInWithJournalPassword(
     return { status: "error", message: "Дневникът не можа да бъде отключен. Опитай отново." };
   }
 
-  redirect("/journal");
+  redirect("/today");
 }
 
 export async function signOut() {

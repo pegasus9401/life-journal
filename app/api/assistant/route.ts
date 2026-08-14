@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       const gatewayResponse = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Vercel-AI-App-Name": "Life Journal" },
-        body: JSON.stringify({ model: "openai/gpt-5.4", messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
+        body: JSON.stringify({ model: "google/gemini-2.5-flash-lite", messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
       });
       const result = await gatewayResponse.json() as { choices?: Array<{ message?: { role: "assistant"; content?: string | null; tool_calls?: ToolCall[] } }>; error?: { message?: string } };
       if (!gatewayResponse.ok) throw new Error(result.error?.message ?? `AI Gateway: ${gatewayResponse.status}`);

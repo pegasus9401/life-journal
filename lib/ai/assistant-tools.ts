@@ -9,7 +9,7 @@ const date = { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" };
 const nullableId = { type: "string", description: "ID за редактиране; пропусни при нов запис" };
 
 export const assistantToolDefinitions: ToolDefinition[] = [
-  { type: "function", function: { name: "find_food_product", description: "Търси пакетиран хранителен продукт по име и марка в Open Food Facts. Използвай преди save_nutrition, когато потребителят не е дал калории и макроси. Ако резултатите са нееднозначни, покажи кратък избор и попитай.", parameters: { type: "object", properties: { query: { type: "string", description: "Име и марка, например: 7 Days кроасан какао" } }, required: ["query"] } } },
+  { type: "function", function: { name: "find_food_product", description: "Търси пакетиран хранителен продукт по име, марка или баркод в Open Food Facts. Използвай преди save_nutrition, когато потребителят не е дал калории и макроси. Ако резултатите са нееднозначни, покажи кратък избор и попитай.", parameters: { type: "object", properties: { query: { type: "string", description: "Име и марка, например: 7 Days кроасан какао" }, barcode: { type: "string", description: "Цифрите от баркода, ако са разчетени надеждно от снимка" } } } } },
   { type: "function", function: { name: "get_day", description: "Преглежда всички данни за определен ден: календар, задачи, дневник, хранене и тренировки.", parameters: { type: "object", properties: { date }, required: ["date"] } } },
   { type: "function", function: { name: "save_event", description: "Създава или редактира календарно събитие.", parameters: { type: "object", properties: { id: nullableId, title: text, date, end_date: date, all_day: { type: "boolean" }, start_time: { type: "string" }, end_time: { type: "string" }, location: text, description: text }, required: ["title", "date", "end_date", "all_day"] } } },
   { type: "function", function: { name: "save_task", description: "Създава или редактира задача.", parameters: { type: "object", properties: { id: nullableId, title: text, due_date: date, due_time: { type: "string" }, description: text, priority: { type: "string", enum: ["low", "normal", "high"] }, completed: { type: "boolean" } }, required: ["title", "priority", "completed"] } } },
@@ -28,23 +28,24 @@ export async function executeAssistantTool(name: string, args: Record<string, un
   const { supabase, user } = context;
   if (name === "find_food_product") {
     const query = String(args.query ?? "").trim().slice(0, 160);
-    if (!query) throw new Error("Липсва име на продукт.");
-    const url = new URL("https://world.openfoodfacts.org/cgi/search.pl");
-    url.searchParams.set("search_terms", query);
-    url.searchParams.set("search_simple", "1");
-    url.searchParams.set("action", "process");
-    url.searchParams.set("json", "1");
-    url.searchParams.set("page_size", "5");
-    url.searchParams.set("sort_by", "popularity_key");
-    url.searchParams.set("fields", "code,product_name,brands,quantity,product_quantity,serving_size,serving_quantity,nutriments");
+    const barcode = String(args.barcode ?? "").replace(/\D/g, "").slice(0, 14);
+    if (!query && !barcode) throw new Error("Липсва име или баркод на продукт.");
+    const fields = "code,product_name,brands,quantity,product_quantity,serving_size,serving_quantity,nutriments";
+    const url = barcode ? new URL(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`) : new URL("https://world.openfoodfacts.org/cgi/search.pl");
+    if (barcode) url.searchParams.set("fields", fields);
+    else {
+      url.searchParams.set("search_terms", query); url.searchParams.set("search_simple", "1"); url.searchParams.set("action", "process");
+      url.searchParams.set("json", "1"); url.searchParams.set("page_size", "5"); url.searchParams.set("sort_by", "popularity_key"); url.searchParams.set("fields", fields);
+    }
 
     const response = await fetch(url, {
       headers: { "User-Agent": "LifeJournal/1.0 (https://github.com/pegasus9401/life-journal)" },
       signal: AbortSignal.timeout(8000),
     });
     if (!response.ok) throw new Error(`Продуктовата база не отговори (${response.status}).`);
-    const payload = await response.json() as { products?: Array<Record<string, unknown>> };
-    const products = (payload.products ?? []).flatMap((product) => {
+    const payload = await response.json() as { product?: Record<string, unknown>; products?: Array<Record<string, unknown>> };
+    const rawProducts = payload.product ? [payload.product] : (payload.products ?? []);
+    const products = rawProducts.flatMap((product) => {
       const nutriments = (product.nutriments ?? {}) as Record<string, unknown>;
       const servingGrams = Number(product.serving_quantity) || Number(product.product_quantity) || 100;
       const factor = servingGrams / 100;
@@ -69,7 +70,7 @@ export async function executeAssistantTool(name: string, args: Record<string, un
         fat: Math.round(nutrient("fat_serving", "fat_100g") * 10) / 10,
       }];
     });
-    return { source: "Open Food Facts", query, products };
+    return { source: "Open Food Facts", query, barcode, products };
   }
 
   if (name === "get_day") {

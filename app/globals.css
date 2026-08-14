@@ -430,12 +430,20 @@ h1 { max-width: 720px; margin: 0; font-family: Georgia, "Times New Roman", serif
 .assistant-suggestions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 clamp(24px, 5vw, 52px) 28px; }
 .assistant-suggestions button { min-height: 58px; padding: 12px 15px; border: 1px solid var(--life-line); border-radius: 14px; color: var(--life-muted); background: rgba(255,255,255,.025); text-align: left; cursor: pointer; font-size: 12px; line-height: 1.5; }
 .assistant-suggestions button:hover { border-color: rgba(167,139,250,.4); color: var(--life-ink); background: rgba(167,139,250,.07); }
-.assistant-composer { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 18px; border-top: 1px solid var(--life-line); background: #12101c; }
+.assistant-composer { position: relative; display: grid; gap: 8px; padding: 18px; border-top: 1px solid var(--life-line); background: #12101c; }
 .assistant-composer label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.assistant-input-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; }
 .assistant-composer textarea { min-height: 62px; max-height: 180px; resize: vertical; padding: 17px 18px; border: 1px solid var(--life-line); border-radius: 18px; color: var(--life-ink); background: var(--life-surface-raised); outline: none; line-height: 1.5; }
 .assistant-composer textarea:focus { border-color: var(--life-accent); box-shadow: 0 0 0 4px rgba(167,139,250,.09); }
-.assistant-composer > button { align-self: center; display: grid; width: 46px; height: 46px; place-items: center; border: 0; border-radius: 50%; color: #171122; background: var(--life-accent); cursor: pointer; font-size: 22px; }
+.assistant-input-row > button { align-self: center; display: grid; width: 46px; height: 46px; place-items: center; border: 0; border-radius: 50%; color: #171122; background: var(--life-accent); cursor: pointer; font-size: 22px; }
 .assistant-composer small { grid-column: 1 / -1; padding-left: 5px; color: var(--life-muted); font-size: 10px; }
+.assistant-camera { display: grid; width: 46px; height: 46px; place-items: center; border: 1px solid var(--life-line); border-radius: 50%; background: var(--life-surface-raised); cursor: pointer; }
+.assistant-camera:hover { border-color: var(--life-accent); }
+.assistant-camera input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+.assistant-photo-chip { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px 8px 12px; border: 1px solid rgba(167,139,250,.28); border-radius: 12px; color: var(--life-ink); background: rgba(167,139,250,.08); font-size: 11px; }
+.assistant-photo-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.assistant-photo-chip button { border: 0; color: var(--life-muted); background: transparent; cursor: pointer; font-size: 18px; }
+.assistant-photo-error { margin: 0; color: #fca5a5; font-size: 11px; }
 .assistant-fab { position: fixed; z-index: 80; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); display: grid; width: 58px; height: 58px; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; color: #171122; background: var(--life-accent); box-shadow: 0 18px 50px rgba(0,0,0,.38), 0 0 0 7px rgba(167,139,250,.08); cursor: pointer; font-size: 15px; font-weight: 800; letter-spacing: -.03em; transition: transform .2s ease, background .2s ease; }
 .assistant-fab:hover { transform: translateY(-2px) scale(1.03); }
 .assistant-fab.is-open { color: var(--life-ink); background: var(--life-surface-raised); font-size: 28px; font-weight: 300; }

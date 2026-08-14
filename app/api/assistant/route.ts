@@ -6,13 +6,15 @@ import { assistantToolDefinitions, executeAssistantTool } from "@/lib/ai/assista
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-type ChatMessage = { role: "user" | "assistant" | "tool"; content: string; tool_call_id?: string; tool_calls?: unknown[] };
+type ContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string } };
+type ChatMessage = { role: "user" | "assistant" | "tool"; content: string | ContentPart[]; tool_call_id?: string; tool_calls?: unknown[] };
 type ToolCall = { id: string; type: "function"; function: { name: string; arguments: string } };
 
 const systemPrompt = `Ти си личният AI асистент в приложението „Дневник на живота“.
 Говориш естествено и кратко на български. Днешната дата е ${new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Sofia" }).format(new Date())}, часова зона Europe/Sofia.
 Можеш да преглеждаш и управляваш календар, задачи, дневник, хранене и тренировки чрез предоставените инструменти.
 Правила:
+- При снимка на храна или опаковка разпознай марката, името и видимия баркод. След това използвай find_food_product с баркод, ако се чете надеждно, иначе с име и марка. Не записвай продукт само по визуална приблизителна оценка, когато може да бъде проверен в базата.
 - Когато потребителят посочи пакетиран продукт или марка, но не даде хранителни стойности, първо използвай find_food_product. Не измисляй грамове, калории или макроси. При един ясен резултат използвай неговите стойности; при няколко съществени варианта попитай кой е точният.
 - Когато липсва важна информация, задай един кратък уточняващ въпрос.
 - За относителни дати като „утре“ пресметни точната дата.
@@ -29,9 +31,14 @@ export async function POST(request: Request) {
   const token = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || request.headers.get("x-vercel-oidc-token");
   if (!token) return NextResponse.json({ error: "AI Gateway все още не е активиран за проекта." }, { status: 503 });
 
-  const body = await request.json().catch(() => null) as { messages?: Array<{ role?: string; content?: string }> } | null;
+  const body = await request.json().catch(() => null) as { messages?: Array<{ role?: string; content?: string }>; image?: string | null } | null;
   const history: ChatMessage[] = (body?.messages ?? []).slice(-20).filter((message) => (message.role === "user" || message.role === "assistant") && typeof message.content === "string").map((message) => ({ role: message.role as "user" | "assistant", content: message.content!.slice(0, 8000) }));
   if (!history.length || history.at(-1)?.role !== "user") return NextResponse.json({ error: "Напиши какво искаш да направя." }, { status: 400 });
+  if (body?.image) {
+    if (!/^data:image\/(jpeg|png|webp);base64,/.test(body.image) || body.image.length > 3_000_000) return NextResponse.json({ error: "Снимката е невалидна или прекалено голяма." }, { status: 400 });
+    const last = history.at(-1)!;
+    last.content = [{ type: "text", text: String(last.content) }, { type: "image_url", image_url: { url: body.image } }];
+  }
 
   const messages: ChatMessage[] = [{ role: "assistant", content: systemPrompt }, ...history];
   const actions: Array<{ tool: string; result: unknown }> = [];

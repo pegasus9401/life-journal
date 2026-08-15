@@ -78,3 +78,15 @@
 .meal-variant-row .remove-variant:disabled{cursor:not-allowed;opacity:.35}
 .meal-variants-editor .add-variant{justify-self:start;color:#c4b5fd;background:rgba(139,92,246,.09)}
 @media(max-width:820px){.meal-variant-row{grid-template-columns:1fr}.meal-variant-row .remove-variant{justify-self:end}}
+
+
+/* Individual product rows inside meal variants */
+.meal-variant-products{display:grid;min-width:0;gap:8px}
+.meal-variant-label{color:var(--life-accent);font-size:10px;font-weight:750}
+.meal-product-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:7px}
+.meal-product-row input{min-width:0}
+.meal-product-row button,.meal-variant-products .add-product{min-height:34px;padding:0 10px;border:1px solid var(--life-line);border-radius:9px;cursor:pointer;font-size:9px}
+.meal-product-row button{color:#fca5a5;background:rgba(248,113,113,.05)}
+.meal-product-row button:disabled{cursor:not-allowed;opacity:.35}
+.meal-variant-products .add-product{justify-self:start;color:#c4b5fd;background:rgba(139,92,246,.08)}
+@media(max-width:820px){.meal-product-row{grid-template-columns:1fr}.meal-product-row button{justify-self:end}}

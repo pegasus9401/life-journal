@@ -237,8 +237,14 @@ export function MealMenuManager() {
           <b aria-hidden="true">⌄</b>
         </button>
         {isExpanded ? <div className="meal-menu-accordion-content">
-          <div className="meal-menu-summary-list">{Object.entries(menu).map(([meal, variants]) => <div key={meal}><span>{meal}</span><b>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</b></div>)}</div>
-          <div className="meal-menu-actions"><button type="button" onClick={() => startEditing(menuName)}>Редактирай</button><button type="button" onClick={() => toggleArchive(menuName)}>{archived.has(menuName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(menuName)}>Изтрий</button></div>
+          <div className="meal-menu-detail-grid">{Object.entries(menu).map(([meal, variants]) => <section className="meal-menu-detail" key={meal}>
+            <header><div><strong>{meal}</strong><span>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</span></div></header>
+            <div className="meal-menu-detail-variants">{variants.map((variant, variantIndex) => <article key={`${meal}-${variantIndex}`}>
+              <div className="meal-menu-detail-variant-title"><span>Вариант {variantIndex + 1}</span><b>{variant.split(" + ").length} {variant.split(" + ").length === 1 ? "продукт" : "продукта"}</b></div>
+              <div className="meal-menu-detail-products">{variant.split(" + ").map((product, productIndex) => <div key={`${product}-${productIndex}`}><i /><span>{product}</span></div>)}</div>
+            </article>)}</div>
+          </section>)}</div>
+          <div className="meal-menu-actions"><button className="edit" type="button" onClick={() => startEditing(menuName)}>Редактирай менюто</button><button type="button" onClick={() => toggleArchive(menuName)}>{archived.has(menuName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(menuName)}>Изтрий</button></div>
         </div> : null}
       </article>;
     })}</div>

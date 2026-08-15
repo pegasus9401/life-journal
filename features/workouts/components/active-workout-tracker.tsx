@@ -365,7 +365,7 @@ export function ActiveWorkoutTracker() {
         </div>
       </header>
 
-      {restSeconds ? <section className="active-rest-timer">
+      {restSeconds ? <section className="active-rest-timer" aria-live="polite">
         <div><span>Почивка</span><strong>{formatTimer(restSeconds)}</strong></div>
         <div><button type="button" onClick={() => changeRest(restSeconds + 30)}>＋30 сек.</button><button type="button" onClick={() => changeRest(null)}>Пропусни</button></div>
       </section> : null}

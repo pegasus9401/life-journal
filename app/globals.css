@@ -172,3 +172,6 @@
 .managed-meal-details{margin-top:0}
 .managed-meal-editor{margin:6px 0 0}
 @media(max-width:820px){.managed-meal-plan-toolbar{align-items:flex-start}.managed-meal-plan-toolbar h2{font-size:28px}.managed-meal-hero{grid-template-columns:1fr}.managed-meal-stats{grid-column:1;border-top:1px solid var(--life-line);border-left:0}.managed-meal-stats>div{min-width:0;padding:16px 8px}.managed-meal-actions{display:grid;grid-template-columns:1fr 1fr}.managed-meal-actions .edit{grid-column:1/-1}.managed-meal-actions .danger{grid-column:auto}}
+
+
+.meal-plan-option-products{display:block;color:var(--life-muted);font-size:10px;line-height:1.45}

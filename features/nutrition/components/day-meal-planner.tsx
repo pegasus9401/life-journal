@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { getMenuLibrary, type MealMenuSettings, type MenuLibrary } from "../menu-library";
+import { getMenuLibrary, orderedMealEntries, type MealMenuSettings, type MenuLibrary } from "../menu-library";
 import { saveDailyMealPlan } from "../meal-plan-actions";
 
 export function DayMealPlanner({ date, initialMenu = "Меню 1", initialSelections = {} }: { date: string; initialMenu?: string; initialSelections?: Record<string, number> }) {
@@ -56,7 +56,7 @@ export function DayMealPlanner({ date, initialMenu = "Меню 1", initialSelect
 
   return <section className="day-meal-planner">
     <header><div><p className="life-kicker">Хранене за деня</p><h2>Избери меню и варианти</h2></div><select value={menu} onChange={event => changeMenu(event.target.value)}>{menuNames.map(name => <option key={name} value={name}>{name}{!activeNames.includes(name) ? " (архивирано)" : ""}</option>)}</select></header>
-    <div className="day-meal-planner-list">{Object.entries(meals).map(([meal, options]) => { const selected = Math.min(selections[meal] ?? 0, options.length - 1); return <article key={meal}><div className="day-meal-planner-title"><strong>{meal}</strong><span>Вариант {selected + 1}</span></div><select value={selected} onChange={event => changeSelection(meal, Number(event.target.value))}>{options.map((option, index) => <option key={`${option}-${index}`} value={index}>Вариант {index + 1}</option>)}</select><div className="day-meal-foods">{options[selected].split(" + ").map((food, index) => <span key={`${food}-${index}`}>{food}</span>)}</div></article>; })}</div>
+    <div className="day-meal-planner-list">{orderedMealEntries(meals).map(([meal, options]) => { const selected = Math.min(selections[meal] ?? 0, options.length - 1); return <article key={meal}><div className="day-meal-planner-title"><strong>{meal}</strong><span>Вариант {selected + 1}</span></div><select value={selected} onChange={event => changeSelection(meal, Number(event.target.value))}>{options.map((option, index) => <option key={`${option}-${index}`} value={index}>Вариант {index + 1}</option>)}</select><div className="day-meal-foods">{options[selected].split(" + ").map((food, index) => <span key={`${food}-${index}`}>{food}</span>)}</div></article>; })}</div>
     <button className="primary-button" type="button" disabled={pending || !activeNames.includes(menu)} onClick={() => persist(menu, selections)}>{pending ? "Запазване…" : activeNames.includes(menu) ? "Запази сега" : "Архивирано меню"}</button>
     <p className={`form-message ${message.startsWith("✓") ? "is-success" : message.startsWith("Грешка") ? "is-error" : ""}`}>{message || "Промените се запазват автоматично."}</p>
   </section>;

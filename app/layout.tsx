@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AssistantPopup } from "@/features/assistant/components/assistant-popup";
+import { ActiveWorkoutTracker } from "@/features/workouts/components/active-workout-tracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="bg" suppressHydrationWarning>
-      <body>{children}<AssistantPopup /></body>
+      <body>{children}<ActiveWorkoutTracker /><AssistantPopup /></body>
     </html>
   );
 }

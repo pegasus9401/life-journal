@@ -8,13 +8,13 @@ type ShoppingItem = { name: string; amount: number | null; unit: string | null; 
 const normalize = (value: string) => value.trim().toLocaleLowerCase("bg-BG").replace(/\s+/g, " ");
 function parseFood(raw: string) {
   const text = raw.trim();
-  const match = text.match(/^(.*?)\s*-\s*(\d+(?:[.,]\d+)?)\s*(г|гр|kg|кг|мл|ml|л|бр|доза|дози|пакет|пакета)\.?$/i);
+  const match = text.match(/^(.*?)\s*-\s*(\d+(?:[.,]\d+)?)\s*(г|гр|kg|кг|мл|ml|л|бр|доза|дози|порция|порции|пакет|пакета|ч\\.л\\.|с\\.л\\.|чаша|чаши|резен|резена|филия|филии|консерва|консерви|бутилка|бутилки|кутия|кутии|шепа|шепи|мерителна лъжица)\.?$/i);
   if (!match) return { name: text, amount: null, unit: null };
   let amount = Number(match[2].replace(",", ".")); let unit = match[3].toLowerCase();
   if (unit === "гр") unit = "г"; if (unit === "kg") unit = "кг"; if (unit === "ml") unit = "мл";
   if (unit === "кг") { amount *= 1000; unit = "г"; }
   if (unit === "л") { amount *= 1000; unit = "мл"; }
-  if (unit === "дози") unit = "доза"; if (unit === "пакета") unit = "пакет";
+  if (unit === "дози") unit = "доза"; if (unit === "порции") unit = "порция"; if (unit === "пакета") unit = "пакет"; if (unit === "чаши") unit = "чаша"; if (unit === "резена") unit = "резен"; if (unit === "филии") unit = "филия"; if (unit === "консерви") unit = "консерва"; if (unit === "бутилки") unit = "бутилка"; if (unit === "кутии") unit = "кутия"; if (unit === "шепи") unit = "шепа";
   return { name: match[1].trim(), amount, unit };
 }
 function collect(plans: { menu_name: string; selections: Record<string, number> }[], menus: MenuLibrary) {

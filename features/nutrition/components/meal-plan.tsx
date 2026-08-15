@@ -29,12 +29,46 @@ const menus: Menu[] = [
   ]}
 ];
 
+const mealIcons: Record<string, string> = { "Закуска": "☀", "След тренировка": "⚡", "Следобедна закуска": "◐", "Вечеря": "☾", "Преди лягане": "✦" };
+
 export function MealPlan() {
   const [selected, setSelected] = useState(0);
+  const [choices, setChoices] = useState<Record<string, number>>({});
   const menu = menus[selected];
-  return <section style={{margin:"0 0 28px"}}>
-    <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:12}}>{menus.map((m,i)=><button key={m.name} type="button" className={i===selected?"primary-button":"nutrition-goals-button"} onClick={()=>setSelected(i)}>{m.name}</button>)}</div>
-    <article className="nutrition-overview" style={{marginBottom:16}}><div><p className="life-kicker">Хранителен режим</p><h2 style={{margin:"4px 0 8px"}}>{menu.name}</h2><strong>{menu.kcal} kcal</strong><p>П {menu.protein} г · В {menu.carbs} г · М {menu.fat} г</p></div></article>
-    <div className="nutrition-meals">{menu.meals.map(meal=><article className="nutrition-meal" key={meal.title}><header><div><h2>{meal.title}</h2><span>{meal.kcal} kcal · П {meal.protein} · В {meal.carbs} · М {meal.fat}</span></div></header><details><summary style={{cursor:"pointer",padding:"12px 0",fontWeight:700}}>Виж варианти ({meal.options.length})</summary><div className="nutrition-food-list">{meal.options.map((option,i)=><div className="nutrition-food" key={option}><div className="nutrition-food-main"><strong>Вариант {i+1}</strong><span>{option}</span></div></div>)}</div></details></article>)}</div>
+
+  const choose = (mealTitle: string, index: number) => setChoices((current) => ({ ...current, [`${selected}-${mealTitle}`]: index }));
+
+  return <section className="meal-plan">
+    <div className="meal-plan-tabs" role="tablist" aria-label="Избор на хранителен режим">
+      {menus.map((item, index) => <button key={item.name} type="button" className={index === selected ? "active" : ""} onClick={() => setSelected(index)}><span>{item.name}</span><small>{item.kcal} kcal</small></button>)}
+    </div>
+
+    <article className="meal-plan-hero">
+      <div className="meal-plan-hero-copy"><p className="life-kicker">Хранителен режим</p><h2>{menu.name}</h2><p>Избери вариант за всяко хранене. Всички количества са показани директно.</p></div>
+      <div className="meal-plan-calories"><strong>{menu.kcal}</strong><span>kcal / ден</span></div>
+      <div className="meal-plan-macros">
+        <div><strong>{menu.protein} г</strong><span>Протеин</span></div><div><strong>{menu.carbs} г</strong><span>Въглехидрати</span></div><div><strong>{menu.fat} г</strong><span>Мазнини</span></div>
+      </div>
+    </article>
+
+    <div className="meal-plan-list">
+      {menu.meals.map((meal) => {
+        const key = `${selected}-${meal.title}`;
+        const current = choices[key] ?? 0;
+        return <article className="meal-plan-card" key={meal.title}>
+          <header className="meal-plan-card-header">
+            <div className="meal-plan-title"><span className="meal-plan-icon">{mealIcons[meal.title] ?? "✦"}</span><div><h3>{meal.title}</h3><span>{meal.kcal} kcal</span></div></div>
+            <div className="meal-plan-card-macros"><span>П <b>{meal.protein}</b></span><span>В <b>{meal.carbs}</b></span><span>М <b>{meal.fat}</b></span></div>
+          </header>
+
+          <div className="meal-plan-selected"><span className="meal-plan-option-label">Избран вариант {current + 1}</span><p>{meal.options[current]}</p></div>
+
+          {meal.options.length > 1 ? <details className="meal-plan-alternatives">
+            <summary>Смени храненето <span>{meal.options.length} варианта</span></summary>
+            <div className="meal-plan-options">{meal.options.map((option, index) => <button type="button" key={option} className={index === current ? "selected" : ""} onClick={() => choose(meal.title, index)}><span className="meal-plan-radio">{index === current ? "✓" : index + 1}</span><span>{option}</span></button>)}</div>
+          </details> : null}
+        </article>;
+      })}
+    </div>
   </section>;
 }

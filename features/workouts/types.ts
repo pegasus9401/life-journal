@@ -3,8 +3,10 @@ export type WorkoutType = "strength" | "cardio" | "mobility" | "sport" | "other"
 export type WorkoutExercise = {
   name: string;
   sets: number;
-  reps: number;
+  reps: string | number;
   weight: number;
+  rest_seconds?: number;
+  muscle_group?: string;
 };
 
 export type WorkoutSession = {

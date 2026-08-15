@@ -173,15 +173,34 @@ export function ActiveWorkoutTracker() {
   }, [active, hydrated]);
 
   useEffect(() => {
-    const start = (event: Event) => {
+    const start = async (event: Event) => {
       const detail = (event as CustomEvent<StartWorkoutDetail>).detail;
       if (!detail?.name || !Array.isArray(detail.exercises)) return;
-      setActive((current) => {
-        if (current && !window.confirm("Вече има активна тренировка. Да я заменя ли с новата?")) return current;
-        setExpanded(true);
-        setMessage("");
-        return createActiveWorkout(detail);
-      });
+
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (stored && !window.confirm("Вече има активна тренировка. Да я заменя ли с новата?")) return;
+
+      let previousExercises: unknown;
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from("workout_sessions")
+          .select("exercises")
+          .eq("title", detail.name)
+          .eq("completed", true)
+          .order("workout_date", { ascending: false })
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (error) console.warn("[active-workout] Previous performance was not loaded.", error.message);
+        previousExercises = data?.exercises;
+      } catch (error) {
+        console.warn("[active-workout] Previous performance lookup failed.", error);
+      }
+
+      setExpanded(true);
+      setMessage("");
+      setActive(createActiveWorkout(detail, previousExercises));
     };
     window.addEventListener(START_WORKOUT_EVENT, start);
     return () => window.removeEventListener(START_WORKOUT_EVENT, start);
@@ -314,6 +333,7 @@ export function ActiveWorkoutTracker() {
     });
 
     if (error) {
+      console.error("[active-workout] Result save failed.", error.message);
       setFinishing(false);
       setMessage(`Резултатът не се запази: ${error.message}`);
       return;
@@ -339,7 +359,10 @@ export function ActiveWorkoutTracker() {
     </aside> : <aside className="active-workout-panel" aria-label="Активна тренировка">
       <header>
         <div><p className="life-kicker">Активна тренировка</p><h2>{active.name}</h2><span>{formatTimer(elapsedSeconds)} · {totals.done}/{totals.all} серии · {Math.round(totals.volume)} кг обем</span></div>
-        <button type="button" aria-label="Минимизирай тренировката" onClick={() => setExpanded(false)}>—</button>
+        <div className="active-workout-header-actions">
+          <button type="button" aria-label="Минимизирай тренировката" onClick={() => setExpanded(false)}>⌄</button>
+          <button className="finish" type="button" onClick={finishWorkout} disabled={finishing}>{finishing ? "Запазване…" : "Приключи"}</button>
+        </div>
       </header>
 
       {restSeconds ? <section className="active-rest-timer">
@@ -361,7 +384,7 @@ export function ActiveWorkoutTracker() {
         />)}
       </div>
 
-      <footer><button type="button" onClick={cancelWorkout}>Прекрати</button><button type="button" onClick={() => setExpanded(false)}>Минимизирай</button><button className="finish" type="button" onClick={finishWorkout} disabled={finishing}>{finishing ? "Запазване…" : "Приключи тренировката"}</button></footer>
+      <footer><button type="button" onClick={cancelWorkout}>Прекрати тренировката</button><button type="button" onClick={() => setExpanded(false)}>Минимизирай и продължи в приложението</button></footer>
     </aside>}
   </>;
 }

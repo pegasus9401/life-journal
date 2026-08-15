@@ -46,6 +46,11 @@ export function getMenuLibrary(metadata: MealMenuSettings | null | undefined, in
   return Object.fromEntries(Object.entries(combined).filter(([name]) => !deleted.has(name) && (includeArchived || !archived.has(name))));
 }
 
+export function orderedMealEntries(menu: MealMenu) {
+  const order = new Map(mealNames.map((meal, index) => [meal, index]));
+  return Object.entries(menu).sort(([left], [right]) => (order.get(left) ?? 999) - (order.get(right) ?? 999));
+}
+
 export function getMenuNutrition(metadata: MealMenuSettings | null | undefined, menuName: string): MenuNutrition {
   const stored = metadata?.meal_menu_nutrition?.[menuName] ?? defaultMenuNutrition[menuName];
   const meals = Object.fromEntries(mealNames.map(meal => [meal, { ...zeroNutrition(), ...(stored?.meals?.[meal] ?? {}) }]));

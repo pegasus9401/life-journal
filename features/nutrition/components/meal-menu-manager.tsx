@@ -3,14 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { mealNames } from "../meal-data";
-import { cleanMealMenu, getMenuLibrary, type MealMenuSettings } from "../menu-library";
+import { getMenuLibrary, type MealMenu, type MealMenuSettings } from "../menu-library";
 
-const emptyMeals = () => Object.fromEntries(mealNames.map(meal => [meal, ""]));
+const emptyMeals = (): MealMenu => Object.fromEntries(mealNames.map(meal => [meal, [""]]));
 
 export function MealMenuManager() {
   const [settings, setSettings] = useState<MealMenuSettings>({});
   const [name, setName] = useState("");
-  const [meals, setMeals] = useState<Record<string, string>>(emptyMeals);
+  const [meals, setMeals] = useState<MealMenu>(emptyMeals);
   const [creating, setCreating] = useState(false);
   const [editingName, setEditingName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -44,10 +44,25 @@ export function MealMenuManager() {
     const menu = library[menuName];
     if (!menu) return;
     setName(menuName);
-    setMeals(Object.fromEntries(mealNames.map(meal => [meal, (menu[meal] ?? []).join("\n")])));
+    setMeals(Object.fromEntries(mealNames.map(meal => [meal, [...(menu[meal] ?? [""])]])));
     setEditingName(menuName);
     setCreating(true);
     setMessage("");
+  };
+
+  const updateVariant = (meal: string, index: number, value: string) => {
+    setMeals(current => ({ ...current, [meal]: current[meal].map((variant, variantIndex) => variantIndex === index ? value : variant) }));
+  };
+
+  const addVariant = (meal: string) => {
+    setMeals(current => ({ ...current, [meal]: [...current[meal], ""] }));
+  };
+
+  const removeVariant = (meal: string, index: number) => {
+    setMeals(current => {
+      const variants = current[meal].filter((_, variantIndex) => variantIndex !== index);
+      return { ...current, [meal]: variants.length ? variants : [""] };
+    });
   };
 
   const saveSettings = async (next: MealMenuSettings, success: string) => {
@@ -61,14 +76,14 @@ export function MealMenuManager() {
 
   const saveMenu = async () => {
     const cleanName = name.trim();
-    const menu = cleanMealMenu(meals);
+    const cleanMenu = Object.fromEntries(Object.entries(meals).map(([meal, variants]) => [meal, variants.map(value => value.trim()).filter(Boolean)]));
     if (!cleanName) { setMessage("Въведи име на менюто."); return; }
     if (!editingName && library[cleanName]) { setMessage("Вече има меню с това име."); return; }
-    if (!menu) { setMessage("Добави поне един вариант за всяко хранене."); return; }
+    if (Object.values(cleanMenu).some(variants => variants.length === 0)) { setMessage("Добави поне един вариант за всяко хранене."); return; }
 
     const next: MealMenuSettings = {
       ...settings,
-      custom_meal_menus: { ...(settings.custom_meal_menus ?? {}), [cleanName]: menu },
+      custom_meal_menus: { ...(settings.custom_meal_menus ?? {}), [cleanName]: cleanMenu },
       deleted_meal_menus: (settings.deleted_meal_menus ?? []).filter(item => item !== cleanName),
     };
     const success = editingName ? `${cleanName} е обновено.` : `${cleanName} е добавено.`;
@@ -100,8 +115,15 @@ export function MealMenuManager() {
     {creating ? <div className="meal-menu-create">
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>
       <label>Име на менюто<input value={name} onChange={event => setName(event.target.value)} placeholder="Например: Меню за почивен ден" maxLength={80} disabled={Boolean(editingName)} /></label>
-      <p>За всеки ред въведи отделен вариант. Продуктите във варианта разделяй с „ + “.</p>
-      <div className="meal-menu-fields">{mealNames.map(meal => <label key={meal}>{meal}<textarea value={meals[meal] ?? ""} onChange={event => setMeals(current => ({ ...current, [meal]: event.target.value }))} placeholder={"Вариант 1\nВариант 2"} /></label>)}</div>
+      <p>Всеки вариант е в отделна кутийка. Продуктите във варианта разделяй с „ + “.</p>
+      <div className="meal-menu-fields">{mealNames.map(meal => <section className="meal-variants-editor" key={meal}>
+        <header><strong>{meal}</strong><span>{meals[meal].length} {meals[meal].length === 1 ? "вариант" : "варианта"}</span></header>
+        <div className="meal-variant-list">{meals[meal].map((variant, index) => <div className="meal-variant-row" key={index}>
+          <label><span>Вариант {index + 1}</span><textarea value={variant} onChange={event => updateVariant(meal, index, event.target.value)} placeholder="Продукт - количество + продукт - количество" /></label>
+          <button type="button" className="remove-variant" onClick={() => removeVariant(meal, index)} disabled={meals[meal].length === 1} aria-label={`Премахни вариант ${index + 1} от ${meal}`}>Премахни</button>
+        </div>)}</div>
+        <button type="button" className="add-variant" onClick={() => addVariant(meal)}>+ Добави вариант</button>
+      </section>)}</div>
       <button className="primary-button" type="button" onClick={saveMenu}>{editingName ? "Запази промените" : "Запази новото меню"}</button>
     </div> : null}
     <div className="meal-menu-admin-list">{Object.keys(library).map(menuName => <article key={menuName} className={archived.has(menuName) ? "is-archived" : ""}><div><strong>{menuName}</strong><span>{archived.has(menuName) ? "Архивирано" : "Активно"}</span></div><div><button type="button" onClick={() => startEditing(menuName)}>Редактирай</button><button type="button" onClick={() => toggleArchive(menuName)}>{archived.has(menuName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(menuName)}>Изтрий</button></div></article>)}</div>

@@ -7,6 +7,46 @@ import { getMenuLibrary, type MealMenu, type MealMenuSettings } from "../menu-li
 
 const emptyMeals = (): MealMenu => Object.fromEntries(mealNames.map(meal => [meal, [""]]));
 
+const measurementUnits = [
+  ["", "Без мерна единица"],
+  ["г", "Грама (г)"],
+  ["кг", "Килограма (кг)"],
+  ["мл", "Милилитра (мл)"],
+  ["л", "Литра (л)"],
+  ["бр", "Брой"],
+  ["доза", "Доза"],
+  ["порция", "Порция"],
+  ["пакет", "Пакет"],
+  ["ч.л.", "Чаена лъжица"],
+  ["с.л.", "Супена лъжица"],
+  ["чаша", "Чаша"],
+  ["резен", "Резен"],
+  ["филия", "Филия"],
+  ["консерва", "Консерва"],
+  ["бутилка", "Бутилка"],
+  ["кутия", "Кутия"],
+  ["шепа", "Шепа"],
+  ["мерителна лъжица", "Мерителна лъжица"],
+] as const;
+
+type ProductParts = { name: string; amount: string; unit: string };
+
+function parseProduct(value: string): ProductParts {
+  const text = value.trim();
+  const separated = text.match(/^(.*?)\s*-\s*(\d+(?:[.,]\d+)?)\s*(.*)$/);
+  if (separated) return { name: separated[1].trim(), amount: separated[2].replace(",", "."), unit: separated[3].trim() };
+  const prefixedCount = text.match(/^(\d+(?:[.,]\d+)?)\s+(.+)$/);
+  if (prefixedCount) return { name: prefixedCount[2].trim(), amount: prefixedCount[1].replace(",", "."), unit: "бр" };
+  return { name: text, amount: "", unit: "" };
+}
+
+function formatProduct(product: ProductParts) {
+  const name = product.name.trim();
+  const amount = product.amount.trim();
+  if (!amount) return name;
+  return `${name} - ${amount} ${product.unit || "бр"}`.trim();
+}
+
 export function MealMenuManager() {
   const [settings, setSettings] = useState<MealMenuSettings>({});
   const [name, setName] = useState("");
@@ -56,9 +96,10 @@ export function MealMenuManager() {
 
   const variantProducts = (variant: string) => variant.split(" + ").map(product => product.trim());
 
-  const updateProduct = (meal: string, variantIndex: number, productIndex: number, value: string) => {
+  const updateProductField = (meal: string, variantIndex: number, productIndex: number, field: keyof ProductParts, value: string) => {
     const products = variantProducts(meals[meal][variantIndex]);
-    products[productIndex] = value;
+    const product = parseProduct(products[productIndex] ?? "");
+    products[productIndex] = formatProduct({ ...product, [field]: value });
     updateVariant(meal, variantIndex, products.join(" + "));
   };
 
@@ -139,10 +180,15 @@ export function MealMenuManager() {
         <div className="meal-variant-list">{meals[meal].map((variant, index) => <div className="meal-variant-row" key={index}>
           <div className="meal-variant-products">
             <span className="meal-variant-label">Вариант {index + 1}</span>
-            {(variantProducts(variant).length ? variantProducts(variant) : [""]).map((product, productIndex, products) => <div className="meal-product-row" key={productIndex}>
-              <input value={product} onChange={event => updateProduct(meal, index, productIndex, event.target.value)} placeholder="Продукт - количество" />
-              <button type="button" onClick={() => removeProduct(meal, index, productIndex)} disabled={products.length === 1} aria-label={`Премахни продукт ${productIndex + 1}`}>Премахни</button>
-            </div>)}
+            {(variantProducts(variant).length ? variantProducts(variant) : [""]).map((product, productIndex, products) => {
+              const parts = parseProduct(product);
+              return <div className="meal-product-row" key={productIndex}>
+                <input className="product-name-input" value={parts.name} onChange={event => updateProductField(meal, index, productIndex, "name", event.target.value)} placeholder="Продукт" />
+                <input className="product-amount-input" type="number" min="0" step="any" inputMode="decimal" value={parts.amount} onChange={event => updateProductField(meal, index, productIndex, "amount", event.target.value)} placeholder="Количество" />
+                <select className="product-unit-select" value={parts.unit} onChange={event => updateProductField(meal, index, productIndex, "unit", event.target.value)} aria-label={`Мерна единица за продукт ${productIndex + 1}`}>{measurementUnits.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+                <button type="button" onClick={() => removeProduct(meal, index, productIndex)} disabled={products.length === 1} aria-label={`Премахни продукт ${productIndex + 1}`}>Премахни</button>
+              </div>;
+            })}
             <button type="button" className="add-product" onClick={() => addProduct(meal, index)}>+ Добави продукт</button>
           </div>
           <button type="button" className="remove-variant" onClick={() => removeVariant(meal, index)} disabled={meals[meal].length === 1} aria-label={`Премахни вариант ${index + 1} от ${meal}`}>Премахни варианта</button>

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { createClient } from "@/lib/supabase/client";
 
+// Active workouts persist locally so the tracker survives navigation and refreshes.
 const STORAGE_KEY = "life-journal:active-workout:v1";
 export const START_WORKOUT_EVENT = "life-journal:start-workout";
 

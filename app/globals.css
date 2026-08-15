@@ -32,3 +32,26 @@
 .profile-photo-action:hover{color:var(--life-accent)}
 .profile-avatar-message{margin:-10px 4px 16px;color:#fca5a5;font-size:11px;line-height:1.45}
 .profile-avatar-message.is-success{color:#6ee7b7}
+
+
+/* Meal menu management */
+.meal-menu-manager{margin:0 0 34px;padding:22px;border:1px solid var(--life-line);border-radius:24px;background:rgba(23,21,34,.88)}
+.meal-menu-manager>header{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.meal-menu-manager h2{margin:0;font:400 30px/1.1 Georgia,serif}
+.meal-menu-manager>header .primary-button{padding:0 18px}
+.meal-menu-create{display:grid;gap:16px;margin-top:20px;padding:18px;border:1px solid rgba(167,139,250,.18);border-radius:18px;background:rgba(139,92,246,.05)}
+.meal-menu-create>label,.meal-menu-fields label{display:grid;gap:7px;color:var(--life-muted);font-size:11px}
+.meal-menu-create input,.meal-menu-create textarea{width:100%;padding:11px 12px;border:1px solid var(--life-line);border-radius:12px;color:var(--life-ink);background:#201d2e;outline:none}
+.meal-menu-create textarea{min-height:92px;resize:vertical;line-height:1.5}
+.meal-menu-create>p{margin:0;color:var(--life-muted);font-size:11px}
+.meal-menu-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.meal-menu-admin-list{display:grid;gap:8px;margin-top:18px}
+.meal-menu-admin-list article{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border:1px solid var(--life-line);border-radius:14px;background:rgba(255,255,255,.025)}
+.meal-menu-admin-list article.is-archived{opacity:.62}
+.meal-menu-admin-list article>div:first-child{display:grid;gap:4px}
+.meal-menu-admin-list article span{color:var(--life-muted);font-size:10px}
+.meal-menu-admin-list article>div:last-child{display:flex;gap:7px}
+.meal-menu-admin-list button{min-height:34px;padding:0 11px;border:1px solid var(--life-line);border-radius:9px;color:var(--life-ink);background:rgba(255,255,255,.04);cursor:pointer;font-size:10px}
+.meal-menu-admin-list button.danger{border-color:rgba(248,113,113,.25);color:#fca5a5}
+.form-message.is-success{color:#6ee7b7}.form-message.is-error{color:#fca5a5}
+@media(max-width:820px){.meal-menu-manager{padding:16px}.meal-menu-manager>header{align-items:flex-start}.meal-menu-manager h2{font-size:25px}.meal-menu-fields{grid-template-columns:1fr}.meal-menu-admin-list article{align-items:flex-start}.meal-menu-admin-list article>div:last-child{display:grid}}

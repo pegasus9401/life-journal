@@ -30,45 +30,22 @@ const menus: Menu[] = [
 ];
 
 const mealIcons: Record<string, string> = { "Закуска": "☀", "След тренировка": "⚡", "Следобедна закуска": "◐", "Вечеря": "☾", "Преди лягане": "✦" };
+function foods(option: string) { return option.split(" + ").map((item) => item.trim()).filter(Boolean); }
+function FoodRows({ option }: { option: string }) { return <div className="meal-plan-food-rows">{foods(option).map((food, index) => <div className="meal-plan-food-row" key={`${food}-${index}`}><span className="meal-plan-food-dot" /><span>{food}</span></div>)}</div>; }
 
 export function MealPlan() {
   const [selected, setSelected] = useState(0);
   const [choices, setChoices] = useState<Record<string, number>>({});
   const menu = menus[selected];
-
   const choose = (mealTitle: string, index: number) => setChoices((current) => ({ ...current, [`${selected}-${mealTitle}`]: index }));
 
   return <section className="meal-plan">
-    <div className="meal-plan-tabs" role="tablist" aria-label="Избор на хранителен режим">
-      {menus.map((item, index) => <button key={item.name} type="button" className={index === selected ? "active" : ""} onClick={() => setSelected(index)}><span>{item.name}</span><small>{item.kcal} kcal</small></button>)}
-    </div>
-
-    <article className="meal-plan-hero">
-      <div className="meal-plan-hero-copy"><p className="life-kicker">Хранителен режим</p><h2>{menu.name}</h2><p>Избери вариант за всяко хранене. Всички количества са показани директно.</p></div>
-      <div className="meal-plan-calories"><strong>{menu.kcal}</strong><span>kcal / ден</span></div>
-      <div className="meal-plan-macros">
-        <div><strong>{menu.protein} г</strong><span>Протеин</span></div><div><strong>{menu.carbs} г</strong><span>Въглехидрати</span></div><div><strong>{menu.fat} г</strong><span>Мазнини</span></div>
-      </div>
-    </article>
-
-    <div className="meal-plan-list">
-      {menu.meals.map((meal) => {
-        const key = `${selected}-${meal.title}`;
-        const current = choices[key] ?? 0;
-        return <article className="meal-plan-card" key={meal.title}>
-          <header className="meal-plan-card-header">
-            <div className="meal-plan-title"><span className="meal-plan-icon">{mealIcons[meal.title] ?? "✦"}</span><div><h3>{meal.title}</h3><span>{meal.kcal} kcal</span></div></div>
-            <div className="meal-plan-card-macros"><span>П <b>{meal.protein}</b></span><span>В <b>{meal.carbs}</b></span><span>М <b>{meal.fat}</b></span></div>
-          </header>
-
-          <div className="meal-plan-selected"><span className="meal-plan-option-label">Избран вариант {current + 1}</span><p>{meal.options[current]}</p></div>
-
-          {meal.options.length > 1 ? <details className="meal-plan-alternatives">
-            <summary>Смени храненето <span>{meal.options.length} варианта</span></summary>
-            <div className="meal-plan-options">{meal.options.map((option, index) => <button type="button" key={option} className={index === current ? "selected" : ""} onClick={() => choose(meal.title, index)}><span className="meal-plan-radio">{index === current ? "✓" : index + 1}</span><span>{option}</span></button>)}</div>
-          </details> : null}
-        </article>;
-      })}
-    </div>
+    <div className="meal-plan-tabs" role="tablist" aria-label="Избор на хранителен режим">{menus.map((item, index) => <button key={item.name} type="button" className={index === selected ? "active" : ""} onClick={() => setSelected(index)}><span>{item.name}</span><small>{item.kcal} kcal</small></button>)}</div>
+    <article className="meal-plan-hero"><div className="meal-plan-hero-copy"><p className="life-kicker">Хранителен режим</p><h2>{menu.name}</h2><p>Избери вариант за всяко хранене. Всички продукти и количества са показани отделно.</p></div><div className="meal-plan-calories"><strong>{menu.kcal}</strong><span>kcal / ден</span></div><div className="meal-plan-macros"><div><strong>{menu.protein} г</strong><span>Протеин</span></div><div><strong>{menu.carbs} г</strong><span>Въглехидрати</span></div><div><strong>{menu.fat} г</strong><span>Мазнини</span></div></div></article>
+    <div className="meal-plan-list">{menu.meals.map((meal) => { const key = `${selected}-${meal.title}`; const current = choices[key] ?? 0; return <article className="meal-plan-card" key={meal.title}>
+      <header className="meal-plan-card-header"><div className="meal-plan-title"><span className="meal-plan-icon">{mealIcons[meal.title] ?? "✦"}</span><div><h3>{meal.title}</h3><span>{meal.kcal} kcal</span></div></div><div className="meal-plan-card-macros"><span>П <b>{meal.protein}</b></span><span>В <b>{meal.carbs}</b></span><span>М <b>{meal.fat}</b></span></div></header>
+      <div className="meal-plan-selected"><span className="meal-plan-option-label">Избран вариант {current + 1}</span><FoodRows option={meal.options[current]} /></div>
+      {meal.options.length > 1 ? <details className="meal-plan-alternatives"><summary>Смени храненето <span>{meal.options.length} варианта</span></summary><div className="meal-plan-options">{meal.options.map((option, index) => <button type="button" key={option} className={index === current ? "selected" : ""} onClick={() => choose(meal.title, index)}><span className="meal-plan-radio">{index === current ? "✓" : index + 1}</span><span><b>Вариант {index + 1}</b><FoodRows option={option} /></span></button>)}</div></details> : null}
+    </article>; })}</div>
   </section>;
 }

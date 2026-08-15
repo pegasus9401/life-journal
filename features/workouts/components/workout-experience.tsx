@@ -59,6 +59,8 @@ export function WorkoutExperience({ date, today, sessions }: { date: string; tod
   const minutes = sessions.reduce((sum, item) => sum + item.duration_minutes, 0);
   const calories = sessions.reduce((sum, item) => sum + item.calories_burned, 0);
   const exerciseCount = sessions.reduce((sum, item) => sum + item.exercises.length, 0);
+  const completedCount = sessions.filter((item) => item.completed).length;
+  const volume = sessions.reduce((total, session) => total + session.exercises.reduce((sum, exercise) => sum + exercise.sets * exercise.reps * exercise.weight, 0), 0);
 
   async function remove(session: WorkoutSession) {
     if (!window.confirm(`Да изтрия ли „${session.title}“?`)) return;
@@ -70,11 +72,28 @@ export function WorkoutExperience({ date, today, sessions }: { date: string; tod
   }
 
   return <>
-    <header className="workout-header"><div><p className="life-kicker">Движение и сила</p><h1>{date === today ? "Днес" : formatDate(date)}</h1><p>{sessions.length ? `${sessions.length} тренировки · ${minutes} минути` : "Денят е готов за движение."}</p></div><div className="nutrition-date-controls"><Link href={`/workouts?date=${shiftDate(date, -1)}`} aria-label="Предишен ден">←</Link><Link href="/workouts">Днес</Link><Link href={`/workouts?date=${shiftDate(date, 1)}`} aria-label="Следващ ден">→</Link></div></header>
-    <section className="workout-summary"><article><span>Време</span><strong>{minutes}<small> мин</small></strong></article><article><span>Калории</span><strong>{calories}<small> kcal</small></strong></article><article><span>Упражнения</span><strong>{exerciseCount}</strong></article><button className="primary-button" type="button" onClick={() => setEditor("new")}><span>＋</span> Добави тренировка</button></section>
+    <header className="workout-header">
+      <div>
+        <p className="life-kicker">Движение и сила</p>
+        <h1>Тренировки</h1>
+        <p><strong>{date === today ? "Днес" : formatDate(date)}</strong>{sessions.length ? ` · ${sessions.length} ${sessions.length === 1 ? "тренировка" : "тренировки"}` : " · Денят е готов за движение."}</p>
+      </div>
+      <div className="nutrition-date-controls workout-date-controls">
+        <Link href={`/workouts?date=${shiftDate(date, -1)}`} aria-label="Предишен ден">←</Link>
+        <Link href="/workouts">Днес</Link>
+        <Link href={`/workouts?date=${shiftDate(date, 1)}`} aria-label="Следващ ден">→</Link>
+      </div>
+    </header>
+    <section className="workout-summary">
+      <article><span>Време</span><strong>{minutes}<small> мин</small></strong></article>
+      <article><span>Калории</span><strong>{calories}<small> kcal</small></strong></article>
+      <article><span>Обем</span><strong>{Math.round(volume).toLocaleString("bg-BG")}<small> кг</small></strong></article>
+      <article><span>Изпълнени</span><strong>{completedCount}<small> / {sessions.length}</small></strong></article>
+      <button className="primary-button" type="button" onClick={() => setEditor("new")}><span>＋</span> Добави тренировка</button>
+    </section>
     {sessions.length ? <section className="workout-list">{sessions.map((session) => <article className={`workout-card ${session.completed ? "completed" : ""}`} key={session.id}>
       <header><div><span className={`workout-type type-${session.workout_type}`}>{WORKOUT_TYPE_LABELS[session.workout_type]}</span><h2>{session.title}</h2></div><button className="workout-complete" type="button" aria-label={session.completed ? "Маркирай като незавършена" : "Маркирай като завършена"} onClick={() => toggle(session)}>{session.completed ? "✓" : "○"}</button></header>
-      <div className="workout-card-stats"><span>{session.duration_minutes} минути</span><span>{session.calories_burned} kcal</span><span>{session.exercises.length} упражнения</span></div>
+      <div className="workout-card-stats"><span><b>{session.duration_minutes}</b> минути</span><span><b>{session.calories_burned}</b> kcal</span><span><b>{session.exercises.length}</b> упражнения</span><span><b>{Math.round(session.exercises.reduce((sum, exercise) => sum + exercise.sets * exercise.reps * exercise.weight, 0)).toLocaleString("bg-BG")}</b> кг обем</span></div>
       {session.exercises.length ? <div className="workout-exercises">{session.exercises.map((exercise, index) => <div key={`${exercise.name}-${index}`}><strong>{exercise.name}</strong><span>{exercise.sets} × {exercise.reps}{exercise.weight ? ` · ${exercise.weight} кг` : ""}</span></div>)}</div> : <p className="workout-no-exercises">Няма добавени упражнения.</p>}
       {session.notes ? <p className="workout-notes">{session.notes}</p> : null}<footer><button type="button" onClick={() => setEditor(session)}>Редактирай</button><button type="button" onClick={() => remove(session)}>Изтрий</button></footer>
     </article>)}</section> : <section className="workout-empty"><p className="life-kicker">Първа крачка</p><h2>Запиши движението си.</h2><p>Добави тренировка, упражненията и тежестите. След време ще виждаш реалния си напредък.</p><button className="primary-button" type="button" onClick={() => setEditor("new")}><span>＋</span> Добави тренировка</button></section>}

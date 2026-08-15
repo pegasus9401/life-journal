@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
 import { localDateKey } from "@/features/calendar/domain/date-utils";
+import { MealPlan } from "@/features/nutrition/components/meal-plan";
 import { NutritionExperience } from "@/features/nutrition/components/nutrition-experience";
 import { getNutritionDay } from "@/features/nutrition/queries";
 
@@ -12,5 +13,5 @@ export default async function NutritionPage({ searchParams }: { searchParams: Pr
   const date = /^\d{4}-\d{2}-\d{2}$/.test(params.date ?? "") ? params.date! : today;
   const data = await getNutritionDay(date);
   if (!data) redirect("/login");
-  return <main className="life-app-shell"><AppNavigation active="nutrition" /><NutritionExperience date={date} today={today} entries={data.entries} goals={data.goals} /></main>;
+  return <main className="life-app-shell"><AppNavigation active="nutrition" /><MealPlan /><NutritionExperience date={date} today={today} entries={data.entries} goals={data.goals} /></main>;
 }

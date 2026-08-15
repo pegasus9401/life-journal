@@ -3,8 +3,10 @@ import { z } from "zod";
 const exerciseSchema = z.object({
   name: z.string().trim().min(1).max(120),
   sets: z.coerce.number().int().min(0).max(100),
-  reps: z.coerce.number().int().min(0).max(10000),
+  reps: z.union([z.string(), z.number()]).transform(String).pipe(z.string().trim().min(1).max(24)),
   weight: z.coerce.number().min(0).max(100000),
+  rest_seconds: z.coerce.number().int().min(0).max(3600).optional().default(0),
+  muscle_group: z.string().trim().max(60).optional().default(""),
 });
 
 export const workoutSchema = z.object({

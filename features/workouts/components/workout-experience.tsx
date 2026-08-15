@@ -109,7 +109,7 @@ function normalizeTemplates(raw: unknown): WorkoutTemplate[] {
     }];
   });
 
-  return templates.length ? templates : [FULL_BODY];
+  return templates;
 }
 
 function cloneTemplate(template: WorkoutTemplate): WorkoutTemplate {
@@ -146,8 +146,13 @@ function TemplateEditor({ template, onCancel, onSave }: { template: WorkoutTempl
     }
     setSaving(true);
     setError("");
-    await onSave({ ...draft, name: draft.name.trim(), exercises: draft.exercises.map((exercise) => ({ ...exercise, name: exercise.name.trim() })) });
-    setSaving(false);
+    try {
+      await onSave({ ...draft, name: draft.name.trim(), exercises: draft.exercises.map((exercise) => ({ ...exercise, name: exercise.name.trim() })) });
+    } catch {
+      setError("Промените не се запазиха. Опитай отново.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return <section className="workout-library-editor">

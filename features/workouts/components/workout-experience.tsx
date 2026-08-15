@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { createClient } from "@/lib/supabase/client";
+import { START_WORKOUT_EVENT, type StartWorkoutDetail } from "./active-workout-tracker";
 
 const DAYS = [
   { key: "monday", short: "Пон", label: "Понеделник" },
@@ -191,7 +192,7 @@ function TemplateEditor({ template, onCancel, onSave }: { template: WorkoutTempl
   </section>;
 }
 
-function TemplateView({ template, onEdit, onDelete }: { template: WorkoutTemplate; onEdit: () => void; onDelete: () => void }) {
+function TemplateView({ template, onStart, onEdit, onDelete }: { template: WorkoutTemplate; onStart: () => void; onEdit: () => void; onDelete: () => void }) {
   const groups = MUSCLE_GROUPS.flatMap((group) => {
     const exercises = template.exercises.filter((exercise) => exercise.group === group);
     return exercises.length ? [{ group, exercises }] : [];
@@ -202,7 +203,7 @@ function TemplateView({ template, onEdit, onDelete }: { template: WorkoutTemplat
   return <section className="workout-library-view">
     <header>
       <div><p className="life-kicker">Тренировъчна програма</p><h2>{template.name}</h2><p>{template.days.length ? `${template.days.length} пъти седмично` : "Без избрани дни"} · около {template.durationMinutes} минути</p></div>
-      <div><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
+      <div><button className="start" type="button" onClick={onStart}>▶ Започни тренировка</button><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
     </header>
 
     <div className="workout-library-week">
@@ -261,6 +262,27 @@ export function WorkoutExperience({ initialTemplates }: { initialTemplates?: unk
     setDraft(null);
   };
 
+  const startWorkout = (template: WorkoutTemplate) => {
+    if (!template.exercises.length) {
+      setSaveState("error");
+      setMessage("Добави поне едно упражнение, преди да започнеш.");
+      return;
+    }
+    const detail: StartWorkoutDetail = {
+      id: template.id,
+      name: template.name,
+      exercises: template.exercises.map((exercise) => ({
+        id: exercise.id,
+        group: exercise.group,
+        name: exercise.name,
+        sets: exercise.sets,
+        reps: exercise.reps,
+        restSeconds: exercise.restSeconds,
+      })),
+    };
+    window.dispatchEvent(new CustomEvent(START_WORKOUT_EVENT, { detail }));
+  };
+
   const addTemplate = () => {
     const next = blankTemplate();
     setSelectedId(next.id);
@@ -277,7 +299,7 @@ export function WorkoutExperience({ initialTemplates }: { initialTemplates?: unk
 
     {templates.length ? <nav className="workout-library-tabs" aria-label="Тренировъчни програми">{templates.map((template) => <button className={selected?.id === template.id && !draft ? "active" : ""} key={template.id} type="button" onClick={() => { setSelectedId(template.id); setDraft(null); }}><span>{template.name}</span><small>{template.exercises.length} упражнения</small></button>)}</nav> : null}
 
-    {draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
+    {draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onStart={() => startWorkout(selected)} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
 
     {message ? <p className={`workout-library-message ${saveState === "error" ? "is-error" : saveState === "saved" ? "is-success" : ""}`}>{message}</p> : null}
   </section>;

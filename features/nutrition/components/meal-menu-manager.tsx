@@ -54,7 +54,7 @@ export function MealMenuManager() {
     setMeals(current => ({ ...current, [meal]: current[meal].map((variant, variantIndex) => variantIndex === index ? value : variant) }));
   };
 
-  const variantProducts = (variant: string) => variant.split(" + ").map(product => product.trim()).filter(Boolean);
+  const variantProducts = (variant: string) => variant.split(" + ").map(product => product.trim());
 
   const updateProduct = (meal: string, variantIndex: number, productIndex: number, value: string) => {
     const products = variantProducts(meals[meal][variantIndex]);
@@ -94,7 +94,7 @@ export function MealMenuManager() {
 
   const saveMenu = async () => {
     const cleanName = name.trim();
-    const cleanMenu = Object.fromEntries(Object.entries(meals).map(([meal, variants]) => [meal, variants.map(value => value.trim()).filter(Boolean)]));
+    const cleanMenu = Object.fromEntries(Object.entries(meals).map(([meal, variants]) => [meal, variants.map(value => variantProducts(value).filter(Boolean).join(" + ")).filter(Boolean)]));
     if (!cleanName) { setMessage("Въведи име на менюто."); return; }
     if (!editingName && library[cleanName]) { setMessage("Вече има меню с това име."); return; }
     if (Object.values(cleanMenu).some(variants => variants.length === 0)) { setMessage("Добави поне един вариант за всяко хранене."); return; }

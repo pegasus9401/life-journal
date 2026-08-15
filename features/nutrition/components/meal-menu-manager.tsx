@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { mealNames } from "../meal-data";
-import { getMenuLibrary, type MealMenu, type MealMenuSettings } from "../menu-library";
+import { getMenuLibrary, getMenuNutrition, type MealMenu, type MealMenuSettings, type MenuNutrition, type NutritionValues } from "../menu-library";
 
 const emptyMeals = (): MealMenu => Object.fromEntries(mealNames.map(meal => [meal, [""]]));
 
@@ -65,6 +65,7 @@ export function MealMenuManager() {
   const [settings, setSettings] = useState<MealMenuSettings>({});
   const [name, setName] = useState("");
   const [meals, setMeals] = useState<MealMenu>(emptyMeals);
+  const [menuNutrition, setMenuNutrition] = useState<MenuNutrition>(() => getMenuNutrition({}, "__new__"));
   const [creating, setCreating] = useState(false);
   const [editingName, setEditingName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -85,6 +86,7 @@ export function MealMenuManager() {
   const resetEditor = () => {
     setName("");
     setMeals(emptyMeals());
+    setMenuNutrition(getMenuNutrition({}, "__new__"));
     setCreating(false);
     setEditingName(null);
     setUnitDrafts({});
@@ -94,6 +96,7 @@ export function MealMenuManager() {
     if (creating && !editingName) { resetEditor(); return; }
     setName("");
     setMeals(emptyMeals());
+    setMenuNutrition(getMenuNutrition({}, "__new__"));
     setEditingName(null);
     setCreating(true);
     setMessage("");
@@ -104,6 +107,7 @@ export function MealMenuManager() {
     if (!menu) return;
     setName(menuName);
     setMeals(Object.fromEntries(mealNames.map(meal => [meal, [...(menu[meal] ?? [""])]])));
+    setMenuNutrition(getMenuNutrition(settings, menuName));
     setEditingName(menuName);
     setCreating(true);
     setMessage("");
@@ -111,6 +115,14 @@ export function MealMenuManager() {
 
   const updateVariant = (meal: string, index: number, value: string) => {
     setMeals(current => ({ ...current, [meal]: current[meal].map((variant, variantIndex) => variantIndex === index ? value : variant) }));
+  };
+
+  const updateMenuNutrition = (field: keyof NutritionValues, value: string) => {
+    setMenuNutrition(current => ({ ...current, [field]: Math.max(0, Number(value) || 0) }));
+  };
+
+  const updateMealNutrition = (meal: string, field: keyof NutritionValues, value: string) => {
+    setMenuNutrition(current => ({ ...current, meals: { ...current.meals, [meal]: { ...current.meals[meal], [field]: Math.max(0, Number(value) || 0) } } }));
   };
 
   const variantProducts = (variant: string) => variant.split(" + ").map(product => product.trim());
@@ -170,6 +182,7 @@ export function MealMenuManager() {
     const next: MealMenuSettings = {
       ...settings,
       custom_meal_menus: { ...(settings.custom_meal_menus ?? {}), [cleanName]: cleanMenu },
+      meal_menu_nutrition: { ...(settings.meal_menu_nutrition ?? {}), [cleanName]: menuNutrition },
       deleted_meal_menus: (settings.deleted_meal_menus ?? []).filter(item => item !== cleanName),
     };
     const success = editingName ? `${cleanName} е обновено.` : `${cleanName} е добавено.`;
@@ -186,11 +199,14 @@ export function MealMenuManager() {
   const deleteMenu = async (menuName: string) => {
     if (!window.confirm(`Да изтрия ли окончателно „${menuName}“? Старите дни ще запазят името, но менюто няма да може да се избира отново.`)) return;
     const custom = { ...(settings.custom_meal_menus ?? {}) };
+    const nutrition = { ...(settings.meal_menu_nutrition ?? {}) };
     delete custom[menuName];
+    delete nutrition[menuName];
     if (editingName === menuName) resetEditor();
     await saveSettings({
       ...settings,
       custom_meal_menus: custom,
+      meal_menu_nutrition: nutrition,
       archived_meal_menus: (settings.archived_meal_menus ?? []).filter(item => item !== menuName),
       deleted_meal_menus: [...new Set([...(settings.deleted_meal_menus ?? []), menuName])],
     }, `${menuName} е изтрито.`);
@@ -199,6 +215,7 @@ export function MealMenuManager() {
   const menuList = Object.keys(library);
   const selectedName = selectedMenu && library[selectedMenu] ? selectedMenu : menuList[0];
   const selectedData = selectedName ? library[selectedName] : null;
+  const selectedNutrition = selectedName ? getMenuNutrition(settings, selectedName) : getMenuNutrition({}, "__empty__");
   const totalVariants = selectedData ? Object.values(selectedData).reduce((sum, variants) => sum + variants.length, 0) : 0;
   const totalProducts = selectedData ? Object.values(selectedData).flat().reduce((sum, variant) => sum + variant.split(" + ").length, 0) : 0;
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { signOut } from "@/features/auth/actions";
 import { BrandLink } from "./brand-link";
 
 const AVATAR_BUCKET = "journal-photos";
@@ -11,6 +12,7 @@ const ALLOWED_AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "shopping" | "workouts" }) {
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarMessage, setAvatarMessage] = useState("");
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
@@ -36,7 +38,10 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
 
   useEffect(() => { void loadAvatar(); }, []);
 
-  const chooseAvatar = () => avatarInput.current?.click();
+  const chooseAvatar = () => {
+    setProfileOpen(false);
+    avatarInput.current?.click();
+  };
 
   const uploadAvatar = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -104,11 +109,19 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
         <span />
       </button>
       <BrandLink />
-      <button className="profile-avatar" type="button" aria-label="Смени профилната снимка" onClick={chooseAvatar} disabled={uploadingAvatar}>
+      <button className="profile-avatar" type="button" aria-label="Отвори профилното меню" aria-expanded={profileOpen} onClick={() => setProfileOpen((current) => !current)} disabled={uploadingAvatar}>
         {avatar}
       </button>
       <input ref={avatarInput} className="profile-avatar-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={uploadAvatar} />
     </nav>
+
+    {profileOpen ? <>
+      <button className="profile-menu-backdrop" type="button" aria-label="Затвори профилното меню" onClick={() => setProfileOpen(false)} />
+      <div className="profile-menu">
+        <button type="button" onClick={chooseAvatar}>Смени снимката</button>
+        <form action={signOut}><button className="logout" type="submit">Изход</button></form>
+      </div>
+    </> : null}
 
     <div className={`burger-backdrop ${open ? "is-open" : ""}`} onClick={() => setOpen(false)} />
     <aside className={`burger-drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
@@ -127,6 +140,7 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
       <nav className="burger-links" aria-label="Меню">
         {links.map(([key, href, label]) => <Link key={key} className={active === key ? "active" : ""} href={href} onClick={() => setOpen(false)}><span>{label}</span><b>›</b></Link>)}
       </nav>
+      <form className="burger-logout" action={signOut}><button type="submit"><span>Изход</span><b>↗</b></button></form>
     </aside>
   </>;
 }

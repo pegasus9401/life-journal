@@ -1,17 +1,13 @@
 import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
-import { localDateKey } from "@/features/calendar/domain/date-utils";
 import { MealPlan } from "@/features/nutrition/components/meal-plan";
-import { NutritionExperience } from "@/features/nutrition/components/nutrition-experience";
 import { getNutritionDay } from "@/features/nutrition/queries";
+import { localDateKey } from "@/features/calendar/domain/date-utils";
 
 export const metadata = { title: "Хранене · Дневник на живота" };
 
-export default async function NutritionPage({ searchParams }: { searchParams: Promise<{ date?: string }> }) {
-  const params = await searchParams;
-  const today = localDateKey();
-  const date = /^\d{4}-\d{2}-\d{2}$/.test(params.date ?? "") ? params.date! : today;
-  const data = await getNutritionDay(date);
+export default async function NutritionPage() {
+  const data = await getNutritionDay(localDateKey());
   if (!data) redirect("/login");
-  return <main className="life-app-shell"><AppNavigation active="nutrition" /><MealPlan /><NutritionExperience date={date} today={today} entries={data.entries} goals={data.goals} /></main>;
+  return <main className="life-app-shell"><AppNavigation active="nutrition" /><header className="nutrition-header"><div><p className="life-kicker">Моят режим</p><h1>Хранене</h1><p>Дневното меню, продуктите и точните количества на едно място.</p></div></header><MealPlan /></main>;
 }

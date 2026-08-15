@@ -189,6 +189,7 @@ export function MealMenuManager() {
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>
       <label>Име на менюто<input value={name} onChange={event => setName(event.target.value)} placeholder="Например: Меню за почивен ден" maxLength={80} disabled={Boolean(editingName)} /></label>
       <p>Всеки вариант и всеки продукт са на отделен ред.</p>
+      <datalist id="meal-measurement-units">{measurementUnits.filter(([value]) => value).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</datalist>
       <div className="meal-menu-fields">{mealNames.map(meal => <section className="meal-variants-editor" key={meal}>
         <header><strong>{meal}</strong><span>{meals[meal].length} {meals[meal].length === 1 ? "вариант" : "варианта"}</span></header>
         <div className="meal-variant-list">{meals[meal].map((variant, index) => <div className="meal-variant-row" key={index}>
@@ -199,7 +200,7 @@ export function MealMenuManager() {
               return <div className="meal-product-row" key={productIndex}>
                 <input className="product-name-input" value={parts.name} onChange={event => updateProductField(meal, index, productIndex, "name", event.target.value)} placeholder="Продукт" />
                 <input className="product-amount-input" type="number" min="0" step="any" inputMode="decimal" value={parts.amount} onChange={event => updateProductField(meal, index, productIndex, "amount", event.target.value)} placeholder="Количество" />
-                <select className="product-unit-select" value={parts.unit} onChange={event => updateProductField(meal, index, productIndex, "unit", event.target.value)} aria-label={`Мерна единица за продукт ${productIndex + 1}`}>{measurementUnits.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+                <input className="product-unit-input" list="meal-measurement-units" value={parts.unit} onChange={event => updateProductField(meal, index, productIndex, "unit", event.target.value)} placeholder="Мерна единица" aria-label={`Мерна единица за продукт ${productIndex + 1}`} />
                 <button type="button" onClick={() => removeProduct(meal, index, productIndex)} disabled={products.length === 1} aria-label={`Премахни продукт ${productIndex + 1}`}>Премахни</button>
               </div>;
             })}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DayMealPlanner } from "@/features/nutrition/components/day-meal-planner";
+import type { WorkoutCalendarTemplate, WorkoutDayKey } from "@/features/workouts/workout-library";
 import { addDays, dateKey, parseDateKey, startOfWeek } from "../domain/date-utils";
 import type { CalendarItem, CalendarView } from "../types";
 import { CalendarItem as ItemCard } from "./calendar-item";
@@ -19,7 +20,18 @@ function mealOn(plans: CalendarMealPlan[], date: string) { return plans.find(pla
 function menuShort(name: string) { const match = name.match(/(\d+)/); return match ? `M${match[1]}` : name; }
 function MealBadge({ plan }: { plan?: CalendarMealPlan }) { return plan ? <span className="calendar-meal-badge"><span>🍽</span><b>{menuShort(plan.menu_name)}</b></span> : <span className="calendar-meal-add">+ меню</span>; }
 
-export function CalendarExperience({ view, selected, today, items, mealPlans = [] }: { view: CalendarView; selected: string; today: string; items: CalendarItem[]; mealPlans?: CalendarMealPlan[] }) {
+const workoutDayKeys: WorkoutDayKey[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+function workoutsOn(plans: WorkoutCalendarTemplate[], date: string) {
+  const weekday = workoutDayKeys[new Date(`${date}T12:00:00Z`).getUTCDay()];
+  return plans.filter((plan) => plan.days.includes(weekday));
+}
+function WorkoutBadges({ plans, date, compact = false }: { plans: WorkoutCalendarTemplate[]; date: string; compact?: boolean }) {
+  const workouts = workoutsOn(plans, date);
+  if (!workouts.length) return null;
+  return <div className={`calendar-workout-list ${compact ? "is-compact" : ""}`}>{workouts.map((workout) => <Link className="calendar-workout-badge" href="/workouts" key={workout.id} title={workout.name}><span>◆</span><b>{workout.name}</b>{compact ? null : <small>{workout.durationMinutes ? `${workout.durationMinutes} мин` : `${workout.exerciseCount} упражнения`}</small>}</Link>)}</div>;
+}
+
+export function CalendarExperience({ view, selected, today, items, mealPlans = [], workoutPlans = [] }: { view: CalendarView; selected: string; today: string; items: CalendarItem[]; mealPlans?: CalendarMealPlan[]; workoutPlans?: WorkoutCalendarTemplate[] }) {
   const [mealDate, setMealDate] = useState<string | null>(null);
   const selectedDate = parseDateKey(selected);
   const title = view === "month" ? monthName.format(selectedDate) : view === "week" ? `${dayNumber.format(parseDateKey(startOfWeek(selected)))} - ${dayNumber.format(parseDateKey(addDays(startOfWeek(selected), 6)))}` : fullDate.format(selectedDate);
@@ -38,9 +50,9 @@ export function CalendarExperience({ view, selected, today, items, mealPlans = [
 
   return <>
     <header className="calendar-header"><div><p className="life-kicker">Твоето време</p><h1>{title}</h1></div><div className="calendar-controls"><div className="view-switcher">{(["month", "week", "day"] as CalendarView[]).map(value => <Link key={value} className={view === value ? "active" : ""} href={href(value, selected)}>{value === "month" ? "Месец" : value === "week" ? "Седмица" : "Ден"}</Link>)}</div><div className="date-navigation"><Link aria-label="Назад" href={href(view, previous)}>←</Link><Link href={href(view, today)}>Днес</Link><Link aria-label="Напред" href={href(view, next)}>→</Link></div></div></header>
-    {view === "month" ? <MonthView selected={selected} today={today} items={items} mealPlans={mealPlans} openMeal={setMealDate} /> : null}
-    {view === "week" ? <WeekView selected={selected} today={today} items={items} mealPlans={mealPlans} openMeal={setMealDate} /> : null}
-    {view === "day" ? <DayView selected={selected} items={items} mealPlans={mealPlans} openMeal={setMealDate} /> : null}
+    {view === "month" ? <MonthView selected={selected} today={today} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
+    {view === "week" ? <WeekView selected={selected} today={today} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
+    {view === "day" ? <DayView selected={selected} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
     {mealDate ? <div className="meal-plan-modal-backdrop" role="presentation" onMouseDown={() => setMealDate(null)}>
       <section className="meal-plan-modal" role="dialog" aria-modal="true" aria-label={`Хранене за ${mealDate}`} onMouseDown={event => event.stopPropagation()}>
         <button className="meal-plan-modal-close" type="button" aria-label="Затвори" onClick={() => setMealDate(null)}>×</button>
@@ -50,17 +62,17 @@ export function CalendarExperience({ view, selected, today, items, mealPlans = [
   </>;
 }
 
-function MonthView({ selected, today, items, mealPlans, openMeal }: { selected: string; today: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; openMeal: (date: string) => void }) {
+function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }: { selected: string; today: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; workoutPlans: WorkoutCalendarTemplate[]; openMeal: (date: string) => void }) {
   const date = parseDateKey(selected); const first = dateKey(new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))); const gridStart = startOfWeek(first); const days = Array.from({ length: 42 }, (_, i) => addDays(gridStart, i));
-  return <section className="month-calendar" aria-label="Месечен календар"><div className="month-weekdays">{weekDays.map(day => <span key={day}>{day}</span>)}</div><div className="month-grid">{days.map(day => { const dayItems = itemsOn(items, day); const outside = day.slice(0, 7) !== selected.slice(0, 7); return <article key={day} className={`month-day ${day === today ? "today" : ""} ${outside ? "outside" : ""}`}><button type="button" className="month-day-click" onClick={() => openMeal(day)} aria-label={`Отвори храненето за ${day}`} aria-haspopup="dialog"><span className="month-day-number">{Number(day.slice(8))}</span><MealBadge plan={mealOn(mealPlans, day)} /></button><div>{dayItems.slice(0, 3).map(item => <ItemCard key={item.id} item={item} compact />)}{dayItems.length > 3 ? <Link className="more-items" href={href("day", day)}>+ още {dayItems.length - 3}</Link> : null}</div></article>; })}</div></section>;
+  return <section className="month-calendar" aria-label="Месечен календар"><div className="month-weekdays">{weekDays.map(day => <span key={day}>{day}</span>)}</div><div className="month-grid">{days.map(day => { const dayItems = itemsOn(items, day); const outside = day.slice(0, 7) !== selected.slice(0, 7); return <article key={day} className={`month-day ${day === today ? "today" : ""} ${outside ? "outside" : ""}`}><button type="button" className="month-day-click" onClick={() => openMeal(day)} aria-label={`Отвори храненето за ${day}`} aria-haspopup="dialog"><span className="month-day-number">{Number(day.slice(8))}</span><MealBadge plan={mealOn(mealPlans, day)} /></button><WorkoutBadges plans={workoutPlans} date={day} compact /><div>{dayItems.slice(0, 3).map(item => <ItemCard key={item.id} item={item} compact />)}{dayItems.length > 3 ? <Link className="more-items" href={href("day", day)}>+ още {dayItems.length - 3}</Link> : null}</div></article>; })}</div></section>;
 }
 
-function WeekView({ selected, today, items, mealPlans, openMeal }: { selected: string; today: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; openMeal: (date: string) => void }) {
+function WeekView({ selected, today, items, mealPlans, workoutPlans, openMeal }: { selected: string; today: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; workoutPlans: WorkoutCalendarTemplate[]; openMeal: (date: string) => void }) {
   const start = startOfWeek(selected);
-  return <section className="week-calendar">{Array.from({ length: 7 }, (_, i) => addDays(start, i)).map((day, index) => <article key={day} className={`week-day ${day === today ? "today" : ""}`}><button type="button" className="week-day-click" onClick={() => openMeal(day)} aria-haspopup="dialog"><header><span>{weekDays[index]}</span><b>{Number(day.slice(8))}</b></header><MealBadge plan={mealOn(mealPlans, day)} /></button><div className="day-stack">{itemsOn(items, day).map(item => <ItemCard key={item.id} item={item} />)}{itemsOn(items, day).length === 0 ? <p className="empty-day">Натисни деня, за да избереш меню</p> : null}</div></article>)}</section>;
+  return <section className="week-calendar">{Array.from({ length: 7 }, (_, i) => addDays(start, i)).map((day, index) => <article key={day} className={`week-day ${day === today ? "today" : ""}`}><button type="button" className="week-day-click" onClick={() => openMeal(day)} aria-haspopup="dialog"><header><span>{weekDays[index]}</span><b>{Number(day.slice(8))}</b></header><MealBadge plan={mealOn(mealPlans, day)} /></button><WorkoutBadges plans={workoutPlans} date={day} /><div className="day-stack">{itemsOn(items, day).map(item => <ItemCard key={item.id} item={item} />)}{itemsOn(items, day).length === 0 ? <p className="empty-day">Натисни деня, за да избереш меню</p> : null}</div></article>)}</section>;
 }
 
-function DayView({ selected, items, mealPlans, openMeal }: { selected: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; openMeal: (date: string) => void }) {
+function DayView({ selected, items, mealPlans, workoutPlans, openMeal }: { selected: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; workoutPlans: WorkoutCalendarTemplate[]; openMeal: (date: string) => void }) {
   const dayItems = itemsOn(items, selected); const plan = mealOn(mealPlans, selected);
-  return <section className="day-calendar"><div className="day-time-rail">{["06", "09", "12", "15", "18", "21"].map(hour => <span key={hour}>{hour}:00</span>)}</div><div className="day-agenda"><button type="button" className="day-meal-summary" onClick={() => openMeal(selected)} aria-haspopup="dialog"><span>Хранене</span><strong>{plan ? `🍽 ${plan.menu_name}` : "🍽 Избери меню за този ден"}</strong><span className="day-meal-summary-action">{plan ? "Виж / промени вариантите" : "Избери меню и варианти"}</span></button>{dayItems.length ? dayItems.map(item => <ItemCard key={item.id} item={item} />) : null}</div></section>;
+  return <section className="day-calendar"><div className="day-time-rail">{["06", "09", "12", "15", "18", "21"].map(hour => <span key={hour}>{hour}:00</span>)}</div><div className="day-agenda"><button type="button" className="day-meal-summary" onClick={() => openMeal(selected)} aria-haspopup="dialog"><span>Хранене</span><strong>{plan ? `🍽 ${plan.menu_name}` : "🍽 Избери меню за този ден"}</strong><span className="day-meal-summary-action">{plan ? "Виж / промени вариантите" : "Избери меню и варианти"}</span></button><WorkoutBadges plans={workoutPlans} date={selected} />{dayItems.length ? dayItems.map(item => <ItemCard key={item.id} item={item} />) : null}</div></section>;
 }

@@ -380,3 +380,22 @@
 .workout-library-empty h2{margin:0;font:400 36px/1 Georgia,serif}.workout-library-empty p{margin:0 0 10px;color:var(--life-muted);font-size:11px}
 @media(max-width:900px){.workout-library-groups{grid-template-columns:1fr}.workout-library-editor-labels{display:none}.workout-library-exercise-row{grid-template-columns:28px 120px minmax(0,1fr) repeat(2,90px)}.workout-library-exercise-row>input:nth-of-type(1){grid-column:3/-1}.workout-library-exercise-row>.workout-library-rest-input{grid-column:4}.workout-library-exercise-row>button{grid-column:5}.workout-library-week,.workout-library-days>div{display:flex;overflow-x:auto}.workout-library-week>div,.workout-library-days button{flex:0 0 100px}}
 @media(max-width:620px){.workout-library-header{display:grid;gap:20px;padding:34px 2px 22px}.workout-library-header h1{font-size:48px}.workout-library-header>button{width:100%}.workout-library-view,.workout-library-editor{padding:18px 14px;border-radius:21px}.workout-library-view>header,.workout-library-editor>header{align-items:flex-start}.workout-library-view>header{display:grid}.workout-library-editor-basics{grid-template-columns:1fr}.workout-library-exercise-row{grid-template-columns:28px minmax(0,1fr) minmax(0,1fr)}.workout-library-exercise-row>select{grid-column:2/4}.workout-library-exercise-row>input:nth-of-type(1){grid-column:2/4}.workout-library-exercise-row>input:nth-of-type(2),.workout-library-exercise-row>input:nth-of-type(3){grid-column:auto}.workout-library-exercise-row>.workout-library-rest-input{grid-column:2/4}.workout-library-exercise-row>button{grid-column:3;min-height:38px}.workout-library-groups article{padding:11px 9px}.workout-library-progression{grid-template-columns:1fr}.workout-library-tabs button{flex-basis:160px}}
+
+
+/* Calendar workout schedule */
+.calendar-workout-list{display:grid;gap:5px;margin:8px 10px 0}
+.calendar-workout-badge{display:grid;grid-template-columns:16px minmax(0,1fr) auto;align-items:center;gap:7px;min-height:38px;padding:7px 9px;border:1px solid rgba(167,139,250,.22);border-radius:10px;color:#ddd6fe;background:linear-gradient(135deg,rgba(139,92,246,.16),rgba(109,40,217,.07));text-decoration:none}
+.calendar-workout-badge>span{display:grid;width:15px;height:15px;place-items:center;color:#a78bfa;font-size:7px}
+.calendar-workout-badge>b{min-width:0;overflow:hidden;font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+.calendar-workout-badge>small{color:var(--life-muted);font-size:8px;white-space:nowrap}
+.calendar-workout-badge:hover{border-color:rgba(167,139,250,.42);background:rgba(139,92,246,.2)}
+.calendar-workout-list.is-compact{gap:2px;margin:2px 3px 3px}
+.calendar-workout-list.is-compact .calendar-workout-badge{display:flex;min-height:19px;gap:3px;padding:2px 4px;border-radius:5px}
+.calendar-workout-list.is-compact .calendar-workout-badge>span{width:9px;height:9px;font-size:5px}
+.calendar-workout-list.is-compact .calendar-workout-badge>b{font-size:7px}
+.week-day>.calendar-workout-list{margin:8px 8px 0}
+.day-agenda>.calendar-workout-list{margin:0}
+.day-agenda>.calendar-workout-list .calendar-workout-badge{min-height:54px;padding:11px 14px;border-radius:14px}
+.day-agenda>.calendar-workout-list .calendar-workout-badge>b{font-size:12px}
+.day-agenda>.calendar-workout-list .calendar-workout-badge>small{font-size:9px}
+@media(max-width:820px){.calendar-workout-list.is-compact .calendar-workout-badge{min-height:17px;padding:2px}.calendar-workout-list.is-compact .calendar-workout-badge>b{font-size:6px}.week-day>.calendar-workout-list{margin:7px 9px 0}.calendar-workout-badge{min-height:42px}}

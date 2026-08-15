@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getMenuLibrary, type MealMenuSettings, type MenuLibrary } from "@/features/nutrition/menu-library";
+import { getMenuLibrary, orderedMealEntries, type MealMenuSettings, type MenuLibrary } from "@/features/nutrition/menu-library";
 import { addDays, localDateKey, startOfWeek } from "@/features/calendar/domain/date-utils";
 
 type ShoppingItem = { name: string; amount: number | null; unit: string | null; count: number };
@@ -21,7 +21,7 @@ function collect(plans: { menu_name: string; selections: Record<string, number> 
   const items = new Map<string, ShoppingItem>();
   for (const plan of plans) {
     const menu = menus[plan.menu_name]; if (!menu) continue;
-    for (const [meal, options] of Object.entries(menu)) {
+    for (const [meal, options] of orderedMealEntries(menu)) {
       const option = options[plan.selections?.[meal] ?? 0]; if (!option) continue;
       for (const raw of option.split(" + ")) {
         const food = parseFood(raw); const key = `${normalize(food.name)}|${food.unit ?? ""}`; const existing = items.get(key);

@@ -205,7 +205,7 @@ export function MealMenuManager() {
   return <section className="meal-plan managed-meal-plan">
     <div className="managed-meal-plan-toolbar"><div><p className="life-kicker">Хранителен режим</p><h2>Моите менюта</h2></div><button className="primary-button" type="button" onClick={openNewMenu}>{creating && !editingName ? "Отказ" : "+ Добави меню"}</button></div>
     <div className="meal-plan-tabs managed-meal-tabs" role="tablist" aria-label="Избор на хранително меню">{menuList.map(menuName => <button key={menuName} type="button" role="tab" aria-selected={selectedName === menuName} className={selectedName === menuName ? "active" : ""} onClick={() => { setSelectedMenu(menuName); if (editingName && editingName !== menuName) resetEditor(); }}><span>{menuName}</span><small>{archived.has(menuName) ? "Архивирано" : "Активно"}</small></button>)}</div>
-    {selectedName && selectedData ? <>
+    {!creating && selectedName && selectedData ? <>
       <article className="meal-plan-hero managed-meal-hero">
         <div className="meal-plan-hero-copy"><p className="life-kicker">{archived.has(selectedName) ? "Архивирано меню" : "Активно меню"}</p><h2>{selectedName}</h2><p>Всички хранения, варианти, продукти и количества на едно място.</p></div>
         <div className="managed-meal-stats"><div><strong>{Object.keys(selectedData).length}</strong><span>хранения</span></div><div><strong>{totalVariants}</strong><span>варианта</span></div><div><strong>{totalProducts}</strong><span>продукта</span></div></div>
@@ -221,7 +221,7 @@ export function MealMenuManager() {
           {variants.length > 1 ? <details className="meal-plan-alternatives"><summary>Виж всички варианти <span>{variants.length} варианта</span></summary><div className="meal-plan-options">{variants.map((variant, variantIndex) => <button type="button" key={`${meal}-${variantIndex}`} className={variantIndex === selectedVariant ? "selected" : ""} onClick={event => { setPreviewChoices(current => ({ ...current, [choiceKey]: variantIndex })); event.currentTarget.closest("details")?.removeAttribute("open"); }}><span className="meal-plan-radio">{variantIndex === selectedVariant ? "✓" : variantIndex + 1}</span><span><b>Вариант {variantIndex + 1}</b><span className="meal-plan-option-products">{variant.split(" + ").join(" • ")}</span></span></button>)}</div></details> : null}
         </article>;
       })}</div>
-    </> : <p className="calendar-empty">Все още няма менюта. Добави първото си меню.</p>}
+    </> : !creating ? <p className="calendar-empty">Все още няма менюта. Добави първото си меню.</p> : null}
     {creating ? <div className="meal-menu-create managed-meal-editor">
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>
       <label>Име на менюто<input value={name} onChange={event => setName(event.target.value)} placeholder="Например: Меню за почивен ден" maxLength={80} disabled={Boolean(editingName)} /></label>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { BrandLink } from "./brand-link";
 
-export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "workouts" }) {
+export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "shopping" | "workouts" }) {
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -12,6 +12,7 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
     ["calendar", "/calendar", "Календар"],
     ["journal", "/journal", "Дневник"],
     ["nutrition", "/nutrition", "Хранене"],
+    ["shopping", "/shopping-list", "Пазарски списък"],
     ["workouts", "/workouts", "Тренировки"],
   ] as const;
 

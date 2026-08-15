@@ -475,3 +475,17 @@
 .active-exercise-card .active-set-table{border-top:1px solid rgba(167,139,250,.16);background:rgba(5,4,10,.12)}
 .active-exercise-card .active-set-head span:nth-child(2),.active-exercise-card .active-set-head span:nth-child(3){color:#c4b5fd;font-weight:800}
 @media(max-width:540px){.active-exercise-toggle{grid-template-columns:30px minmax(0,1fr) auto 16px;padding:10px 9px}.active-exercise-card .active-set-head{font-size:6px}}
+
+
+/* Active workout panel layout correction */
+.active-workout-panel{display:flex;flex-direction:column;width:min(620px,calc(100vw - 36px));max-height:min(820px,calc(100svh - 36px))}
+.active-workout-panel>header,.active-rest-timer,.active-workout-progress,.active-workout-message,.active-workout-panel>footer{flex:0 0 auto}
+.active-workout-panel>header{padding:18px 20px}
+.active-workout-panel>header .life-kicker{margin-bottom:9px}
+.active-workout-progress{margin-top:13px}
+.active-workout-exercises{flex:1 1 auto;min-height:150px;padding-top:10px}
+.active-exercise-toggle{min-height:78px}
+.active-workout-panel>footer{grid-template-columns:92px 108px minmax(180px,1fr);padding:11px 14px}
+.active-workout-panel>footer button{min-height:42px;padding:0 9px}
+@media(max-width:820px){.active-workout-panel{top:8px;right:8px;bottom:8px;width:calc(100% - 16px);max-height:calc(100svh - 16px);border-radius:22px}.active-workout-panel>header{padding:15px 16px}.active-workout-panel>header h2{font-size:26px}.active-workout-exercises{padding:9px 10px 14px}.active-exercise-toggle{min-height:72px}.active-workout-panel>footer{grid-template-columns:82px 96px minmax(150px,1fr);padding:9px 10px calc(9px + env(safe-area-inset-bottom))}.active-workout-panel>footer button.finish{grid-column:auto}}
+@media(max-width:480px){.active-workout-panel>header h2{font-size:23px}.active-workout-panel>header>div>span{margin-top:6px}.active-exercise-toggle{grid-template-columns:29px minmax(0,1fr) auto 15px;gap:7px;padding:9px 8px}.active-set-table{padding-right:7px;padding-left:7px}.active-set-head,.active-set-table>div:not(.active-set-head){grid-template-columns:38px minmax(0,1fr) minmax(0,1fr) 44px;gap:5px}.active-workout-panel>footer{grid-template-columns:68px 82px minmax(120px,1fr);gap:5px}.active-workout-panel>footer button{padding:0 5px;font-size:8px}}

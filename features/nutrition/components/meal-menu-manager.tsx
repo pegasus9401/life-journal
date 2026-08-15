@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { mealNames } from "../meal-data";
-import { getMenuLibrary, getMenuNutrition, type MealMenu, type MealMenuSettings, type MenuNutrition, type NutritionValues } from "../menu-library";
+import { getMenuLibrary, getMenuNutrition, orderedMealEntries, type MealMenu, type MealMenuSettings, type MenuNutrition, type NutritionValues } from "../menu-library";
 
 const emptyMeals = (): MealMenu => Object.fromEntries(mealNames.map(meal => [meal, [""]]));
 
@@ -174,7 +174,7 @@ export function MealMenuManager() {
 
   const saveMenu = async () => {
     const cleanName = name.trim();
-    const cleanMenu = Object.fromEntries(Object.entries(meals).map(([meal, variants]) => [meal, variants.map(value => variantProducts(value).filter(Boolean).join(" + ")).filter(Boolean)]));
+    const cleanMenu = Object.fromEntries(orderedMealEntries(meals).map(([meal, variants]) => [meal, variants.map(value => variantProducts(value).filter(Boolean).join(" + ")).filter(Boolean)]));
     if (!cleanName) { setMessage("Въведи име на менюто."); return; }
     if (!editingName && library[cleanName]) { setMessage("Вече има меню с това име."); return; }
     if (Object.values(cleanMenu).some(variants => variants.length === 0)) { setMessage("Добави поне един вариант за всяко хранене."); return; }
@@ -228,7 +228,7 @@ export function MealMenuManager() {
         <div className="managed-meal-stats managed-meal-macros"><div><strong>{selectedNutrition.kcal}</strong><span>kcal / ден</span></div><div><strong>{selectedNutrition.protein} г</strong><span>Протеин</span></div><div><strong>{selectedNutrition.carbs} г</strong><span>Въглехидрати</span></div><div><strong>{selectedNutrition.fat} г</strong><span>Мазнини</span></div></div>
         <div className="meal-menu-actions managed-meal-actions"><button className="edit" type="button" onClick={() => startEditing(selectedName)}>Редактирай менюто</button><button type="button" onClick={() => toggleArchive(selectedName)}>{archived.has(selectedName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(selectedName)}>Изтрий</button></div>
       </article>
-      <div className="meal-plan-list managed-meal-details">{Object.entries(selectedData).map(([meal, variants]) => {
+      <div className="meal-plan-list managed-meal-details">{orderedMealEntries(selectedData).map(([meal, variants]) => {
         const choiceKey = `${selectedName}-${meal}`;
         const selectedVariant = Math.min(previewChoices[choiceKey] ?? 0, variants.length - 1);
         const selectedProducts = variants[selectedVariant].split(" + ");

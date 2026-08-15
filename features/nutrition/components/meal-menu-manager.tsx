@@ -70,6 +70,7 @@ export function MealMenuManager() {
   const [message, setMessage] = useState("");
   const [activeUnitField, setActiveUnitField] = useState<string | null>(null);
   const [unitDrafts, setUnitDrafts] = useState<Record<string, string>>({});
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const library = useMemo(() => getMenuLibrary(settings), [settings]);
   const archived = new Set(settings.archived_meal_menus ?? []);
 
@@ -227,7 +228,20 @@ export function MealMenuManager() {
       </section>)}</div>
       <button className="primary-button" type="button" onClick={saveMenu}>{editingName ? "Запази промените" : "Запази новото меню"}</button>
     </div> : null}
-    <div className="meal-menu-admin-list">{Object.keys(library).map(menuName => <article key={menuName} className={archived.has(menuName) ? "is-archived" : ""}><div><strong>{menuName}</strong><span>{archived.has(menuName) ? "Архивирано" : "Активно"}</span></div><div><button type="button" onClick={() => startEditing(menuName)}>Редактирай</button><button type="button" onClick={() => toggleArchive(menuName)}>{archived.has(menuName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(menuName)}>Изтрий</button></div></article>)}</div>
+    <div className="meal-menu-admin-list">{Object.keys(library).map(menuName => {
+      const isExpanded = expandedMenu === menuName;
+      const menu = library[menuName];
+      return <article key={menuName} className={`${archived.has(menuName) ? "is-archived" : ""} ${isExpanded ? "is-expanded" : ""}`}>
+        <button className="meal-menu-accordion-trigger" type="button" onClick={() => setExpandedMenu(isExpanded ? null : menuName)} aria-expanded={isExpanded}>
+          <span><strong>{menuName}</strong><small>{archived.has(menuName) ? "Архивирано" : "Активно"}</small></span>
+          <b aria-hidden="true">⌄</b>
+        </button>
+        {isExpanded ? <div className="meal-menu-accordion-content">
+          <div className="meal-menu-summary-list">{Object.entries(menu).map(([meal, variants]) => <div key={meal}><span>{meal}</span><b>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</b></div>)}</div>
+          <div className="meal-menu-actions"><button type="button" onClick={() => startEditing(menuName)}>Редактирай</button><button type="button" onClick={() => toggleArchive(menuName)}>{archived.has(menuName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(menuName)}>Изтрий</button></div>
+        </div> : null}
+      </article>;
+    })}</div>
     {message ? <p className={`form-message ${message.startsWith("✓") ? "is-success" : message.startsWith("Грешка") ? "is-error" : ""}`}>{message}</p> : null}
   </section>;
 }

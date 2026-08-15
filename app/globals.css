@@ -175,3 +175,17 @@
 
 
 .meal-plan-option-products{display:block;color:var(--life-muted);font-size:10px;line-height:1.45}
+
+
+/* Menu calories and macro nutrients */
+.managed-meal-macros{grid-template-columns:repeat(4,minmax(92px,1fr))}
+.managed-meal-macros>div{min-width:92px;padding:0 14px}
+.managed-meal-macros strong{font-size:24px}
+.nutrition-values-editor{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0;padding:14px;border:1px solid rgba(167,139,250,.16);border-radius:14px}
+.nutrition-values-editor legend{padding:0 7px;color:var(--life-accent);font-size:10px;font-weight:750}
+.nutrition-values-editor label{display:grid;gap:6px;color:var(--life-muted);font-size:9px}
+.nutrition-values-editor input{width:100%;min-height:42px;padding:9px 10px;border:1px solid var(--life-line);border-radius:10px;color:var(--life-ink);background:#201d2e}
+.meal-nutrition-values{padding:10px}
+.meal-plan-card-header .meal-plan-card-macros{flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:900px){.managed-meal-macros{grid-column:1/-1;border-top:1px solid var(--life-line);border-left:0}.managed-meal-macros>div{padding:15px 7px}.nutrition-values-editor{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.managed-meal-macros{grid-template-columns:repeat(2,minmax(0,1fr))}.managed-meal-macros>div:nth-child(2){border-right:0}.nutrition-values-editor{grid-template-columns:1fr}}

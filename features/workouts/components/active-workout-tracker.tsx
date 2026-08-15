@@ -83,6 +83,42 @@ function localDateKey() {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 }
 
+function ActiveExerciseTracker({
+  exercise,
+  exerciseIndex,
+  updateSet,
+  toggleSet,
+  addSet,
+}: {
+  exercise: ActiveExercise;
+  exerciseIndex: number;
+  updateSet: (exerciseId: string, index: number, patch: Partial<SetResult>) => void;
+  toggleSet: (exercise: ActiveExercise, index: number) => void;
+  addSet: (exerciseId: string, targetReps: string) => void;
+}) {
+  const [open, setOpen] = useState(exerciseIndex === 0);
+  const exerciseDone = exercise.results.filter((result) => result.done).length;
+
+  return <article className={`active-exercise-card ${open ? "is-open" : ""}`}>
+    <button className="active-exercise-toggle" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+      <span>{String(exerciseIndex + 1).padStart(2, "0")}</span>
+      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · {exercise.restSeconds} сек. почивка</p></div>
+      <b>{exerciseDone}/{exercise.results.length}</b>
+      <i aria-hidden="true">⌄</i>
+    </button>
+    {open ? <div className="active-set-table">
+      <div className="active-set-head"><span>Серия</span><span>Килограми</span><span>Повторения</span><span>Готово</span></div>
+      {exercise.results.map((result, index) => <div className={result.done ? "is-done" : ""} key={index}>
+        <b>{index + 1}</b>
+        <input aria-label={`Тежест за серия ${index + 1} на ${exercise.name}`} inputMode="decimal" value={result.weight} onChange={(event) => updateSet(exercise.id, index, { weight: event.target.value })} placeholder="кг" />
+        <input aria-label={`Повторения за серия ${index + 1} на ${exercise.name}`} inputMode="numeric" value={result.reps} onChange={(event) => updateSet(exercise.id, index, { reps: event.target.value })} placeholder={exercise.reps} />
+        <button type="button" aria-label={result.done ? "Отбележи серията като незавършена" : "Завърши серията и започни почивката"} aria-pressed={result.done} onClick={() => toggleSet(exercise, index)}>{result.done ? "✓" : "○"}</button>
+      </div>)}
+      <button className="active-add-set" type="button" onClick={() => addSet(exercise.id, exercise.reps)}>＋ Добави серия</button>
+    </div> : null}
+  </article>;
+}
+
 export function ActiveWorkoutTracker() {
   const router = useRouter();
   const [active, setActive] = useState<ActiveWorkout | null>(null);
@@ -290,22 +326,14 @@ export function ActiveWorkoutTracker() {
       {message ? <p className="active-workout-message">{message}</p> : null}
 
       <div className="active-workout-exercises">
-        {active.exercises.map((exercise, exerciseIndex) => {
-          const exerciseDone = exercise.results.filter((result) => result.done).length;
-          return <details key={exercise.id}>
-            <summary><span>{String(exerciseIndex + 1).padStart(2, "0")}</span><div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · {exercise.restSeconds} сек. почивка</p></div><b>{exerciseDone}/{exercise.results.length}</b></summary>
-            <div className="active-set-table">
-              <div className="active-set-head"><span>Серия</span><span>Кг</span><span>Повторения</span><span>Готово</span></div>
-              {exercise.results.map((result, index) => <div className={result.done ? "is-done" : ""} key={index}>
-                <b>{index + 1}</b>
-                <input aria-label={`Тежест за серия ${index + 1} на ${exercise.name}`} inputMode="decimal" value={result.weight} onChange={(event) => updateSet(exercise.id, index, { weight: event.target.value })} placeholder="0" />
-                <input aria-label={`Повторения за серия ${index + 1} на ${exercise.name}`} inputMode="numeric" value={result.reps} onChange={(event) => updateSet(exercise.id, index, { reps: event.target.value })} placeholder={exercise.reps} />
-                <button type="button" aria-label={result.done ? "Отбележи серията като незавършена" : "Завърши серията и започни почивката"} aria-pressed={result.done} onClick={() => toggleSet(exercise, index)}>{result.done ? "✓" : "○"}</button>
-              </div>)}
-              <button className="active-add-set" type="button" onClick={() => addSet(exercise.id, exercise.reps)}>＋ Добави серия</button>
-            </div>
-          </details>;
-        })}
+        {active.exercises.map((exercise, exerciseIndex) => <ActiveExerciseTracker
+          key={exercise.id}
+          exercise={exercise}
+          exerciseIndex={exerciseIndex}
+          updateSet={updateSet}
+          toggleSet={toggleSet}
+          addSet={addSet}
+        />)}
       </div>
 
       <footer><button type="button" onClick={cancelWorkout}>Прекрати</button><button type="button" onClick={() => setExpanded(false)}>Минимизирай</button><button className="finish" type="button" onClick={finishWorkout} disabled={finishing}>{finishing ? "Запазване…" : "Приключи тренировката"}</button></footer>

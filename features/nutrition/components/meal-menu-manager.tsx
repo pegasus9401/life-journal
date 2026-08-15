@@ -68,6 +68,7 @@ export function MealMenuManager() {
   const [creating, setCreating] = useState(false);
   const [editingName, setEditingName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [activeUnitField, setActiveUnitField] = useState<string | null>(null);
   const library = useMemo(() => getMenuLibrary(settings), [settings]);
   const archived = new Set(settings.archived_meal_menus ?? []);
 
@@ -125,6 +126,14 @@ export function MealMenuManager() {
   const removeProduct = (meal: string, variantIndex: number, productIndex: number) => {
     const products = variantProducts(meals[meal][variantIndex]).filter((_, index) => index !== productIndex);
     updateVariant(meal, variantIndex, products.join(" + "));
+  };
+
+  const unitSuggestions = (query: string) => {
+    const normalized = query.trim().toLocaleLowerCase("bg-BG");
+    return measurementUnits
+      .filter(([value]) => value)
+      .filter(([value, label]) => !normalized || value.toLocaleLowerCase("bg-BG").includes(normalized) || label.toLocaleLowerCase("bg-BG").includes(normalized))
+      .slice(0, 8);
   };
 
   const addVariant = (meal: string) => {
@@ -189,7 +198,6 @@ export function MealMenuManager() {
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>
       <label>Име на менюто<input value={name} onChange={event => setName(event.target.value)} placeholder="Например: Меню за почивен ден" maxLength={80} disabled={Boolean(editingName)} /></label>
       <p>Всеки вариант и всеки продукт са на отделен ред.</p>
-      <datalist id="meal-measurement-units">{measurementUnits.filter(([value]) => value).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</datalist>
       <div className="meal-menu-fields">{mealNames.map(meal => <section className="meal-variants-editor" key={meal}>
         <header><strong>{meal}</strong><span>{meals[meal].length} {meals[meal].length === 1 ? "вариант" : "варианта"}</span></header>
         <div className="meal-variant-list">{meals[meal].map((variant, index) => <div className="meal-variant-row" key={index}>
@@ -200,7 +208,10 @@ export function MealMenuManager() {
               return <div className="meal-product-row" key={productIndex}>
                 <input className="product-name-input" value={parts.name} onChange={event => updateProductField(meal, index, productIndex, "name", event.target.value)} placeholder="Продукт" />
                 <input className="product-amount-input" type="number" min="0" step="any" inputMode="decimal" value={parts.amount} onChange={event => updateProductField(meal, index, productIndex, "amount", event.target.value)} placeholder="Количество" />
-                <input className="product-unit-input" list="meal-measurement-units" value={parts.unit} onChange={event => updateProductField(meal, index, productIndex, "unit", event.target.value)} placeholder="Мерна единица" aria-label={`Мерна единица за продукт ${productIndex + 1}`} />
+                <div className="product-unit-combobox">
+                  <input className="product-unit-input" value={parts.unit} onFocus={() => setActiveUnitField(`${meal}-${index}-${productIndex}`)} onChange={event => { updateProductField(meal, index, productIndex, "unit", event.target.value); setActiveUnitField(`${meal}-${index}-${productIndex}`); }} onKeyDown={event => { if (event.key === "Escape") setActiveUnitField(null); }} placeholder="Мерна единица" autoComplete="off" aria-label={`Мерна единица за продукт ${productIndex + 1}`} aria-expanded={activeUnitField === `${meal}-${index}-${productIndex}`} />
+                  {activeUnitField === `${meal}-${index}-${productIndex}` ? <div className="product-unit-suggestions">{unitSuggestions(parts.unit).length ? unitSuggestions(parts.unit).map(([value, label]) => <button type="button" key={value} onMouseDown={event => event.preventDefault()} onClick={() => { updateProductField(meal, index, productIndex, "unit", value); setActiveUnitField(null); }}><strong>{value}</strong><span>{label}</span></button>) : <p>Няма предложение — можеш да използваш въведения текст.</p>}</div> : null}
+                </div>
                 <button type="button" onClick={() => removeProduct(meal, index, productIndex)} disabled={products.length === 1} aria-label={`Премахни продукт ${productIndex + 1}`}>Премахни</button>
               </div>;
             })}

@@ -1,7 +1,8 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { aggregateCalendarItems } from "./domain/aggregation";
-import type { BirthdayRow, CalendarEventRow, TaskRow } from "./types";
+import type { BirthdayRow, CalendarEventRow, CalendarItem, TaskRow } from "./types";
+import type { WorkoutSession } from "@/features/workouts/types";
 
 export const getCalendarData = cache(async (rangeStart: string, rangeEnd: string) => {
   const supabase = await createClient();
@@ -9,20 +10,42 @@ export const getCalendarData = cache(async (rangeStart: string, rangeEnd: string
   if (!user) return null;
   const rangeStartIso = `${rangeStart}T00:00:00.000Z`;
   const rangeEndIso = `${rangeEnd}T23:59:59.999Z`;
-  const [oneTimeEvents, recurringEvents, datedTasks, recurringTasks, birthdays] = await Promise.all([
+  const [oneTimeEvents, recurringEvents, datedTasks, recurringTasks, birthdays, workoutSessions] = await Promise.all([
     supabase.from("calendar_events").select("*").eq("recurrence_kind", "none").or(`and(all_day.eq.true,start_date.lte.${rangeEnd},end_date.gte.${rangeStart}),and(all_day.eq.false,starts_at.lte.${rangeEndIso},ends_at.gte.${rangeStartIso})`),
     supabase.from("calendar_events").select("*").neq("recurrence_kind", "none").or(`start_date.lte.${rangeEnd},starts_at.lte.${rangeEndIso}`).or(`recurrence_end.is.null,recurrence_end.gte.${rangeStart}`),
     supabase.from("tasks").select("*").eq("recurrence_kind", "none").gte("due_date", rangeStart).lte("due_date", rangeEnd),
     supabase.from("tasks").select("*").neq("recurrence_kind", "none").lte("due_date", rangeEnd).or(`recurrence_end.is.null,recurrence_end.gte.${rangeStart}`),
     supabase.from("birthdays").select("*"),
+    supabase.from("workout_sessions").select("*").gte("workout_date", rangeStart).lte("workout_date", rangeEnd).order("workout_date"),
   ]);
-  const error = [oneTimeEvents.error, recurringEvents.error, datedTasks.error, recurringTasks.error, birthdays.error].find(Boolean);
+  const error = [oneTimeEvents.error, recurringEvents.error, datedTasks.error, recurringTasks.error, birthdays.error, workoutSessions.error].find(Boolean);
   if (error) throw new Error(`Календарът не можа да се зареди: ${error.message}`);
   const events = [...(oneTimeEvents.data ?? []), ...(recurringEvents.data ?? [])] as CalendarEventRow[];
   const tasks = [...(datedTasks.data ?? []), ...(recurringTasks.data ?? [])] as TaskRow[];
+  const sessions = (workoutSessions.data ?? []) as WorkoutSession[];
+  const completedWorkoutItems: CalendarItem[] = sessions.map((session) => ({
+    id: `workout-${session.id}`,
+    type: "workout",
+    sourceId: session.id,
+    sourceType: "workout_session",
+    title: session.title,
+    date: session.workout_date,
+    allDay: true,
+    completed: session.completed,
+    category: "Тренировка",
+    color: "#8b5cf6",
+  }));
+  const items = [
+    ...aggregateCalendarItems(events, tasks, (birthdays.data ?? []) as BirthdayRow[], rangeStart, rangeEnd),
+    ...completedWorkoutItems,
+  ].sort((left, right) => left.date.localeCompare(right.date) || left.title.localeCompare(right.title, "bg"));
+
   return {
-    items: aggregateCalendarItems(events, tasks, (birthdays.data ?? []) as BirthdayRow[], rangeStart, rangeEnd),
-    events, tasks, birthdays: (birthdays.data ?? []) as BirthdayRow[],
+    items,
+    events,
+    tasks,
+    birthdays: (birthdays.data ?? []) as BirthdayRow[],
+    workoutSessions: sessions,
   };
 });
 

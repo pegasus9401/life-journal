@@ -31,12 +31,26 @@ const measurementUnits = [
 
 type ProductParts = { name: string; amount: string; unit: string };
 
+function normalizeAmount(value: string) {
+  if (value.includes("/")) {
+    const [left, right] = value.split("/").map(Number);
+    return right ? String(left / right) : value;
+  }
+  return value.replace(",", ".");
+}
+
+function normalizeUnit(value: string) {
+  const unit = value.trim().toLocaleLowerCase("bg-BG");
+  const aliases: Record<string, string> = { "гр": "г", "грама": "г", "kg": "кг", "ml": "мл", "бр.": "бр", "брой": "бр", "дози": "доза", "порции": "порция", "пакета": "пакет", "филии": "филия", "резена": "резен", "кутии": "кутия", "бутилки": "бутилка", "консерви": "консерва" };
+  return aliases[unit] ?? unit;
+}
+
 function parseProduct(value: string): ProductParts {
   const text = value.trim();
-  const separated = text.match(/^(.*?)\s*-\s*(\d+(?:[.,]\d+)?)\s*(.*)$/);
-  if (separated) return { name: separated[1].trim(), amount: separated[2].replace(",", "."), unit: separated[3].trim() };
+  const separated = text.match(/^(.*?)\s*-\s*(\d+(?:[.,]\d+)?|\d+\/\d+)\s*(.*)$/);
+  if (separated) return { name: separated[1].trim(), amount: normalizeAmount(separated[2]), unit: normalizeUnit(separated[3]) };
   const prefixedCount = text.match(/^(\d+(?:[.,]\d+)?)\s+(.+)$/);
-  if (prefixedCount) return { name: prefixedCount[2].trim(), amount: prefixedCount[1].replace(",", "."), unit: "бр" };
+  if (prefixedCount) return { name: prefixedCount[2].trim(), amount: normalizeAmount(prefixedCount[1]), unit: "бр" };
   return { name: text, amount: "", unit: "" };
 }
 

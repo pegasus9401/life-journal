@@ -126,7 +126,6 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
       {avatarMessage ? <p className={`profile-avatar-message ${avatarMessage.startsWith("✓") ? "is-success" : ""}`}>{avatarMessage}</p> : null}
       <nav className="burger-links" aria-label="Меню">
         {links.map(([key, href, label]) => <Link key={key} className={active === key ? "active" : ""} href={href} onClick={() => setOpen(false)}><span>{label}</span><b>›</b></Link>)}
-        <Link href="/assistant" onClick={() => setOpen(false)}><span>AI Асистент</span><b>›</b></Link>
       </nav>
     </aside>
   </>;

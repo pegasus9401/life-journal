@@ -1,211 +1,279 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useState } from "react";
 
-import { deleteWorkout, saveWorkout, toggleWorkout, type WorkoutActionState } from "../actions";
-import { WORKOUT_TYPE_LABELS, type WorkoutExercise, type WorkoutSession, type WorkoutType } from "../types";
+import { createClient } from "@/lib/supabase/client";
 
-const initialState: WorkoutActionState = { status: "idle", message: "" };
-const workoutTypes = Object.keys(WORKOUT_TYPE_LABELS) as WorkoutType[];
-const muscleGroups = ["Крака", "Гърди", "Гръб", "Рамене", "Ръце", "Корем"];
-
-const FULL_BODY_EXERCISES: WorkoutExercise[] = [
-  { name: "Leg Press - Лег преса", muscle_group: "Крака", sets: 3, reps: "10–12", weight: 0, rest_seconds: 90 },
-  { name: "Seated Leg Curl - Задно бедро", muscle_group: "Крака", sets: 3, reps: "10–12", weight: 0, rest_seconds: 75 },
-  { name: "Chest Press - Преса за гърди", muscle_group: "Гърди", sets: 3, reps: "8–12", weight: 0, rest_seconds: 90 },
-  { name: "Lat Pulldown - Скрипец пред гърди", muscle_group: "Гръб", sets: 3, reps: "8–12", weight: 0, rest_seconds: 90 },
-  { name: "Seated Row - Гребане на машина", muscle_group: "Гръб", sets: 3, reps: "8–12", weight: 0, rest_seconds: 90 },
-  { name: "Shoulder Press - Раменна преса", muscle_group: "Рамене", sets: 3, reps: "8–12", weight: 0, rest_seconds: 75 },
-  { name: "Lateral Raise Machine - Странично рамо", muscle_group: "Рамене", sets: 3, reps: "12–15", weight: 0, rest_seconds: 60 },
-  { name: "Biceps Curl Machine - Бицепс", muscle_group: "Ръце", sets: 2, reps: "10–15", weight: 0, rest_seconds: 60 },
-  { name: "Triceps Extension / Press Machine - Трицепс", muscle_group: "Ръце", sets: 2, reps: "10–15", weight: 0, rest_seconds: 60 },
-  { name: "Abdominal Crunch Machine - Корем", muscle_group: "Корем", sets: 3, reps: "12–20", weight: 0, rest_seconds: 60 },
-];
-
-const FULL_BODY_NOTES = `Оставяй 1–2 повторения в резерв. Последните 2–3 повторения трябва да са трудни, но с чисто изпълнение.
-
-Когато направиш максималните повторения във всички серии, увеличи тежестта с една стъпка.`;
-
-const SCHEDULE = [
-  ["Пон", "Full Body"],
-  ["Вто", "Почивка / разходка"],
-  ["Сря", "Full Body"],
-  ["Чет", "Почивка / разходка"],
-  ["Пет", "Full Body"],
-  ["Съб", "Леко кардио"],
-  ["Нед", "Почивка"],
+const DAYS = [
+  { key: "monday", short: "Пон", label: "Понеделник" },
+  { key: "tuesday", short: "Вто", label: "Вторник" },
+  { key: "wednesday", short: "Сря", label: "Сряда" },
+  { key: "thursday", short: "Чет", label: "Четвъртък" },
+  { key: "friday", short: "Пет", label: "Петък" },
+  { key: "saturday", short: "Съб", label: "Събота" },
+  { key: "sunday", short: "Нед", label: "Неделя" },
 ] as const;
 
-function shiftDate(date: string, days: number) {
-  const value = new Date(`${date}T12:00:00`);
-  value.setDate(value.getDate() + days);
-  return value.toISOString().slice(0, 10);
+const MUSCLE_GROUPS = ["Крака", "Гърди", "Гръб", "Рамене", "Ръце", "Корем", "Кардио", "Друго"] as const;
+
+type DayKey = (typeof DAYS)[number]["key"];
+
+type ExerciseTemplate = {
+  id: string;
+  group: string;
+  name: string;
+  sets: number;
+  reps: string;
+  restSeconds: number;
+};
+
+type WorkoutTemplate = {
+  id: string;
+  name: string;
+  durationMinutes: number;
+  days: DayKey[];
+  progression: string;
+  exercises: ExerciseTemplate[];
+};
+
+type SaveState = "idle" | "saving" | "saved" | "error";
+
+const FULL_BODY: WorkoutTemplate = {
+  id: "full-body",
+  name: "Full Body - Цяло тяло",
+  durationMinutes: 60,
+  days: ["monday", "wednesday", "friday"],
+  progression: "Оставяй 1–2 повторения в резерв. Последните 2–3 повторения трябва да са трудни, но с чисто изпълнение. Когато направиш максималните повторения във всички серии, увеличи тежестта с една стъпка.",
+  exercises: [
+    { id: "full-body-1", group: "Крака", name: "Leg Press - Лег преса", sets: 3, reps: "10–12", restSeconds: 90 },
+    { id: "full-body-2", group: "Крака", name: "Seated Leg Curl - Задно бедро", sets: 3, reps: "10–12", restSeconds: 75 },
+    { id: "full-body-3", group: "Гърди", name: "Chest Press - Преса за гърди", sets: 3, reps: "8–12", restSeconds: 90 },
+    { id: "full-body-4", group: "Гръб", name: "Lat Pulldown - Скрипец пред гърди", sets: 3, reps: "8–12", restSeconds: 90 },
+    { id: "full-body-5", group: "Гръб", name: "Seated Row - Гребане на машина", sets: 3, reps: "8–12", restSeconds: 90 },
+    { id: "full-body-6", group: "Рамене", name: "Shoulder Press - Раменна преса", sets: 3, reps: "8–12", restSeconds: 75 },
+    { id: "full-body-7", group: "Рамене", name: "Lateral Raise Machine - Странично рамо", sets: 3, reps: "12–15", restSeconds: 60 },
+    { id: "full-body-8", group: "Ръце", name: "Biceps Curl Machine - Бицепс", sets: 2, reps: "10–15", restSeconds: 60 },
+    { id: "full-body-9", group: "Ръце", name: "Triceps Extension / Press Machine - Трицепс", sets: 2, reps: "10–15", restSeconds: 60 },
+    { id: "full-body-10", group: "Корем", name: "Abdominal Crunch Machine - Корем", sets: 3, reps: "12–20", restSeconds: 60 },
+  ],
+};
+
+function makeId(prefix: string) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function formatDate(date: string) {
-  return new Intl.DateTimeFormat("bg-BG", { weekday: "long", day: "numeric", month: "long" }).format(new Date(`${date}T12:00:00`));
+function blankTemplate(): WorkoutTemplate {
+  return {
+    id: makeId("workout"),
+    name: "Нова тренировка",
+    durationMinutes: 60,
+    days: [],
+    progression: "",
+    exercises: [
+      { id: makeId("exercise"), group: "Друго", name: "", sets: 3, reps: "8–12", restSeconds: 60 },
+    ],
+  };
 }
 
-function numericReps(value: WorkoutExercise["reps"]) {
-  const match = String(value).match(/\d+(?:[.,]\d+)?/);
-  return match ? Number(match[0].replace(",", ".")) : 0;
+function normalizeTemplates(raw: unknown): WorkoutTemplate[] {
+  if (!Array.isArray(raw)) return [FULL_BODY];
+
+  const templates = raw.flatMap((item, templateIndex) => {
+    if (!item || typeof item !== "object") return [];
+    const value = item as Record<string, unknown>;
+    const validDays = Array.isArray(value.days)
+      ? value.days.filter((day): day is DayKey => DAYS.some((option) => option.key === day))
+      : [];
+    const exercises = Array.isArray(value.exercises)
+      ? value.exercises.flatMap((exercise, exerciseIndex) => {
+          if (!exercise || typeof exercise !== "object") return [];
+          const entry = exercise as Record<string, unknown>;
+          return [{
+            id: typeof entry.id === "string" ? entry.id : `exercise-${templateIndex}-${exerciseIndex}`,
+            group: typeof entry.group === "string" ? entry.group : "Друго",
+            name: typeof entry.name === "string" ? entry.name : "",
+            sets: Math.max(1, Number(entry.sets) || 1),
+            reps: typeof entry.reps === "string" ? entry.reps : String(entry.reps ?? "8–12"),
+            restSeconds: Math.max(0, Number(entry.restSeconds) || 0),
+          }];
+        })
+      : [];
+
+    return [{
+      id: typeof value.id === "string" ? value.id : `workout-${templateIndex}`,
+      name: typeof value.name === "string" ? value.name : "Тренировка",
+      durationMinutes: Math.max(0, Number(value.durationMinutes) || 0),
+      days: validDays,
+      progression: typeof value.progression === "string" ? value.progression : "",
+      exercises,
+    }];
+  });
+
+  return templates.length ? templates : [FULL_BODY];
 }
 
-function exerciseVolume(exercise: WorkoutExercise) {
-  return exercise.sets * numericReps(exercise.reps) * exercise.weight;
+function cloneTemplate(template: WorkoutTemplate): WorkoutTemplate {
+  return { ...template, days: [...template.days], exercises: template.exercises.map((exercise) => ({ ...exercise })) };
 }
 
-function workoutVolume(session: WorkoutSession) {
-  return session.exercises.reduce((sum, exercise) => sum + exerciseVolume(exercise), 0);
-}
+function TemplateEditor({ template, onCancel, onSave }: { template: WorkoutTemplate; onCancel: () => void; onSave: (template: WorkoutTemplate) => Promise<void> }) {
+  const [draft, setDraft] = useState(() => cloneTemplate(template));
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-function initialExercises(session: WorkoutSession | null, preset: boolean) {
-  const source = session?.exercises ?? (preset ? FULL_BODY_EXERCISES : []);
-  return source.map((exercise) => ({
-    ...exercise,
-    reps: String(exercise.reps),
-    rest_seconds: exercise.rest_seconds ?? 0,
-    muscle_group: exercise.muscle_group ?? "",
-  }));
-}
+  const updateExercise = (id: string, patch: Partial<ExerciseTemplate>) => {
+    setDraft((current) => ({
+      ...current,
+      exercises: current.exercises.map((exercise) => exercise.id === id ? { ...exercise, ...patch } : exercise),
+    }));
+  };
 
-function WorkoutForm({ date, session, preset, onClose }: { date: string; session: WorkoutSession | null; preset: boolean; onClose: () => void }) {
-  const router = useRouter();
-  const [state, action, pending] = useActionState(saveWorkout, initialState);
-  const [exercises, setExercises] = useState<WorkoutExercise[]>(() => initialExercises(session, preset));
+  const toggleDay = (day: DayKey) => {
+    setDraft((current) => ({
+      ...current,
+      days: current.days.includes(day) ? current.days.filter((value) => value !== day) : [...current.days, day],
+    }));
+  };
 
-  useEffect(() => {
-    if (state.status === "success") {
-      router.refresh();
-      const timer = setTimeout(onClose, 350);
-      return () => clearTimeout(timer);
+  const save = async () => {
+    if (!draft.name.trim()) {
+      setError("Добави име на тренировката.");
+      return;
     }
-  }, [state, router, onClose]);
+    if (draft.exercises.some((exercise) => !exercise.name.trim())) {
+      setError("Всяко упражнение трябва да има име.");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    await onSave({ ...draft, name: draft.name.trim(), exercises: draft.exercises.map((exercise) => ({ ...exercise, name: exercise.name.trim() })) });
+    setSaving(false);
+  };
 
-  function updateExercise(index: number, field: keyof WorkoutExercise, raw: string) {
-    const textFields: (keyof WorkoutExercise)[] = ["name", "reps", "muscle_group"];
-    setExercises((items) => items.map((item, itemIndex) =>
-      itemIndex === index ? { ...item, [field]: textFields.includes(field) ? raw : Number(raw) } : item,
-    ));
-  }
-
-  return <div className="quick-add-backdrop workout-modal" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-    <section className="quick-add-sheet workout-sheet" role="dialog" aria-modal="true" aria-labelledby="workout-form-title">
-      <header>
-        <div><p className="life-kicker">{preset ? "Full Body шаблон" : "Дневник на движението"}</p><h2 id="workout-form-title">{session ? "Редактирай тренировката" : preset ? "Full Body - Цяло тяло" : "Нова тренировка"}</h2></div>
-        <button type="button" aria-label="Затвори" onClick={onClose}>×</button>
-      </header>
-      <form action={action} className="quick-form workout-form">
-        <input type="hidden" name="id" value={session?.id ?? ""} />
-        <input type="hidden" name="workoutDate" value={date} />
-        <input type="hidden" name="exercises" value={JSON.stringify(exercises)} />
-        <label><span>Име</span><input name="title" autoFocus={!preset} required maxLength={160} defaultValue={session?.title ?? (preset ? "Full Body - Цяло тяло" : "")} placeholder="Напр. Силова тренировка" /></label>
-        <div className="quick-form-row">
-          <label><span>Вид</span><select name="workoutType" defaultValue={session?.workout_type ?? "strength"}>{workoutTypes.map((type) => <option key={type} value={type}>{WORKOUT_TYPE_LABELS[type]}</option>)}</select></label>
-          <label><span>Продължителност (мин)</span><input name="durationMinutes" type="number" min="0" max="1440" required defaultValue={session?.duration_minutes ?? (preset ? 60 : 45)} /></label>
-        </div>
-        <label><span>Изгорени калории</span><input name="caloriesBurned" type="number" min="0" required defaultValue={session?.calories_burned ?? 0} /></label>
-        <fieldset className="workout-exercise-builder">
-          <legend>Упражнения</legend>
-          <div className="workout-exercise-columns" aria-hidden="true"><span>Група</span><span>Упражнение</span><span>Серии</span><span>Повторения</span><span>Кг</span><span>Почивка</span><span /></div>
-          {exercises.map((exercise, index) => <div className="workout-exercise-row" key={index}>
-            <select aria-label={`Мускулна група ${index + 1}`} value={exercise.muscle_group ?? ""} onChange={(event) => updateExercise(index, "muscle_group", event.target.value)}>
-              <option value="">Група</option>
-              {muscleGroups.map((group) => <option key={group} value={group}>{group}</option>)}
-            </select>
-            <input aria-label={`Упражнение ${index + 1}`} value={exercise.name} onChange={(event) => updateExercise(index, "name", event.target.value)} placeholder="Упражнение" />
-            <input aria-label={`Серии ${index + 1}`} type="number" min="0" value={exercise.sets} onChange={(event) => updateExercise(index, "sets", event.target.value)} placeholder="Серии" />
-            <input aria-label={`Повторения ${index + 1}`} value={String(exercise.reps)} onChange={(event) => updateExercise(index, "reps", event.target.value)} placeholder="8–12" />
-            <input aria-label={`Тежест ${index + 1}`} type="number" min="0" step="0.1" value={exercise.weight || ""} onChange={(event) => updateExercise(index, "weight", event.target.value)} placeholder="Кг" />
-            <input aria-label={`Почивка в секунди ${index + 1}`} type="number" min="0" step="5" value={exercise.rest_seconds || ""} onChange={(event) => updateExercise(index, "rest_seconds", event.target.value)} placeholder="Сек." />
-            <button type="button" aria-label={`Премахни упражнение ${index + 1}`} onClick={() => setExercises((items) => items.filter((_, itemIndex) => itemIndex !== index))}>×</button>
-          </div>)}
-          <button className="workout-add-exercise" type="button" onClick={() => setExercises((items) => [...items, { name: "", muscle_group: "", sets: 3, reps: "10", weight: 0, rest_seconds: 60 }])}>＋ Добави упражнение</button>
-        </fieldset>
-        <label><span>Бележки и прогресия</span><textarea name="notes" rows={5} maxLength={3000} defaultValue={session?.notes ?? (preset ? FULL_BODY_NOTES : "")} placeholder="Как се чувстваше?" /></label>
-        <label className="inline-check"><input name="completed" type="checkbox" defaultChecked={session?.completed ?? false} /> Тренировката е завършена</label>
-        <button className="primary-button" disabled={pending}>{pending ? "Запазване…" : "Запази тренировката"}</button>
-        <p className={`form-message ${state.status}`} aria-live="polite">{state.message}</p>
-      </form>
-    </section>
-  </div>;
-}
-
-function FullBodyProgram({ onUse }: { onUse: () => void }) {
-  return <section className="full-body-program">
+  return <section className="workout-library-editor">
     <header>
-      <div><p className="life-kicker">Моят тренировъчен план</p><h2>Full Body <span>Цяло тяло</span></h2><p>Три балансирани тренировки седмично с фокус върху чисто изпълнение и постепенен прогрес.</p></div>
-      <div className="full-body-program-meta"><span><b>3×</b> седмично</span><span><b>~60</b> минути</span><button type="button" onClick={onUse}>＋ Добави за този ден</button></div>
+      <div><p className="life-kicker">Редактиране</p><h2>{draft.name}</h2></div>
+      <button type="button" onClick={onCancel}>Отказ</button>
     </header>
-    <div className="full-body-schedule">
-      {SCHEDULE.map(([day, activity]) => <div className={activity === "Full Body" ? "is-training" : ""} key={day}><b>{day}</b><span>{activity}</span></div>)}
+
+    <div className="workout-library-editor-basics">
+      <label><span>Име на тренировката</span><input value={draft.name} onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))} /></label>
+      <label><span>Продължителност</span><div><input type="number" min="0" value={draft.durationMinutes || ""} onChange={(event) => setDraft((current) => ({ ...current, durationMinutes: Math.max(0, Number(event.target.value) || 0) }))} /><b>минути</b></div></label>
     </div>
-    <details className="full-body-details">
-      <summary><span>Виж всички 10 упражнения</span><b>⌄</b></summary>
-      <div className="full-body-exercise-grid">
-        {FULL_BODY_EXERCISES.map((exercise, index) => <article key={exercise.name}>
-          <span className="full-body-number">{String(index + 1).padStart(2, "0")}</span>
-          <div><small>{exercise.muscle_group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} повторения <i>·</i> Почивка {exercise.rest_seconds} сек.</p></div>
-        </article>)}
-      </div>
-    </details>
-    <aside className="full-body-progression"><span>↗</span><div><strong>Как прогресираш</strong><p>Оставяй 1–2 повторения в резерв. Когато направиш максималните повторения във всички серии с чиста техника, увеличи тежестта с една стъпка.</p></div></aside>
+
+    <fieldset className="workout-library-days">
+      <legend>Дни за тренировка</legend>
+      <div>{DAYS.map((day) => <button className={draft.days.includes(day.key) ? "active" : ""} key={day.key} type="button" onClick={() => toggleDay(day.key)}><b>{day.short}</b><span>{day.label}</span></button>)}</div>
+    </fieldset>
+
+    <div className="workout-library-exercise-editor">
+      <header><div><strong>Упражнения</strong><span>{draft.exercises.length} общо</span></div><button type="button" onClick={() => setDraft((current) => ({ ...current, exercises: [...current.exercises, { id: makeId("exercise"), group: "Друго", name: "", sets: 3, reps: "8–12", restSeconds: 60 }] }))}>＋ Добави упражнение</button></header>
+      <div className="workout-library-editor-labels" aria-hidden="true"><span>Група</span><span>Упражнение</span><span>Серии</span><span>Повторения</span><span>Почивка</span><span /></div>
+      {draft.exercises.map((exercise, index) => <div className="workout-library-exercise-row" key={exercise.id}>
+        <span className="workout-library-row-number">{index + 1}</span>
+        <select aria-label={`Мускулна група за упражнение ${index + 1}`} value={exercise.group} onChange={(event) => updateExercise(exercise.id, { group: event.target.value })}>{MUSCLE_GROUPS.map((group) => <option key={group} value={group}>{group}</option>)}</select>
+        <input aria-label={`Име на упражнение ${index + 1}`} value={exercise.name} onChange={(event) => updateExercise(exercise.id, { name: event.target.value })} placeholder="Име на упражнението" />
+        <input aria-label={`Серии за упражнение ${index + 1}`} type="number" min="1" value={exercise.sets} onChange={(event) => updateExercise(exercise.id, { sets: Math.max(1, Number(event.target.value) || 1) })} />
+        <input aria-label={`Повторения за упражнение ${index + 1}`} value={exercise.reps} onChange={(event) => updateExercise(exercise.id, { reps: event.target.value })} placeholder="8–12" />
+        <div className="workout-library-rest-input"><input aria-label={`Почивка за упражнение ${index + 1}`} type="number" min="0" step="5" value={exercise.restSeconds || ""} onChange={(event) => updateExercise(exercise.id, { restSeconds: Math.max(0, Number(event.target.value) || 0) })} /><b>сек.</b></div>
+        <button type="button" aria-label={`Премахни упражнение ${index + 1}`} onClick={() => setDraft((current) => ({ ...current, exercises: current.exercises.filter((item) => item.id !== exercise.id) }))}>×</button>
+      </div>)}
+    </div>
+
+    <label className="workout-library-progression-editor"><span>Правило за прогресия</span><textarea rows={4} value={draft.progression} onChange={(event) => setDraft((current) => ({ ...current, progression: event.target.value }))} placeholder="Опиши кога се увеличават повторенията или тежестта." /></label>
+    {error ? <p className="workout-library-message is-error">{error}</p> : null}
+    <button className="workout-library-save" type="button" onClick={save} disabled={saving}>{saving ? "Запазване…" : "Запази тренировката"}</button>
   </section>;
 }
 
-export function WorkoutExperience({ date, today, sessions }: { date: string; today: string; sessions: WorkoutSession[] }) {
-  const router = useRouter();
-  const [editor, setEditor] = useState<WorkoutSession | "new" | "full-body" | null>(null);
-  const minutes = sessions.reduce((sum, item) => sum + item.duration_minutes, 0);
-  const calories = sessions.reduce((sum, item) => sum + item.calories_burned, 0);
-  const completedCount = sessions.filter((item) => item.completed).length;
-  const volume = sessions.reduce((total, session) => total + workoutVolume(session), 0);
+function TemplateView({ template, onEdit, onDelete }: { template: WorkoutTemplate; onEdit: () => void; onDelete: () => void }) {
+  const groups = MUSCLE_GROUPS.flatMap((group) => {
+    const exercises = template.exercises.filter((exercise) => exercise.group === group);
+    return exercises.length ? [{ group, exercises }] : [];
+  });
+  const uncategorized = template.exercises.filter((exercise) => !MUSCLE_GROUPS.includes(exercise.group as (typeof MUSCLE_GROUPS)[number]));
+  if (uncategorized.length) groups.push({ group: "Друго", exercises: uncategorized });
 
-  async function remove(session: WorkoutSession) {
-    if (!window.confirm(`Да изтрия ли „${session.title}“?`)) return;
-    await deleteWorkout(session.id);
-    router.refresh();
-  }
-
-  async function toggle(session: WorkoutSession) {
-    await toggleWorkout(session.id, !session.completed);
-    router.refresh();
-  }
-
-  return <>
-    <header className="workout-header">
-      <div>
-        <p className="life-kicker">Движение и сила</p>
-        <h1>Тренировки</h1>
-        <p><strong>{date === today ? "Днес" : formatDate(date)}</strong>{sessions.length ? ` · ${sessions.length} ${sessions.length === 1 ? "тренировка" : "тренировки"}` : " · Денят е готов за движение."}</p>
-      </div>
-      <div className="nutrition-date-controls workout-date-controls">
-        <Link href={`/workouts?date=${shiftDate(date, -1)}`} aria-label="Предишен ден">←</Link>
-        <Link href="/workouts">Днес</Link>
-        <Link href={`/workouts?date=${shiftDate(date, 1)}`} aria-label="Следващ ден">→</Link>
-      </div>
+  return <section className="workout-library-view">
+    <header>
+      <div><p className="life-kicker">Тренировъчна програма</p><h2>{template.name}</h2><p>{template.days.length ? `${template.days.length} пъти седмично` : "Без избрани дни"} · около {template.durationMinutes} минути</p></div>
+      <div><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
     </header>
 
-    <FullBodyProgram onUse={() => setEditor("full-body")} />
+    <div className="workout-library-week">
+      {DAYS.map((day) => <div className={template.days.includes(day.key) ? "is-training" : ""} key={day.key}><b>{day.short}</b><span>{template.days.includes(day.key) ? template.name : "Почивка"}</span></div>)}
+    </div>
 
-    <section className="workout-summary">
-      <article><span>Време</span><strong>{minutes}<small> мин</small></strong></article>
-      <article><span>Калории</span><strong>{calories}<small> kcal</small></strong></article>
-      <article><span>Обем</span><strong>{Math.round(volume).toLocaleString("bg-BG")}<small> кг</small></strong></article>
-      <article><span>Изпълнени</span><strong>{completedCount}<small> / {sessions.length}</small></strong></article>
-      <button className="primary-button" type="button" onClick={() => setEditor("new")}><span>＋</span> Добави друга</button>
-    </section>
+    <div className="workout-library-groups">
+      {groups.map(({ group, exercises }) => <section key={group}>
+        <header><span>{group}</span><b>{exercises.length} {exercises.length === 1 ? "упражнение" : "упражнения"}</b></header>
+        <div>{exercises.map((exercise, index) => <article key={exercise.id}><span>{String(template.exercises.indexOf(exercise) + 1).padStart(2, "0")}</span><div><strong>{exercise.name}</strong><p><b>{exercise.sets}</b> серии <i>×</i> <b>{exercise.reps}</b> повторения <i>·</i> Почивка <b>{exercise.restSeconds} сек.</b></p></div></article>)}</div>
+      </section>)}
+      {!template.exercises.length ? <div className="workout-library-no-exercises">Все още няма добавени упражнения.</div> : null}
+    </div>
 
-    {sessions.length ? <section className="workout-list">{sessions.map((session) => <article className={`workout-card ${session.completed ? "completed" : ""}`} key={session.id}>
-      <header><div><span className={`workout-type type-${session.workout_type}`}>{WORKOUT_TYPE_LABELS[session.workout_type]}</span><h2>{session.title}</h2></div><button className="workout-complete" type="button" aria-label={session.completed ? "Маркирай като незавършена" : "Маркирай като завършена"} onClick={() => toggle(session)}>{session.completed ? "✓" : "○"}</button></header>
-      <div className="workout-card-stats"><span><b>{session.duration_minutes}</b> минути</span><span><b>{session.calories_burned}</b> kcal</span><span><b>{session.exercises.length}</b> упражнения</span><span><b>{Math.round(workoutVolume(session)).toLocaleString("bg-BG")}</b> кг обем</span></div>
-      {session.exercises.length ? <div className="workout-exercises">{session.exercises.map((exercise, index) => <div key={`${exercise.name}-${index}`}><strong>{exercise.muscle_group ? <small>{exercise.muscle_group}</small> : null}{exercise.name}</strong><span>{exercise.sets} × {exercise.reps}{exercise.weight ? ` · ${exercise.weight} кг` : ""}{exercise.rest_seconds ? ` · ${exercise.rest_seconds} сек.` : ""}</span></div>)}</div> : <p className="workout-no-exercises">Няма добавени упражнения.</p>}
-      {session.notes ? <p className="workout-notes">{session.notes}</p> : null}
-      <footer><button type="button" onClick={() => setEditor(session)}>Редактирай</button><button type="button" onClick={() => remove(session)}>Изтрий</button></footer>
-    </article>)}</section> : <section className="workout-empty"><p className="life-kicker">Тренировка за деня</p><h2>Готов ли си за Full Body?</h2><p>Зареди готовия план с всички серии, повторения и почивки. Остава само да въведеш използваните тежести.</p><button className="primary-button" type="button" onClick={() => setEditor("full-body")}><span>＋</span> Зареди Full Body</button></section>}
+    {template.progression ? <aside className="workout-library-progression"><span>↗</span><div><strong>Прогресия</strong><p>{template.progression}</p></div></aside> : null}
+  </section>;
+}
 
-    {editor ? <WorkoutForm date={date} session={editor === "new" || editor === "full-body" ? null : editor} preset={editor === "full-body"} onClose={() => setEditor(null)} /> : null}
-  </>;
+export function WorkoutExperience({ initialTemplates }: { initialTemplates?: unknown }) {
+  const [templates, setTemplates] = useState<WorkoutTemplate[]>(() => normalizeTemplates(initialTemplates));
+  const [selectedId, setSelectedId] = useState(() => normalizeTemplates(initialTemplates)[0]?.id ?? "");
+  const [draft, setDraft] = useState<WorkoutTemplate | null>(null);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [message, setMessage] = useState("");
+
+  const selected = templates.find((template) => template.id === selectedId) ?? templates[0] ?? null;
+
+  const persist = async (next: WorkoutTemplate[]) => {
+    setSaveState("saving");
+    setMessage("Запазване…");
+    const supabase = createClient();
+    const { error } = await supabase.auth.updateUser({ data: { workout_templates: next } });
+    if (error) {
+      setSaveState("error");
+      setMessage(`Тренировките не се запазиха: ${error.message}`);
+      throw error;
+    }
+    setTemplates(next);
+    setSaveState("saved");
+    setMessage("✓ Тренировките са запазени.");
+  };
+
+  const saveTemplate = async (template: WorkoutTemplate) => {
+    const exists = templates.some((item) => item.id === template.id);
+    const next = exists ? templates.map((item) => item.id === template.id ? template : item) : [...templates, template];
+    await persist(next);
+    setSelectedId(template.id);
+    setDraft(null);
+  };
+
+  const deleteTemplate = async (template: WorkoutTemplate) => {
+    if (!window.confirm(`Да изтрия ли „${template.name}“?`)) return;
+    const next = templates.filter((item) => item.id !== template.id);
+    await persist(next);
+    setSelectedId(next[0]?.id ?? "");
+    setDraft(null);
+  };
+
+  const addTemplate = () => {
+    const next = blankTemplate();
+    setSelectedId(next.id);
+    setDraft(next);
+    setSaveState("idle");
+    setMessage("");
+  };
+
+  return <section className="workout-library">
+    <header className="workout-library-header">
+      <div><p className="life-kicker">Моите програми</p><h1>Тренировки</h1><p>Създавай и подреждай тренировъчните си програми. Изпълнението и тежестите не се записват на този екран.</p></div>
+      <button type="button" onClick={addTemplate}>＋ Добави тренировка</button>
+    </header>
+
+    {templates.length ? <nav className="workout-library-tabs" aria-label="Тренировъчни програми">{templates.map((template) => <button className={selected?.id === template.id && !draft ? "active" : ""} key={template.id} type="button" onClick={() => { setSelectedId(template.id); setDraft(null); }}><span>{template.name}</span><small>{template.exercises.length} упражнения</small></button>)}</nav> : null}
+
+    {draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
+
+    {message ? <p className={`workout-library-message ${saveState === "error" ? "is-error" : saveState === "saved" ? "is-success" : ""}`}>{message}</p> : null}
+  </section>;
 }

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { getMenuLibrary, type MealMenuSettings } from "./menu-library";
+import { getMenuLibrary, orderedMealEntries, type MealMenuSettings } from "./menu-library";
 
 export async function saveDailyMealPlan(input: { date: string; menu: string; selections: Record<string, number> }) {
   const supabase = await createClient();
@@ -14,7 +14,7 @@ export async function saveDailyMealPlan(input: { date: string; menu: string; sel
   if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date) || !selectedMenu) return { ok: false, message: "Невалиден или архивиран хранителен план." };
 
   const cleanSelections: Record<string, number> = {};
-  for (const [meal, options] of Object.entries(selectedMenu)) {
+  for (const [meal, options] of orderedMealEntries(selectedMenu)) {
     const selected = Number(input.selections[meal] ?? 0);
     cleanSelections[meal] = Number.isInteger(selected) && selected >= 0 && selected < options.length ? selected : 0;
   }

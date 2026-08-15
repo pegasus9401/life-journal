@@ -356,7 +356,7 @@ export function ActiveWorkoutTracker() {
       <div className="active-workout-dock-stat"><small>{restSeconds ? "Почивка" : "Време"}</small><strong className={restSeconds ? "is-rest" : ""}>{formatTimer(restSeconds || elapsedSeconds)}</strong></div>
       <div className="active-workout-dock-stat"><small>Прогрес</small><strong>{progress}%</strong></div>
       <button className="active-workout-expand" type="button" onClick={() => setExpanded(true)}>Отвори</button>
-    </aside> : <aside className="active-workout-panel" aria-label="Активна тренировка">
+    </aside> : <aside className="active-workout-panel" aria-label="Екран на активната тренировка">
       <header>
         <div><p className="life-kicker">Активна тренировка</p><h2>{active.name}</h2><span>{formatTimer(elapsedSeconds)} · {totals.done}/{totals.all} серии · {Math.round(totals.volume)} кг обем</span></div>
         <div className="active-workout-header-actions">

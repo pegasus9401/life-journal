@@ -203,7 +203,7 @@ export function MealMenuManager() {
   const totalProducts = selectedData ? Object.values(selectedData).flat().reduce((sum, variant) => sum + variant.split(" + ").length, 0) : 0;
 
   return <section className="meal-plan managed-meal-plan">
-    <div className="managed-meal-plan-toolbar"><div><p className="life-kicker">Хранителен режим</p><h2>Моите менюта</h2></div><button className="primary-button" type="button" onClick={openNewMenu}>{creating && !editingName ? "Отказ" : "+ Добави меню"}</button></div>
+    <div className="managed-meal-plan-toolbar"><div><p className="life-kicker">Хранителен режим</p><h2>Моите менюта</h2></div><button className="primary-button" type="button" onClick={creating ? resetEditor : openNewMenu}>{creating ? "Отказ" : "+ Добави меню"}</button></div>
     <div className="meal-plan-tabs managed-meal-tabs" role="tablist" aria-label="Избор на хранително меню">{menuList.map(menuName => <button key={menuName} type="button" role="tab" aria-selected={selectedName === menuName} className={selectedName === menuName ? "active" : ""} onClick={() => { setSelectedMenu(menuName); if (editingName && editingName !== menuName) resetEditor(); }}><span>{menuName}</span><small>{archived.has(menuName) ? "Архивирано" : "Активно"}</small></button>)}</div>
     {!creating && selectedName && selectedData ? <>
       <article className="meal-plan-hero managed-meal-hero">

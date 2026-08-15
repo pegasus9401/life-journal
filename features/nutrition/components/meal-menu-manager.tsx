@@ -54,6 +54,24 @@ export function MealMenuManager() {
     setMeals(current => ({ ...current, [meal]: current[meal].map((variant, variantIndex) => variantIndex === index ? value : variant) }));
   };
 
+  const variantProducts = (variant: string) => variant.split(" + ").map(product => product.trim()).filter(Boolean);
+
+  const updateProduct = (meal: string, variantIndex: number, productIndex: number, value: string) => {
+    const products = variantProducts(meals[meal][variantIndex]);
+    products[productIndex] = value;
+    updateVariant(meal, variantIndex, products.join(" + "));
+  };
+
+  const addProduct = (meal: string, variantIndex: number) => {
+    const products = variantProducts(meals[meal][variantIndex]);
+    updateVariant(meal, variantIndex, [...products, ""].join(" + "));
+  };
+
+  const removeProduct = (meal: string, variantIndex: number, productIndex: number) => {
+    const products = variantProducts(meals[meal][variantIndex]).filter((_, index) => index !== productIndex);
+    updateVariant(meal, variantIndex, products.join(" + "));
+  };
+
   const addVariant = (meal: string) => {
     setMeals(current => ({ ...current, [meal]: [...current[meal], ""] }));
   };
@@ -115,12 +133,19 @@ export function MealMenuManager() {
     {creating ? <div className="meal-menu-create">
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>
       <label>Име на менюто<input value={name} onChange={event => setName(event.target.value)} placeholder="Например: Меню за почивен ден" maxLength={80} disabled={Boolean(editingName)} /></label>
-      <p>Всеки вариант е в отделна кутийка. Продуктите във варианта разделяй с „ + “.</p>
+      <p>Всеки вариант и всеки продукт са на отделен ред.</p>
       <div className="meal-menu-fields">{mealNames.map(meal => <section className="meal-variants-editor" key={meal}>
         <header><strong>{meal}</strong><span>{meals[meal].length} {meals[meal].length === 1 ? "вариант" : "варианта"}</span></header>
         <div className="meal-variant-list">{meals[meal].map((variant, index) => <div className="meal-variant-row" key={index}>
-          <label><span>Вариант {index + 1}</span><textarea value={variant} onChange={event => updateVariant(meal, index, event.target.value)} placeholder="Продукт - количество + продукт - количество" /></label>
-          <button type="button" className="remove-variant" onClick={() => removeVariant(meal, index)} disabled={meals[meal].length === 1} aria-label={`Премахни вариант ${index + 1} от ${meal}`}>Премахни</button>
+          <div className="meal-variant-products">
+            <span className="meal-variant-label">Вариант {index + 1}</span>
+            {(variantProducts(variant).length ? variantProducts(variant) : [""]).map((product, productIndex, products) => <div className="meal-product-row" key={productIndex}>
+              <input value={product} onChange={event => updateProduct(meal, index, productIndex, event.target.value)} placeholder="Продукт - количество" />
+              <button type="button" onClick={() => removeProduct(meal, index, productIndex)} disabled={products.length === 1} aria-label={`Премахни продукт ${productIndex + 1}`}>Премахни</button>
+            </div>)}
+            <button type="button" className="add-product" onClick={() => addProduct(meal, index)}>+ Добави продукт</button>
+          </div>
+          <button type="button" className="remove-variant" onClick={() => removeVariant(meal, index)} disabled={meals[meal].length === 1} aria-label={`Премахни вариант ${index + 1} от ${meal}`}>Премахни варианта</button>
         </div>)}</div>
         <button type="button" className="add-variant" onClick={() => addVariant(meal)}>+ Добави вариант</button>
       </section>)}</div>

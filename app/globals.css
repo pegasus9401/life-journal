@@ -109,3 +109,22 @@
 .product-unit-suggestions button strong{font-size:11px}
 .product-unit-suggestions button span{color:var(--life-muted);font-size:9px}
 .product-unit-suggestions p{margin:0;padding:10px;color:var(--life-muted);font-size:9px;line-height:1.4}
+
+
+/* Collapsible meal menu list */
+.meal-menu-admin-list article{display:block;padding:0;overflow:hidden}
+.meal-menu-accordion-trigger{display:flex;width:100%;min-height:68px;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:0;color:var(--life-ink);background:transparent;text-align:left;cursor:pointer}
+.meal-menu-accordion-trigger>span{display:grid;gap:5px}
+.meal-menu-accordion-trigger strong{font-size:15px}
+.meal-menu-accordion-trigger small{color:var(--life-muted);font-size:10px}
+.meal-menu-accordion-trigger>b{color:var(--life-accent);font-size:24px;font-weight:400;transition:transform .2s}
+.meal-menu-admin-list article.is-expanded .meal-menu-accordion-trigger>b{transform:rotate(180deg)}
+.meal-menu-accordion-content{display:grid;gap:15px;padding:0 16px 16px;border-top:1px solid var(--life-line)}
+.meal-menu-summary-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding-top:14px}
+.meal-menu-summary-list>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border-radius:10px;background:rgba(255,255,255,.025)}
+.meal-menu-summary-list span{color:var(--life-ink)!important;font-size:11px!important}
+.meal-menu-summary-list b{color:var(--life-muted);font-size:9px}
+.meal-menu-actions{display:flex;justify-content:flex-end;gap:7px}
+.meal-menu-actions button{min-height:36px;padding:0 12px;border:1px solid var(--life-line);border-radius:9px;color:var(--life-ink);background:rgba(255,255,255,.04);cursor:pointer;font-size:10px}
+.meal-menu-actions button.danger{border-color:rgba(248,113,113,.25);color:#fca5a5}
+@media(max-width:650px){.meal-menu-summary-list{grid-template-columns:1fr}.meal-menu-actions{display:grid;grid-template-columns:1fr 1fr}.meal-menu-actions .danger{grid-column:1/-1}}

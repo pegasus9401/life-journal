@@ -58,7 +58,7 @@ function formatProduct(product: ProductParts) {
   const name = product.name.trim();
   const amount = product.amount.trim();
   if (!amount) return name;
-  return `${name} - ${amount} ${product.unit || "бр"}`.trim();
+  return `${name} - ${amount}${product.unit.trim() ? ` ${product.unit.trim()}` : ""}`.trim();
 }
 
 export function MealMenuManager() {
@@ -69,6 +69,7 @@ export function MealMenuManager() {
   const [editingName, setEditingName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [activeUnitField, setActiveUnitField] = useState<string | null>(null);
+  const [unitDrafts, setUnitDrafts] = useState<Record<string, string>>({});
   const library = useMemo(() => getMenuLibrary(settings), [settings]);
   const archived = new Set(settings.archived_meal_menus ?? []);
 
@@ -84,6 +85,7 @@ export function MealMenuManager() {
     setMeals(emptyMeals());
     setCreating(false);
     setEditingName(null);
+    setUnitDrafts({});
   };
 
   const openNewMenu = () => {
@@ -205,12 +207,14 @@ export function MealMenuManager() {
             <span className="meal-variant-label">Вариант {index + 1}</span>
             {(variantProducts(variant).length ? variantProducts(variant) : [""]).map((product, productIndex, products) => {
               const parts = parseProduct(product);
+              const unitFieldKey = `${meal}-${index}-${productIndex}`;
+              const unitValue = unitDrafts[unitFieldKey] ?? parts.unit;
               return <div className="meal-product-row" key={productIndex}>
                 <input className="product-name-input" value={parts.name} onChange={event => updateProductField(meal, index, productIndex, "name", event.target.value)} placeholder="Продукт" />
                 <input className="product-amount-input" type="number" min="0" step="any" inputMode="decimal" value={parts.amount} onChange={event => updateProductField(meal, index, productIndex, "amount", event.target.value)} placeholder="Количество" />
                 <div className="product-unit-combobox">
-                  <input className="product-unit-input" value={parts.unit} onFocus={() => setActiveUnitField(`${meal}-${index}-${productIndex}`)} onChange={event => { updateProductField(meal, index, productIndex, "unit", event.target.value); setActiveUnitField(`${meal}-${index}-${productIndex}`); }} onKeyDown={event => { if (event.key === "Escape") setActiveUnitField(null); }} onBlur={() => window.setTimeout(() => setActiveUnitField(null), 120)} placeholder="Мерна единица" autoComplete="off" aria-label={`Мерна единица за продукт ${productIndex + 1}`} aria-expanded={activeUnitField === `${meal}-${index}-${productIndex}`} />
-                  {activeUnitField === `${meal}-${index}-${productIndex}` ? <div className="product-unit-suggestions">{unitSuggestions(parts.unit).length ? unitSuggestions(parts.unit).map(([value, label]) => <button type="button" key={value} onMouseDown={event => event.preventDefault()} onClick={() => { updateProductField(meal, index, productIndex, "unit", value); setActiveUnitField(null); }}><strong>{value}</strong><span>{label}</span></button>) : <p>Няма предложение — можеш да използваш въведения текст.</p>}</div> : null}
+                  <input className="product-unit-input" value={unitValue} onFocus={() => { setUnitDrafts(current => ({ ...current, [unitFieldKey]: unitValue })); setActiveUnitField(unitFieldKey); }} onChange={event => { const value = event.target.value; setUnitDrafts(current => ({ ...current, [unitFieldKey]: value })); updateProductField(meal, index, productIndex, "unit", value); setActiveUnitField(unitFieldKey); }} onKeyDown={event => { if (event.key === "Escape") setActiveUnitField(null); }} onBlur={() => window.setTimeout(() => setActiveUnitField(null), 120)} placeholder="Мерна единица" autoComplete="off" aria-label={`Мерна единица за продукт ${productIndex + 1}`} aria-expanded={activeUnitField === unitFieldKey} />
+                  {activeUnitField === unitFieldKey ? <div className="product-unit-suggestions">{unitSuggestions(unitValue).length ? unitSuggestions(unitValue).map(([value, label]) => <button type="button" key={value} onMouseDown={event => event.preventDefault()} onClick={() => { setUnitDrafts(current => ({ ...current, [unitFieldKey]: value })); updateProductField(meal, index, productIndex, "unit", value); setActiveUnitField(null); }}><strong>{value}</strong><span>{label}</span></button>) : <p>Няма предложение — можеш да използваш въведения текст.</p>}</div> : null}
                 </div>
                 <button type="button" onClick={() => removeProduct(meal, index, productIndex)} disabled={products.length === 1} aria-label={`Премахни продукт ${productIndex + 1}`}>Премахни</button>
               </div>;

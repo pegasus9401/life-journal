@@ -27,6 +27,7 @@ type SetResult = {
   reps: string;
   weight: string;
   done: boolean;
+  previous?: string;
 };
 
 type ActiveExercise = StartExercise & {
@@ -48,7 +49,28 @@ function resultReps(target: string) {
   return matches?.at(-1)?.replace(",", ".") ?? "";
 }
 
-function createActiveWorkout(template: StartWorkoutDetail): ActiveWorkout {
+function previousSets(raw: unknown, exerciseName: string) {
+  if (!Array.isArray(raw)) return [] as string[];
+  const previous = raw.find((item) => item && typeof item === "object" && (item as { name?: unknown }).name === exerciseName) as { set_results?: unknown; sets?: unknown; reps?: unknown; weight?: unknown } | undefined;
+  if (!previous) return [] as string[];
+
+  if (Array.isArray(previous.set_results)) {
+    return previous.set_results.map((item) => {
+      if (!item || typeof item !== "object") return "—";
+      const value = item as { weight?: unknown; reps?: unknown };
+      const weight = Number(value.weight) || 0;
+      const reps = Number(value.reps) || 0;
+      return weight ? `${weight} кг × ${reps}` : `${reps} повторения`;
+    });
+  }
+
+  const sets = Math.max(0, Number(previous.sets) || 0);
+  const reps = String(previous.reps ?? "—").split("/").map((value) => value.trim());
+  const weight = Number(previous.weight) || 0;
+  return Array.from({ length: sets }, (_, index) => weight ? `${weight} кг × ${reps[index] ?? reps[0] ?? "—"}` : `${reps[index] ?? reps[0] ?? "—"} повторения`);
+}
+
+function createActiveWorkout(template: StartWorkoutDetail, previousExercises?: unknown): ActiveWorkout {
   return {
     version: 1,
     id: `active-${Date.now()}`,
@@ -56,14 +78,18 @@ function createActiveWorkout(template: StartWorkoutDetail): ActiveWorkout {
     name: template.name,
     startedAt: new Date().toISOString(),
     restEndsAt: null,
-    exercises: template.exercises.map((exercise) => ({
-      ...exercise,
-      results: Array.from({ length: Math.max(1, exercise.sets) }, () => ({
-        reps: resultReps(exercise.reps),
-        weight: "",
-        done: false,
-      })),
-    })),
+    exercises: template.exercises.map((exercise) => {
+      const previous = previousSets(previousExercises, exercise.name);
+      return {
+        ...exercise,
+        results: Array.from({ length: Math.max(1, exercise.sets) }, (_, index) => ({
+          reps: resultReps(exercise.reps),
+          weight: "",
+          done: false,
+          previous: previous[index],
+        })),
+      };
+    }),
   };
 }
 
@@ -96,26 +122,25 @@ function ActiveExerciseTracker({
   toggleSet: (exercise: ActiveExercise, index: number) => void;
   addSet: (exerciseId: string, targetReps: string) => void;
 }) {
-  const [open, setOpen] = useState(exerciseIndex === 0);
   const exerciseDone = exercise.results.filter((result) => result.done).length;
 
-  return <article className={`active-exercise-card ${open ? "is-open" : ""}`}>
-    <button className="active-exercise-toggle" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+  return <article className="active-exercise-card is-open">
+    <header className="active-exercise-heading">
       <span>{String(exerciseIndex + 1).padStart(2, "0")}</span>
-      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · {exercise.restSeconds} сек. почивка</p></div>
+      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · почивка {exercise.restSeconds} сек.</p></div>
       <b>{exerciseDone}/{exercise.results.length}</b>
-      <i aria-hidden="true">⌄</i>
-    </button>
-    {open ? <div className="active-set-table">
-      <div className="active-set-head"><span>Серия</span><span>Килограми</span><span>Повторения</span><span>Готово</span></div>
+    </header>
+    <div className="active-set-table">
+      <div className="active-set-head"><span>Серия</span><span>Предишно</span><span>кг</span><span>Повторения</span><span>✓</span></div>
       {exercise.results.map((result, index) => <div className={result.done ? "is-done" : ""} key={index}>
-        <b>{index + 1}</b>
-        <input aria-label={`Тежест за серия ${index + 1} на ${exercise.name}`} inputMode="decimal" value={result.weight} onChange={(event) => updateSet(exercise.id, index, { weight: event.target.value })} placeholder="кг" />
+        <b className={result.done ? "is-done" : ""}>{result.done ? "✓" : index + 1}</b>
+        <span className="active-set-previous">{result.previous ?? "—"}</span>
+        <input aria-label={`Тежест за серия ${index + 1} на ${exercise.name}`} inputMode="decimal" value={result.weight} onChange={(event) => updateSet(exercise.id, index, { weight: event.target.value })} placeholder="0" />
         <input aria-label={`Повторения за серия ${index + 1} на ${exercise.name}`} inputMode="numeric" value={result.reps} onChange={(event) => updateSet(exercise.id, index, { reps: event.target.value })} placeholder={exercise.reps} />
         <button type="button" aria-label={result.done ? "Отбележи серията като незавършена" : "Завърши серията и започни почивката"} aria-pressed={result.done} onClick={() => toggleSet(exercise, index)}>{result.done ? "✓" : "○"}</button>
       </div>)}
       <button className="active-add-set" type="button" onClick={() => addSet(exercise.id, exercise.reps)}>＋ Добави серия</button>
-    </div> : null}
+    </div>
   </article>;
 }
 

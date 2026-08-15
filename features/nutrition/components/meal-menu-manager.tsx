@@ -70,7 +70,7 @@ export function MealMenuManager() {
   const [message, setMessage] = useState("");
   const [activeUnitField, setActiveUnitField] = useState<string | null>(null);
   const [unitDrafts, setUnitDrafts] = useState<Record<string, string>>({});
-  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
   const library = useMemo(() => getMenuLibrary(settings), [settings]);
   const archived = new Set(settings.archived_meal_menus ?? []);
 
@@ -195,9 +195,30 @@ export function MealMenuManager() {
     }, `${menuName} е изтрито.`);
   };
 
-  return <section className="meal-menu-manager">
-    <header><div><p className="life-kicker">Моите менюта</p><h2>Управление на менюта</h2></div><button className="primary-button" type="button" onClick={openNewMenu}>{creating && !editingName ? "Отказ" : "+ Добави меню"}</button></header>
-    {creating ? <div className="meal-menu-create">
+  const menuList = Object.keys(library);
+  const selectedName = selectedMenu && library[selectedMenu] ? selectedMenu : menuList[0];
+  const selectedData = selectedName ? library[selectedName] : null;
+  const totalVariants = selectedData ? Object.values(selectedData).reduce((sum, variants) => sum + variants.length, 0) : 0;
+  const totalProducts = selectedData ? Object.values(selectedData).flat().reduce((sum, variant) => sum + variant.split(" + ").length, 0) : 0;
+
+  return <section className="meal-plan managed-meal-plan">
+    <div className="managed-meal-plan-toolbar"><div><p className="life-kicker">Хранителен режим</p><h2>Моите менюта</h2></div><button className="primary-button" type="button" onClick={openNewMenu}>{creating && !editingName ? "Отказ" : "+ Добави меню"}</button></div>
+    <div className="meal-plan-tabs managed-meal-tabs" role="tablist" aria-label="Избор на хранително меню">{menuList.map(menuName => <button key={menuName} type="button" role="tab" aria-selected={selectedName === menuName} className={selectedName === menuName ? "active" : ""} onClick={() => { setSelectedMenu(menuName); if (editingName && editingName !== menuName) resetEditor(); }}><span>{menuName}</span><small>{archived.has(menuName) ? "Архивирано" : "Активно"}</small></button>)}</div>
+    {selectedName && selectedData ? <>
+      <article className="meal-plan-hero managed-meal-hero">
+        <div className="meal-plan-hero-copy"><p className="life-kicker">{archived.has(selectedName) ? "Архивирано меню" : "Активно меню"}</p><h2>{selectedName}</h2><p>Всички хранения, варианти, продукти и количества на едно място.</p></div>
+        <div className="managed-meal-stats"><div><strong>{Object.keys(selectedData).length}</strong><span>хранения</span></div><div><strong>{totalVariants}</strong><span>варианта</span></div><div><strong>{totalProducts}</strong><span>продукта</span></div></div>
+        <div className="meal-menu-actions managed-meal-actions"><button className="edit" type="button" onClick={() => startEditing(selectedName)}>Редактирай менюто</button><button type="button" onClick={() => toggleArchive(selectedName)}>{archived.has(selectedName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(selectedName)}>Изтрий</button></div>
+      </article>
+      <div className="meal-menu-detail-grid managed-meal-details">{Object.entries(selectedData).map(([meal, variants]) => <section className="meal-menu-detail" key={meal}>
+        <header><div><strong>{meal}</strong><span>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</span></div></header>
+        <div className="meal-menu-detail-variants">{variants.map((variant, variantIndex) => <article key={`${meal}-${variantIndex}`}>
+          <div className="meal-menu-detail-variant-title"><span>Вариант {variantIndex + 1}</span><b>{variant.split(" + ").length} {variant.split(" + ").length === 1 ? "продукт" : "продукта"}</b></div>
+          <div className="meal-menu-detail-products">{variant.split(" + ").map((product, productIndex) => <div key={`${product}-${productIndex}`}><i /><span>{product}</span></div>)}</div>
+        </article>)}</div>
+      </section>)}</div>
+    </> : <p className="calendar-empty">Все още няма менюта. Добави първото си меню.</p>}
+    {creating ? <div className="meal-menu-create managed-meal-editor">
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>
       <label>Име на менюто<input value={name} onChange={event => setName(event.target.value)} placeholder="Например: Меню за почивен ден" maxLength={80} disabled={Boolean(editingName)} /></label>
       <p>Всеки вариант и всеки продукт са на отделен ред.</p>
@@ -228,26 +249,6 @@ export function MealMenuManager() {
       </section>)}</div>
       <button className="primary-button" type="button" onClick={saveMenu}>{editingName ? "Запази промените" : "Запази новото меню"}</button>
     </div> : null}
-    <div className="meal-menu-admin-list">{Object.keys(library).map(menuName => {
-      const isExpanded = expandedMenu === menuName;
-      const menu = library[menuName];
-      return <article key={menuName} className={`${archived.has(menuName) ? "is-archived" : ""} ${isExpanded ? "is-expanded" : ""}`}>
-        <button className="meal-menu-accordion-trigger" type="button" onClick={() => setExpandedMenu(isExpanded ? null : menuName)} aria-expanded={isExpanded}>
-          <span><strong>{menuName}</strong><small>{archived.has(menuName) ? "Архивирано" : "Активно"}</small></span>
-          <b aria-hidden="true">⌄</b>
-        </button>
-        {isExpanded ? <div className="meal-menu-accordion-content">
-          <div className="meal-menu-detail-grid">{Object.entries(menu).map(([meal, variants]) => <section className="meal-menu-detail" key={meal}>
-            <header><div><strong>{meal}</strong><span>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</span></div></header>
-            <div className="meal-menu-detail-variants">{variants.map((variant, variantIndex) => <article key={`${meal}-${variantIndex}`}>
-              <div className="meal-menu-detail-variant-title"><span>Вариант {variantIndex + 1}</span><b>{variant.split(" + ").length} {variant.split(" + ").length === 1 ? "продукт" : "продукта"}</b></div>
-              <div className="meal-menu-detail-products">{variant.split(" + ").map((product, productIndex) => <div key={`${product}-${productIndex}`}><i /><span>{product}</span></div>)}</div>
-            </article>)}</div>
-          </section>)}</div>
-          <div className="meal-menu-actions"><button className="edit" type="button" onClick={() => startEditing(menuName)}>Редактирай менюто</button><button type="button" onClick={() => toggleArchive(menuName)}>{archived.has(menuName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(menuName)}>Изтрий</button></div>
-        </div> : null}
-      </article>;
-    })}</div>
     {message ? <p className={`form-message ${message.startsWith("✓") ? "is-success" : message.startsWith("Грешка") ? "is-error" : ""}`}>{message}</p> : null}
   </section>;
 }

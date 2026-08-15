@@ -292,7 +292,7 @@ export function ActiveWorkoutTracker() {
       <div className="active-workout-exercises">
         {active.exercises.map((exercise, exerciseIndex) => {
           const exerciseDone = exercise.results.filter((result) => result.done).length;
-          return <details key={exercise.id} defaultOpen={exerciseDone < exercise.results.length && active.exercises.slice(0, exerciseIndex).every((item) => item.results.every((result) => result.done))}>
+          return <details key={exercise.id}>
             <summary><span>{String(exerciseIndex + 1).padStart(2, "0")}</span><div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · {exercise.restSeconds} сек. почивка</p></div><b>{exerciseDone}/{exercise.results.length}</b></summary>
             <div className="active-set-table">
               <div className="active-set-head"><span>Серия</span><span>Кг</span><span>Повторения</span><span>Готово</span></div>

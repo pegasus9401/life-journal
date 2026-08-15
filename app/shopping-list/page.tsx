@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
 import { createClient } from "@/lib/supabase/server";
-import { mealMenus, type MenuName } from "@/features/nutrition/meal-data";
+import { getMenuLibrary, type MealMenuSettings, type MenuLibrary } from "@/features/nutrition/menu-library";
 import { addDays, localDateKey, startOfWeek } from "@/features/calendar/domain/date-utils";
 
 type ShoppingItem = { name: string; amount: number | null; unit: string | null; count: number };
@@ -17,10 +17,10 @@ function parseFood(raw: string) {
   if (unit === "дози") unit = "доза"; if (unit === "пакета") unit = "пакет";
   return { name: match[1].trim(), amount, unit };
 }
-function collect(plans: { menu_name: string; selections: Record<string, number> }[]) {
+function collect(plans: { menu_name: string; selections: Record<string, number> }[], menus: MenuLibrary) {
   const items = new Map<string, ShoppingItem>();
   for (const plan of plans) {
-    const menu = mealMenus[plan.menu_name as MenuName]; if (!menu) continue;
+    const menu = menus[plan.menu_name]; if (!menu) continue;
     for (const [meal, options] of Object.entries(menu)) {
       const option = options[plan.selections?.[meal] ?? 0]; if (!option) continue;
       for (const raw of option.split(" + ")) {
@@ -36,6 +36,6 @@ function amountLabel(item: ShoppingItem) { if (item.amount !== null && item.unit
 export default async function ShoppingListPage({ searchParams }: { searchParams: Promise<{ date?: string }> }) {
   const params=await searchParams; const selected=/^\d{4}-\d{2}-\d{2}$/.test(params.date??"")?params.date!:localDateKey(); const start=startOfWeek(selected); const end=addDays(start,6); const previous=addDays(start,-7); const next=addDays(start,7);
   const supabase=await createClient(); const {data:{user}}=await supabase.auth.getUser(); if(!user) redirect("/login");
-  const {data:plans}=await supabase.from("daily_meal_plans").select("plan_date,menu_name,selections").gte("plan_date",start).lte("plan_date",end).order("plan_date"); const items=collect((plans??[]) as {menu_name:string;selections:Record<string,number>}[]);
+  const {data:plans}=await supabase.from("daily_meal_plans").select("plan_date,menu_name,selections").gte("plan_date",start).lte("plan_date",end).order("plan_date"); const menus=getMenuLibrary(user.user_metadata as MealMenuSettings); const items=collect((plans??[]) as {menu_name:string;selections:Record<string,number>}[],menus);
   return <main className="life-app-shell"><AppNavigation /><section className="shopping-page"><p className="life-kicker">Седмично планиране</p><h1>Пазарски списък</h1><div className="shopping-week-nav"><a href={`?date=${previous}`}>←</a><span>{start} - {end}</span><a href={`?date=${next}`}>→</a></div><div className="shopping-summary"><strong>{plans?.length ?? 0}</strong><span>планирани дни</span><strong>{items.length}</strong><span>различни продукта</span></div><div className="shopping-list">{items.length ? items.map(item=><label key={`${item.name}-${item.unit ?? ""}`}><input type="checkbox"/><span>{item.name}</span><b>{amountLabel(item)}</b></label>) : <p>Първо избери меню и варианти за дните от календара.</p>}</div></section></main>;
 }

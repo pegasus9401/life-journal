@@ -71,6 +71,7 @@ export function MealMenuManager() {
   const [activeUnitField, setActiveUnitField] = useState<string | null>(null);
   const [unitDrafts, setUnitDrafts] = useState<Record<string, string>>({});
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
+  const [previewChoices, setPreviewChoices] = useState<Record<string, number>>({});
   const library = useMemo(() => getMenuLibrary(settings), [settings]);
   const archived = new Set(settings.archived_meal_menus ?? []);
 
@@ -210,13 +211,16 @@ export function MealMenuManager() {
         <div className="managed-meal-stats"><div><strong>{Object.keys(selectedData).length}</strong><span>хранения</span></div><div><strong>{totalVariants}</strong><span>варианта</span></div><div><strong>{totalProducts}</strong><span>продукта</span></div></div>
         <div className="meal-menu-actions managed-meal-actions"><button className="edit" type="button" onClick={() => startEditing(selectedName)}>Редактирай менюто</button><button type="button" onClick={() => toggleArchive(selectedName)}>{archived.has(selectedName) ? "Възстанови" : "Архивирай"}</button><button className="danger" type="button" onClick={() => deleteMenu(selectedName)}>Изтрий</button></div>
       </article>
-      <div className="meal-menu-detail-grid managed-meal-details">{Object.entries(selectedData).map(([meal, variants]) => <section className="meal-menu-detail" key={meal}>
-        <header><div><strong>{meal}</strong><span>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</span></div></header>
-        <div className="meal-menu-detail-variants">{variants.map((variant, variantIndex) => <article key={`${meal}-${variantIndex}`}>
-          <div className="meal-menu-detail-variant-title"><span>Вариант {variantIndex + 1}</span><b>{variant.split(" + ").length} {variant.split(" + ").length === 1 ? "продукт" : "продукта"}</b></div>
-          <div className="meal-menu-detail-products">{variant.split(" + ").map((product, productIndex) => <div key={`${product}-${productIndex}`}><i /><span>{product}</span></div>)}</div>
-        </article>)}</div>
-      </section>)}</div>
+      <div className="meal-plan-list managed-meal-details">{Object.entries(selectedData).map(([meal, variants]) => {
+        const choiceKey = `${selectedName}-${meal}`;
+        const selectedVariant = Math.min(previewChoices[choiceKey] ?? 0, variants.length - 1);
+        const selectedProducts = variants[selectedVariant].split(" + ");
+        return <article className="meal-plan-card" key={meal}>
+          <header className="meal-plan-card-header"><div className="meal-plan-title"><span className="meal-plan-icon">✦</span><div><h3>{meal}</h3><span>{variants.length} {variants.length === 1 ? "вариант" : "варианта"}</span></div></div></header>
+          <div className="meal-plan-selected"><span className="meal-plan-option-label">Избран вариант {selectedVariant + 1}</span><div className="meal-plan-food-rows">{selectedProducts.map((product, productIndex) => <div className="meal-plan-food-row" key={`${product}-${productIndex}`}><span className="meal-plan-food-dot" /><span>{product}</span></div>)}</div></div>
+          {variants.length > 1 ? <details className="meal-plan-alternatives"><summary>Виж всички варианти <span>{variants.length} варианта</span></summary><div className="meal-plan-options">{variants.map((variant, variantIndex) => <button type="button" key={`${meal}-${variantIndex}`} className={variantIndex === selectedVariant ? "selected" : ""} onClick={event => { setPreviewChoices(current => ({ ...current, [choiceKey]: variantIndex })); event.currentTarget.closest("details")?.removeAttribute("open"); }}><span className="meal-plan-radio">{variantIndex === selectedVariant ? "✓" : variantIndex + 1}</span><span><b>Вариант {variantIndex + 1}</b><span className="meal-plan-option-products">{variant.split(" + ").join(" • ")}</span></span></button>)}</div></details> : null}
+        </article>;
+      })}</div>
     </> : <p className="calendar-empty">Все още няма менюта. Добави първото си меню.</p>}
     {creating ? <div className="meal-menu-create managed-meal-editor">
       <div className="meal-menu-editor-heading"><strong>{editingName ? `Редактиране на ${editingName}` : "Ново меню"}</strong>{editingName ? <button type="button" onClick={resetEditor}>Отказ</button> : null}</div>

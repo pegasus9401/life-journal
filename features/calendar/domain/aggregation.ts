@@ -17,8 +17,9 @@ export function aggregateCalendarItems(events: CalendarEventRow[], tasks: TaskRo
     const start = event.all_day ? event.start_date! : dateInZone(event.starts_at!, event.timezone);
     const end = event.all_day ? event.end_date! : dateInZone(event.ends_at!, event.timezone);
     const duration = Math.max(0, Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / 86400000));
+    const itemType = event.category === "meal" ? "meal" : "event";
     for (const occurrence of expandRecurrence(start, event.recurrence_kind, event.recurrence_interval, rangeStart, rangeEnd, event.recurrence_end)) {
-      items.push({ id: `event:${event.id}:${occurrence}`, type: "event", sourceId: event.id, sourceType: "calendar_events", title: event.title, date: occurrence, endDate: addDays(occurrence, duration), time: event.all_day ? undefined : timeInZone(event.starts_at!, event.timezone), endTime: event.all_day ? undefined : timeInZone(event.ends_at!, event.timezone), allDay: event.all_day, category: event.category, color: event.color, location: event.location, recurring: event.recurrence_kind !== "none" });
+      items.push({ id: `${itemType}:${event.id}:${occurrence}`, type: itemType, sourceId: event.id, sourceType: "calendar_events", title: event.title, date: occurrence, endDate: addDays(occurrence, duration), time: event.all_day ? undefined : timeInZone(event.starts_at!, event.timezone), endTime: event.all_day ? undefined : timeInZone(event.ends_at!, event.timezone), allDay: event.all_day, category: event.category, color: event.color, location: event.location, recurring: event.recurrence_kind !== "none" });
     }
   }
   for (const task of tasks) {

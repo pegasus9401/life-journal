@@ -6,6 +6,7 @@ import { addDays, getViewRange, localDateKey, startOfWeek } from "@/features/cal
 import { getCalendarData } from "@/features/calendar/queries";
 import { createClient } from "@/lib/supabase/server";
 import type { CalendarView } from "@/features/calendar/types";
+import { normalizeWorkoutCalendarTemplates } from "@/features/workouts/workout-library";
 
 export const metadata = { title: "Календар · Дневник на живота" };
 
@@ -20,16 +21,22 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
   if (!data) redirect("/login");
 
   const supabase = await createClient();
-  const { data: mealPlans } = await supabase
-    .from("daily_meal_plans")
-    .select("plan_date,menu_name,selections")
-    .gte("plan_date", queryRange.start)
-    .lte("plan_date", queryRange.end)
-    .order("plan_date");
+  const [{ data: mealPlans }, { data: { user } }] = await Promise.all([
+    supabase
+      .from("daily_meal_plans")
+      .select("plan_date,menu_name,selections")
+      .gte("plan_date", queryRange.start)
+      .lte("plan_date", queryRange.end)
+      .order("plan_date"),
+    supabase.auth.getUser(),
+  ]);
+  if (!user) redirect("/login");
+
+  const workoutPlans = normalizeWorkoutCalendarTemplates(user.user_metadata?.workout_templates);
 
   return <main className="life-app-shell">
     <AppNavigation active="calendar" />
-    <CalendarExperience view={view} selected={selected} today={today} items={data.items} mealPlans={(mealPlans ?? []).map(plan => ({ plan_date: plan.plan_date, menu_name: plan.menu_name, selections: (plan.selections as Record<string, number>) || {} }))} />
+    <CalendarExperience view={view} selected={selected} today={today} items={data.items} mealPlans={(mealPlans ?? []).map(plan => ({ plan_date: plan.plan_date, menu_name: plan.menu_name, selections: (plan.selections as Record<string, number>) || {} }))} workoutPlans={workoutPlans} />
     <QuickAdd defaultDate={selected} />
   </main>;
 }

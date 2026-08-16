@@ -8,6 +8,8 @@ export type WorkoutCalendarTemplate = {
   durationMinutes: number;
   days: WorkoutDayKey[];
   exerciseCount: number;
+  startDate: string;
+  endDate: string;
 };
 
 const DEFAULT_FULL_BODY: WorkoutCalendarTemplate = {
@@ -16,6 +18,8 @@ const DEFAULT_FULL_BODY: WorkoutCalendarTemplate = {
   durationMinutes: 60,
   days: ["monday", "wednesday", "friday"],
   exerciseCount: 10,
+  startDate: "",
+  endDate: "",
 };
 
 export function normalizeWorkoutCalendarTemplates(raw: unknown): WorkoutCalendarTemplate[] {
@@ -34,6 +38,8 @@ export function normalizeWorkoutCalendarTemplates(raw: unknown): WorkoutCalendar
       durationMinutes: Math.max(0, Number(value.durationMinutes) || 0),
       days,
       exerciseCount: Array.isArray(value.exercises) ? value.exercises.length : 0,
+      startDate: typeof value.startDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value.startDate) ? value.startDate : "",
+      endDate: typeof value.endDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value.endDate) ? value.endDate : "",
     }];
   });
 }

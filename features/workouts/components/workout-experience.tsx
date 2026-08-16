@@ -35,6 +35,8 @@ type WorkoutTemplate = {
   durationMinutes: number;
   days: DayKey[];
   progression: string;
+  startDate: string;
+  endDate: string;
   exercises: ExerciseTemplate[];
 };
 
@@ -46,6 +48,8 @@ const FULL_BODY: WorkoutTemplate = {
   durationMinutes: 60,
   days: ["monday", "wednesday", "friday"],
   progression: "Оставяй 1–2 повторения в резерв. Последните 2–3 повторения трябва да са трудни, но с чисто изпълнение. Когато направиш максималните повторения във всички серии, увеличи тежестта с една стъпка.",
+  startDate: "",
+  endDate: "",
   exercises: [
     { id: "full-body-1", group: "Крака", name: "Leg Press - Лег преса", sets: 3, reps: "10–12", restSeconds: 90 },
     { id: "full-body-2", group: "Крака", name: "Seated Leg Curl - Задно бедро", sets: 3, reps: "10–12", restSeconds: 75 },
@@ -71,6 +75,8 @@ function blankTemplate(): WorkoutTemplate {
     durationMinutes: 60,
     days: [],
     progression: "",
+    startDate: "",
+    endDate: "",
     exercises: [
       { id: makeId("exercise"), group: "Друго", name: "", sets: 3, reps: "8–12", restSeconds: 60 },
     ],
@@ -107,6 +113,8 @@ function normalizeTemplates(raw: unknown): WorkoutTemplate[] {
       durationMinutes: Math.max(0, Number(value.durationMinutes) || 0),
       days: validDays,
       progression: typeof value.progression === "string" ? value.progression : "",
+      startDate: typeof value.startDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value.startDate) ? value.startDate : "",
+      endDate: typeof value.endDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value.endDate) ? value.endDate : "",
       exercises,
     }];
   });
@@ -146,6 +154,10 @@ function TemplateEditor({ template, onCancel, onSave }: { template: WorkoutTempl
       setError("Всяко упражнение трябва да има име.");
       return;
     }
+    if (draft.startDate && draft.endDate && draft.startDate > draft.endDate) {
+      setError("Крайната дата трябва да бъде след началната.");
+      return;
+    }
     setSaving(true);
     setError("");
     try {
@@ -171,6 +183,13 @@ function TemplateEditor({ template, onCancel, onSave }: { template: WorkoutTempl
     <fieldset className="workout-library-days">
       <legend>Дни за тренировка</legend>
       <div>{DAYS.map((day) => <button className={draft.days.includes(day.key) ? "active" : ""} key={day.key} type="button" onClick={() => toggleDay(day.key)}><b>{day.short}</b><span>{day.label}</span></button>)}</div>
+    </fieldset>
+
+    <fieldset className="workout-library-period">
+      <legend>Период в календара</legend>
+      <p>Тренировката ще се показва само в избраните дни от седмицата в този период.</p>
+      <div><label><span>Начална дата</span><input type="date" value={draft.startDate} onChange={(event) => setDraft((current) => ({ ...current, startDate: event.target.value }))} /></label><label><span>Крайна дата</span><input type="date" min={draft.startDate || undefined} value={draft.endDate} onChange={(event) => setDraft((current) => ({ ...current, endDate: event.target.value }))} /></label></div>
+      <small>Ако оставиш дата празна, няма ограничение в съответната посока.</small>
     </fieldset>
 
     <div className="workout-library-exercise-editor">
@@ -200,10 +219,11 @@ function TemplateView({ template, onStart, onEdit, onDelete }: { template: Worko
   });
   const uncategorized = template.exercises.filter((exercise) => !MUSCLE_GROUPS.includes(exercise.group as (typeof MUSCLE_GROUPS)[number]));
   if (uncategorized.length) groups.push({ group: "Друго", exercises: uncategorized });
+  const period = template.startDate || template.endDate ? `${template.startDate ? new Date(`${template.startDate}T00:00:00Z`).toLocaleDateString("bg-BG", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "без начало"} - ${template.endDate ? new Date(`${template.endDate}T00:00:00Z`).toLocaleDateString("bg-BG", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "без край"}` : "Без ограничен период";
 
   return <section className="workout-library-view">
     <header>
-      <div><p className="life-kicker">Тренировъчна програма</p><h2>{template.name}</h2><p>{template.days.length ? `${template.days.length} пъти седмично` : "Без избрани дни"} · около {template.durationMinutes} минути</p></div>
+      <div><p className="life-kicker">Тренировъчна програма</p><h2>{template.name}</h2><p>{template.days.length ? `${template.days.length} пъти седмично` : "Без избрани дни"} · около {template.durationMinutes} минути</p><span className="workout-library-period-label">▣ {period}</span></div>
       <div><button className="start" type="button" onClick={onStart}>▶ Започни тренировка</button><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
     </header>
 

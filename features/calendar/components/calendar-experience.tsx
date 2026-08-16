@@ -23,7 +23,7 @@ function MealBadge({ plan }: { plan?: CalendarMealPlan }) { return plan ? <span 
 const workoutDayKeys: WorkoutDayKey[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 function workoutsOn(plans: WorkoutCalendarTemplate[], date: string) {
   const weekday = workoutDayKeys[new Date(`${date}T12:00:00Z`).getUTCDay()];
-  return plans.filter((plan) => plan.days.includes(weekday));
+  return plans.filter((plan) => plan.days.includes(weekday) && (!plan.startDate || date >= plan.startDate) && (!plan.endDate || date <= plan.endDate));
 }
 function WorkoutBadges({ plans, date, compact = false }: { plans: WorkoutCalendarTemplate[]; date: string; compact?: boolean }) {
   const workouts = workoutsOn(plans, date);

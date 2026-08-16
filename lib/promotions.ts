@@ -65,7 +65,6 @@ const menuAliases: Record<string, string[]> = {
   пъстърва: ["филе от пъстърва"], сьомга: ["филе от сьомга"], skyr: ["скир"],
   "high protein pudding milbona": ["protein pudding", "протеинов пудинг"], "high protein quark creme": ["protein quark", "протеинов кварк"],
 };
-const unsuitableComposite = /(кълцаница|луканка|суджук|салам|кренвирш|наденица|кюфте|кебапче|пица|баниц|банич|бюрек|тутманик|кашкавалка|закуска|кифла|бутер|бургер|хот.?дог|сандвич|торта|сладкиш|бонбон|бисквит|вафла|кроасан|чипс|панир|хапки|замразени|готово ястие|стерилизиран|маринован|сушен домат|топено сирене)/i;
 
 export function dietTermsFromMenus(menus: Record<string, Record<string, string[]>>) {
   const terms = new Set<string>();
@@ -81,12 +80,14 @@ export function dietTermsFromMenus(menus: Record<string, Record<string, string[]
 
 export function isDietSuitablePromotion(offer: Promotion, terms: string[]) {
   const name = normalizeProductName(offer.name);
-  if (unsuitableComposite.test(name)) return false;
-  const nameTokens = new Set(name.split(" "));
+  const nameTokens = name.split(" ");
   return terms.some((term) => {
     const normalized = normalizeProductName(term); if (normalized.length < 4) return false;
-    if (normalized.includes(" ")) return (` ${name} `).includes(` ${normalized} `);
-    return nameTokens.has(normalized);
+    const termTokens = normalized.split(" ");
+    for (let index = 0; index <= Math.min(1, nameTokens.length - termTokens.length); index += 1) {
+      if (termTokens.every((token, offset) => nameTokens[index + offset] === token)) return true;
+    }
+    return false;
   });
 }
 

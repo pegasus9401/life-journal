@@ -1,3 +1,5 @@
+import promotionFallback from "@/data/promotion-fallback.json";
+
 export type Promotion = {
   id: string;
   name: string;
@@ -86,9 +88,10 @@ function isCurrentOrUpcoming(value: string) {
 }
 
 export async function getPromotions(): Promise<Promotion[]> {
+  const fallback = promotionFallback as Promotion[];
   try {
-    const response = await fetch(sourceUrl, { next: { revalidate: 6 * 60 * 60 } });
-    if (!response.ok) return [];
+    const response = await fetch(sourceUrl, { headers: { Accept: "application/json", "User-Agent": "LifeJournal/1.0 promotions reader" }, next: { revalidate: 6 * 60 * 60 } });
+    if (!response.ok) return fallback;
     const data = await response.json() as SmartPazarOffer[];
     return data.flatMap((item): Promotion[] => {
       const store = String(item.store ?? "") as Promotion["store"];
@@ -96,5 +99,5 @@ export async function getPromotions(): Promise<Promotion[]> {
       if (!stores.has(store) || !item.name || !Number.isFinite(price) || price <= 0 || !isCurrentOrUpcoming(String(item.valid_until ?? ""))) return [];
       return [{ id: String(item.id ?? `${store}-${item.name}`), name: String(item.name).slice(0, 240), store, oldPrice: Number(item.old_price_eur) > price ? Number(item.old_price_eur) : null, price, validFrom: String(item.valid_from ?? ""), validUntil: String(item.valid_until ?? ""), url: String(item.url ?? retailerBrochures[store]), imageUrl: String(item.image_url ?? ""), source: "SmartPazar" }];
     });
-  } catch { return []; }
+  } catch { return fallback; }
 }

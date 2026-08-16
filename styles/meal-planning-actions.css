@@ -1,0 +1,40 @@
+.day-meal-planner-actions {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) auto;
+  gap: 8px;
+}
+
+.day-meal-planner-actions .primary-button {
+  width: 100%;
+}
+
+.remove-meal-plan {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(248, 113, 113, .22);
+  border-radius: 14px;
+  color: #fca5a5;
+  background: rgba(248, 113, 113, .055);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.remove-meal-plan:hover {
+  background: rgba(248, 113, 113, .1);
+}
+
+.remove-meal-plan:disabled {
+  cursor: wait;
+  opacity: .6;
+}
+
+@media (max-width: 560px) {
+  .day-meal-planner-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .remove-meal-plan {
+    width: 100%;
+  }
+}

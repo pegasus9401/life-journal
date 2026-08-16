@@ -24,3 +24,15 @@ export async function saveDailyMealPlan(input: { date: string; menu: string; sel
   revalidatePath("/calendar"); revalidatePath("/nutrition"); revalidatePath("/shopping-list");
   return { ok: true, message: "Хранителният ден е запазен." };
 }
+
+export async function removeDailyMealPlan(date: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { ok: false, message: "Трябва да си влязъл в профила." };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { ok: false, message: "Невалидна дата." };
+
+  const { error } = await supabase.from("daily_meal_plans").delete().eq("owner_id", user.id).eq("plan_date", date);
+  if (error) return { ok: false, message: error.message };
+  revalidatePath("/calendar"); revalidatePath("/nutrition"); revalidatePath("/shopping-list");
+  return { ok: true, message: "Менюто е премахнато от този ден." };
+}

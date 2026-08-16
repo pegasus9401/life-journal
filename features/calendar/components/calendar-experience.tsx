@@ -56,7 +56,7 @@ export function CalendarExperience({ view, selected, today, items, mealPlans = [
     {mealDate ? <div className="meal-plan-modal-backdrop" role="presentation" onMouseDown={() => setMealDate(null)}>
       <section className="meal-plan-modal" role="dialog" aria-modal="true" aria-label={`Хранене за ${mealDate}`} onMouseDown={event => event.stopPropagation()}>
         <button className="meal-plan-modal-close" type="button" aria-label="Затвори" onClick={() => setMealDate(null)}>×</button>
-        <DayMealPlanner key={mealDate} date={mealDate} initialMenu={activePlan?.menu_name || "Меню 1"} initialSelections={activePlan?.selections || {}} />
+        <DayMealPlanner key={mealDate} date={mealDate} initialMenu={activePlan?.menu_name || "Меню 1"} initialSelections={activePlan?.selections || {}} initialHasPlan={Boolean(activePlan)} />
       </section>
     </div> : null}
   </>;

@@ -20,9 +20,9 @@ function formatDate(date: string) {
   return new Intl.DateTimeFormat("bg-BG", { weekday: "long", day: "numeric", month: "long" }).format(new Date(`${date}T12:00:00`));
 }
 
-function Metric({ label, value, goal, unit }: { label: string; value: number; goal: number; unit: string }) {
+function Metric({ label, value, goal, unit, tone }: { label: string; value: number; goal: number; unit: string; tone: "protein" | "carbs" | "fat" }) {
   const progress = goalProgress(value, goal);
-  return <article className="nutrition-metric">
+  return <article className={`nutrition-metric macro-${tone}`}>
     <div><span>{label}</span><strong>{Math.round(value)}<small> / {goal} {unit}</small></strong></div>
     <div className="nutrition-progress" aria-label={`${progress}% от целта`}><span style={{ width: `${progress}%` }} /></div>
   </article>;
@@ -91,7 +91,7 @@ export function NutritionExperience({ date, today, entries, goals }: { date: str
 
     <section className="nutrition-overview">
       <div className="nutrition-calorie-ring" style={{ "--progress": `${goalProgress(totals.calories, goals.calories) * 3.6}deg` } as React.CSSProperties}><div><strong>{Math.round(totals.calories)}</strong><span>от {goals.calories} kcal</span></div></div>
-      <div className="nutrition-metrics"><Metric label="Протеин" value={totals.protein} goal={goals.protein} unit="г" /><Metric label="Въглехидрати" value={totals.carbs} goal={goals.carbs} unit="г" /><Metric label="Мазнини" value={totals.fat} goal={goals.fat} unit="г" /></div>
+      <div className="nutrition-metrics"><Metric label="Протеин" value={totals.protein} goal={goals.protein} unit="г" tone="protein" /><Metric label="Въглехидрати" value={totals.carbs} goal={goals.carbs} unit="г" tone="carbs" /><Metric label="Мазнини" value={totals.fat} goal={goals.fat} unit="г" tone="fat" /></div>
       <button className="nutrition-goals-button" type="button" onClick={() => setShowGoals(true)}>Промени целите</button>
     </section>
 

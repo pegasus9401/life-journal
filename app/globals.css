@@ -687,3 +687,16 @@ html,body{color:#241b35;background:#f7f4fb}
 .active-exercise-heading{border-color:#ece5f2}.active-exercise-heading>span{color:#6d28d9;background:#eee7fb}.active-exercise-heading small{color:#7c3aed}.active-exercise-heading>b,.active-exercise-toggle>b{color:#047857}
 .active-exercise-card .active-set-head{color:#756d7e}.active-set-previous{color:#756d7e}.active-exercise-card .active-set-table input,.active-set-table input{color:var(--life-ink);background:#f4eff8}.active-exercise-card .active-set-table>div:not(.active-set-head)>b{color:#6d28d9;background:#eee7fb}.active-exercise-card .active-add-set{color:#6d28d9;background:#eee7fb}
 .active-workout-panel>footer{background:#fff}.active-workout-panel>footer button{background:#f4eff8}.active-workout-panel>footer button:last-child{color:#6d28d9;background:#eee7fb}
+
+/* Consistent macro colors */
+.meal-plan-macros>div,.managed-meal-macros>div,.meal-plan-card-macros span,.nutrition-metric,.nutrition-values-editor label,.nutrition-macro-inputs label,.nutrition-goals-form label{border-radius:10px}
+.meal-plan-macros>div:nth-child(1),.managed-meal-macros>div:nth-child(2),.meal-plan-card-macros span:nth-last-child(3),.nutrition-metric.macro-protein,.nutrition-values-editor label:nth-of-type(2),.nutrition-macro-inputs label:nth-child(1),.nutrition-goals-form label:nth-child(2){color:#075985;background:#e0f2fe}
+.meal-plan-macros>div:nth-child(2),.managed-meal-macros>div:nth-child(3),.meal-plan-card-macros span:nth-last-child(2),.nutrition-metric.macro-carbs,.nutrition-values-editor label:nth-of-type(3),.nutrition-macro-inputs label:nth-child(2),.nutrition-goals-form label:nth-child(3){color:#9a3412;background:#ffedd5}
+.meal-plan-macros>div:nth-child(3),.managed-meal-macros>div:nth-child(4),.meal-plan-card-macros span:last-child,.nutrition-metric.macro-fat,.nutrition-values-editor label:nth-of-type(4),.nutrition-macro-inputs label:nth-child(3),.nutrition-goals-form label:nth-child(4){color:#9d174d;background:#fce7f3}
+.managed-meal-macros>div:nth-child(1),.meal-plan-card-macros span:first-child:nth-last-child(4),.nutrition-values-editor label:nth-of-type(1),.nutrition-goals-form label:nth-child(1){color:#5b21b6;background:#ede9fe}
+.meal-plan-macros>div,.managed-meal-macros>div{margin:0 5px;padding-top:10px;padding-bottom:10px;border-right:0}
+.meal-plan-macros>div:first-child{padding-left:12px}.meal-plan-macros>div:last-child{padding-right:12px}
+.meal-plan-card-macros span{padding:6px 8px;font-weight:750}.meal-plan-card-macros span b{color:inherit}
+.nutrition-metric{padding:13px 14px}.nutrition-metric .nutrition-progress{background:rgba(255,255,255,.72)}
+.nutrition-metric.macro-protein .nutrition-progress>span{background:#0ea5e9}.nutrition-metric.macro-carbs .nutrition-progress>span{background:#f97316}.nutrition-metric.macro-fat .nutrition-progress>span{background:#ec4899}
+.nutrition-values-editor label,.nutrition-macro-inputs label,.nutrition-goals-form label{padding:9px}.nutrition-values-editor label input,.nutrition-macro-inputs label input,.nutrition-goals-form label input{border-color:rgba(72,51,96,.12);background:rgba(255,255,255,.82)}

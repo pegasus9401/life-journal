@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 import { createClient } from "@/lib/supabase/client";
 import { deleteFoodProduct, saveFoodProduct } from "../actions";
 import type { FoodProduct, ProductDraft, ProductSource } from "../types";
@@ -11,6 +12,15 @@ type Analysis = Partial<Pick<ProductDraft, "name" | "brand" | "barcode" | "packa
 
 const emptyDraft = (): ProductDraft => ({ id: crypto.randomUUID(), name: "", brand: "", barcode: "", packageSize: "", servingGrams: 100, calories100g: 0, protein100g: 0, carbs100g: 0, fat100g: 0, source: "Добавен ръчно", imageUrl: "", imagePath: "", favorite: false });
 const asNumber = (value: string) => Math.max(0, Number(value) || 0);
+const barcodeFormats = [BarcodeFormat.EAN_13, BarcodeFormat.EAN_8, BarcodeFormat.UPC_A, BarcodeFormat.UPC_E, BarcodeFormat.CODE_128];
+
+async function createBarcodeReader() {
+  const { BrowserMultiFormatReader } = await import("@zxing/browser");
+  const hints = new Map<DecodeHintType, unknown>();
+  hints.set(DecodeHintType.POSSIBLE_FORMATS, barcodeFormats);
+  hints.set(DecodeHintType.TRY_HARDER, true);
+  return new BrowserMultiFormatReader(hints, { delayBetweenScanAttempts: 80, delayBetweenScanSuccess: 400 });
+}
 
 async function prepareImage(file: File) {
   if (!file.type.startsWith("image/")) throw new Error("Избери снимка на продукт.");
@@ -37,6 +47,7 @@ export function ProductLibrary({ initialProducts }: { initialProducts: FoodProdu
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [scannerOpen, setScannerOpen] = useState(false);
+  const [scannerStatus, setScannerStatus] = useState("Стартиране на камерата…");
   const videoRef = useRef<HTMLVideoElement>(null);
   const detectedRef = useRef(false);
   const visibleProducts = useMemo(() => products.filter((product) => `${product.name} ${product.brand} ${product.barcode}`.toLocaleLowerCase("bg-BG").includes(query.toLocaleLowerCase("bg-BG"))), [products, query]);
@@ -60,18 +71,34 @@ export function ProductLibrary({ initialProducts }: { initialProducts: FoodProdu
   useEffect(() => {
     if (!scannerOpen || !videoRef.current) return;
     detectedRef.current = false;
+    setScannerStatus("Фокусирай целия баркод в цветната рамка.");
     let stop: (() => void) | undefined;
-    void import("@zxing/browser").then(async ({ BrowserMultiFormatReader }) => {
-      const reader = new BrowserMultiFormatReader();
-      const controls = await reader.decodeFromConstraints({ audio: false, video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } } }, videoRef.current!, (result) => {
+    const focusTimer = window.setTimeout(() => setScannerStatus("Не намирам код. Отдалечи на 20–30 см или използвай „Снимай баркода“."), 7000);
+    void createBarcodeReader().then(async (reader) => {
+      const controls = await reader.decodeFromConstraints({ audio: false, video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } } }, videoRef.current!, (result) => {
         const barcode = result?.getText().replace(/\D/g, "") ?? "";
         if (detectedRef.current || barcode.length < 8) return;
-        detectedRef.current = true; setScannerOpen(false); void searchBarcode(barcode);
+        detectedRef.current = true; window.clearTimeout(focusTimer); setScannerStatus(`Разпознат баркод ${barcode}`); setScannerOpen(false); void searchBarcode(barcode);
       });
       stop = () => controls.stop();
     }).catch((error) => { setScannerOpen(false); setMessage(error instanceof Error && error.name === "NotAllowedError" ? "Разреши достъп до камерата от настройките на Safari и опитай отново." : "Камерата не можа да се отвори. Опитай със снимка на баркода."); });
-    return () => stop?.();
+    return () => { window.clearTimeout(focusTimer); stop?.(); };
   }, [scannerOpen]);
+
+  const scanBarcodePhoto = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; event.target.value = ""; if (!file) return;
+    setScannerStatus("Разчитане на снимката…");
+    const imageUrl = URL.createObjectURL(file);
+    try {
+      const reader = await createBarcodeReader();
+      const result = await reader.decodeFromImageUrl(imageUrl);
+      const barcode = result.getText().replace(/\D/g, "");
+      if (barcode.length < 8) throw new Error("invalid barcode");
+      detectedRef.current = true; setScannerOpen(false); await searchBarcode(barcode);
+    } catch {
+      setScannerStatus("Баркодът не се вижда ясно. Снимай го отблизо, хоризонтално и без отблясък.");
+    } finally { URL.revokeObjectURL(imageUrl); }
+  };
 
   const chooseResult = (product: ExternalProduct) => {
     setDraft({ ...product, id: crypto.randomUUID(), favorite: false, imagePath: "", source: "Open Food Facts" }); setPreview(product.imageUrl); setResults([]); setMessage("Провери стойностите преди запазване.");
@@ -122,7 +149,7 @@ export function ProductLibrary({ initialProducts }: { initialProducts: FoodProdu
     <header className="products-header"><div><p className="life-kicker">Лична хранителна база</p><h1>Продукти</h1><p>Сканирай, провери и запази продуктите, които реално използваш.</p></div><button className="primary-button" type="button" onClick={() => { setDraft(emptyDraft()); setPreview(""); }}>+ Добави ръчно</button></header>
     <div className="product-tools"><div className="product-search"><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void searchExternal(); }} placeholder="Име, марка или баркод" /><button type="button" onClick={() => void searchExternal()} disabled={busy || !query.trim()}>Търси</button></div><button className="product-camera product-live-scanner" type="button" onClick={() => setScannerOpen(true)} disabled={busy}><span>▥</span><b>Сканирай баркод</b></button><label className="product-camera"><input type="file" accept="image/*" capture="environment" onChange={(event) => void analyzePhoto(event)} disabled={busy} /><span>▣</span><b>Снимай етикет</b></label></div>
     {message ? <p className="product-message" aria-live="polite">{message}</p> : null}
-    {scannerOpen ? <div className="barcode-scanner-backdrop"><section className="barcode-scanner" role="dialog" aria-modal="true" aria-label="Сканиране на баркод"><header><div><p className="life-kicker">Камера</p><h2>Насочи към баркода</h2></div><button type="button" onClick={() => setScannerOpen(false)}>×</button></header><div className="barcode-video-frame"><video ref={videoRef} muted playsInline /><span className="barcode-guide" /></div><p>Дръж целия баркод в рамката и изчакай автоматичното разпознаване.</p></section></div> : null}
+    {scannerOpen ? <div className="barcode-scanner-backdrop"><section className="barcode-scanner" role="dialog" aria-modal="true" aria-label="Сканиране на баркод"><header><div><p className="life-kicker">Скенер</p><h2>Насочи към баркода</h2></div><button type="button" onClick={() => setScannerOpen(false)}>×</button></header><div className="barcode-video-frame"><video ref={videoRef} muted playsInline /><span className="barcode-guide" /></div><p className="barcode-scanner-status" aria-live="polite">{scannerStatus}</p><label className="barcode-photo-button"><input type="file" accept="image/*" capture="environment" onChange={(event) => void scanBarcodePhoto(event)} /><span>▣</span> Снимай баркода</label></section></div> : null}
     {results.length ? <div className="product-results">{results.map((product) => <button type="button" key={product.id} onClick={() => chooseResult(product)}><ProductImage product={product} /><span><strong>{product.name}</strong><small>{product.brand || "Без марка"} · {product.packageSize || "100 г"}</small><b>П {product.protein100g} · В {product.carbs100g} · М {product.fat100g} · {product.calories100g} kcal</b></span></button>)}</div> : null}
     {draft ? <div className="product-editor-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setDraft(null); }}><section className="product-editor" role="dialog" aria-modal="true"><header><div className="product-editor-image"><ProductImage product={draft} preview={preview} /></div><div><p className="life-kicker">Потвърждение</p><h2>{draft.name || "Нов продукт"}</h2><span>{draft.source}</span></div><button type="button" onClick={() => setDraft(null)}>×</button></header><div className="product-editor-fields"><label className="wide">Име<input value={draft.name} onChange={(event) => update("name", event.target.value)} /></label><label>Марка<input value={draft.brand} onChange={(event) => update("brand", event.target.value)} /></label><label>Баркод<input inputMode="numeric" value={draft.barcode} onChange={(event) => update("barcode", event.target.value.replace(/\D/g, ""))} /></label><label>Опаковка<input value={draft.packageSize} onChange={(event) => update("packageSize", event.target.value)} placeholder="Напр. 200 г" /></label><label>Порция в грамове<input type="number" value={draft.servingGrams} onChange={(event) => update("servingGrams", event.target.value)} /></label><fieldset className="product-macros wide"><legend>Стойности за 100 г</legend><label className="calories">Калории<input type="number" value={draft.calories100g} onChange={(event) => update("calories100g", event.target.value)} /></label><label className="protein">Протеин<input type="number" step="0.1" value={draft.protein100g} onChange={(event) => update("protein100g", event.target.value)} /></label><label className="carbs">Въглехидрати<input type="number" step="0.1" value={draft.carbs100g} onChange={(event) => update("carbs100g", event.target.value)} /></label><label className="fat">Мазнини<input type="number" step="0.1" value={draft.fat100g} onChange={(event) => update("fat100g", event.target.value)} /></label></fieldset></div><footer><label><input type="checkbox" checked={draft.favorite} onChange={(event) => update("favorite", event.target.checked)} /> Любим продукт</label><button className="primary-button" type="button" disabled={busy || !draft.name.trim()} onClick={() => void persist()}>{busy ? "Запазване…" : "Потвърди и запази"}</button></footer></section></div> : null}
     <div className="product-library-heading"><h2>Моята база</h2><span>{products.length} продукта</span></div><div className="product-grid">{visibleProducts.map((product) => <article className="product-card" key={product.id}><div className="product-card-image"><ProductImage product={product} /></div><div><span>{product.source}</span><h3>{product.name}</h3><p>{product.brand || "Без марка"}{product.barcode ? ` · ${product.barcode}` : ""}</p><div className="product-card-macros"><b>{product.calories100g}<small> kcal</small></b><b>П {product.protein100g}</b><b>В {product.carbs100g}</b><b>М {product.fat100g}</b></div><footer><button type="button" onClick={() => { setDraft({ ...product }); setPreview(product.imageUrl); }}>Редактирай</button><button type="button" onClick={() => void remove(product)}>Изтрий</button></footer></div></article>)}{!visibleProducts.length ? <p className="product-empty">Няма продукти. Потърси по баркод или снимай първия.</p> : null}</div>

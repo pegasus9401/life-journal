@@ -4,8 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { getMenuLibrary, orderedMealEntries, type MealMenuSettings, type MenuLibrary } from "@/features/nutrition/menu-library";
 import { localDateKey } from "@/features/calendar/domain/date-utils";
 import { userProducts, type FoodProduct } from "@/features/products/types";
+import { bestPromotions, getPromotions, type Promotion } from "@/lib/promotions";
 
-type ShoppingItem = { name: string; amount: number | null; unit: string | null; count: number; estimatedPrice?: number; pricedFrom?: string };
+type ShoppingItem = { name: string; amount: number | null; unit: string | null; count: number; estimatedPrice?: number; pricedFrom?: string; promotion?: Promotion };
 const normalize = (value: string) => value.trim().toLocaleLowerCase("bg-BG").replace(/\s+/g, " ");
 function parseFood(raw: string) {
   const text = raw.trim();
@@ -49,10 +50,11 @@ function addPriceEstimates(items:ShoppingItem[],products:FoodProduct[]){
     return {...item,estimatedPrice:packages*price.price,pricedFrom:product.name};
   });
 }
+function addPromotions(items:ShoppingItem[],offers:Promotion[]){return items.map(item=>({...item,promotion:bestPromotions(item.name,offers,1)[0]}));}
 const money=(value:number)=>new Intl.NumberFormat("bg-BG",{style:"currency",currency:"EUR"}).format(value);
 export default async function ShoppingListPage() {
   const today=localDateKey();
   const supabase=await createClient(); const {data:{user}}=await supabase.auth.getUser(); if(!user) redirect("/login");
-  const {data:plans}=await supabase.from("daily_meal_plans").select("plan_date,menu_name,selections").gte("plan_date",today).order("plan_date"); const menus=getMenuLibrary(user.user_metadata as MealMenuSettings); const items=addPriceEstimates(collect((plans??[]) as {menu_name:string;selections:Record<string,number>}[],menus),userProducts(user.user_metadata as Record<string,unknown>)); const estimatedTotal=items.reduce((sum,item)=>sum+(item.estimatedPrice??0),0);
-  return <main className="life-app-shell"><AppNavigation /><section className="shopping-page"><p className="life-kicker">От днес нататък</p><h1>Пазарски списък</h1><p className="shopping-range">Всички отбелязани хранения от {today}, независимо от седмицата.</p><div className="shopping-summary"><strong>{plans?.length ?? 0}</strong><span>планирани дни</span><strong>{items.length}</strong><span>различни продукта</span>{estimatedTotal>0?<><strong>{money(estimatedTotal)}</strong><span>ориентировъчно</span></>:null}</div><div className="shopping-list">{items.length ? items.map(item=><label key={`${item.name}-${item.unit ?? ""}`}><input type="checkbox"/><span>{item.name}{item.estimatedPrice?<small>Около {money(item.estimatedPrice)} по цена на {item.pricedFrom}</small>:null}</span><b>{amountLabel(item)}</b></label>) : <p>Първо избери меню и варианти за днешна или бъдеща дата в календара.</p>}</div></section></main>;
+  const [plansResult,offers]=await Promise.all([supabase.from("daily_meal_plans").select("plan_date,menu_name,selections").gte("plan_date",today).order("plan_date"),getPromotions()]); const plans=plansResult.data; const menus=getMenuLibrary(user.user_metadata as MealMenuSettings); const items=addPromotions(addPriceEstimates(collect((plans??[]) as {menu_name:string;selections:Record<string,number>}[],menus),userProducts(user.user_metadata as Record<string,unknown>)),offers); const estimatedTotal=items.reduce((sum,item)=>sum+(item.estimatedPrice??item.promotion?.price??0),0);
+  return <main className="life-app-shell"><AppNavigation active="shopping" /><section className="shopping-page"><p className="life-kicker">От днес нататък</p><h1>Пазарски списък</h1><p className="shopping-range">Всички отбелязани хранения от {today}, независимо от седмицата.</p><div className="shopping-summary"><strong>{plans?.length ?? 0}</strong><span>планирани дни</span><strong>{items.length}</strong><span>различни продукта</span>{estimatedTotal>0?<><strong>{money(estimatedTotal)}</strong><span>ориентировъчно</span></>:null}</div><div className="shopping-list">{items.length ? items.map(item=><label key={`${item.name}-${item.unit ?? ""}`}><input type="checkbox"/><span>{item.name}{item.promotion?<a className="shopping-promotion" href={item.promotion.url} target="_blank" rel="noreferrer"><b>{item.promotion.store}: {money(item.promotion.price)}</b> до {item.promotion.validUntil} ↗</a>:item.estimatedPrice?<small>Около {money(item.estimatedPrice)} по цена на {item.pricedFrom}</small>:null}</span><b>{amountLabel(item)}</b></label>) : <p>Първо избери меню и варианти за днешна или бъдеща дата в календара.</p>}</div></section></main>;
 }

@@ -58,25 +58,36 @@ export function bestPromotions(query: string, offers: Promotion[], limit = 3) {
   return offers.map((offer) => ({ offer, score: promotionMatchScore(query, offer.name) })).filter((match) => match.score >= .5).sort((a, b) => b.score - a.score || a.offer.price - b.offer.price).slice(0, limit).map((match) => match.offer);
 }
 
-const dietAliases = [
-  "high protein", "protein pudding", "protein quark", "skyr", "извара", "кисело мляко", "прясно мляко", "моцарела light", "крема сирене", "сирене", "кашкавал",
-  "пилешко", "пилешки гърди", "пилешки бут", "пуешко филе", "пуешки гърди", "свинско контра филе", "свински врат", "пъстърва", "сьомга", "яйца",
-  "банан", "ябълка", "домат", "картофи", "зелена салата", "зеленчуци", "ориз", "овесени ядки", "протеинов хляб", "пълнозърнест хляб", "лаваш", "макарони",
-  "бадеми", "фъстъчено масло", "зехтин", "песто", "протеин на прах", "суроватъчен протеин",
-];
+const menuAliases: Record<string, string[]> = {
+  банан: ["банани"], ябълка: ["ябълки"], домат: ["домати"], картофи: ["картоф"], яйца: ["яйце"],
+  "пилешка пържола от бут": ["пилешки бут", "пилешко месо от бут"], "пилешки гърди": ["пилешко филе", "филе от пиле"],
+  "пуешко филе": ["пуешки гърди", "филе от пуйка"], "свинско контра филе": ["свинско контрафиле"],
+  пъстърва: ["филе от пъстърва"], сьомга: ["филе от сьомга"], skyr: ["скир"],
+  "high protein pudding milbona": ["protein pudding", "протеинов пудинг"], "high protein quark creme": ["protein quark", "протеинов кварк"],
+};
+const unsuitableComposite = /(кълцаница|луканка|суджук|салам|кренвирш|наденица|кюфте|кебапче|пица|баница|бургер|сандвич|торта|сладкиш|бонбон|бисквит|вафла|кроасан|чипс|замразени|готово ястие|стерилизиран|маринован|сушен домат|топено сирене)/i;
 
 export function dietTermsFromMenus(menus: Record<string, Record<string, string[]>>) {
-  const terms = new Set(dietAliases);
+  const terms = new Set<string>();
   for (const menu of Object.values(menus)) for (const options of Object.values(menu)) for (const option of options) for (const raw of option.split(" + ")) {
     const term = raw.replace(/^.*?:\s*/, "").replace(/\s*-\s*\d.*$/, "").replace(/^\d+\s*/, "").trim();
-    if (term.length >= 4 && term !== "салата") terms.add(term);
+    if (term.length >= 4 && term.toLocaleLowerCase("bg-BG") !== "салата") {
+      terms.add(term);
+      for (const alias of menuAliases[normalizeProductName(term)] ?? []) terms.add(alias);
+    }
   }
   return [...terms];
 }
 
 export function isDietSuitablePromotion(offer: Promotion, terms: string[]) {
   const name = normalizeProductName(offer.name);
-  return terms.some((term) => { const normalized = normalizeProductName(term); return normalized.length >= 4 && (name.includes(normalized) || promotionMatchScore(normalized, name) >= .5); });
+  if (unsuitableComposite.test(name)) return false;
+  const nameTokens = new Set(name.split(" "));
+  return terms.some((term) => {
+    const normalized = normalizeProductName(term); if (normalized.length < 4) return false;
+    if (normalized.includes(" ")) return (` ${name} `).includes(` ${normalized} `);
+    return nameTokens.has(normalized);
+  });
 }
 
 function isCurrentOrUpcoming(value: string) {

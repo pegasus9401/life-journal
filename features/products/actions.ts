@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { userProducts, type FoodProduct, type ProductDraft, type ProductSource } from "./types";
 
-const sources: ProductSource[] = ["Open Food Facts", "AI от снимка", "Добавен ръчно"];
+const sources: ProductSource[] = ["Open Food Facts", "USDA", "AI от снимка", "Добавен ръчно"];
 const cleanNumber = (value: unknown, max = 100000) => Math.min(max, Math.max(0, Number(value) || 0));
 
 function cleanProduct(input: ProductDraft, existing?: FoodProduct): FoodProduct {

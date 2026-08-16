@@ -1,4 +1,4 @@
-export type ProductSource = "Open Food Facts" | "AI от снимка" | "Добавен ръчно";
+export type ProductSource = "Open Food Facts" | "USDA" | "AI от снимка" | "Добавен ръчно";
 
 export type FoodProduct = {
   id: string;

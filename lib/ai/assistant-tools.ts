@@ -1,6 +1,7 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { zonedDateTimeToUtc } from "@/features/calendar/domain/date-utils";
 import { userProducts } from "@/features/products/types";
+import { lookupFoodProducts } from "@/lib/food-product-lookup";
 
 type Context = { supabase: SupabaseClient; user: User };
 type ToolDefinition = { type: "function"; function: { name: string; description: string; parameters: Record<string, unknown> } };
@@ -11,7 +12,7 @@ const nullableId = { type: "string", description: "ID за редактиран�
 
 export const assistantToolDefinitions: ToolDefinition[] = [
   { type: "function", function: { name: "find_food_product", description: "Търси пакетиран хранителен продукт по име, марка или баркод в Open Food Facts. Използвай преди save_nutrition, когато потребителят не е дал калории и макроси. Ако резултатите са нееднозначни, покажи кратък избор и попитай.", parameters: { type: "object", properties: { query: { type: "string", description: "Име и марка, например: 7 Days кроасан какао" }, barcode: { type: "string", description: "Цифрите от баркода, ако са разчетени надеждно от снимка" } } } } },
-  { type: "function", function: { name: "save_food_product", description: "Запазва потвърден продукт в личната продуктова база. Използвай само след като потребителят потвърди разпознатите стойности.", parameters: { type: "object", properties: { name: text, brand: text, barcode: text, package_size: text, serving_grams: { type: "number" }, calories_100g: { type: "number" }, protein_100g: { type: "number" }, carbs_100g: { type: "number" }, fat_100g: { type: "number" }, source: { type: "string", enum: ["Open Food Facts", "AI от снимка", "Добавен ръчно"] } }, required: ["name", "calories_100g", "protein_100g", "carbs_100g", "fat_100g"] } } },
+  { type: "function", function: { name: "save_food_product", description: "Запазва потвърден продукт в личната продуктова база. Използвай само след като потребителят потвърди разпознатите стойности.", parameters: { type: "object", properties: { name: text, brand: text, barcode: text, package_size: text, serving_grams: { type: "number" }, calories_100g: { type: "number" }, protein_100g: { type: "number" }, carbs_100g: { type: "number" }, fat_100g: { type: "number" }, source: { type: "string", enum: ["Open Food Facts", "USDA", "AI от снимка", "Добавен ръчно"] } }, required: ["name", "calories_100g", "protein_100g", "carbs_100g", "fat_100g"] } } },
   { type: "function", function: { name: "get_day", description: "Преглежда всички данни за определен ден: календар, задачи, дневник, хранене и тренировки.", parameters: { type: "object", properties: { date }, required: ["date"] } } },
   { type: "function", function: { name: "save_event", description: "Създава или редактира календарно събитие.", parameters: { type: "object", properties: { id: nullableId, title: text, date, end_date: date, all_day: { type: "boolean" }, start_time: { type: "string" }, end_time: { type: "string" }, location: text, description: text }, required: ["title", "date", "end_date", "all_day"] } } },
   { type: "function", function: { name: "save_task", description: "Създава или редактира задача.", parameters: { type: "object", properties: { id: nullableId, title: text, due_date: date, due_time: { type: "string" }, description: text, priority: { type: "string", enum: ["low", "normal", "high"] }, completed: { type: "boolean" } }, required: ["title", "priority", "completed"] } } },
@@ -40,6 +41,10 @@ export async function executeAssistantTool(name: string, args: Record<string, un
       calories: Math.round(product.calories100g * (product.servingGrams || 100) / 100), protein: Math.round(product.protein100g * (product.servingGrams || 100)) / 100,
       carbs: Math.round(product.carbs100g * (product.servingGrams || 100)) / 100, fat: Math.round(product.fat100g * (product.servingGrams || 100)) / 100,
     })) };
+    if (!barcode) {
+      const generic = (await lookupFoodProducts(query, "")).filter((product) => product.source === "USDA").slice(0, 5);
+      if (generic.length) return { source: "USDA", query, barcode, products: generic.map((product) => ({ barcode: "", name: product.name, brand: product.brand, package: product.packageSize, serving: "100 g", serving_grams: 100, calories: product.calories100g, protein: product.protein100g, carbs: product.carbs100g, fat: product.fat100g })) };
+    }
     const fields = "code,product_name,brands,quantity,product_quantity,serving_size,serving_quantity,nutriments";
     const url = barcode ? new URL(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`) : new URL("https://world.openfoodfacts.org/cgi/search.pl");
     if (barcode) url.searchParams.set("fields", fields);
@@ -92,7 +97,7 @@ export async function executeAssistantTool(name: string, args: Record<string, un
       id: existing?.id ?? crypto.randomUUID(), name: String(args.name ?? "").trim().slice(0, 160), brand: String(args.brand ?? "").trim().slice(0, 120), barcode,
       packageSize: String(args.package_size ?? "").slice(0, 80), servingGrams: Math.max(0, Number(args.serving_grams) || 100), calories100g: Math.max(0, Number(args.calories_100g) || 0),
       protein100g: Math.max(0, Number(args.protein_100g) || 0), carbs100g: Math.max(0, Number(args.carbs_100g) || 0), fat100g: Math.max(0, Number(args.fat_100g) || 0),
-      source: args.source === "Open Food Facts" || args.source === "AI от снимка" ? args.source : "Добавен ръчно" as const,
+      source: args.source === "Open Food Facts" || args.source === "USDA" || args.source === "AI от снимка" ? args.source : "Добавен ръчно" as const,
       imageUrl: existing?.imageUrl ?? "", imagePath: existing?.imagePath ?? "", favorite: existing?.favorite ?? false, createdAt: existing?.createdAt ?? now, updatedAt: now,
     };
     if (!product.name) throw new Error("Липсва име на продукта.");

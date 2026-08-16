@@ -1,14 +1,27 @@
 export type ExternalFoodProduct = {
   id: string; name: string; brand: string; barcode: string; packageSize: string; servingGrams: number;
-  calories100g: number; protein100g: number; carbs100g: number; fat100g: number; imageUrl: string; source: "Open Food Facts";
+  calories100g: number; protein100g: number; carbs100g: number; fat100g: number; imageUrl: string; source: "Open Food Facts" | "USDA";
 };
 
 const number = (value: unknown) => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
+const normalize = (value: string) => value.toLocaleLowerCase("bg-BG").trim().replace(/\s+/g, " ");
+const genericFoods: ExternalFoodProduct[] = [
+  { id: "generic-banana", name: "Банан", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 89, protein100g: 1.1, carbs100g: 22.8, fat100g: .3, imageUrl: "", source: "USDA" },
+  { id: "generic-apple", name: "Ябълка", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 52, protein100g: .3, carbs100g: 13.8, fat100g: .2, imageUrl: "", source: "USDA" },
+  { id: "generic-potato", name: "Картофи", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 77, protein100g: 2, carbs100g: 17.5, fat100g: .1, imageUrl: "", source: "USDA" },
+  { id: "generic-rice", name: "Ориз, сварен", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 130, protein100g: 2.7, carbs100g: 28.2, fat100g: .3, imageUrl: "", source: "USDA" },
+  { id: "generic-chicken", name: "Пилешки гърди, печени", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 165, protein100g: 31, carbs100g: 0, fat100g: 3.6, imageUrl: "", source: "USDA" },
+  { id: "generic-egg", name: "Яйце", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 143, protein100g: 12.6, carbs100g: .7, fat100g: 9.5, imageUrl: "", source: "USDA" },
+  { id: "generic-oats", name: "Овесени ядки", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 379, protein100g: 13.2, carbs100g: 67.7, fat100g: 6.5, imageUrl: "", source: "USDA" },
+];
 
 export async function lookupFoodProducts(query: string, barcode: string) {
   const cleanBarcode = barcode.replace(/\D/g, "").slice(0, 14);
   const cleanQuery = query.trim().slice(0, 160);
   if (!cleanBarcode && !cleanQuery) return [];
+  const normalizedQuery = normalize(cleanQuery);
+  const genericMatches = cleanBarcode ? [] : genericFoods.filter((food) => normalize(food.name) === normalizedQuery || normalize(food.name).startsWith(normalizedQuery));
+  if (genericMatches.length) return genericMatches;
   const fields = "code,product_name,product_name_bg,brands,quantity,serving_quantity,nutriments,image_front_small_url,image_front_url";
   const url = cleanBarcode ? new URL(`https://world.openfoodfacts.org/api/v2/product/${cleanBarcode}.json`) : new URL("https://world.openfoodfacts.org/cgi/search.pl");
   if (cleanBarcode) url.searchParams.set("fields", fields);
@@ -19,7 +32,7 @@ export async function lookupFoodProducts(query: string, barcode: string) {
   const response = await fetch(url, { headers: { "User-Agent": "LifeJournal/1.0 (https://github.com/pegasus9401/life-journal)" }, signal: AbortSignal.timeout(9000), cache: "no-store" });
   if (!response.ok) throw new Error(`Open Food Facts не отговори (${response.status}).`);
   const payload = await response.json() as { product?: Record<string, unknown>; products?: Array<Record<string, unknown>> };
-  return (payload.product ? [payload.product] : payload.products ?? []).flatMap((raw): ExternalFoodProduct[] => {
+  const packaged = (payload.product ? [payload.product] : payload.products ?? []).flatMap((raw): ExternalFoodProduct[] => {
     const nutrients = (raw.nutriments ?? {}) as Record<string, unknown>;
     const name = String(raw.product_name_bg || raw.product_name || "").trim();
     if (!name) return [];
@@ -32,4 +45,5 @@ export async function lookupFoodProducts(query: string, barcode: string) {
       imageUrl: String(raw.image_front_small_url || raw.image_front_url || ""), source: "Open Food Facts",
     }];
   });
+  return [...genericMatches, ...packaged.filter((product) => !genericMatches.some((generic) => normalize(generic.name) === normalize(product.name)))];
 }

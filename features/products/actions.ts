@@ -24,6 +24,12 @@ function cleanProduct(input: ProductDraft, existing?: FoodProduct): FoodProduct 
     imageUrl: String(input.imageUrl ?? "").slice(0, 1000),
     imagePath: String(input.imagePath ?? "").slice(0, 500),
     favorite: Boolean(input.favorite),
+    priceHistory: (Array.isArray(input.priceHistory) ? input.priceHistory : []).slice(0, 30).map((entry) => ({
+      id: String(entry.id || crypto.randomUUID()).slice(0, 80),
+      price: cleanNumber(entry.price, 100000),
+      store: String(entry.store ?? "").trim().slice(0, 120),
+      recordedAt: /^\d{4}-\d{2}-\d{2}$/.test(String(entry.recordedAt)) ? String(entry.recordedAt) : now.slice(0, 10),
+    })).filter((entry) => entry.price > 0),
     createdAt: existing?.createdAt ?? now,
     updatedAt: now,
   };

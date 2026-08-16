@@ -14,13 +14,23 @@ const genericFoods: ExternalFoodProduct[] = [
   { id: "generic-egg", name: "Яйце", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 143, protein100g: 12.6, carbs100g: .7, fat100g: 9.5, imageUrl: "", source: "USDA" },
   { id: "generic-oats", name: "Овесени ядки", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 379, protein100g: 13.2, carbs100g: 67.7, fat100g: 6.5, imageUrl: "", source: "USDA" },
 ];
+const genericAliases: Record<string, string> = {
+  "банан": "generic-banana", "банани": "generic-banana",
+  "ябълка": "generic-apple", "ябълки": "generic-apple",
+  "картоф": "generic-potato", "картофи": "generic-potato",
+  "ориз": "generic-rice", "сварен ориз": "generic-rice",
+  "пилешки гърди": "generic-chicken", "пилешко филе": "generic-chicken",
+  "яйце": "generic-egg", "яйца": "generic-egg",
+  "овес": "generic-oats", "овесени ядки": "generic-oats",
+};
 
 export async function lookupFoodProducts(query: string, barcode: string) {
   const cleanBarcode = barcode.replace(/\D/g, "").slice(0, 14);
   const cleanQuery = query.trim().slice(0, 160);
   if (!cleanBarcode && !cleanQuery) return [];
   const normalizedQuery = normalize(cleanQuery);
-  const genericMatches = cleanBarcode ? [] : genericFoods.filter((food) => normalize(food.name) === normalizedQuery || normalize(food.name).startsWith(normalizedQuery));
+  const aliasId = genericAliases[normalizedQuery];
+  const genericMatches = cleanBarcode ? [] : genericFoods.filter((food) => food.id === aliasId || normalize(food.name) === normalizedQuery);
   if (genericMatches.length) return genericMatches;
   const fields = "code,product_name,product_name_bg,brands,quantity,serving_quantity,nutriments,image_front_small_url,image_front_url";
   const url = cleanBarcode ? new URL(`https://world.openfoodfacts.org/api/v2/product/${cleanBarcode}.json`) : new URL("https://world.openfoodfacts.org/cgi/search.pl");
@@ -29,8 +39,8 @@ export async function lookupFoodProducts(query: string, barcode: string) {
     url.searchParams.set("search_terms", cleanQuery); url.searchParams.set("search_simple", "1"); url.searchParams.set("action", "process");
     url.searchParams.set("json", "1"); url.searchParams.set("page_size", "8"); url.searchParams.set("sort_by", "popularity_key"); url.searchParams.set("fields", fields);
   }
-  const response = await fetch(url, { headers: { "User-Agent": "LifeJournal/1.0 (https://github.com/pegasus9401/life-journal)" }, signal: AbortSignal.timeout(9000), cache: "no-store" });
-  if (!response.ok) throw new Error(`Open Food Facts не отговори (${response.status}).`);
+  const response = await fetch(url, { headers: { "User-Agent": "LifeJournal/1.0 (https://github.com/pegasus9401/life-journal)" }, signal: AbortSignal.timeout(9000), cache: "no-store" }).catch(() => null);
+  if (!response?.ok) return [];
   const payload = await response.json() as { product?: Record<string, unknown>; products?: Array<Record<string, unknown>> };
   const packaged = (payload.product ? [payload.product] : payload.products ?? []).flatMap((raw): ExternalFoodProduct[] => {
     const nutrients = (raw.nutriments ?? {}) as Record<string, unknown>;

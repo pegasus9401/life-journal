@@ -10,7 +10,7 @@ const AVATAR_BUCKET = "journal-photos";
 const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 const ALLOWED_AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "shopping" | "workouts" }) {
+export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "products" | "shopping" | "workouts" }) {
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -23,6 +23,7 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
     ["calendar", "/calendar", "Календар"],
     ["journal", "/journal", "Дневник"],
     ["nutrition", "/nutrition", "Хранене"],
+    ["products", "/products", "Продукти"],
     ["shopping", "/shopping-list", "Пазарски списък"],
     ["workouts", "/workouts", "Тренировки"],
   ] as const;

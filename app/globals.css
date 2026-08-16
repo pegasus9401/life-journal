@@ -653,12 +653,14 @@ html,body{color:#241b35;background:#f7f4fb}
 .meal-menu-create input,.meal-menu-create textarea,.workout-library-editor input,.workout-library-editor select,.workout-library-editor textarea,.quick-form input,.quick-form select,.quick-form textarea{color:var(--life-ink);background:#fff}
 
 .month-calendar,.week-calendar,.day-calendar{border-color:rgba(72,51,96,.13);background:#fff;box-shadow:0 14px 40px rgba(65,44,84,.07)}
+.month-meal-action{display:block;width:100%;padding:0;border:0;background:transparent;cursor:pointer}.month-meal-action .calendar-meal-add{border:1px dashed #bce9da;color:#047857;background:#f0fbf6}.month-meal-action .calendar-meal-badge{transition:filter .15s,transform .15s}.month-meal-action:active .calendar-meal-badge,.month-meal-action:active .calendar-meal-add{filter:brightness(.96);transform:scale(.97)}
 .month-weekdays{background:#eee7f7}.month-day{background:#fff}.month-day:nth-child(7n+1),.month-day:nth-child(7n+7){background:#fcf8ff}.month-day.today{background:linear-gradient(145deg,#eee5ff,#fff)}
 .calendar-item{border-color:#d8caf0;background:#f1eafd}.calendar-item[data-type="meal"]{border-color:#aee7d2;background:#e9faf3}.calendar-item[data-type="task"]{border-color:#f8d39d;background:#fff5df}.calendar-item[data-type="event"]{border-color:#b9ddf5;background:#eaf7ff}
 .quick-add-sheet,.meal-plan-modal{color:var(--life-ink);background:#fff;box-shadow:0 28px 90px rgba(53,37,69,.22)}
 .quick-add-sheet>header button,.meal-plan-modal-close{color:var(--life-muted);background:#f1ebf7}
 .quick-add-backdrop,.meal-plan-modal-backdrop{background:rgba(56,41,72,.38)}
 .day-meal-summary{border-color:#aee7d2;background:#e9faf3}.day-meal-summary-action{color:#047857!important}
+.day-meal-planner-actions{position:sticky;z-index:3;bottom:-1px;padding:10px 0 2px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 18%)}.remove-meal-plan{min-height:46px;border:1px solid #fecaca;border-radius:13px;color:#b91c1c;background:#fff1f2;font-weight:750}
 
 .today-calendar-link{background:#fff;box-shadow:0 8px 24px rgba(65,44,84,.06)}
 .today-main-panel,.today-widget{background:#fff;box-shadow:0 16px 45px rgba(65,44,84,.075)}

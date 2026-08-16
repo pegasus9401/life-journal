@@ -52,6 +52,14 @@ export function ProductLibrary({ initialProducts }: { initialProducts: FoodProdu
   const detectedRef = useRef(false);
   const visibleProducts = useMemo(() => products.filter((product) => `${product.name} ${product.brand} ${product.barcode}`.toLocaleLowerCase("bg-BG").includes(query.toLocaleLowerCase("bg-BG"))), [products, query]);
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("scan") !== "1") return;
+    setScannerOpen(true);
+    url.searchParams.delete("scan");
+    window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+
   const searchExternal = async () => {
     if (!query.trim()) return;
     setBusy(true); setMessage("Търсене в продуктовата база…"); setResults([]);

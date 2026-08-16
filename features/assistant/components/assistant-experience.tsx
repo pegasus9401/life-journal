@@ -39,6 +39,11 @@ export function AssistantExperience() {
 
   function submit(event: FormEvent) { event.preventDefault(); void send(input, image); }
 
+  function openBarcodeScanner() {
+    window.dispatchEvent(new Event("close-assistant-popup"));
+    router.push("/products?scan=1");
+  }
+
   async function attachPhoto(event: ChangeEvent<HTMLInputElement>, mode: "barcode" | "food") {
     const file = event.target.files?.[0];
     event.target.value = "";
@@ -72,7 +77,7 @@ export function AssistantExperience() {
       <form className="assistant-composer" onSubmit={submit}>
         <label htmlFor="assistant-command">Команда към асистента</label>
         <div className="assistant-capture-actions" aria-label="Сканиране и снимане">
-          <label className="assistant-capture-button barcode"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event, "barcode")} disabled={pending} /><span aria-hidden="true">▥</span><b>Сканирай баркод</b></label>
+          <button className="assistant-capture-button barcode" type="button" onClick={openBarcodeScanner} disabled={pending}><span aria-hidden="true">▥</span><b>Сканирай баркод</b></button>
           <label className="assistant-capture-button food"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event, "food")} disabled={pending} /><span aria-hidden="true">📷</span><b>Снимай храна</b></label>
         </div>
         {image ? <div className="assistant-photo-ready">

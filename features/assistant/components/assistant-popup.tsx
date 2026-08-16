@@ -23,6 +23,12 @@ export function AssistantPopup() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("close-assistant-popup", close);
+    return () => window.removeEventListener("close-assistant-popup", close);
+  }, []);
+
   if (pathname === "/login") return null;
 
   return <>
@@ -52,7 +58,9 @@ export function AssistantPopup() {
           flex: 0 0 58px !important;
           min-height: 58px !important;
           padding: 0 12px 0 18px !important;
-          background: rgba(21,19,31,.98) !important;
+          color: #30263b !important;
+          border-color: #eee7f5 !important;
+          background: rgba(255,255,255,.98) !important;
         }
         .assistant-popup .assistant-layout {
           flex: 1 1 auto !important;
@@ -64,7 +72,7 @@ export function AssistantPopup() {
           min-height: 0 !important;
           display: flex !important;
           flex-direction: column !important;
-          background: #15131f !important;
+          background: #fff !important;
         }
         .assistant-popup .assistant-messages {
           flex: 1 1 auto !important;
@@ -83,6 +91,8 @@ export function AssistantPopup() {
           padding: 11px 13px !important;
           font-size: 14px !important;
           line-height: 1.45 !important;
+          color: #30263b !important;
+          background: #f3eef8 !important;
         }
         .assistant-popup .assistant-suggestions {
           flex: 0 0 auto !important;
@@ -96,12 +106,16 @@ export function AssistantPopup() {
           min-height: 44px !important;
           padding: 10px 12px !important;
           font-size: 11px !important;
+          color: #473a55 !important;
+          border-color: #e3d8ee !important;
+          background: #fbf9fd !important;
         }
         .assistant-popup .assistant-composer {
           flex: 0 0 auto !important;
           padding: 10px !important;
           padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
-          background: #100e18 !important;
+          border-color: #e8deef !important;
+          background: #f7f3fa !important;
         }
         .assistant-popup .assistant-input-row {
           grid-template-columns: minmax(0,1fr) 44px !important;
@@ -114,6 +128,14 @@ export function AssistantPopup() {
         .assistant-popup .assistant-capture-button {
           min-height: 48px !important;
           padding: 0 10px !important;
+          color: #5b21b6 !important;
+          border-color: #d9c8f4 !important;
+          background: #f1eafd !important;
+        }
+        .assistant-popup .assistant-capture-button.food {
+          color: #047857 !important;
+          border-color: #afe5d1 !important;
+          background: #eaf9f3 !important;
         }
         .assistant-popup .assistant-capture-button b { display: inline !important; }
         .assistant-popup .assistant-composer textarea {
@@ -124,6 +146,9 @@ export function AssistantPopup() {
           border-radius: 13px !important;
           resize: none !important;
           font-size: 16px !important;
+          color: #30263b !important;
+          border-color: #ded4e7 !important;
+          background: #fff !important;
         }
         .assistant-popup .assistant-input-row > button {
           width: 44px !important;

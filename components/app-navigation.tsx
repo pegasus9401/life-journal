@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { signOut } from "@/features/auth/actions";
@@ -11,12 +12,15 @@ const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 const ALLOWED_AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "products" | "promotions" | "shopping" | "workouts" }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarMessage, setAvatarMessage] = useState("");
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const avatarInput = useRef<HTMLInputElement>(null);
+  const gestureStart = useRef<{ x: number; y: number; target: Element | null } | null>(null);
+  const [gestureHint, setGestureHint] = useState(false);
 
   const links = [
     ["today", "/today", "Днес"],
@@ -39,6 +43,32 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
   };
 
   useEffect(() => { void loadAvatar(); }, []);
+
+  useEffect(() => {
+    const interactive = "a,button,input,textarea,select,label,[role='dialog'],[data-gesture-lock],.meal-plan-tabs,.managed-meal-tabs,.workout-library-tabs,.workout-section-tabs,.shopping-store-plan,.product-results";
+    const start = (event: TouchEvent) => { const touch = event.touches[0]; if (touch) gestureStart.current = { x: touch.clientX, y: touch.clientY, target: event.target instanceof Element ? event.target : null }; };
+    const end = (event: TouchEvent) => {
+      const origin = gestureStart.current; const touch = event.changedTouches[0]; gestureStart.current = null;
+      if (!origin || !touch) return;
+      const dx = touch.clientX - origin.x; const dy = touch.clientY - origin.y;
+      if (origin.target?.closest("[role='dialog'],.quick-add-sheet,.assistant-popup,.active-workout-panel") && dy > 85 && Math.abs(dy) > Math.abs(dx) * 1.25) { window.dispatchEvent(new Event("gesture-close-overlay")); return; }
+      if (open) { if (dx < -55 && Math.abs(dx) > Math.abs(dy)) setOpen(false); return; }
+      if (origin.x < 26 && dx > 55 && Math.abs(dx) > Math.abs(dy)) { setOpen(true); setProfileOpen(false); return; }
+      if (Math.abs(dx) < 90 || Math.abs(dx) < Math.abs(dy) * 1.35 || origin.target?.closest(interactive)) return;
+      const index = links.findIndex(([key]) => key === active);
+      const destination = index < 0 ? undefined : dx < 0 ? links[index + 1] : links[index - 1];
+      if (destination) router.push(destination[1]);
+    };
+    document.addEventListener("touchstart", start, { passive: true }); document.addEventListener("touchend", end, { passive: true });
+    return () => { document.removeEventListener("touchstart", start); document.removeEventListener("touchend", end); };
+  }, [active, open, router]);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("life-gesture-hint-seen")) return;
+    setGestureHint(true);
+    const timer = window.setTimeout(() => { setGestureHint(false); window.localStorage.setItem("life-gesture-hint-seen", "1"); }, 4200);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const chooseAvatar = () => {
     setProfileOpen(false);
@@ -144,5 +174,6 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
       </nav>
       <form className="burger-logout" action={signOut}><button type="submit"><span>Изход</span><b>↗</b></button></form>
     </aside>
+    {gestureHint ? <div className="gesture-hint" role="status"><span>↔</span><div><b>Управление с жестове</b><small>Плъзни настрани за секциите или от левия ръб за менюто</small></div><button type="button" aria-label="Скрий подсказката" onClick={() => { setGestureHint(false); window.localStorage.setItem("life-gesture-hint-seen", "1"); }}>×</button></div> : null}
   </>;
 }

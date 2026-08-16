@@ -48,6 +48,13 @@ export function CalendarExperience({ view, selected, today, items, mealPlans = [
     return () => { document.body.style.overflow = previousOverflow; window.removeEventListener("keydown", closeOnEscape); };
   }, [mealDate]);
 
+  useEffect(() => {
+    if (!mealDate) return;
+    const close = () => setMealDate(null);
+    window.addEventListener("gesture-close-overlay", close);
+    return () => window.removeEventListener("gesture-close-overlay", close);
+  }, [mealDate]);
+
   return <>
     <header className="calendar-header"><div><p className="life-kicker">Твоето време</p><h1>{title}</h1></div><div className="calendar-controls"><div className="view-switcher">{(["month", "week", "day"] as CalendarView[]).map(value => <Link key={value} className={view === value ? "active" : ""} href={href(value, selected)}>{value === "month" ? "Месец" : value === "week" ? "Седмица" : "Ден"}</Link>)}</div><div className="date-navigation"><Link aria-label="Назад" href={href(view, previous)}>←</Link><Link href={href(view, today)}>Днес</Link><Link aria-label="Напред" href={href(view, next)}>→</Link></div></div></header>
     {view === "month" ? <MonthView selected={selected} today={today} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}

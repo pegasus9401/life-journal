@@ -213,6 +213,12 @@ export function ActiveWorkoutTracker() {
     return () => window.clearInterval(timer);
   }, [active]);
 
+  useEffect(() => {
+    const collapse = () => setExpanded(false);
+    window.addEventListener("gesture-close-overlay", collapse);
+    return () => window.removeEventListener("gesture-close-overlay", collapse);
+  }, []);
+
   const totals = useMemo(() => {
     if (!active) return { all: 0, done: 0, volume: 0 };
     let all = 0;

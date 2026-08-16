@@ -26,7 +26,8 @@ export function AssistantPopup() {
   useEffect(() => {
     const close = () => setOpen(false);
     window.addEventListener("close-assistant-popup", close);
-    return () => window.removeEventListener("close-assistant-popup", close);
+    window.addEventListener("gesture-close-overlay", close);
+    return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("gesture-close-overlay", close); };
   }, []);
 
   if (pathname === "/login") return null;

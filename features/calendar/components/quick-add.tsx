@@ -50,6 +50,13 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
     if (state.status === "success") { router.refresh(); const timer = setTimeout(() => setOpen(false), 450); return () => clearTimeout(timer); }
   }, [state, router]);
 
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener("gesture-close-overlay", close);
+    return () => window.removeEventListener("gesture-close-overlay", close);
+  }, [open]);
+
   const changeMenu = (value: string) => { setMenu(value); setMeal("Закуска"); setVariant(0); };
   const changeMeal = (value: string) => { setMeal(value); setVariant(0); };
 

@@ -614,4 +614,5 @@
 .assistant-capture-button span{font-size:17px;line-height:1}.assistant-capture-button b{font-size:10px;font-weight:800}
 .assistant-capture-button:has(input:disabled){cursor:wait;opacity:.6}
 .assistant-popup .assistant-composer{gap:9px}.assistant-popup .assistant-photo-chip{margin-top:0}
+.assistant-photo-ready{display:grid;gap:8px}.assistant-photo-send{min-height:46px;border:0;border-radius:13px;color:#fff;background:linear-gradient(135deg,#8b5cf6,#6d28d9);box-shadow:0 10px 24px rgba(109,40,217,.22);cursor:pointer;font-size:11px;font-weight:850}.assistant-photo-send:disabled{cursor:wait;opacity:.6}
 @media(max-width:420px){.assistant-composer .assistant-capture-button{padding:0 7px}.assistant-capture-button b{font-size:9px}}

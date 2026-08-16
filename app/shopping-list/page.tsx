@@ -49,7 +49,7 @@ function addPriceEstimates(items:ShoppingItem[],products:FoodProduct[]){
     return {...item,estimatedPrice:packages*price.price,pricedFrom:product.name};
   });
 }
-const money=(value:number)=>new Intl.NumberFormat("bg-BG",{style:"currency",currency:"BGN"}).format(value);
+const money=(value:number)=>new Intl.NumberFormat("bg-BG",{style:"currency",currency:"EUR"}).format(value);
 export default async function ShoppingListPage() {
   const today=localDateKey();
   const supabase=await createClient(); const {data:{user}}=await supabase.auth.getUser(); if(!user) redirect("/login");

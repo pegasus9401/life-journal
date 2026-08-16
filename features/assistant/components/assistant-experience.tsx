@@ -38,7 +38,7 @@ export function AssistantExperience() {
 
   function submit(event: FormEvent) { event.preventDefault(); void send(input, image); }
 
-  async function attachPhoto(event: ChangeEvent<HTMLInputElement>) {
+  async function attachPhoto(event: ChangeEvent<HTMLInputElement>, mode: "barcode" | "food") {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
@@ -51,7 +51,12 @@ export function AssistantExperience() {
       canvas.width = Math.round(bitmap.width * scale); canvas.height = Math.round(bitmap.height * scale);
       canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
       bitmap.close();
-      setImage(canvas.toDataURL("image/jpeg", .78)); setImageName(file.name); setImageError("");
+      setImage(canvas.toDataURL("image/jpeg", .78));
+      setImageName(mode === "barcode" ? "Снимка на баркод" : "Снимка на храна");
+      setInput((current) => current.trim() ? current : mode === "barcode"
+        ? "Разпознай баркода и продукта от снимката. Покажи ми намерените хранителни стойности, преди да го добавиш."
+        : "Разпознай храната от снимката и ми помогни да я добавя към храненето за днес.");
+      setImageError("");
     } catch { setImageError("Този формат не може да бъде прочетен. Опитай с JPG или PNG."); }
   }
 
@@ -65,10 +70,14 @@ export function AssistantExperience() {
       {messages.length === 1 ? <div className="assistant-suggestions">{suggestions.map((suggestion) => <button type="button" key={suggestion} onClick={() => void send(suggestion)}>{suggestion}</button>)}</div> : null}
       <form className="assistant-composer" onSubmit={submit}>
         <label htmlFor="assistant-command">Команда към асистента</label>
+        <div className="assistant-capture-actions" aria-label="Сканиране и снимане">
+          <label className="assistant-capture-button barcode"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event, "barcode")} disabled={pending} /><span aria-hidden="true">▥</span><b>Сканирай баркод</b></label>
+          <label className="assistant-capture-button food"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event, "food")} disabled={pending} /><span aria-hidden="true">📷</span><b>Снимай храна</b></label>
+        </div>
         {image ? <div className="assistant-photo-chip"><span>📷 {imageName || "Снимка на продукт"}</span><button type="button" onClick={() => { setImage(null); setImageName(""); }} aria-label="Премахни снимката">×</button></div> : null}
         {imageError ? <p className="assistant-photo-error">{imageError}</p> : null}
-        <div className="assistant-input-row"><label className="assistant-camera" title="Снимай или избери продукт"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event)} disabled={pending} /><span aria-hidden="true">📷</span><b>Снимай</b></label><textarea id="assistant-command" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Напиши команда…" rows={2} maxLength={8000} disabled={pending} /><button type="submit" disabled={pending || (!input.trim() && !image)} aria-label="Изпрати">↑</button></div>
-        <small>Снимай лицето, баркода или хранителния етикет на продукта.</small>
+        <div className="assistant-input-row"><textarea id="assistant-command" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Напиши команда…" rows={2} maxLength={8000} disabled={pending} /><button type="submit" disabled={pending || (!input.trim() && !image)} aria-label="Изпрати">↑</button></div>
+        <small>При баркод го дръж целия в кадър. При храна снимай порцията отгоре.</small>
       </form>
     </div>
   </section>;

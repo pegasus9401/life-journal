@@ -104,17 +104,18 @@ export function AssistantPopup() {
           background: #100e18 !important;
         }
         .assistant-popup .assistant-input-row {
-          grid-template-columns: 42px minmax(0,1fr) 42px !important;
+          grid-template-columns: minmax(0,1fr) 44px !important;
           gap: 7px !important;
         }
-        .assistant-popup .assistant-camera {
-          min-width: 42px !important;
-          width: 42px !important;
-          height: 42px !important;
-          padding: 0 !important;
-          border-radius: 13px !important;
+        .assistant-popup .assistant-capture-actions {
+          grid-template-columns: 1fr 1fr !important;
+          gap: 7px !important;
         }
-        .assistant-popup .assistant-camera b { display: none !important; }
+        .assistant-popup .assistant-capture-button {
+          min-height: 48px !important;
+          padding: 0 10px !important;
+        }
+        .assistant-popup .assistant-capture-button b { display: inline !important; }
         .assistant-popup .assistant-composer textarea {
           min-height: 42px !important;
           height: 42px !important;
@@ -125,8 +126,8 @@ export function AssistantPopup() {
           font-size: 16px !important;
         }
         .assistant-popup .assistant-input-row > button {
-          width: 42px !important;
-          height: 42px !important;
+          width: 44px !important;
+          height: 44px !important;
         }
         .assistant-popup .assistant-composer small { display: none !important; }
         .assistant-fab.is-open { display: none !important; }

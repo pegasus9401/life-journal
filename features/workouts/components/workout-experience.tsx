@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { createClient } from "@/lib/supabase/client";
 import { START_WORKOUT_EVENT, type StartWorkoutDetail } from "./active-workout-tracker";
+import type { WorkoutSession } from "../types";
 
 const DAYS = [
   { key: "monday", short: "Пон", label: "Понеделник" },
@@ -222,12 +223,23 @@ function TemplateView({ template, onStart, onEdit, onDelete }: { template: Worko
   </section>;
 }
 
-export function WorkoutExperience({ initialTemplates }: { initialTemplates?: unknown }) {
+const historyDate = new Intl.DateTimeFormat("bg-BG", { weekday: "short", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+function WorkoutHistory({ sessions }: { sessions: WorkoutSession[] }) {
+  if (!sessions.length) return <section className="workout-history-empty"><span>◷</span><h2>Все още няма завършени тренировки</h2><p>След като натиснеш „Приключи“, резултатът ще се появи тук.</p></section>;
+  return <section className="workout-history"><header><div><p className="life-kicker">Твоят прогрес</p><h2>История на тренировките</h2></div><strong>{sessions.length} {sessions.length === 1 ? "тренировка" : "тренировки"}</strong></header><div className="workout-history-list">{sessions.map(session => {
+    const totalSets = session.exercises.reduce((sum, exercise) => sum + exercise.sets, 0);
+    const totalVolume = session.exercises.reduce((sum, exercise) => sum + (exercise.set_results?.reduce((setSum, set) => setSum + set.weight * set.reps, 0) ?? exercise.weight * exercise.sets), 0);
+    return <details className="workout-history-card" key={session.id}><summary><span className="workout-history-icon">✓</span><div><small>{historyDate.format(new Date(`${session.workout_date}T00:00:00Z`))}</small><h3>{session.title}</h3><p>{session.exercises.length} упражнения · {totalSets} серии</p></div><div className="workout-history-duration"><b>{session.duration_minutes}</b><small>минути</small></div><i>⌄</i></summary><div className="workout-history-details"><div className="workout-history-stats"><span><b>{totalSets}</b>серии</span><span><b>{Math.round(totalVolume).toLocaleString("bg-BG")}</b>кг обем</span><span><b>{session.exercises.length}</b>упражнения</span></div>{session.exercises.map((exercise, index) => <article key={`${exercise.name}-${index}`}><header><span>{String(index + 1).padStart(2, "0")}</span><div><b>{exercise.name}</b><small>{exercise.muscle_group || "Упражнение"}</small></div></header>{exercise.set_results?.length ? <div className="workout-history-sets"><span>Серия</span><span>Кг</span><span>Повторения</span>{exercise.set_results.map(set => <div key={set.set}><b>{set.set}</b><strong>{set.weight || "-"}</strong><strong>{set.reps}</strong></div>)}</div> : <p>{exercise.sets} серии · {exercise.reps} повторения · {exercise.weight || 0} кг</p>}</article>)}</div></details>;
+  })}</div></section>;
+}
+
+export function WorkoutExperience({ initialTemplates, initialHistory = [] }: { initialTemplates?: unknown; initialHistory?: WorkoutSession[] }) {
   const [templates, setTemplates] = useState<WorkoutTemplate[]>(() => normalizeTemplates(initialTemplates));
   const [selectedId, setSelectedId] = useState(() => normalizeTemplates(initialTemplates)[0]?.id ?? "");
   const [draft, setDraft] = useState<WorkoutTemplate | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
+  const [screen, setScreen] = useState<"programs" | "history">("programs");
 
   const selected = templates.find((template) => template.id === selectedId) ?? templates[0] ?? null;
 
@@ -297,9 +309,11 @@ export function WorkoutExperience({ initialTemplates }: { initialTemplates?: unk
       <button type="button" onClick={addTemplate}>＋ Добави тренировка</button>
     </header>
 
-    {templates.length ? <nav className="workout-library-tabs" aria-label="Тренировъчни програми">{templates.map((template) => <button className={selected?.id === template.id && !draft ? "active" : ""} key={template.id} type="button" onClick={() => { setSelectedId(template.id); setDraft(null); }}><span>{template.name}</span><small>{template.exercises.length} упражнения</small></button>)}</nav> : null}
+    <nav className="workout-section-tabs" aria-label="Тренировки"><button className={screen === "programs" ? "active" : ""} type="button" onClick={() => setScreen("programs")}><span>Програми</span><small>{templates.length}</small></button><button className={screen === "history" ? "active" : ""} type="button" onClick={() => setScreen("history")}><span>История</span><small>{initialHistory.length}</small></button></nav>
 
-    {draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onStart={() => startWorkout(selected)} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
+    {screen === "programs" && templates.length ? <nav className="workout-library-tabs" aria-label="Тренировъчни програми">{templates.map((template) => <button className={selected?.id === template.id && !draft ? "active" : ""} key={template.id} type="button" onClick={() => { setSelectedId(template.id); setDraft(null); }}><span>{template.name}</span><small>{template.exercises.length} упражнения</small></button>)}</nav> : null}
+
+    {screen === "history" ? <WorkoutHistory sessions={initialHistory} /> : draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onStart={() => startWorkout(selected)} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
 
     {message ? <p className={`workout-library-message ${saveState === "error" ? "is-error" : saveState === "saved" ? "is-success" : ""}`}>{message}</p> : null}
   </section>;

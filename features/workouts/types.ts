@@ -7,6 +7,7 @@ export type WorkoutExercise = {
   weight: number;
   rest_seconds?: number;
   muscle_group?: string;
+  set_results?: { set: number; reps: number; weight: number }[];
 };
 
 export type WorkoutSession = {

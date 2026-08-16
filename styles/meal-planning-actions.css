@@ -29,6 +29,16 @@
   opacity: .6;
 }
 
+.remove-meal-plan {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fff1f2;
+}
+
+.remove-meal-plan:hover {
+  background: #ffe4e6;
+}
+
 @media (max-width: 560px) {
   .day-meal-planner-actions {
     grid-template-columns: 1fr;

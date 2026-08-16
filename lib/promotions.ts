@@ -56,6 +56,27 @@ export function bestPromotions(query: string, offers: Promotion[], limit = 3) {
   return offers.map((offer) => ({ offer, score: promotionMatchScore(query, offer.name) })).filter((match) => match.score >= .5).sort((a, b) => b.score - a.score || a.offer.price - b.offer.price).slice(0, limit).map((match) => match.offer);
 }
 
+const dietAliases = [
+  "high protein", "protein pudding", "protein quark", "skyr", "извара", "кисело мляко", "прясно мляко", "моцарела light", "крема сирене", "сирене", "кашкавал",
+  "пилешко", "пилешки гърди", "пилешки бут", "пуешко филе", "пуешки гърди", "свинско контра филе", "свински врат", "пъстърва", "сьомга", "яйца",
+  "банан", "ябълка", "домат", "картофи", "зелена салата", "зеленчуци", "ориз", "овесени ядки", "протеинов хляб", "пълнозърнест хляб", "лаваш", "макарони",
+  "бадеми", "фъстъчено масло", "зехтин", "песто", "протеин на прах", "суроватъчен протеин",
+];
+
+export function dietTermsFromMenus(menus: Record<string, Record<string, string[]>>) {
+  const terms = new Set(dietAliases);
+  for (const menu of Object.values(menus)) for (const options of Object.values(menu)) for (const option of options) for (const raw of option.split(" + ")) {
+    const term = raw.replace(/^.*?:\s*/, "").replace(/\s*-\s*\d.*$/, "").replace(/^\d+\s*/, "").trim();
+    if (term.length >= 4 && term !== "салата") terms.add(term);
+  }
+  return [...terms];
+}
+
+export function isDietSuitablePromotion(offer: Promotion, terms: string[]) {
+  const name = normalizeProductName(offer.name);
+  return terms.some((term) => { const normalized = normalizeProductName(term); return normalized.length >= 4 && (name.includes(normalized) || promotionMatchScore(normalized, name) >= .5); });
+}
+
 function isCurrentOrUpcoming(value: string) {
   const match = value.match(/^(\d{1,2})\.(\d{1,2})/); if (!match) return true;
   const now = new Date(); let year = now.getUTCFullYear(); const month = Number(match[2]) - 1;

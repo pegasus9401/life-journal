@@ -24,7 +24,7 @@ export function AssistantExperience() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   async function send(text: string, attachedImage: string | null = null) {
-    const command = text.trim(); if (!command || pending) return;
+    const command = text.trim() || (attachedImage ? "Анализирай тази снимка." : ""); if (!command || pending) return;
     const nextMessages: Message[] = [...messages, { role: "user", content: command }];
     setMessages(nextMessages); setInput(""); setPending(true); setImage(null); setImageName(""); setImageError("");
     requestAnimationFrame(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }));
@@ -77,10 +77,10 @@ export function AssistantExperience() {
         </div>
         {image ? <div className="assistant-photo-ready">
           <div className="assistant-photo-chip"><Image src={image} alt={imageName || "Прикачена снимка"} width={48} height={48} unoptimized /><span>{imageName || "Прикачена снимка"}</span><button type="button" onClick={() => { setImage(null); setImageName(""); }} aria-label="Премахни снимката">×</button></div>
-          <button className="assistant-photo-send" type="button" disabled={pending || !input.trim()} onClick={() => void send(input, image)}>{pending ? "Изпращане…" : "Изпрати"}</button>
+          <button className="assistant-photo-send" type="button" disabled={pending} onClick={() => void send(input, image)}>{pending ? "Изпращане…" : "Изпрати снимката"}</button>
         </div> : null}
         {imageError ? <p className="assistant-photo-error">{imageError}</p> : null}
-        <div className="assistant-input-row"><textarea id="assistant-command" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Напиши какво искаш да направя със снимката…" rows={2} maxLength={8000} disabled={pending} /><button type="submit" disabled={pending || !input.trim()} aria-label="Изпрати">↑</button></div>
+        <div className="assistant-input-row"><textarea id="assistant-command" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Добави инструкция по желание…" rows={2} maxLength={8000} disabled={pending} /><button type="submit" disabled={pending || (!input.trim() && !image)} aria-label="Изпрати">↑</button></div>
         <small>При баркод го дръж целия в кадър. При храна снимай порцията отгоре.</small>
       </form>
     </div>

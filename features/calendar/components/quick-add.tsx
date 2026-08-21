@@ -4,15 +4,10 @@ import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { saveBirthday, saveEvent, saveTask, type CalendarActionState } from "../actions";
 import { DEFAULT_TIMEZONE } from "../domain/date-utils";
+import { CalendarStickerPicker } from "./calendar-sticker-picker";
 
 const initial: CalendarActionState = { status: "idle", message: "" };
-type Kind = "event" | "task" | "meal" | "birthday" | "sticker";
-
-const calendarStickers = [
-  "🎂", "🎉", "❤️", "⭐", "😊", "🥳", "💪", "🏆",
-  "✈️", "🏖️", "🚗", "🏠", "💼", "💰", "🛒", "🎁",
-  "☕", "🍽️", "💧", "💊", "🌧️", "☀️", "🌙", "🐾",
-];
+type Kind = "event" | "task" | "meal" | "birthday";
 
 const mealOptions: Record<string, Record<string, string[]>> = {
   "Меню 1": {
@@ -47,7 +42,6 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
   const [meal, setMeal] = useState("Закуска");
   const [variant, setVariant] = useState(0);
   const [sticker, setSticker] = useState("🎉");
-  const [stickerDate, setStickerDate] = useState(defaultDate);
   const [eventState, eventAction, eventPending] = useActionState(saveEvent, initial);
   const [taskState, taskAction, taskPending] = useActionState(saveTask, initial);
   const [birthdayState, birthdayAction, birthdayPending] = useActionState(saveBirthday, initial);
@@ -74,7 +68,7 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
       <section className="quick-add-sheet" role="dialog" aria-modal="true" aria-labelledby="quick-add-title">
         <header><div><p className="kicker">Бързо добавяне</p><h2 id="quick-add-title">Какво предстои?</h2></div><button type="button" aria-label="Затвори" onClick={() => setOpen(false)}>×</button></header>
         <div className="quick-add-tabs" role="tablist">
-          {(["event","task","meal","birthday","sticker"] as Kind[]).map((item) => <button key={item} type="button" role="tab" aria-selected={kind === item} onClick={() => setKind(item)}>{item === "event" ? "Събитие" : item === "task" ? "Задача" : item === "meal" ? "Хранене" : item === "birthday" ? "Рожден ден" : "Стикер"}</button>)}
+          {(["event","task","meal","birthday"] as Kind[]).map((item) => <button key={item} type="button" role="tab" aria-selected={kind === item} onClick={() => setKind(item)}>{item === "event" ? "Събитие" : item === "task" ? "Задача" : item === "meal" ? "Хранене" : "Рожден ден"}</button>)}
         </div>
         {kind === "event" ? <form action={eventAction} className="quick-form">
           <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} />
@@ -84,14 +78,14 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
           {!allDay ? <div className="quick-form-row"><label><span>От</span><input name="startTime" type="time" defaultValue="09:00" required /></label><label><span>До</span><input name="endTime" type="time" defaultValue="10:00" required /></label></div> : null}
           <div className="quick-form-row"><label><span>Място</span><input name="location" placeholder="По желание" /></label><label><span>Повторение</span><select name="recurrenceKind" defaultValue="none"><option value="none">Не се повтаря</option><option value="daily">Всеки ден</option><option value="weekly">Всяка седмица</option><option value="monthly">Всеки месец</option><option value="yearly">Всяка година</option></select></label></div>
           <div className="quick-form-row"><label><span>Категория</span><input name="category" defaultValue="personal" /></label><label><span>Цвят</span><select name="color" defaultValue="violet"><option value="violet">Виолетов</option><option value="indigo">Индиго</option><option value="rose">Розов</option><option value="amber">Кехлибарен</option><option value="emerald">Зелен</option><option value="slate">Сив</option></select></label></div>
-          <label><span>Описание</span><textarea name="description" rows={3} /></label><button className="primary-button" disabled={eventPending}>Запази събитието</button>
+          <label><span>Описание</span><textarea name="description" rows={3} /></label><CalendarStickerPicker value={sticker} onChange={setSticker} /><button className="primary-button" disabled={eventPending}>Запази събитието</button>
         </form> : null}
         {kind === "task" ? <form action={taskAction} className="quick-form">
           <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} />
           <label><span>Задача</span><input name="title" autoFocus required placeholder="Какво трябва да направиш?" /></label>
           <div className="quick-form-row"><label><span>Дата</span><input name="dueDate" type="date" defaultValue={defaultDate} /></label><label><span>Час</span><input name="dueTime" type="time" /></label></div>
           <div className="quick-form-row"><label><span>Приоритет</span><select name="priority" defaultValue="normal"><option value="low">Нисък</option><option value="normal">Нормален</option><option value="high">Висок</option></select></label><label><span>Повторение</span><select name="recurrenceKind" defaultValue="none"><option value="none">Не се повтаря</option><option value="daily">Всеки ден</option><option value="weekly">Всяка седмица</option><option value="monthly">Всеки месец</option><option value="yearly">Всяка година</option></select></label></div>
-          <label><span>Категория</span><input name="category" placeholder="По желание" /></label><label><span>Описание</span><textarea name="description" rows={3} /></label><button className="primary-button" disabled={taskPending}>Запази задачата</button>
+          <label><span>Категория</span><input name="category" placeholder="По желание" /></label><label><span>Описание</span><textarea name="description" rows={3} /></label><CalendarStickerPicker value={sticker} onChange={setSticker} /><button className="primary-button" disabled={taskPending}>Запази задачата</button>
         </form> : null}
         {kind === "meal" ? <form action={eventAction} className="quick-form">
           <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} /><input type="hidden" name="title" value={`${meal} · ${menu} · Вариант ${variant + 1}`} /><input type="hidden" name="description" value={variants[variant] ?? ""} /><input type="hidden" name="endDate" value={defaultDate} /><input type="hidden" name="allDay" value="on" /><input type="hidden" name="category" value="meal" /><input type="hidden" name="color" value="violet" /><input type="hidden" name="recurrenceKind" value="none" />
@@ -104,20 +98,6 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
         {kind === "birthday" ? <form action={birthdayAction} className="quick-form">
           <label><span>Име</span><input name="personName" autoFocus required placeholder="Име на човека" /></label><label><span>Дата на раждане</span><input name="birthDate" type="date" required /></label>
           <label className="inline-check"><input name="birthYearKnown" type="checkbox" /> Годината е точна</label><label><span>Бележки</span><textarea name="notes" rows={3} /></label><button className="primary-button" disabled={birthdayPending}>Запази рождения ден</button>
-        </form> : null}
-        {kind === "sticker" ? <form action={eventAction} className="quick-form sticker-form">
-          <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} />
-          <input type="hidden" name="title" value={sticker} />
-          <input type="hidden" name="description" value="Календарен стикер" />
-          <input type="hidden" name="endDate" value={stickerDate} />
-          <input type="hidden" name="allDay" value="on" />
-          <input type="hidden" name="category" value="sticker" />
-          <input type="hidden" name="color" value="violet" />
-          <input type="hidden" name="recurrenceKind" value="none" />
-          <label><span>Дата</span><input name="date" type="date" value={stickerDate} onChange={(event) => setStickerDate(event.target.value)} required /></label>
-          <fieldset className="calendar-sticker-picker"><legend>Избери стикер</legend><div>{calendarStickers.map((item) => <button className={sticker === item ? "selected" : ""} key={item} type="button" aria-label={`Избери стикер ${item}`} aria-pressed={sticker === item} onClick={() => setSticker(item)}>{item}</button>)}</div></fieldset>
-          <div className="calendar-sticker-preview" aria-live="polite"><span>{sticker}</span><small>Ще се покаже върху избрания ден</small></div>
-          <button className="primary-button" disabled={eventPending}>Добави стикера</button>
         </form> : null}
         <p className={`form-message ${state.status}`} aria-live="polite">{state.message}</p>
       </section>

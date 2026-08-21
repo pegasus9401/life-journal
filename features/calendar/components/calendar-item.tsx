@@ -7,6 +7,7 @@ const typeLabels = { event: "Събитие", task: "Задача", birthday: "�
 export function CalendarItem({ item, compact = false }: { item: Item; compact?: boolean }) {
   const content = <>
     <span className={`calendar-item-dot color-${item.color}`} />
+    {item.sticker ? <span className="calendar-item-sticker" aria-hidden="true">{item.sticker}</span> : null}
     <span className="calendar-item-copy">
       {!compact ? <small>{typeLabels[item.type]}</small> : null}
       <strong>{item.title}</strong>

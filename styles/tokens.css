@@ -10,6 +10,21 @@
   color-scheme: light;
 }
 
+/* PEGASOS / Stitch mobile visual tokens */
+:root {
+  --pegasos-bg: #f2f2f7;
+  --pegasos-surface: #ffffff;
+  --pegasos-surface-soft: #f6f2ff;
+  --pegasos-ink: #1b1a28;
+  --pegasos-muted: #6f7880;
+  --pegasos-line: rgba(190, 200, 208, .42);
+  --pegasos-primary: #078dc0;
+  --pegasos-primary-dark: #006388;
+  --pegasos-secondary: #35647c;
+  --pegasos-tertiary: #716fa6;
+  --pegasos-card-shadow: 0 4px 20px rgba(28, 38, 48, .06);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --ink: #ece8df;
@@ -23,3 +38,4 @@
     color-scheme: dark;
   }
 }
+

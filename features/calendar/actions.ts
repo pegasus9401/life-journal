@@ -19,7 +19,7 @@ async function userClient() {
 
 export async function saveEvent(_state: CalendarActionState, formData: FormData): Promise<CalendarActionState> {
   const sticker = formData.get("sticker")?.toString() || "";
-  const parsed = eventSchema.safeParse({ id: formData.get("id") || undefined, title: formData.get("title"), description: formData.get("description"), date: formData.get("date"), endDate: formData.get("endDate"), allDay: formData.get("allDay") === "on", startTime: formData.get("startTime") || undefined, endTime: formData.get("endTime") || undefined, timezone: formData.get("timezone"), location: formData.get("location"), category: formData.get("category"), color: formData.get("color"), recurrenceKind: formData.get("recurrenceKind"), recurrenceEnd: formData.get("recurrenceEnd") });
+  const parsed = eventSchema.safeParse({ id: formData.get("id") || undefined, title: formData.get("title"), description: formData.get("description"), date: formData.get("date"), endDate: formData.get("endDate"), allDay: formData.get("allDay") === "on", startTime: formData.get("startTime") || undefined, endTime: formData.get("endTime") || undefined, timezone: formData.get("timezone"), location: formData.get("location"), category: formData.get("category"), color: formData.get("color"), recurrenceKind: formData.get("recurrenceKind"), recurrenceEnd: formData.get("recurrenceEnd") || undefined });
   if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? "Провери събитието.");
   const { supabase, user } = await userClient(); if (!user) return fail("Сесията изтече.");
   const value = parsed.data;
@@ -30,7 +30,7 @@ export async function saveEvent(_state: CalendarActionState, formData: FormData)
 
 export async function saveTask(_state: CalendarActionState, formData: FormData): Promise<CalendarActionState> {
   const sticker = formData.get("sticker")?.toString() || "";
-  const parsed = taskSchema.safeParse({ id: formData.get("id") || undefined, title: formData.get("title"), description: formData.get("description"), dueDate: formData.get("dueDate"), dueTime: formData.get("dueTime"), timezone: formData.get("timezone"), priority: formData.get("priority"), category: formData.get("category"), recurrenceKind: formData.get("recurrenceKind"), recurrenceEnd: formData.get("recurrenceEnd") });
+  const parsed = taskSchema.safeParse({ id: formData.get("id") || undefined, title: formData.get("title"), description: formData.get("description"), dueDate: formData.get("dueDate"), dueTime: formData.get("dueTime"), timezone: formData.get("timezone"), priority: formData.get("priority"), category: formData.get("category"), recurrenceKind: formData.get("recurrenceKind"), recurrenceEnd: formData.get("recurrenceEnd") || undefined });
   if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? "Провери задачата.");
   const { supabase, user } = await userClient(); if (!user) return fail("Сесията изтече."); const value = parsed.data;
   const data = { owner_id: user.id, title: value.title, description: withStickerDescription(value.description, sticker), due_date: value.dueDate, due_time: value.dueTime, timezone: value.timezone, priority: value.priority, category: value.category, recurrence_kind: value.recurrenceKind, recurrence_interval: 1, recurrence_end: value.recurrenceEnd };

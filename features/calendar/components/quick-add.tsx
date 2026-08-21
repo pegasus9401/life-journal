@@ -94,7 +94,7 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
           <label><span>Категория</span><input name="category" placeholder="По желание" /></label><label><span>Описание</span><textarea name="description" rows={3} /></label><button className="primary-button" disabled={taskPending}>Запази задачата</button>
         </form> : null}
         {kind === "meal" ? <form action={eventAction} className="quick-form">
-          <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} /><input type="hidden" name="title" value={`${meal} · ${menu} · Вариант ${variant + 1}`} /><input type="hidden" name="description" value={variants[variant] ?? ""} /><input type="hidden" name="endDate" value={stickerDate} /><input type="hidden" name="allDay" value="on" /><input type="hidden" name="category" value="meal" /><input type="hidden" name="color" value="violet" /><input type="hidden" name="recurrenceKind" value="none" />
+          <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} /><input type="hidden" name="title" value={`${meal} · ${menu} · Вариант ${variant + 1}`} /><input type="hidden" name="description" value={variants[variant] ?? ""} /><input type="hidden" name="endDate" value={defaultDate} /><input type="hidden" name="allDay" value="on" /><input type="hidden" name="category" value="meal" /><input type="hidden" name="color" value="violet" /><input type="hidden" name="recurrenceKind" value="none" />
           <label><span>Дата</span><input name="date" type="date" defaultValue={defaultDate} required /></label>
           <div className="quick-form-row"><label><span>Меню</span><select value={menu} onChange={(event) => changeMenu(event.target.value)}>{Object.keys(mealOptions).map((name) => <option key={name}>{name}</option>)}</select></label><label><span>Хранене</span><select value={meal} onChange={(event) => changeMeal(event.target.value)}>{Object.keys(mealOptions[menu]).map((name) => <option key={name}>{name}</option>)}</select></label></div>
           <label><span>Вариант</span><select value={variant} onChange={(event) => setVariant(Number(event.target.value))}>{variants.map((option, index) => <option key={option} value={index}>Вариант {index + 1} - {option}</option>)}</select></label>
@@ -109,7 +109,7 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
           <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} />
           <input type="hidden" name="title" value={sticker} />
           <input type="hidden" name="description" value="Календарен стикер" />
-          <input type="hidden" name="endDate" value={defaultDate} />
+          <input type="hidden" name="endDate" value={stickerDate} />
           <input type="hidden" name="allDay" value="on" />
           <input type="hidden" name="category" value="sticker" />
           <input type="hidden" name="color" value="violet" />

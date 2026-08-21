@@ -33,8 +33,9 @@ export function AppNavigation({ active, title }: { active?: string; title?: stri
       <span className="mobile-ai-space" aria-hidden="true" />
       <Link className={active === "nutrition" ? "active" : ""} href="/nutrition"><NavIcon name="nutrition" /><span>Хранене</span></Link>
       <details className="mobile-more">
-        <summary className={active === "journal" || active === "products" || active === "promotions" || active === "shopping" || active === "workouts" ? "active" : ""}><NavIcon name="more" /><span>Още</span></summary>
+        <summary className={active === "journal" || active === "products" || active === "promotions" || active === "shopping" || active === "workouts" || active === "profile" ? "active" : ""}><NavIcon name="more" /><span>Още</span></summary>
         <div>
+          <Link href="/profile"><NavIcon name="today" /> Профил и цели</Link>
           <Link href="/journal"><NavIcon name="journal" /> Дневник</Link>
           <Link href="/workouts"><NavIcon name="workouts" /> Тренировки</Link>
           <Link href="/products"><NavIcon name="nutrition" /> Продукти</Link>

@@ -73,16 +73,13 @@ function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }
   const date = parseDateKey(selected); const first = dateKey(new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))); const gridStart = startOfWeek(first); const days = Array.from({ length: 42 }, (_, i) => addDays(gridStart, i));
   const [activeDay, setActiveDay] = useState(days.includes(selected) ? selected : today);
   const [agendaOpen, setAgendaOpen] = useState(false);
-  const [agendaExpanded, setAgendaExpanded] = useState(true);
   const [agendaDragY, setAgendaDragY] = useState(0);
   const agendaListRef = useRef<HTMLDivElement | null>(null);
   const agendaTouch = useRef<{ x: number; y: number; canCollapse: boolean } | null>(null);
   const activeItems = itemsOn(items, activeDay);
   const activeMeal = mealOn(mealPlans, activeDay);
   const activeWorkouts = workoutsOn(workoutPlans, activeDay);
-  const agendaTransform = agendaExpanded
-    ? `translateY(${Math.max(0, agendaDragY)}px)`
-    : `translateY(calc(100% - 58px + ${Math.min(0, agendaDragY)}px))`;
+  const agendaTransform = `translateY(${Math.max(0, agendaDragY)}px)`;
   const beginAgendaGesture = (event: React.TouchEvent<HTMLElement>) => {
     const touch = event.touches[0];
     if (!touch) return;
@@ -96,8 +93,7 @@ function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }
     const dx = touch.clientX - start.x;
     const dy = touch.clientY - start.y;
     if (Math.abs(dx) >= Math.abs(dy) || Math.abs(dy) < 8) return;
-    if (agendaExpanded && start.canCollapse && dy > 0) setAgendaDragY(Math.min(dy, 320));
-    if (!agendaExpanded && dy < 0) setAgendaDragY(Math.max(dy, -320));
+    if (start.canCollapse && dy > 0) setAgendaDragY(Math.min(dy, 420));
   };
   const finishAgendaGesture = (event: React.TouchEvent<HTMLElement>) => {
     const start = agendaTouch.current;
@@ -106,8 +102,7 @@ function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }
     const dx = touch.clientX - start.x;
     const dy = touch.clientY - start.y;
     if (Math.abs(dy) > Math.abs(dx) * 1.25 && Math.abs(dy) >= 54) {
-      if (agendaExpanded && start.canCollapse && dy > 0) setAgendaExpanded(false);
-      if (!agendaExpanded && dy < 0) setAgendaExpanded(true);
+      if (start.canCollapse && dy > 0) setAgendaOpen(false);
     }
     agendaTouch.current = null;
     setAgendaDragY(0);
@@ -120,13 +115,13 @@ function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }
         const dayItems = itemsOn(items, day); const plan = mealOn(mealPlans, day); const workouts = workoutsOn(workoutPlans, day); const outside = day.slice(0, 7) !== selected.slice(0, 7);
         const markers = [...dayItems.map(item => item.color), ...(plan ? ["green"] : []), ...workouts.map(() => "violet")].slice(0, 4);
         return <article key={day} className={`month-day ${day === today ? "today" : ""} ${day === activeDay && agendaOpen ? "selected" : ""} ${outside ? "outside" : ""}`}>
-          <button type="button" className="month-day-click" onClick={() => { setActiveDay(day); setAgendaOpen(true); setAgendaExpanded(true); }} aria-label={`Отвори програмата за ${day}`} aria-pressed={day === activeDay && agendaOpen}><span className="month-day-number">{Number(day.slice(8))}</span><span className="month-markers" aria-hidden="true">{markers.map((color, index) => <i className={`color-${color}`} key={`${color}-${index}`} />)}</span></button>
+          <button type="button" className="month-day-click" onClick={() => { setActiveDay(day); setAgendaOpen(true); }} aria-label={`Отвори програмата за ${day}`} aria-pressed={day === activeDay && agendaOpen}><span className="month-day-number">{Number(day.slice(8))}</span><span className="month-markers" aria-hidden="true">{markers.map((color, index) => <i className={`color-${color}`} key={`${color}-${index}`} />)}</span></button>
           <div className="month-expanded-content"><button type="button" className="month-meal-action" onClick={() => { setActiveDay(day); openMeal(day); }} aria-label={plan ? `Промени или премахни менюто за ${day}` : `Добави меню за ${day}`} aria-haspopup="dialog"><MealBadge plan={plan} /></button><WorkoutBadges plans={workoutPlans} date={day} compact /><div>{dayItems.slice(0, 3).map(item => <ItemCard key={item.id} item={item} compact />)}{dayItems.length > 3 ? <span className="more-items">+ още {dayItems.length - 3}</span> : null}</div></div>
         </article>;
       })}</div>
     </div>
-    {agendaOpen ? <section className={`calendar-agenda-sheet ${agendaExpanded ? "is-expanded" : "is-collapsed"} ${agendaDragY ? "is-dragging" : ""}`} role="dialog" aria-modal="false" aria-label={`Програма за ${activeDay}`} aria-expanded={agendaExpanded} style={{ transform: agendaTransform }} onTouchStart={beginAgendaGesture} onTouchMove={moveAgendaGesture} onTouchEnd={finishAgendaGesture} onTouchCancel={() => { agendaTouch.current = null; setAgendaDragY(0); }}>
-      <button className="calendar-agenda-handle" type="button" aria-label={agendaExpanded ? "Сгъни програмата" : "Разгъни програмата"} aria-expanded={agendaExpanded} onClick={() => setAgendaExpanded(value => !value)}><span /></button>
+    {agendaOpen ? <section className={`calendar-agenda-sheet is-expanded ${agendaDragY ? "is-dragging" : ""}`} role="dialog" aria-modal="false" aria-label={`Програма за ${activeDay}`} style={{ transform: agendaTransform }} onTouchStart={beginAgendaGesture} onTouchMove={moveAgendaGesture} onTouchEnd={finishAgendaGesture} onTouchCancel={() => { agendaTouch.current = null; setAgendaDragY(0); }}>
+      <button className="calendar-agenda-handle" type="button" aria-label="Затвори програмата" onClick={() => setAgendaOpen(false)}><span /></button>
       <header><h2>{fullDate.format(parseDateKey(activeDay))}</h2></header>
       <div className="calendar-agenda-list" ref={agendaListRef}>
         <button className="calendar-agenda-card color-green" type="button" onClick={() => openMeal(activeDay)}>

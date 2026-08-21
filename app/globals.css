@@ -1729,3 +1729,42 @@ body .journal-shell.life-app-shell {
     font-size: 21px;
   }
 }
+
+
+/* Stickers attached to individual calendar records */
+.calendar-item-sticker {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  margin-right: 7px;
+  vertical-align: middle;
+  font-size: 25px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px rgba(31,41,55,.12));
+}
+
+.month-day .calendar-item-sticker {
+  display: none;
+}
+
+.calendar-agenda-event .calendar-item-sticker {
+  float: left;
+  width: 34px;
+  height: 34px;
+  margin: 0 9px 0 0;
+  font-size: 29px;
+}
+
+.calendar-agenda-event .calendar-item-sticker + .calendar-item-copy {
+  display: inline-grid;
+  max-width: calc(100% - 45px);
+  vertical-align: middle;
+}
+
+.calendar-sticker-picker button:first-child {
+  color: var(--life-muted);
+  font-size: 18px;
+  font-weight: 700;
+  filter: none;
+}

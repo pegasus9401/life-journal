@@ -1525,3 +1525,103 @@ body .journal-shell.life-app-shell {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+
+/* Calendar: single top row and fully dismissible agenda */
+@media (max-width: 820px) {
+  .life-app-shell:has(.adaptive-month) {
+    position: relative;
+  }
+
+  .life-app-shell:has(.adaptive-month) > .app-nav {
+    position: relative;
+    z-index: 50;
+  }
+
+  .life-app-shell:has(.adaptive-month) .calendar-header {
+    position: absolute;
+    z-index: 52;
+    top: env(safe-area-inset-top);
+    right: 66px;
+    left: 66px;
+    min-height: 64px;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .life-app-shell:has(.adaptive-month) .calendar-header .calendar-controls,
+  .life-app-shell:has(.adaptive-month) .calendar-header .date-navigation {
+    width: 100%;
+    height: 64px;
+  }
+
+  .life-app-shell:has(.adaptive-month) .calendar-header .date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .life-app-shell:has(.adaptive-month) .calendar-header .date-navigation a {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 42px;
+    min-width: 42px;
+    height: 48px;
+    place-items: center;
+    pointer-events: auto;
+  }
+
+  .life-app-shell:has(.adaptive-month) .calendar-header .date-navigation a:nth-child(2) {
+    display: none;
+  }
+
+  .life-app-shell:has(.adaptive-month) .adaptive-month {
+    height: calc(100% - 78px - env(safe-area-inset-bottom)) !important;
+    min-height: 0;
+    margin-top: 0;
+    align-self: start;
+    overflow: hidden;
+  }
+
+  .life-app-shell:has(.adaptive-month) .month-calendar {
+    height: 100%;
+  }
+
+  .life-app-shell:has(.adaptive-month) .quick-add-trigger,
+  .life-app-shell:has(.adaptive-month):has(.calendar-agenda-sheet) .quick-add-trigger {
+    top: calc(env(safe-area-inset-top) + 10px);
+    right: 12px;
+    bottom: auto;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    visibility: visible;
+    padding: 0;
+    border: 0;
+    color: var(--pegasos-primary);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .life-app-shell:has(.adaptive-month) .quick-add-trigger span:first-child {
+    font-size: 31px;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .life-app-shell:has(.adaptive-month) .quick-add-trigger span:last-child {
+    display: none;
+  }
+
+  .life-app-shell .calendar-agenda-sheet {
+    transform: translateY(0);
+  }
+
+  .life-app-shell .calendar-agenda-sheet.is-collapsed {
+    display: none;
+  }
+}

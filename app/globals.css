@@ -1625,3 +1625,107 @@ body .journal-shell.life-app-shell {
     display: none;
   }
 }
+
+
+/* Calendar stickers */
+.calendar-sticker-picker {
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--life-line);
+  border-radius: 14px;
+}
+
+.calendar-sticker-picker legend {
+  padding: 0 6px;
+  color: var(--life-muted);
+  font-size: 10px;
+}
+
+.calendar-sticker-picker > div {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.calendar-sticker-picker button {
+  display: grid;
+  aspect-ratio: 1;
+  min-width: 0;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: rgba(139,92,246,.06);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.calendar-sticker-picker button.selected {
+  border-color: #0793c6;
+  background: #e3f5fc;
+  box-shadow: 0 0 0 2px rgba(7,147,198,.12);
+}
+
+.calendar-sticker-preview {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(139,92,246,.06);
+}
+
+.calendar-sticker-preview span {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.calendar-sticker-preview small {
+  color: var(--life-muted);
+  font-size: 10px;
+}
+
+.month-stickers {
+  display: flex;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.month-stickers a {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  place-items: center;
+  overflow: visible;
+  text-decoration: none;
+  font-size: 22px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px rgba(31,41,55,.12));
+}
+
+@media (max-width: 820px) {
+  .calendar-sticker-picker > div {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .calendar-sticker-picker button {
+    font-size: 22px;
+  }
+
+  .life-app-shell .month-day .month-stickers {
+    min-height: 23px;
+    margin: 1px 0;
+  }
+
+  .life-app-shell .month-day .month-stickers a {
+    width: 23px;
+    height: 23px;
+    flex-basis: 23px;
+    font-size: 21px;
+  }
+}

@@ -757,3 +757,265 @@ html,body{color:#241b35;background:#f7f4fb}
 
 /* Live barcode scanner */
 .product-tools{grid-template-columns:minmax(0,1fr) 180px 180px}.product-live-scanner{border-color:#d9c8f4;color:#5b21b6;background:#f1eafd}.barcode-scanner-backdrop{position:fixed;z-index:210;inset:0;display:grid;place-items:center;padding:16px;background:rgba(37,27,49,.72);backdrop-filter:blur(8px)}.barcode-scanner{width:min(540px,100%);overflow:hidden;border-radius:26px;color:#241b35;background:#fff;box-shadow:0 30px 100px rgba(0,0,0,.3)}.barcode-scanner>header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px}.barcode-scanner h2{margin:0;font:400 26px/1.1 Georgia,serif}.barcode-scanner>header button{display:grid;width:38px;height:38px;place-items:center;border:0;border-radius:50%;color:#736b80;background:#f2edf7;font-size:24px}.barcode-video-frame{position:relative;aspect-ratio:4/3;overflow:hidden;background:#15131f}.barcode-video-frame video{width:100%;height:100%;object-fit:cover}.barcode-guide{position:absolute;top:50%;left:50%;width:76%;height:34%;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.38),0 0 22px rgba(255,255,255,.4);transform:translate(-50%,-50%)}.barcode-guide::before,.barcode-guide::after{position:absolute;top:50%;right:10px;left:10px;height:2px;background:#ec4899;box-shadow:0 0 10px #ec4899;content:""}.barcode-guide::after{background:transparent}.barcode-scanner>p{margin:0;padding:16px 20px 20px;color:#736b80;font-size:11px;line-height:1.5;text-align:center}@media(max-width:620px){.product-tools{grid-template-columns:1fr 1fr}.product-search{grid-column:1/-1}.product-camera{padding:0 8px}.barcode-scanner-backdrop{align-items:end;padding:0}.barcode-scanner{border-radius:24px 24px 0 0;padding-bottom:env(safe-area-inset-bottom)}}
+
+/* PEGASOS Stitch refresh */
+.life-app-shell,
+.journal-shell.life-app-shell {
+  --life-bg: var(--pegasos-bg);
+  --life-surface: var(--pegasos-surface);
+  --life-surface-raised: var(--pegasos-surface-soft);
+  --life-ink: var(--pegasos-ink);
+  --life-muted: var(--pegasos-muted);
+  --life-line: var(--pegasos-line);
+  --life-accent: var(--pegasos-primary);
+  width: min(1200px, 100%);
+  min-height: 100svh;
+  padding: 0 clamp(18px, 4vw, 40px) 116px;
+  color: var(--pegasos-ink);
+  background: var(--pegasos-bg);
+  font-family: var(--font-onest), -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+.life-app-shell .life-kicker,
+.life-app-shell .kicker { color: var(--pegasos-primary); font-weight: 700; letter-spacing: .08em; }
+.life-app-shell .primary-button { min-height: 48px; padding: 0 20px; color: #fff; background: var(--pegasos-primary); box-shadow: 0 10px 24px rgba(7,141,192,.2); }
+.life-app-shell .primary-button:hover { box-shadow: 0 14px 28px rgba(7,141,192,.26); }
+
+.mobile-bottom-nav { display: none; }
+
+/* Calendar */
+.life-app-shell .calendar-header { align-items: center; padding: 28px 8px 22px; }
+.life-app-shell .calendar-header h1 { color: var(--pegasos-primary); font-family: inherit; font-size: clamp(28px, 4vw, 38px); font-weight: 750; letter-spacing: -.025em; }
+.life-app-shell .calendar-controls { flex-direction: row-reverse; }
+.life-app-shell .view-switcher,
+.life-app-shell .date-navigation { border-color: var(--pegasos-line); background: rgba(255,255,255,.72); }
+.life-app-shell .view-switcher a,
+.life-app-shell .date-navigation a { color: var(--pegasos-muted); }
+.life-app-shell .view-switcher a.active { color: #fff; background: var(--pegasos-primary); }
+.life-app-shell .month-calendar { overflow: hidden; border: 1px solid var(--pegasos-line); border-radius: 22px; background: var(--pegasos-surface); box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .month-weekdays { padding: 14px 4px 10px; border-color: rgba(113,111,166,.16); }
+.life-app-shell .month-weekdays span { color: var(--pegasos-muted); font-size: 13px; font-weight: 700; text-align: center; }
+.life-app-shell .month-weekdays span:nth-child(n+6) { color: #ba1a1a; }
+.life-app-shell .month-grid { background: var(--pegasos-surface); }
+.life-app-shell .month-day { min-height: 126px; padding: 7px; border-color: rgba(113,111,166,.14); background: var(--pegasos-surface); }
+.life-app-shell .month-day-number { color: var(--pegasos-ink); font-size: 15px; }
+.life-app-shell .month-day:nth-child(7n) .month-day-number { color: #ba1a1a; }
+.life-app-shell .month-day.outside .month-day-number { color: #bec8d0; }
+.life-app-shell .month-day.today .month-day-number { color: #fff; background: var(--pegasos-primary); }
+.life-app-shell .calendar-item.compact { margin-bottom: 3px; padding: 3px 5px; border-radius: 5px; color: var(--pegasos-ink); background: #f6f2ff; }
+.life-app-shell .calendar-item-dot { box-shadow: none; }
+.life-app-shell .calendar-item-copy strong { font-size: 10px; }
+.life-app-shell .calendar-item-copy small,
+.life-app-shell .calendar-item-copy span { color: var(--pegasos-muted); }
+.life-app-shell .week-calendar,
+.life-app-shell .day-calendar { overflow: hidden; border: 1px solid var(--pegasos-line); border-radius: 20px; background: #fff; box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .week-day { border-color: var(--pegasos-line); }
+.life-app-shell .calendar-empty p { color: var(--pegasos-ink); font-family: inherit; font-weight: 650; }
+
+/* Nutrition */
+.life-app-shell .nutrition-header,
+.life-app-shell .workout-header { padding: 34px 4px 24px; }
+.life-app-shell .nutrition-header h1,
+.life-app-shell .workout-header h1 { color: var(--pegasos-ink); font-family: inherit; font-size: clamp(30px, 5vw, 46px); font-weight: 750; }
+.life-app-shell .nutrition-date-controls { border-color: var(--pegasos-line); background: rgba(255,255,255,.76); }
+.life-app-shell .nutrition-date-controls a { color: var(--pegasos-muted); }
+.life-app-shell .nutrition-date-controls a:hover { color: var(--pegasos-primary); background: var(--pegasos-surface-soft); }
+.life-app-shell .nutrition-overview { border-color: var(--pegasos-line); border-radius: 24px; background: var(--pegasos-surface); box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .nutrition-calorie-ring { background: conic-gradient(var(--pegasos-primary) var(--progress), rgba(7,141,192,.12) 0); }
+.life-app-shell .nutrition-calorie-ring::before { background: #fff; }
+.life-app-shell .nutrition-calorie-ring strong { color: var(--pegasos-ink); font-family: inherit; font-weight: 750; }
+.life-app-shell .nutrition-progress { height: 8px; background: rgba(7,141,192,.1); }
+.life-app-shell .nutrition-progress span { background: var(--pegasos-primary); }
+.life-app-shell .nutrition-metric:nth-child(2) .nutrition-progress span { background: var(--pegasos-tertiary); }
+.life-app-shell .nutrition-metric:nth-child(3) .nutrition-progress span { background: var(--pegasos-secondary); }
+.life-app-shell .nutrition-meals { gap: 12px; margin-top: 12px; }
+.life-app-shell .nutrition-meal { border-color: var(--pegasos-line); border-radius: 18px; background: var(--pegasos-surface); box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .nutrition-meal > header,
+.life-app-shell .nutrition-food { border-color: var(--pegasos-line); }
+.life-app-shell .nutrition-meal h2 { color: var(--pegasos-ink); font-family: inherit; font-size: 20px; font-weight: 700; }
+.life-app-shell .nutrition-meal header button { border-color: rgba(7,141,192,.22); color: var(--pegasos-primary); background: rgba(7,141,192,.07); }
+.life-app-shell .nutrition-food-main { color: var(--pegasos-ink); }
+.life-app-shell .nutrition-empty-meal { border-color: var(--pegasos-line); color: var(--pegasos-muted); }
+
+/* Workout */
+.life-app-shell .workout-summary { gap: 12px; border-color: var(--pegasos-line); border-radius: 22px; background: var(--pegasos-surface); box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .workout-summary article { border-color: var(--pegasos-line); }
+.life-app-shell .workout-summary article strong { color: var(--pegasos-ink); font-family: inherit; font-weight: 750; }
+.life-app-shell .workout-list { gap: 12px; margin-top: 12px; }
+.life-app-shell .workout-card { border-color: var(--pegasos-line); border-radius: 20px; background: var(--pegasos-surface); box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .workout-card h2 { color: var(--pegasos-ink); font-family: inherit; font-size: 24px; font-weight: 700; }
+.life-app-shell .workout-type { color: var(--pegasos-primary-dark); background: rgba(7,141,192,.1); }
+.life-app-shell .workout-card-stats span { color: var(--pegasos-muted); background: var(--pegasos-surface-soft); }
+.life-app-shell .workout-exercises,
+.life-app-shell .workout-exercises > div { border-color: var(--pegasos-line); }
+.life-app-shell .workout-empty { border-color: var(--pegasos-line); background: radial-gradient(circle at 80% 25%, rgba(7,141,192,.11), transparent 20rem), #fff; box-shadow: var(--pegasos-card-shadow); }
+.life-app-shell .workout-empty h2 { color: var(--pegasos-ink); font-family: inherit; font-weight: 750; }
+
+/* Journal */
+.journal-shell.life-app-shell { display: flex; width: min(1200px, 100%); }
+.journal-shell.life-app-shell .journal-index-header { padding: 42px 4px 30px; }
+.journal-shell.life-app-shell .journal-index-header h1 { color: var(--pegasos-ink); font-family: inherit; font-size: clamp(34px, 6vw, 58px); font-weight: 750; line-height: 1.04; }
+.journal-shell.life-app-shell .intro { color: var(--pegasos-muted); font-size: 16px; }
+.journal-shell.life-app-shell .entry-list { gap: 12px; }
+.journal-shell.life-app-shell .entry-card,
+.journal-shell.life-app-shell .journal-empty-card { border-color: var(--pegasos-line); border-radius: 20px; background: var(--pegasos-surface); box-shadow: var(--pegasos-card-shadow); }
+.journal-shell.life-app-shell .entry-card-image { min-height: 250px; background: linear-gradient(145deg, #e3dfff, #c5e7ff); }
+.journal-shell.life-app-shell .entry-card-copy { padding: 22px; }
+.journal-shell.life-app-shell .entry-card h2,
+.journal-shell.life-app-shell .journal-empty-card h2 { color: var(--pegasos-ink); font-family: inherit; font-size: 28px; font-weight: 700; }
+
+@media (max-width: 800px) {
+  body { background: var(--pegasos-bg); }
+  .life-app-shell,
+  .journal-shell.life-app-shell { width: 100%; padding: 0 12px calc(104px + env(safe-area-inset-bottom)); overflow-x: clip; }
+  .life-app-shell > .app-nav { min-height: calc(74px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top); border: 0; }
+  .life-app-shell > .app-nav .brand { color: var(--pegasos-primary); }
+  .life-app-shell > .app-nav .brand-mark { border: 0; font-size: 0; }
+  .life-app-shell > .app-nav .brand-mark::after { content: "☰"; font-size: 26px; }
+  .life-app-shell > .app-nav .app-nav-links { display: none; }
+
+  .mobile-bottom-nav { position: fixed; z-index: 70; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 1fr 1fr 74px 1fr 1fr; align-items: end; height: calc(78px + env(safe-area-inset-bottom)); padding: 8px 12px max(8px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(190,200,208,.25); background: rgba(255,255,255,.76); box-shadow: 0 -4px 20px rgba(25,34,42,.06); backdrop-filter: blur(20px) saturate(150%); }
+  .mobile-bottom-nav > a,
+  .mobile-more > summary { display: grid; min-width: 0; min-height: 56px; place-items: center; align-content: center; gap: 3px; padding: 0; border: 0; color: #aeb5ba; background: transparent; text-decoration: none; list-style: none; font-size: 11px; font-weight: 700; }
+  .mobile-bottom-nav svg { width: 25px; height: 25px; }
+  .mobile-bottom-nav .active { color: var(--pegasos-primary); }
+  .mobile-ai-space { grid-column: 3; }
+  .mobile-more { position: relative; }
+  .mobile-more > summary::-webkit-details-marker { display: none; }
+  .mobile-more > div { position: absolute; right: 0; bottom: 68px; display: grid; width: 176px; gap: 3px; padding: 8px; border: 1px solid var(--pegasos-line); border-radius: 16px; background: rgba(255,255,255,.96); box-shadow: 0 14px 40px rgba(30,40,48,.16); }
+  .mobile-more:not([open]) > div { display: none; }
+  .mobile-more > div a,
+  .mobile-more > div button { display: flex; width: 100%; min-height: 44px; align-items: center; gap: 10px; padding: 0 12px; border: 0; border-radius: 10px; color: var(--pegasos-ink); background: transparent; text-decoration: none; }
+  .mobile-more > div svg { width: 20px; height: 20px; color: var(--pegasos-primary); }
+
+  .assistant-fab { z-index: 81; right: 50%; bottom: calc(39px + env(safe-area-inset-bottom)); width: 70px; height: 70px; border: 0; color: #fff; background: var(--pegasos-primary); box-shadow: 0 10px 26px rgba(0,99,136,.3); transform: translate(50%, 50%); }
+  .assistant-fab span { font-size: 0; }
+  .assistant-fab span::after { content: "✦"; font-size: 30px; }
+  .assistant-fab.is-open { transform: translate(50%, 50%) rotate(0); }
+  .assistant-fab.is-open span::after { content: "×"; }
+  .assistant-popup { inset: auto 8px calc(92px + env(safe-area-inset-bottom)); }
+
+  .life-app-shell .calendar-header { position: relative; display: grid; grid-template-columns: 1fr auto; padding: 0 4px 14px; }
+  .life-app-shell .calendar-header > div:first-child { grid-column: 1 / -1; text-align: center; }
+  .life-app-shell .calendar-header .life-kicker { display: none; }
+  .life-app-shell .calendar-header h1 { font-size: 30px; }
+  .life-app-shell .calendar-controls { display: contents; }
+  .life-app-shell .date-navigation { position: absolute; inset: -7px 0 auto; display: flex; justify-content: space-between; border: 0; background: transparent; }
+  .life-app-shell .date-navigation a { min-width: 44px; font-size: 0; }
+  .life-app-shell .date-navigation a:first-child::after { content: "‹"; font-size: 34px; color: #3f484f; }
+  .life-app-shell .date-navigation a:last-child::after { content: "›"; font-size: 34px; color: #3f484f; }
+  .life-app-shell .date-navigation a:nth-child(2) { display: none; }
+  .life-app-shell .view-switcher { grid-column: 1 / -1; justify-self: center; margin-top: 10px; }
+  .life-app-shell .view-switcher a { min-height: 34px; padding: 0 12px; font-size: 11px; }
+  .life-app-shell .month-calendar { border-radius: 14px; }
+  .life-app-shell .month-weekdays { padding: 12px 0 8px; }
+  .life-app-shell .month-weekdays span { font-size: 11px; }
+  .life-app-shell .month-day { min-height: clamp(76px, 14.5svh, 116px); padding: 4px; }
+  .life-app-shell .month-day-number { width: 24px; height: 24px; margin-bottom: 2px; font-size: 13px; }
+  .life-app-shell .calendar-item.compact { padding: 2px 3px; }
+  .life-app-shell .calendar-item.compact .calendar-item-dot { width: 5px; height: 5px; }
+  .life-app-shell .calendar-item-copy strong { font-size: 8px; }
+  .life-app-shell .quick-add-trigger { top: calc(17px + env(safe-area-inset-top)); right: 16px; bottom: auto; min-width: 44px; min-height: 44px; padding: 0; color: var(--pegasos-primary); background: transparent; box-shadow: none; }
+  .life-app-shell .quick-add-trigger span:first-child { font-size: 34px; font-weight: 300; }
+  .life-app-shell .quick-add-trigger span:last-child { display: none; }
+
+  .life-app-shell .nutrition-header,
+  .life-app-shell .workout-header { display: grid; gap: 16px; padding: 18px 4px 18px; }
+  .life-app-shell .nutrition-header h1,
+  .life-app-shell .workout-header h1 { font-size: 32px; }
+  .life-app-shell .nutrition-overview { grid-template-columns: 138px 1fr; justify-items: stretch; gap: 18px; padding: 18px; }
+  .life-app-shell .nutrition-calorie-ring { width: 132px; height: 132px; }
+  .life-app-shell .nutrition-calorie-ring::before { width: 108px; height: 108px; }
+  .life-app-shell .nutrition-calorie-ring strong { font-size: 28px; }
+  .life-app-shell .nutrition-goals-button { grid-column: 1 / -1; justify-self: end; }
+  .life-app-shell .nutrition-meals { grid-template-columns: 1fr; }
+  .life-app-shell .nutrition-meal { padding: 18px; }
+
+  .life-app-shell .workout-summary { grid-template-columns: repeat(3, 1fr); padding: 16px 12px; }
+  .life-app-shell .workout-summary article span { font-size: 9px; }
+  .life-app-shell .workout-summary article strong { font-size: 22px; }
+  .life-app-shell .workout-list { grid-template-columns: 1fr; }
+  .life-app-shell .workout-card { padding: 20px; }
+
+  .journal-shell.life-app-shell .journal-index-header { display: grid; gap: 22px; padding: 20px 4px 24px; }
+  .journal-shell.life-app-shell .journal-index-header h1 { font-size: 38px; }
+  .journal-shell.life-app-shell .journal-index-header .intro { margin: 16px 0 0; }
+  .journal-shell.life-app-shell .entry-list { grid-template-columns: 1fr; }
+  .journal-shell.life-app-shell .entry-card-image { min-height: 210px; }
+}
+
+/* Keep the Stitch mobile layer last in the cascade. */
+body .life-app-shell,
+body .journal-shell.life-app-shell {
+  --life-bg: var(--pegasos-bg);
+  --life-surface: var(--pegasos-surface);
+  --life-surface-raised: var(--pegasos-surface-soft);
+  --life-ink: var(--pegasos-ink);
+  --life-muted: var(--pegasos-muted);
+  --life-line: var(--pegasos-line);
+  --life-accent: var(--pegasos-primary);
+  color: var(--pegasos-ink);
+  background: var(--pegasos-bg);
+}
+
+@media (max-width: 820px) {
+  body .life-app-shell,
+  body .journal-shell.life-app-shell { padding: 0 12px calc(104px + env(safe-area-inset-bottom)); }
+  body .life-app-shell .month-calendar { overflow: hidden; border-radius: 14px; }
+  body .life-app-shell .month-weekdays,
+  body .life-app-shell .month-grid { width: 100%; }
+  body .life-app-shell .month-day { min-height: clamp(76px, 14.5svh, 116px); }
+  body .assistant-fab { right: 50%; bottom: calc(39px + env(safe-area-inset-bottom)); width: 70px; height: 70px; transform: translate(50%, 50%); }
+  body .assistant-fab:hover { transform: translate(50%, 50%) scale(1.03); }
+  body .assistant-fab.is-open { transform: translate(50%, 50%); }
+  body .assistant-popup { inset: auto 8px calc(92px + env(safe-area-inset-bottom)); }
+}
+
+/* Active workout — PEGASOS soft-glass tracker */
+.active-workout-dock { position: fixed; z-index: 145; bottom: calc(92px + env(safe-area-inset-bottom)); left: 50%; display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; align-items: center; width: min(720px, calc(100vw - 32px)); min-height: 68px; overflow: hidden; border: 1px solid var(--pegasos-line); border-radius: 20px; background: rgba(255,255,255,.92); box-shadow: 0 14px 42px rgba(28,38,48,.16); backdrop-filter: blur(20px); transform: translateX(-50%); }
+.active-workout-dock-main { display: flex; min-width: 0; min-height: 68px; align-items: center; gap: 12px; padding: 0 18px; border: 0; color: var(--pegasos-ink); background: transparent; text-align: left; }
+.active-workout-dock-main > span:nth-child(2), .active-workout-dock-stat { display: grid; gap: 4px; }
+.active-workout-dock small, .active-workout-panel small { color: var(--pegasos-muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.active-workout-pulse { width: 11px; height: 11px; border-radius: 50%; background: #22b573; box-shadow: 0 0 0 5px rgba(34,181,115,.12); }
+.active-workout-dock-stat { min-width: 76px; padding: 0 14px; border-left: 1px solid var(--pegasos-line); text-align: center; }
+.active-workout-expand { align-self: stretch; min-width: 78px; border: 0; color: #fff; background: var(--pegasos-primary); }
+.active-workout-panel { position: fixed; z-index: 180; inset: 12px; display: flex; flex-direction: column; width: min(620px, calc(100vw - 24px)); max-height: calc(100svh - 24px); margin-left: auto; overflow: hidden; border: 1px solid var(--pegasos-line); border-radius: 24px; color: var(--pegasos-ink); background: var(--pegasos-bg); box-shadow: 0 30px 90px rgba(28,38,48,.22); }
+.active-workout-panel > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--pegasos-line); background: rgba(255,255,255,.86); }
+.active-workout-panel > header h2 { margin: 0; font: 750 26px/1.1 var(--font-onest), sans-serif; }
+.active-workout-header-actions { display: flex; gap: 8px; }
+.active-workout-header-actions button { min-width: 40px; min-height: 40px; padding: 0 12px; border: 1px solid var(--pegasos-line); border-radius: 999px; color: var(--pegasos-muted); background: #fff; }
+.active-workout-header-actions .finish { border: 0; color: #fff; background: var(--pegasos-primary); }
+.active-rest-timer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; color: var(--pegasos-ink); background: #fff8e7; }
+.active-rest-timer strong { display: block; font-size: 28px; }
+.active-rest-timer button { min-height: 34px; border: 1px solid #f0d89b; border-radius: 9px; color: #735b1c; background: #fff; }
+.active-workout-progress { position: relative; height: 8px; margin: 14px 18px; border-radius: 99px; background: rgba(7,141,192,.1); }
+.active-workout-progress span { display: block; height: 100%; border-radius: inherit; background: var(--pegasos-primary); }
+.active-workout-progress b { position: absolute; right: 0; bottom: 10px; color: var(--pegasos-muted); font-size: 9px; }
+.active-workout-message { margin: 0 18px 8px; color: #ba1a1a; font-size: 11px; }
+.active-workout-exercises { display: grid; flex: 1; align-content: start; gap: 10px; min-height: 0; overflow-y: auto; padding: 10px 14px 18px; }
+.active-exercise-card { overflow: hidden; border: 1px solid var(--pegasos-line); border-radius: 16px; background: #fff; box-shadow: var(--pegasos-card-shadow); }
+.active-exercise-heading { display: grid; grid-template-columns: 34px minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 13px; border-bottom: 1px solid var(--pegasos-line); }
+.active-exercise-heading > span { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 9px; color: var(--pegasos-primary-dark); background: rgba(7,141,192,.1); font-size: 10px; font-weight: 800; }
+.active-exercise-heading > div { display: grid; min-width: 0; gap: 3px; }
+.active-exercise-heading strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.active-exercise-heading p { margin: 0; color: var(--pegasos-muted); font-size: 9px; }
+.active-exercise-heading > b { color: #16845b; font-size: 11px; }
+.active-set-table { display: grid; padding: 0 10px 12px; }
+.active-set-head, .active-set-table > div:not(.active-set-head) { display: grid; grid-template-columns: 42px minmax(72px,1.1fr) minmax(52px,.7fr) minmax(64px,.8fr) 38px; align-items: center; gap: 5px; min-height: 50px; border-bottom: 1px solid var(--pegasos-line); }
+.active-set-head { min-height: 32px; color: var(--pegasos-muted); font-size: 7px; text-align: center; text-transform: uppercase; }
+.active-set-table input { width: 100%; min-width: 0; height: 38px; padding: 5px; border: 1px solid var(--pegasos-line); border-radius: 9px; color: var(--pegasos-ink); background: var(--pegasos-surface-soft); text-align: center; }
+.active-set-table > div:not(.active-set-head) > button { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--pegasos-line); border-radius: 50%; color: var(--pegasos-muted); background: #fff; }
+.active-set-table > div.is-done > button, .active-set-table b.is-done { color: #fff; background: #22b573; }
+.active-set-previous { overflow: hidden; color: var(--pegasos-muted); font-size: 8px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.active-add-set { width: 100%; min-height: 38px; margin-top: 10px; border: 0; border-radius: 10px; color: var(--pegasos-primary); background: rgba(7,141,192,.08); }
+.active-workout-panel > footer { display: grid; grid-template-columns: auto minmax(190px,1fr); gap: 8px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid var(--pegasos-line); background: #fff; }
+.active-workout-panel > footer button { min-height: 42px; border: 1px solid var(--pegasos-line); border-radius: 10px; color: var(--pegasos-muted); background: #fff; }
+.active-workout-panel > footer button:first-child { color: #ba1a1a; }
+.active-workout-toast { position: fixed; z-index: 190; right: 16px; bottom: 100px; padding: 12px 15px; border-radius: 12px; color: #fff; background: #16845b; }
+
+@media (max-width: 820px) {
+  .active-workout-dock { left: 10px; bottom: calc(92px + env(safe-area-inset-bottom)); grid-template-columns: minmax(0,1fr) auto; width: calc(100vw - 20px); transform: none; }
+  .active-workout-dock-stat, .active-workout-expand { display: none; }
+  .active-workout-panel { inset: 0; width: 100%; max-height: 100svh; border: 0; border-radius: 0; }
+  .active-workout-panel > header { padding-top: calc(14px + env(safe-area-inset-top)); }
+}

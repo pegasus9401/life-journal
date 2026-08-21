@@ -17,7 +17,7 @@ export default async function JournalPage() {
   if (!entries) redirect("/login");
 
   return (
-    <main className="journal-shell">
+    <main className="life-app-shell journal-shell">
       <AppNavigation active="journal" />
       <header className="journal-index-header">
         <div><p className="kicker">Дневник за пътувания</p><h1>Дни, които си струва да запазиш.</h1><p className="intro">Тихо място за всяко посетено място и чувството да бъдеш там.</p></div>
@@ -50,3 +50,4 @@ export default async function JournalPage() {
     </main>
   );
 }
+

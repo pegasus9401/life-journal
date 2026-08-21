@@ -14,10 +14,10 @@ function NavIcon({ name }: { name: "today" | "calendar" | "nutrition" | "journal
   return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 }
 
-export function AppNavigation({ active }: { active?: string }) {
+export function AppNavigation({ active, title }: { active?: string; title?: string }) {
   return <>
     <nav className="app-nav" aria-label="Основна навигация">
-      <BrandLink />
+      <BrandLink title={title} />
       <div className="app-nav-links">
       <Link className={active === "today" ? "active" : ""} href="/today">Днес</Link>
       <Link className={active === "calendar" ? "active" : ""} href="/calendar">Календар</Link>

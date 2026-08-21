@@ -1,179 +1,46 @@
-"use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { signOut } from "@/features/auth/actions";
 import { BrandLink } from "./brand-link";
+import { signOut } from "@/features/auth/actions";
 
-const AVATAR_BUCKET = "journal-photos";
-const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
-const ALLOWED_AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp"];
-
-export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "products" | "promotions" | "shopping" | "workouts" }) {
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [avatarMessage, setAvatarMessage] = useState("");
-  const [uploadingAvatar, setUploadingAvatar] = useState(false);
-  const avatarInput = useRef<HTMLInputElement>(null);
-  const gestureStart = useRef<{ x: number; y: number; target: Element | null } | null>(null);
-  const [gestureHint, setGestureHint] = useState(false);
-
-  const links = [
-    ["today", "/today", "Днес"],
-    ["calendar", "/calendar", "Календар"],
-    ["journal", "/journal", "Дневник"],
-    ["nutrition", "/nutrition", "Хранене"],
-    ["products", "/products", "Продукти"],
-    ["promotions", "/promotions", "Промоции"],
-    ["shopping", "/shopping-list", "Пазарски списък"],
-    ["workouts", "/workouts", "Тренировки"],
-  ] as const;
-
-  const loadAvatar = async () => {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    const avatarPath = user?.user_metadata?.avatar_path as string | undefined;
-    if (!avatarPath) return;
-    const { data, error } = await supabase.storage.from(AVATAR_BUCKET).createSignedUrl(avatarPath, 60 * 60);
-    if (!error) setAvatarUrl(data.signedUrl);
+function NavIcon({ name }: { name: "today" | "calendar" | "nutrition" | "journal" | "workouts" | "more" }) {
+  const paths = {
+    today: <><path d="M5 5.5h14v14H5z" /><path d="M8 3v5M16 3v5M5 9h14" /><circle cx="10" cy="14" r="1.7" /></>,
+    calendar: <><rect x="4" y="5.5" width="16" height="15" rx="2" /><path d="M8 3v5M16 3v5M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01M16 17h.01" /></>,
+    nutrition: <><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M15 3v18M15 3c3 1 4.5 4 4.5 7.5H15" /></>,
+    journal: <><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5z" /><path d="M5 4.5v17M9 7h6M9 11h6" /></>,
+    workouts: <><path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10" /></>,
+    more: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
   };
+  return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
+}
 
-  useEffect(() => { void loadAvatar(); }, []);
-
-  useEffect(() => {
-    const interactive = "a,button,input,textarea,select,label,[role='dialog'],[data-gesture-lock],.meal-plan-tabs,.managed-meal-tabs,.workout-library-tabs,.workout-section-tabs,.shopping-store-plan,.product-results";
-    const start = (event: TouchEvent) => { const touch = event.touches[0]; if (touch) gestureStart.current = { x: touch.clientX, y: touch.clientY, target: event.target instanceof Element ? event.target : null }; };
-    const end = (event: TouchEvent) => {
-      const origin = gestureStart.current; const touch = event.changedTouches[0]; gestureStart.current = null;
-      if (!origin || !touch) return;
-      const dx = touch.clientX - origin.x; const dy = touch.clientY - origin.y;
-      if (origin.target?.closest("[role='dialog'],.quick-add-sheet,.assistant-popup,.active-workout-panel") && dy > 85 && Math.abs(dy) > Math.abs(dx) * 1.25) { window.dispatchEvent(new Event("gesture-close-overlay")); return; }
-      if (open) { if (dx < -55 && Math.abs(dx) > Math.abs(dy)) setOpen(false); return; }
-      if (origin.x < 26 && dx > 55 && Math.abs(dx) > Math.abs(dy)) { setOpen(true); setProfileOpen(false); return; }
-      if (Math.abs(dx) < 90 || Math.abs(dx) < Math.abs(dy) * 1.35 || origin.target?.closest(interactive)) return;
-      const index = links.findIndex(([key]) => key === active);
-      const destination = index < 0 ? undefined : dx < 0 ? links[index + 1] : links[index - 1];
-      if (destination) router.push(destination[1]);
-    };
-    document.addEventListener("touchstart", start, { passive: true }); document.addEventListener("touchend", end, { passive: true });
-    return () => { document.removeEventListener("touchstart", start); document.removeEventListener("touchend", end); };
-  }, [active, open, router]);
-
-  useEffect(() => {
-    if (window.localStorage.getItem("life-gesture-hint-seen")) return;
-    setGestureHint(true);
-    const timer = window.setTimeout(() => { setGestureHint(false); window.localStorage.setItem("life-gesture-hint-seen", "1"); }, 4200);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  const chooseAvatar = () => {
-    setProfileOpen(false);
-    avatarInput.current?.click();
-  };
-
-  const uploadAvatar = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
-    if (!ALLOWED_AVATAR_TYPES.includes(file.type)) {
-      setAvatarMessage("Избери JPG, PNG или WebP снимка.");
-      return;
-    }
-    if (file.size > MAX_AVATAR_SIZE) {
-      setAvatarMessage("Снимката трябва да е до 5 MB.");
-      return;
-    }
-
-    setUploadingAvatar(true);
-    setAvatarMessage("Качване на снимката…");
-    const supabase = createClient();
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) {
-      setAvatarMessage("Неуспешно разпознаване на профила.");
-      setUploadingAvatar(false);
-      return;
-    }
-
-    const avatarPath = `${user.id}/profile/avatar`;
-    const { error: uploadError } = await supabase.storage
-      .from(AVATAR_BUCKET)
-      .upload(avatarPath, file, { upsert: true, contentType: file.type, cacheControl: "3600" });
-
-    if (uploadError) {
-      setAvatarMessage(`Грешка при качване: ${uploadError.message}`);
-      setUploadingAvatar(false);
-      return;
-    }
-
-    const { error: metadataError } = await supabase.auth.updateUser({ data: { avatar_path: avatarPath } });
-    if (metadataError) {
-      setAvatarMessage(`Снимката е качена, но профилът не се обнови: ${metadataError.message}`);
-      setUploadingAvatar(false);
-      return;
-    }
-
-    const { data: signed, error: signedError } = await supabase.storage
-      .from(AVATAR_BUCKET)
-      .createSignedUrl(avatarPath, 60 * 60);
-
-    if (signedError) {
-      setAvatarMessage("Снимката е запазена. Ще се покаже при следващо отваряне.");
-    } else {
-      setAvatarUrl(`${signed.signedUrl}&v=${Date.now()}`);
-      setAvatarMessage("✓ Профилната снимка е запазена.");
-    }
-    setUploadingAvatar(false);
-  };
-
-  const avatar = avatarUrl
-    ? <img src={avatarUrl} alt="" />
-    : <span>В</span>;
-
+export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "workouts" }) {
   return <>
-    <nav className="app-nav app-nav-compact" aria-label="Основна навигация">
-      <button className="burger-button" type="button" aria-label="Отвори менюто" aria-expanded={open} onClick={() => setOpen(true)}>
-        <span />
-        <span />
-        <span />
-      </button>
+    <nav className="app-nav" aria-label="Основна навигация">
       <BrandLink />
-      <button className="profile-avatar" type="button" aria-label="Отвори профилното меню" aria-expanded={profileOpen} onClick={() => setProfileOpen((current) => !current)} disabled={uploadingAvatar}>
-        {avatar}
-      </button>
-      <input ref={avatarInput} className="profile-avatar-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={uploadAvatar} />
+      <div className="app-nav-links">
+      <Link className={active === "today" ? "active" : ""} href="/today">Днес</Link>
+      <Link className={active === "calendar" ? "active" : ""} href="/calendar">Календар</Link>
+      <Link className={active === "journal" ? "active" : ""} href="/journal">Дневник</Link>
+      <Link className={active === "nutrition" ? "active" : ""} href="/nutrition">Хранене</Link>
+      <Link className={active === "workouts" ? "active" : ""} href="/workouts">Тренировки</Link>
+      <form action={signOut}><button type="submit">Изход</button></form>
+      </div>
     </nav>
-
-    {profileOpen ? <>
-      <button className="profile-menu-backdrop" type="button" aria-label="Затвори профилното меню" onClick={() => setProfileOpen(false)} />
-      <div className="profile-menu">
-        <button type="button" onClick={chooseAvatar}>Смени снимката</button>
-        <form action={signOut}><button className="logout" type="submit">Изход</button></form>
-      </div>
-    </> : null}
-
-    <div className={`burger-backdrop ${open ? "is-open" : ""}`} onClick={() => setOpen(false)} />
-    <aside className={`burger-drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
-      <header className="burger-drawer-header">
+    <nav className="mobile-bottom-nav" aria-label="Мобилна навигация">
+      <Link className={active === "today" ? "active" : ""} href="/today"><NavIcon name="today" /><span>Днес</span></Link>
+      <Link className={active === "calendar" ? "active" : ""} href="/calendar"><NavIcon name="calendar" /><span>Календар</span></Link>
+      <span className="mobile-ai-space" aria-hidden="true" />
+      <Link className={active === "nutrition" ? "active" : ""} href="/nutrition"><NavIcon name="nutrition" /><span>Хранене</span></Link>
+      <details className="mobile-more">
+        <summary className={active === "journal" || active === "workouts" ? "active" : ""}><NavIcon name="more" /><span>Още</span></summary>
         <div>
-          <p className="life-kicker">Life OS</p>
-          <strong>Меню</strong>
+          <Link href="/journal"><NavIcon name="journal" /> Дневник</Link>
+          <Link href="/workouts"><NavIcon name="workouts" /> Тренировки</Link>
+          <form action={signOut}><button type="submit">Изход</button></form>
         </div>
-        <button type="button" aria-label="Затвори менюто" onClick={() => setOpen(false)}>×</button>
-      </header>
-      <div className="burger-profile">
-        <button className="burger-profile-avatar" type="button" aria-label="Смени профилната снимка" onClick={chooseAvatar} disabled={uploadingAvatar}>{avatar}</button>
-        <div><strong>Вальо</strong><button className="profile-photo-action" type="button" onClick={chooseAvatar} disabled={uploadingAvatar}>{uploadingAvatar ? "Качване…" : "Смени снимката"}</button></div>
-      </div>
-      {avatarMessage ? <p className={`profile-avatar-message ${avatarMessage.startsWith("✓") ? "is-success" : ""}`}>{avatarMessage}</p> : null}
-      <nav className="burger-links" aria-label="Меню">
-        {links.map(([key, href, label]) => <Link key={key} className={active === key ? "active" : ""} href={href} onClick={() => setOpen(false)}><span>{label}</span><b>›</b></Link>)}
-      </nav>
-      <form className="burger-logout" action={signOut}><button type="submit"><span>Изход</span><b>↗</b></button></form>
-    </aside>
-    {gestureHint ? <div className="gesture-hint" role="status"><span>↔</span><div><b>Управление с жестове</b><small>Плъзни настрани за секциите или от левия ръб за менюто</small></div><button type="button" aria-label="Скрий подсказката" onClick={() => { setGestureHint(false); window.localStorage.setItem("life-gesture-hint-seen", "1"); }}>×</button></div> : null}
+      </details>
+    </nav>
   </>;
 }
+

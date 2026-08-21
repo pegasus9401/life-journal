@@ -126,7 +126,7 @@ function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }
       })}</div>
     </div>
     {agendaOpen ? <section className={`calendar-agenda-sheet ${agendaExpanded ? "is-expanded" : "is-collapsed"} ${agendaDragY ? "is-dragging" : ""}`} role="dialog" aria-modal="false" aria-label={`Програма за ${activeDay}`} aria-expanded={agendaExpanded} style={{ transform: agendaTransform }} onTouchStart={beginAgendaGesture} onTouchMove={moveAgendaGesture} onTouchEnd={finishAgendaGesture} onTouchCancel={() => { agendaTouch.current = null; setAgendaDragY(0); }}>
-      <div className="calendar-agenda-handle" aria-hidden="true"><span /></div>
+      <button className="calendar-agenda-handle" type="button" aria-label={agendaExpanded ? "Сгъни програмата" : "Разгъни програмата"} aria-expanded={agendaExpanded} onClick={() => setAgendaExpanded(value => !value)}><span /></button>
       <header><h2>{fullDate.format(parseDateKey(activeDay))}</h2></header>
       <div className="calendar-agenda-list" ref={agendaListRef}>
         <button className="calendar-agenda-card color-green" type="button" onClick={() => openMeal(activeDay)}>

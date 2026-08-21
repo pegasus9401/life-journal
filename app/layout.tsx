@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Дневник на живота",
   description: "Тихо място за спомените от живота, който живееш.",
-  manifest: "/manifest.webmanifest",
+  manifest: "/pwa.webmanifest",
   applicationName: "Дневник на живота",
   appleWebApp: {
     capable: true,

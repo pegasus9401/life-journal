@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import { Onest } from "next/font/google";
 import { AssistantPopup } from "@/features/assistant/components/assistant-popup";
 import { ActiveWorkoutTracker } from "@/features/workouts/components/active-workout-tracker";
 import "./globals.css";
+
+const onest = Onest({ subsets: ["latin", "cyrillic"], display: "swap", variable: "--font-onest" });
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -44,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body>{children}<ActiveWorkoutTracker /><AssistantPopup /></body>
+      <body className={onest.variable}>{children}<ActiveWorkoutTracker /><AssistantPopup /></body>
     </html>
   );
 }

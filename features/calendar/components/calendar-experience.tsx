@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DayMealPlanner } from "@/features/nutrition/components/day-meal-planner";
 import type { WorkoutCalendarTemplate, WorkoutDayKey } from "@/features/workouts/workout-library";
 import { addDays, dateKey, parseDateKey, startOfWeek } from "../domain/date-utils";
 import type { CalendarItem, CalendarView } from "../types";
 import { CalendarItem as ItemCard } from "./calendar-item";
 
-const weekDays = ["Пон", "Вто", "Сря", "Чет", "Пет", "Съб", "Нед"];
-const fullDate = new Intl.DateTimeFormat("bg-BG", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
-const monthName = new Intl.DateTimeFormat("bg-BG", { month: "long", year: "numeric", timeZone: "UTC" });
+const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const fullDate = new Intl.DateTimeFormat("en-US", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+const monthName = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 const dayNumber = new Intl.DateTimeFormat("bg-BG", { day: "numeric", month: "short", timeZone: "UTC" });
 
 export type CalendarMealPlan = { plan_date: string; menu_name: string; selections?: Record<string, number> };
@@ -71,40 +71,36 @@ export function CalendarExperience({ view, selected, today, items, mealPlans = [
 
 function MonthView({ selected, today, items, mealPlans, workoutPlans, openMeal }: { selected: string; today: string; items: CalendarItem[]; mealPlans: CalendarMealPlan[]; workoutPlans: WorkoutCalendarTemplate[]; openMeal: (date: string) => void }) {
   const date = parseDateKey(selected); const first = dateKey(new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))); const gridStart = startOfWeek(first); const days = Array.from({ length: 42 }, (_, i) => addDays(gridStart, i));
-  const [collapsed, setCollapsed] = useState(false);
   const [activeDay, setActiveDay] = useState(days.includes(selected) ? selected : today);
-  const touchStart = useRef<number | null>(null);
+  const [agendaOpen, setAgendaOpen] = useState(false);
   const activeItems = itemsOn(items, activeDay);
   const activeMeal = mealOn(mealPlans, activeDay);
   const activeWorkouts = workoutsOn(workoutPlans, activeDay);
-  const finishSwipe = (clientY: number) => {
-    if (touchStart.current === null) return;
-    const distance = clientY - touchStart.current;
-    if (distance < -42) setCollapsed(true);
-    if (distance > 42) setCollapsed(false);
-    touchStart.current = null;
-  };
 
-  return <section className={`adaptive-month ${collapsed ? "is-collapsed" : "is-expanded"}`} aria-label="Месечен календар">
-    <div className="month-calendar" onTouchStart={event => { touchStart.current = event.touches[0]?.clientY ?? null; }} onTouchEnd={event => finishSwipe(event.changedTouches[0]?.clientY ?? 0)}>
+  return <section className="adaptive-month is-expanded" aria-label="Месечен календар">
+    <div className="month-calendar">
       <div className="month-weekdays">{weekDays.map(day => <span key={day}>{day}</span>)}</div>
       <div className="month-grid">{days.map(day => {
         const dayItems = itemsOn(items, day); const plan = mealOn(mealPlans, day); const workouts = workoutsOn(workoutPlans, day); const outside = day.slice(0, 7) !== selected.slice(0, 7);
         const markers = [...dayItems.map(item => item.color), ...(plan ? ["green"] : []), ...workouts.map(() => "violet")].slice(0, 4);
-        return <article key={day} className={`month-day ${day === today ? "today" : ""} ${day === activeDay ? "selected" : ""} ${outside ? "outside" : ""}`}>
-          <button type="button" className="month-day-click" onClick={() => setActiveDay(day)} aria-label={`Избери ${day}`} aria-pressed={day === activeDay}><span className="month-day-number">{Number(day.slice(8))}</span><span className="month-markers" aria-hidden="true">{markers.map((color, index) => <i className={`color-${color}`} key={`${color}-${index}`} />)}</span></button>
+        return <article key={day} className={`month-day ${day === today ? "today" : ""} ${day === activeDay && agendaOpen ? "selected" : ""} ${outside ? "outside" : ""}`}>
+          <button type="button" className="month-day-click" onClick={() => { setActiveDay(day); setAgendaOpen(true); }} aria-label={`Отвори програмата за ${day}`} aria-pressed={day === activeDay && agendaOpen}><span className="month-day-number">{Number(day.slice(8))}</span><span className="month-markers" aria-hidden="true">{markers.map((color, index) => <i className={`color-${color}`} key={`${color}-${index}`} />)}</span></button>
           <div className="month-expanded-content"><button type="button" className="month-meal-action" onClick={() => { setActiveDay(day); openMeal(day); }} aria-label={plan ? `Промени или премахни менюто за ${day}` : `Добави меню за ${day}`} aria-haspopup="dialog"><MealBadge plan={plan} /></button><WorkoutBadges plans={workoutPlans} date={day} compact /><div>{dayItems.slice(0, 3).map(item => <ItemCard key={item.id} item={item} compact />)}{dayItems.length > 3 ? <span className="more-items">+ още {dayItems.length - 3}</span> : null}</div></div>
         </article>;
       })}</div>
-      <button className="calendar-swipe-handle" type="button" onClick={() => setCollapsed(value => !value)} aria-expanded={!collapsed}><span /><b>{collapsed ? "Плъзни надолу за събитията в месеца" : "Плъзни нагоре за компактен изглед"}</b></button>
     </div>
-    <section className="selected-day-agenda" aria-label={`План за ${activeDay}`}>
-      <header><div><strong>{Number(activeDay.slice(8))}</strong><span>{fullDate.format(parseDateKey(activeDay)).replace(/^./, letter => letter.toUpperCase())}</span></div><Link href={href("day", activeDay)}>Целият ден</Link></header>
-      <button className="selected-day-meal" type="button" onClick={() => openMeal(activeDay)}><span>🍽</span><div><b>{activeMeal ? activeMeal.menu_name : "Добави хранене"}</b><small>{activeMeal ? "Виж или промени вариантите" : "Избери меню за този ден"}</small></div><i>›</i></button>
-      {activeWorkouts.map(workout => <Link className="selected-day-row workout" href="/workouts" key={workout.id}><span>◆</span><div><b>{workout.name}</b><small>{workout.durationMinutes ? `${workout.durationMinutes} минути` : `${workout.exerciseCount} упражнения`}</small></div><i>›</i></Link>)}
-      {activeItems.map(item => <ItemCard key={item.id} item={item} />)}
-      {!activeMeal && !activeWorkouts.length && !activeItems.length ? <div className="selected-day-empty"><b>Денят е свободен</b><span>Добави задача, събитие или хранене.</span></div> : null}
-    </section>
+    {agendaOpen ? <section className="calendar-agenda-sheet" role="dialog" aria-modal="false" aria-label={`Програма за ${activeDay}`}>
+      <button className="calendar-agenda-handle" type="button" aria-label="Затвори програмата" onClick={() => setAgendaOpen(false)}><span /></button>
+      <header><h2>{fullDate.format(parseDateKey(activeDay))}</h2><button type="button" aria-label="Затвори" onClick={() => setAgendaOpen(false)}>×</button></header>
+      <div className="calendar-agenda-list">
+        <button className="calendar-agenda-card color-green" type="button" onClick={() => openMeal(activeDay)}>
+          <span className="calendar-agenda-time">🍽</span><span><b>{activeMeal ? activeMeal.menu_name : "Add nutrition"}</b><small>{activeMeal ? "View or change the meal plan" : "Choose a menu for this day"}</small><i>Nutrition</i></span>
+        </button>
+        {activeWorkouts.map(workout => <Link className="calendar-agenda-card color-violet" href="/workouts" key={workout.id}><span className="calendar-agenda-time">◆</span><span><b>{workout.name}</b><small>{workout.durationMinutes ? `${workout.durationMinutes} minutes` : `${workout.exerciseCount} exercises`}</small><i>Workout</i></span></Link>)}
+        {activeItems.map(item => <div className={`calendar-agenda-event color-${item.color}`} key={item.id}><span className="calendar-agenda-time"><b>{item.time || (item.allDay ? "All day" : "—")}</b>{item.endTime ? <small>{item.endTime}</small> : null}</span><ItemCard item={item} /></div>)}
+        {!activeMeal && !activeWorkouts.length && !activeItems.length ? <div className="calendar-agenda-empty"><b>No plans yet</b><span>Add an event, task, workout or meal for this day.</span></div> : null}
+      </div>
+    </section> : null}
   </section>;
 }
 

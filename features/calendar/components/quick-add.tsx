@@ -6,7 +6,13 @@ import { saveBirthday, saveEvent, saveTask, type CalendarActionState } from "../
 import { DEFAULT_TIMEZONE } from "../domain/date-utils";
 
 const initial: CalendarActionState = { status: "idle", message: "" };
-type Kind = "event" | "task" | "meal" | "birthday";
+type Kind = "event" | "task" | "meal" | "birthday" | "sticker";
+
+const calendarStickers = [
+  "🎂", "🎉", "❤️", "⭐", "😊", "🥳", "💪", "🏆",
+  "✈️", "🏖️", "🚗", "🏠", "💼", "💰", "🛒", "🎁",
+  "☕", "🍽️", "💧", "💊", "🌧️", "☀️", "🌙", "🐾",
+];
 
 const mealOptions: Record<string, Record<string, string[]>> = {
   "Меню 1": {
@@ -40,6 +46,7 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
   const [menu, setMenu] = useState("Меню 1");
   const [meal, setMeal] = useState("Закуска");
   const [variant, setVariant] = useState(0);
+  const [sticker, setSticker] = useState("🎉");
   const [eventState, eventAction, eventPending] = useActionState(saveEvent, initial);
   const [taskState, taskAction, taskPending] = useActionState(saveTask, initial);
   const [birthdayState, birthdayAction, birthdayPending] = useActionState(saveBirthday, initial);
@@ -66,7 +73,7 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
       <section className="quick-add-sheet" role="dialog" aria-modal="true" aria-labelledby="quick-add-title">
         <header><div><p className="kicker">Бързо добавяне</p><h2 id="quick-add-title">Какво предстои?</h2></div><button type="button" aria-label="Затвори" onClick={() => setOpen(false)}>×</button></header>
         <div className="quick-add-tabs" role="tablist">
-          {(["event","task","meal","birthday"] as Kind[]).map((item) => <button key={item} type="button" role="tab" aria-selected={kind === item} onClick={() => setKind(item)}>{item === "event" ? "Събитие" : item === "task" ? "Задача" : item === "meal" ? "Хранене" : "Рожден ден"}</button>)}
+          {(["event","task","meal","birthday","sticker"] as Kind[]).map((item) => <button key={item} type="button" role="tab" aria-selected={kind === item} onClick={() => setKind(item)}>{item === "event" ? "Събитие" : item === "task" ? "Задача" : item === "meal" ? "Хранене" : item === "birthday" ? "Рожден ден" : "Стикер"}</button>)}
         </div>
         {kind === "event" ? <form action={eventAction} className="quick-form">
           <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} />
@@ -96,6 +103,20 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
         {kind === "birthday" ? <form action={birthdayAction} className="quick-form">
           <label><span>Име</span><input name="personName" autoFocus required placeholder="Име на човека" /></label><label><span>Дата на раждане</span><input name="birthDate" type="date" required /></label>
           <label className="inline-check"><input name="birthYearKnown" type="checkbox" /> Годината е точна</label><label><span>Бележки</span><textarea name="notes" rows={3} /></label><button className="primary-button" disabled={birthdayPending}>Запази рождения ден</button>
+        </form> : null}
+        {kind === "sticker" ? <form action={eventAction} className="quick-form sticker-form">
+          <input type="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIMEZONE} />
+          <input type="hidden" name="title" value={sticker} />
+          <input type="hidden" name="description" value="Календарен стикер" />
+          <input type="hidden" name="endDate" value={defaultDate} />
+          <input type="hidden" name="allDay" value="on" />
+          <input type="hidden" name="category" value="sticker" />
+          <input type="hidden" name="color" value="violet" />
+          <input type="hidden" name="recurrenceKind" value="none" />
+          <label><span>Дата</span><input name="date" type="date" defaultValue={defaultDate} required /></label>
+          <fieldset className="calendar-sticker-picker"><legend>Избери стикер</legend><div>{calendarStickers.map((item) => <button className={sticker === item ? "selected" : ""} key={item} type="button" aria-label={`Избери стикер ${item}`} aria-pressed={sticker === item} onClick={() => setSticker(item)}>{item}</button>)}</div></fieldset>
+          <div className="calendar-sticker-preview" aria-live="polite"><span>{sticker}</span><small>Ще се покаже върху избрания ден</small></div>
+          <button className="primary-button" disabled={eventPending}>Добави стикера</button>
         </form> : null}
         <p className={`form-message ${state.status}`} aria-live="polite">{state.message}</p>
       </section>

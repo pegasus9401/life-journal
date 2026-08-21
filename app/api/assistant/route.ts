@@ -17,7 +17,10 @@ const systemPrompt = `Ти си личният AI асистент в прило
 - При снимка на храна или опаковка разпознай марката, името и видимия баркод. След това използвай find_food_product с баркод, ако се чете надеждно, иначе с име и марка. Не записвай продукт само по визуална приблизителна оценка, когато може да бъде проверен в базата.
 - Ако потребителят иска сниманият продукт да остане в личната му база, покажи разпознатите стойности за 100 г и поискай потвърждение. Използвай save_food_product само след ясното потвърждение.
 - Когато потребителят посочи пакетиран продукт или марка, но не даде хранителни стойности, първо използвай find_food_product. Не измисляй грамове, калории или макроси. При един ясен резултат използвай неговите стойности; при няколко съществени варианта попитай кой е точният.
-- Когато липсва важна информация, задай един кратък уточняващ въпрос.
+- Изпълнявай ясните команди веднага. Не искай потвърждение и не задавай въпроси за незадължителни подробности.
+- При липсващи незадължителни полета използвай разумни стойности по подразбиране: днес, 60 минути, нормален приоритет, незавършен статус и празни бележки.
+- „Добави/планирай тренировка в 19:00“ означава календарно събитие „Тренировка“ за днес от 19:00 до 20:00. Използвай save_event и действай веднага.
+- Питай само ако без отговора не може да се определи самото действие или то е необратимо/рисково. Задай най-много един кратък въпрос.
 - За относителни дати като „утре“ пресметни точната дата.
 - Преди редактиране или изтриване първо намери точния запис с get_day, освен ако вече имаш неговото ID от разговора.
 - Никога не използвай delete_item, ако последното съобщение на потребителя не потвърждава ясно конкретното изтриване. Първо попитай.
@@ -25,13 +28,30 @@ const systemPrompt = `Ти си личният AI асистент в прило
 - Не давай медицински диагнози и не представяй хранителни или тренировъчни съвети като медицински препоръки.
 - При дневник запази гласа на потребителя; не измисляй факти, които не е казал.`;
 
+function quickWorkoutEvent(message: string) {
+  const normalized = message.toLocaleLowerCase("bg-BG");
+  const isCommand = ["добави", "създай", "запиши", "планирай"].some((verb) => normalized.includes(verb));
+  if (!isCommand || !normalized.includes("трениров")) return null;
+  const timeMatch = normalized.match(/(?:в|от)\s*(\d{1,2})(?::(\d{2}))?\s*(?:ч(?:аса)?\.?)?/u);
+  if (!timeMatch) return null;
+  const hour = Number(timeMatch[1]); const minute = Number(timeMatch[2] ?? "0");
+  if (hour > 23 || minute > 59) return null;
+  const target = new Date();
+  if (normalized.includes("утре")) target.setDate(target.getDate() + 1);
+  const selectedDate = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Sofia" }).format(target);
+  const endMinutes = hour * 60 + minute + 60;
+  const endHour = Math.floor(endMinutes / 60) % 24; const endMinute = endMinutes % 60;
+  const endDateValue = new Date(`${selectedDate}T12:00:00Z`);
+  if (endMinutes >= 1440) endDateValue.setUTCDate(endDateValue.getUTCDate() + 1);
+  const endDate = new Intl.DateTimeFormat("en-CA", { timeZone: "UTC" }).format(endDateValue);
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return { title: "Тренировка", date: selectedDate, end_date: endDate, all_day: false, start_time: `${pad(hour)}:${pad(minute)}`, end_time: `${pad(endHour)}:${pad(endMinute)}` };
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Сесията изтече." }, { status: 401 });
-  const token = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || request.headers.get("x-vercel-oidc-token");
-  if (!token) return NextResponse.json({ error: "AI Gateway все още не е активиран за проекта." }, { status: 503 });
-
   const body = await request.json().catch(() => null) as { messages?: Array<{ role?: string; content?: string }>; image?: string | null } | null;
   const history: ChatMessage[] = (body?.messages ?? []).slice(-20).filter((message) => (message.role === "user" || message.role === "assistant") && typeof message.content === "string").map((message) => ({ role: message.role as "user" | "assistant", content: message.content!.slice(0, 8000) }));
   if (!history.length || history.at(-1)?.role !== "user") return NextResponse.json({ error: "Напиши какво искаш да направя." }, { status: 400 });
@@ -41,6 +61,22 @@ export async function POST(request: Request) {
     last.content = [{ type: "text", text: String(last.content) }, { type: "image_url", image_url: { url: body.image } }];
   }
 
+  const latestText = typeof history.at(-1)?.content === "string" ? history.at(-1)!.content as string : "";
+  const quickWorkout = !body?.image ? quickWorkoutEvent(latestText) : null;
+  if (quickWorkout) {
+    try {
+      const result = await executeAssistantTool("save_event", quickWorkout, { supabase, user });
+      revalidatePath("/today"); revalidatePath("/calendar"); revalidatePath("/workouts");
+      return NextResponse.json({ message: `Добавих тренировка на ${quickWorkout.date} от ${quickWorkout.start_time} до ${quickWorkout.end_time}.`, actions: [{ tool: "save_event", result }] });
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : "Действието не успя.";
+      return NextResponse.json({ error: `Не успях да добавя тренировката: ${detail}` }, { status: 500 });
+    }
+  }
+
+  const token = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || request.headers.get("x-vercel-oidc-token");
+  if (!token) return NextResponse.json({ error: "AI Gateway все още не е активиран за проекта." }, { status: 503 });
+
   const messages: ChatMessage[] = [{ role: "assistant", content: systemPrompt }, ...history];
   const actions: Array<{ tool: string; result: unknown }> = [];
 
@@ -49,7 +85,7 @@ export async function POST(request: Request) {
       const gatewayResponse = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Vercel-AI-App-Name": "Life Journal" },
-        body: JSON.stringify({ model: "google/gemini-2.5-flash-lite", messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
+        body: JSON.stringify({ model: "google/gemini-3-flash", messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
       });
       const result = await gatewayResponse.json() as { choices?: Array<{ message?: { role: "assistant"; content?: string | null; tool_calls?: ToolCall[] } }>; error?: { message?: string } };
       if (!gatewayResponse.ok) throw new Error(result.error?.message ?? `AI Gateway: ${gatewayResponse.status}`);

@@ -14,7 +14,7 @@ function NavIcon({ name }: { name: "today" | "calendar" | "nutrition" | "journal
   return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 }
 
-export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "workouts" }) {
+export function AppNavigation({ active }: { active?: "today" | "calendar" | "journal" | "nutrition" | "products" | "workouts" }) {
   return <>
     <nav className="app-nav" aria-label="Основна навигация">
       <BrandLink />
@@ -33,10 +33,11 @@ export function AppNavigation({ active }: { active?: "today" | "calendar" | "jou
       <span className="mobile-ai-space" aria-hidden="true" />
       <Link className={active === "nutrition" ? "active" : ""} href="/nutrition"><NavIcon name="nutrition" /><span>Хранене</span></Link>
       <details className="mobile-more">
-        <summary className={active === "journal" || active === "workouts" ? "active" : ""}><NavIcon name="more" /><span>Още</span></summary>
+        <summary className={active === "journal" || active === "products" || active === "workouts" ? "active" : ""}><NavIcon name="more" /><span>Още</span></summary>
         <div>
           <Link href="/journal"><NavIcon name="journal" /> Дневник</Link>
           <Link href="/workouts"><NavIcon name="workouts" /> Тренировки</Link>
+          <Link href="/products"><NavIcon name="nutrition" /> Продукти</Link>
           <form action={signOut}><button type="submit">Изход</button></form>
         </div>
       </details>

@@ -48,6 +48,16 @@ function quickWorkoutEvent(message: string) {
   return { title: "Тренировка", date: selectedDate, end_date: endDate, all_day: false, start_time: `${pad(hour)}:${pad(minute)}`, end_time: `${pad(endHour)}:${pad(endMinute)}` };
 }
 
+function assistantModel(message: string, hasImage: boolean) {
+  if (hasImage) return "google/gemini-3-flash";
+  const normalized = message.toLocaleLowerCase("bg-BG");
+  const complexSignals = ["анализирай", "сравни", "направи план", "изготви план", "обобщи", "препоръчай", "оптимизирай", "прегледай седмицата", "прегледай месеца"];
+  const multipleActions = (normalized.match(/(?:добави|създай|запиши|планирай|редактирай|изтрий)/gu) ?? []).length > 1;
+  return normalized.length > 900 || multipleActions || complexSignals.some((signal) => normalized.includes(signal))
+    ? "google/gemini-3-flash"
+    : "google/gemini-2.5-flash-lite";
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -85,7 +95,7 @@ export async function POST(request: Request) {
       const gatewayResponse = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Vercel-AI-App-Name": "Life Journal" },
-        body: JSON.stringify({ model: "google/gemini-3-flash", messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
+        body: JSON.stringify({ model: assistantModel(latestText, Boolean(body?.image)), messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
       });
       const result = await gatewayResponse.json() as { choices?: Array<{ message?: { role: "assistant"; content?: string | null; tool_calls?: ToolCall[] } }>; error?: { message?: string } };
       if (!gatewayResponse.ok) throw new Error(result.error?.message ?? `AI Gateway: ${gatewayResponse.status}`);

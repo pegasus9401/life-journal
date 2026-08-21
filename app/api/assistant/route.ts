@@ -48,14 +48,14 @@ function quickWorkoutEvent(message: string) {
   return { title: "Тренировка", date: selectedDate, end_date: endDate, all_day: false, start_time: `${pad(hour)}:${pad(minute)}`, end_time: `${pad(endHour)}:${pad(endMinute)}` };
 }
 
-function assistantModel(message: string, hasImage: boolean) {
-  if (hasImage) return "google/gemini-3-flash";
+function assistantModels(message: string, hasImage: boolean) {
   const normalized = message.toLocaleLowerCase("bg-BG");
   const complexSignals = ["анализирай", "сравни", "направи план", "изготви план", "обобщи", "препоръчай", "оптимизирай", "прегледай седмицата", "прегледай месеца"];
   const multipleActions = (normalized.match(/(?:добави|създай|запиши|планирай|редактирай|изтрий)/gu) ?? []).length > 1;
-  return normalized.length > 900 || multipleActions || complexSignals.some((signal) => normalized.includes(signal))
-    ? "google/gemini-3-flash"
-    : "google/gemini-2.5-flash-lite";
+  const complex = hasImage || normalized.length > 900 || multipleActions || complexSignals.some((signal) => normalized.includes(signal));
+  return complex
+    ? ["google/gemini-2.5-flash", "alibaba/qwen3.5-flash"]
+    : ["google/gemini-2.5-flash-lite", "alibaba/qwen3.5-flash"];
 }
 
 export async function POST(request: Request) {
@@ -92,13 +92,22 @@ export async function POST(request: Request) {
 
   try {
     for (let step = 0; step < 6; step += 1) {
-      const gatewayResponse = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Vercel-AI-App-Name": "Life Journal" },
-        body: JSON.stringify({ model: assistantModel(latestText, Boolean(body?.image)), messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
-      });
-      const result = await gatewayResponse.json() as { choices?: Array<{ message?: { role: "assistant"; content?: string | null; tool_calls?: ToolCall[] } }>; error?: { message?: string } };
-      if (!gatewayResponse.ok) throw new Error(result.error?.message ?? `AI Gateway: ${gatewayResponse.status}`);
+      type GatewayResult = { choices?: Array<{ message?: { role: "assistant"; content?: string | null; tool_calls?: ToolCall[] } }>; error?: { message?: string } };
+      let result: GatewayResult | null = null;
+      let lastError = "AI Gateway не отговори.";
+      const models = assistantModels(latestText, Boolean(body?.image));
+      for (const model of models) {
+        const gatewayResponse = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Vercel-AI-App-Name": "Life Journal", "X-Vercel-AI-User": user.id },
+          body: JSON.stringify({ model, messages: [{ role: "system", content: systemPrompt }, ...messages.slice(1)], tools: assistantToolDefinitions, tool_choice: "auto", stream: false, max_tokens: 1800 }),
+        });
+        const candidate = await gatewayResponse.json() as GatewayResult;
+        if (gatewayResponse.ok) { result = candidate; break; }
+        lastError = candidate.error?.message ?? `AI Gateway: ${gatewayResponse.status}`;
+        if (gatewayResponse.status !== 403 && gatewayResponse.status !== 429) break;
+      }
+      if (!result) throw new Error(lastError);
       const assistantMessage = result.choices?.[0]?.message;
       if (!assistantMessage) throw new Error("AI асистентът не върна отговор.");
       const calls = assistantMessage.tool_calls ?? [];

@@ -1768,3 +1768,68 @@ body .journal-shell.life-app-shell {
   font-weight: 700;
   filter: none;
 }
+
+
+/* Compact month-cell stickers and underlined entries */
+@media (max-width: 820px) {
+  .life-app-shell .month-day .month-stickers {
+    min-height: 15px;
+    height: 15px;
+    margin: 0;
+    gap: 0;
+  }
+
+  .life-app-shell .month-day .month-stickers a {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+    font-size: 13px;
+    line-height: 1;
+    filter: none;
+  }
+
+  .life-app-shell .month-day .calendar-item.compact[data-type="event"],
+  .life-app-shell .month-day .calendar-item.compact[data-type="task"] {
+    display: block;
+    width: 100%;
+    min-height: 12px;
+    margin: 0;
+    padding: 1px 0;
+    overflow: hidden;
+    border: 0;
+    border-bottom: 1px solid #8ebbd4;
+    border-radius: 0;
+    color: #263640;
+    background: transparent;
+    box-shadow: none;
+    line-height: 9px;
+    text-decoration: none;
+  }
+
+  .life-app-shell .month-day .calendar-item.compact[data-type="event"] .calendar-item-dot,
+  .life-app-shell .month-day .calendar-item.compact[data-type="task"] .calendar-item-dot,
+  .life-app-shell .month-day .calendar-item.compact[data-type="task"] .task-toggle,
+  .life-app-shell .month-day .calendar-item.compact .item-edit-link,
+  .life-app-shell .month-day .calendar-item.compact time {
+    display: none;
+  }
+
+  .life-app-shell .month-day .calendar-item.compact[data-type="event"] .calendar-item-copy,
+  .life-app-shell .month-day .calendar-item.compact[data-type="task"] .calendar-item-copy {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .life-app-shell .month-day .calendar-item.compact[data-type="event"] strong,
+  .life-app-shell .month-day .calendar-item.compact[data-type="task"] strong {
+    display: block;
+    overflow: hidden;
+    color: #263640;
+    font-size: 6px;
+    font-weight: 500;
+    line-height: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

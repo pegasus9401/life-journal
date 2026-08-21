@@ -18,6 +18,7 @@ export type CalendarItem = {
   color: string;
   location?: string | null;
   recurring?: boolean;
+  sticker?: string;
 };
 
 export type CalendarEventRow = {

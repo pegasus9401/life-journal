@@ -37,6 +37,10 @@ select owner_id, calorie_goal, protein_goal, carbs_goal, fat_goal, 'manual'
 from public.nutrition_goals
 on conflict (owner_id) do nothing;
 
+insert into public.user_goals (owner_id)
+select id from auth.users
+on conflict (owner_id) do nothing;
+
 create or replace function public.bootstrap_user_profile()
 returns trigger
 language plpgsql
@@ -66,5 +70,4 @@ grant select, insert, update, delete on public.user_goals to authenticated;
 
 create policy "Owners manage profile" on public.profiles for all using (auth.uid() = owner_id) with check (auth.uid() = owner_id);
 create policy "Owners manage user goals" on public.user_goals for all using (auth.uid() = owner_id) with check (auth.uid() = owner_id);
-
 

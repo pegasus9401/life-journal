@@ -1833,3 +1833,135 @@ body .journal-shell.life-app-shell {
     white-space: nowrap;
   }
 }
+
+
+/* Samsung-style Calendar quick action sheet */
+.quick-add-tabs.is-hidden {
+  display: none;
+}
+
+.quick-add-launcher {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px 18px;
+  padding: 28px 22px 34px;
+}
+
+.quick-add-launcher button {
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  color: #202431;
+  background: transparent;
+  cursor: pointer;
+}
+
+.quick-add-launcher button > span {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  border-radius: 50%;
+  color: #438fbd;
+  background: #f3f0ff;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.quick-add-launcher button > b {
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.quick-add-drag-handle {
+  display: grid;
+  height: 20px;
+  place-items: center;
+  border-top: 1px solid #e8e8ef;
+}
+
+.quick-add-drag-handle span {
+  width: 44px;
+  height: 5px;
+  border-radius: 99px;
+  background: #c6ccd2;
+}
+
+.quick-add-back {
+  width: 32px !important;
+  height: 32px !important;
+  color: #57616a !important;
+  background: transparent !important;
+  font-size: 28px !important;
+}
+
+@media (max-width: 820px) {
+  .life-app-shell .quick-add-backdrop {
+    align-items: end;
+    padding: 0 10px max(8px, env(safe-area-inset-bottom));
+    background: rgba(39,44,52,.28);
+    backdrop-filter: blur(1.5px);
+  }
+
+  .life-app-shell .quick-add-sheet {
+    width: 100%;
+    max-height: min(88svh, 720px);
+    align-self: end;
+    padding: 0 0 12px;
+    overflow-y: auto;
+    border: 1px solid rgba(216,219,226,.9);
+    border-radius: 15px 15px 32px 32px;
+    background: #fff;
+    box-shadow: 0 -14px 44px rgba(34,42,50,.13);
+  }
+
+  .life-app-shell .quick-add-sheet > header {
+    min-height: 64px;
+    padding: 10px 20px 5px 26px;
+  }
+
+  .life-app-shell .quick-add-sheet > header > div {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .life-app-shell .quick-add-sheet > header h2 {
+    margin: 0;
+    overflow: hidden;
+    color: #252a35;
+    font-family: inherit;
+    font-size: 19px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .life-app-shell .quick-add-sheet > header > button:last-child {
+    color: #525a62;
+    background: transparent;
+    font-size: 28px;
+  }
+
+  .life-app-shell .quick-add-launcher {
+    gap: 28px 14px;
+    padding: 28px 22px 32px;
+  }
+
+  .life-app-shell .quick-add-launcher button > span {
+    width: 62px;
+    height: 62px;
+    font-size: 26px;
+  }
+
+  .life-app-shell .quick-add-tabs:not(.is-hidden),
+  .life-app-shell .quick-add-sheet > .quick-form,
+  .life-app-shell .quick-add-sheet > .form-message {
+    margin-right: 16px;
+    margin-left: 16px;
+  }
+}

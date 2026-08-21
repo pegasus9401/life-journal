@@ -7,6 +7,16 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Дневник на живота",
   description: "Тихо място за спомените от живота, който живееш.",
+  manifest: "/manifest.webmanifest",
+  applicationName: "Дневник на живота",
+  appleWebApp: {
+    capable: true,
+    title: "Дневник на живота",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     title: "Дневник на живота",
     description: "Дни, които си струва да запазиш.",

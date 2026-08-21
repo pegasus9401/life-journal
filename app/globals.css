@@ -2035,3 +2035,35 @@ body .journal-shell.life-app-shell {
     inset: auto 8px calc(98px + env(safe-area-inset-bottom));
   }
 }
+
+
+@media (max-width: 800px) {
+  body .assistant-fab span::after {
+    text-shadow: none;
+  }
+
+  body .assistant-fab::before {
+    content: "✦";
+    position: absolute;
+    top: 14px;
+    right: 17px;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  body .assistant-fab::after {
+    content: "•";
+    position: absolute;
+    top: 9px;
+    right: 11px;
+    color: rgba(255,255,255,.95);
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  body .assistant-fab.is-open::before,
+  body .assistant-fab.is-open::after {
+    display: none;
+  }
+}

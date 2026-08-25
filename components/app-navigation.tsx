@@ -1,52 +1,41 @@
 import Link from "next/link";
-import { BrandLink } from "./brand-link";
 import { signOut } from "@/features/auth/actions";
 
-function NavIcon({ name }: { name: "today" | "calendar" | "nutrition" | "journal" | "workouts" | "more" }) {
+type Area = "today" | "health" | "planner" | "journal" | "progress";
+function areaFor(active?: string): Area | undefined {
+  if (active === "nutrition" || active === "recipes" || active === "products" || active === "workouts") return "health";
+  if (active === "calendar") return "planner";
+  if (active === "profile") return "progress";
+  return active as Area | undefined;
+}
+function Icon({ name }: { name: Area }) {
   const paths = {
-    today: <><path d="M5 5.5h14v14H5z" /><path d="M8 3v5M16 3v5M5 9h14" /><circle cx="10" cy="14" r="1.7" /></>,
-    calendar: <><rect x="4" y="5.5" width="16" height="15" rx="2" /><path d="M8 3v5M16 3v5M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01M16 17h.01" /></>,
-    nutrition: <><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M15 3v18M15 3c3 1 4.5 4 4.5 7.5H15" /></>,
-    journal: <><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5z" /><path d="M5 4.5v17M9 7h6M9 11h6" /></>,
-    workouts: <><path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10" /></>,
-    more: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
+    today: <><path d="M5 5.5h14v14H5z"/><path d="M8 3v5M16 3v5M5 9h14"/><circle cx="10" cy="14" r="1.7"/></>,
+    health: <><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/><path d="M8.5 12h2l1-2.5 1.7 5 1-2.5h1.8"/></>,
+    planner: <><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3v5M16 3v5M4 10h16M8 14h.01M12 14h.01M16 14h.01"/></>,
+    journal: <><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5z"/><path d="M5 4.5v17M9 7h6M9 11h6"/></>,
+    progress: <><path d="M5 19V9M12 19V5M19 19V2"/><path d="M3 19h18"/></>,
   };
   return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 }
+const areas: Array<{ key: Area; label: string; href: string }> = [
+  { key: "today", label: "Днес", href: "/today" },
+  { key: "health", label: "Здраве", href: "/nutrition" },
+  { key: "planner", label: "Планер", href: "/calendar" },
+  { key: "journal", label: "Дневник", href: "/journal" },
+  { key: "progress", label: "Прогрес", href: "/profile" },
+];
 
 export function AppNavigation({ active, title }: { active?: string; title?: string }) {
+  const selected = areaFor(active);
   return <>
-    <nav className="app-nav" aria-label="Основна навигация">
-      <BrandLink title={title} />
-      <div className="app-nav-links">
-      <Link className={active === "today" ? "active" : ""} href="/today">Днес</Link>
-      <Link className={active === "calendar" ? "active" : ""} href="/calendar">Календар</Link>
-      <Link className={active === "journal" ? "active" : ""} href="/journal">Дневник</Link>
-      <Link className={active === "nutrition" ? "active" : ""} href="/nutrition">Хранене</Link>
-      <Link className={active === "recipes" ? "active" : ""} href="/recipes">Рецепти</Link>
-      <Link className={active === "workouts" ? "active" : ""} href="/workouts">Тренировки</Link>
+    <nav className="p2-top-nav" aria-label="Основна навигация">
+      <Link className="p2-brand" href="/today" aria-label="PEGASOS — Днес"><span>✦</span><strong>{title ?? "PEGASOS"}</strong></Link>
+      <div>{areas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}>{area.label}</Link>)}</div>
       <form action={signOut}><button type="submit">Изход</button></form>
-      </div>
     </nav>
-    <nav className="mobile-bottom-nav" aria-label="Мобилна навигация">
-      <Link className={active === "today" ? "active" : ""} href="/today"><NavIcon name="today" /><span>Днес</span></Link>
-      <Link className={active === "calendar" ? "active" : ""} href="/calendar"><NavIcon name="calendar" /><span>Календар</span></Link>
-      <span className="mobile-ai-space" aria-hidden="true" />
-      <Link className={active === "nutrition" ? "active" : ""} href="/nutrition"><NavIcon name="nutrition" /><span>Хранене</span></Link>
-      <details className="mobile-more">
-        <summary className={active === "journal" || active === "products" || active === "promotions" || active === "shopping" || active === "workouts" || active === "profile" || active === "recipes" ? "active" : ""}><NavIcon name="more" /><span>Още</span></summary>
-        <div>
-          <Link href="/profile"><NavIcon name="today" /> Профил и цели</Link>
-          <Link href="/journal"><NavIcon name="journal" /> Дневник</Link>
-          <Link href="/workouts"><NavIcon name="workouts" /> Тренировки</Link>
-          <Link href="/products"><NavIcon name="nutrition" /> Продукти</Link>
-          <Link href="/recipes"><NavIcon name="nutrition" /> Рецепти</Link>
-          <Link href="/promotions"><NavIcon name="nutrition" /> Промоции</Link>
-          <Link href="/shopping-list"><NavIcon name="nutrition" /> Списък за пазаруване</Link>
-          <form action={signOut}><button type="submit">Изход</button></form>
-        </div>
-      </details>
+    <nav className="p2-bottom-nav" aria-label="Мобилна навигация">
+      {areas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
     </nav>
   </>;
 }
-

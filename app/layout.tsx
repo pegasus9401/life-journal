@@ -3,6 +3,7 @@ import { Onest } from "next/font/google";
 import { AssistantPopup } from "@/features/assistant/components/assistant-popup";
 import { ActiveWorkoutTracker } from "@/features/workouts/components/active-workout-tracker";
 import "./globals.css";
+import "../styles/pegasos-2.css";
 
 const onest = Onest({ subsets: ["latin", "cyrillic"], display: "swap", variable: "--font-onest" });
 

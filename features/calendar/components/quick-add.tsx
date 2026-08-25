@@ -79,12 +79,14 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
       <section className="quick-add-sheet" role="dialog" aria-modal="true" aria-labelledby="quick-add-title">
         <header><div>{chooser ? null : <button className="quick-add-back" type="button" aria-label="Назад" onClick={() => setChooser(true)}>‹</button>}<h2 id="quick-add-title">{chooser ? `Добави към ${addDateLabel(targetDate)}` : "Какво предстои?"}</h2></div><button type="button" aria-label="Затвори" onClick={() => setOpen(false)}>×</button></header><div className="quick-add-drag-handle" aria-hidden="true"><span /></div>
         {chooser ? <div className="quick-add-launcher">
-          <button type="button" onClick={() => { setKind("meal"); setChooser(false); }}><span>🍴</span><b>Хранене</b></button>
+          <button type="button" onClick={() => { setKind("meal"); setChooser(false); }}><span>🍴</span><b>Храна</b></button>
           <button type="button" onClick={() => { setOpen(false); router.push("/workouts"); }}><span>🏋️</span><b>Тренировка</b></button>
           <button type="button" onClick={() => { setEventCategory("cardio"); setKind("event"); setChooser(false); }}><span>🏃</span><b>Кардио</b></button>
           <button type="button" onClick={() => { setKind("task"); setChooser(false); }}><span>✓</span><b>Задача</b></button>
           <button type="button" onClick={() => { setEventCategory("personal"); setKind("event"); setChooser(false); }}><span>▣</span><b>Събитие</b></button>
-          <button type="button" onClick={() => { setOpen(false); router.push("/journal/new"); }}><span>□</span><b>Бележка</b></button>
+          <button type="button" onClick={() => { setOpen(false); router.push("/journal/new"); }}><span>□</span><b>Дневник</b></button>
+          <button type="button" onClick={() => { setOpen(false); router.push("/profile"); }}><span>↕</span><b>Тегло</b></button>
+          <button type="button" onClick={() => { setOpen(false); router.push("/journal/new"); }}><span>▧</span><b>Снимка</b></button>
         </div> : null}
         <div className={`quick-add-tabs ${chooser ? "is-hidden" : ""}`} role="tablist">
           {(["event","task","meal","birthday"] as Kind[]).map((item) => <button key={item} type="button" role="tab" aria-selected={kind === item} onClick={() => setKind(item)}>{item === "event" ? "Събитие" : item === "task" ? "Задача" : item === "meal" ? "Хранене" : "Рожден ден"}</button>)}

@@ -38,7 +38,7 @@ export function AssistantExperience() {
       if (result?.actions?.length) router.refresh();
       setRetryCommand("");
     } catch (error) {
-      setRequestError(error instanceof Error ? error.message : "Връзката прекъсна. Опитай отново.");
+      const message = error instanceof Error ? error.message : "";\n      setRequestError(message === "Load failed" || message === "Failed to fetch"\n        ? "Връзката с Pegas прекъсна. Опитай отново."\n        : message || "Връзката прекъсна. Опитай отново.");
       setRetryCommand(command);
     }
     finally { setPending(false); requestAnimationFrame(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" })); }

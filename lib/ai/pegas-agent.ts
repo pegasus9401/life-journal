@@ -4,7 +4,7 @@ import { ToolLoopAgent, dynamicTool, isStepCount, jsonSchema } from "ai";
 import { assistantToolDefinitions, executeAssistantTool } from "@/lib/ai/assistant-tools";
 import { createPegasSystemPrompt } from "@/lib/ai/pegas-system-prompt";
 
-export const PEGAS_GEMINI_MODEL = "gemini-3.7-flash";
+export const PEGAS_GEMINI_MODEL = "gemini-2.5-flash-lite";
 
 type AgentContext = {
   supabase: SupabaseClient;
@@ -33,11 +33,7 @@ export function createPegasAgent(context: AgentContext) {
     model: google(PEGAS_GEMINI_MODEL),
     instructions: createPegasSystemPrompt(context.today),
     tools,
-    maxOutputTokens: 800,
-    providerOptions: {
-      google: { thinkingConfig: { thinkingLevel: "low" } },
-    },
+    maxOutputTokens: 600,
     stopWhen: isStepCount(3),
   });
 }
-

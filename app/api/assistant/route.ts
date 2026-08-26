@@ -71,25 +71,11 @@ export async function POST(request: Request) {
     const result = await agent.generate({ messages: history });
     return NextResponse.json({ message: result.text || "Готово.", actions });
   } catch (error) {
-          console.error("Gemini assistant stream error", error);
-          const friendly = friendlyGeminiError(error);
-          controller.enqueue(encoder.encode(`${JSON.stringify({ type: "error", error: friendly.message })}\n`));
-        } finally {
-          ["/today", "/calendar", "/journal", "/nutrition", "/workouts", "/profile"].forEach((path) => revalidatePath(path));
-          controller.close();
-        }
-      },
-    });
-    return new Response(stream, {
-      headers: {
-        "Content-Type": "application/x-ndjson; charset=utf-8",
-        "Cache-Control": "no-cache, no-transform",
-      },
-    });
-  } catch (error) {
     console.error("Gemini assistant error", error);
     const friendly = friendlyGeminiError(error);
     return NextResponse.json({ error: friendly.message }, { status: friendly.status });
+  } finally {
+    ["/today", "/calendar", "/journal", "/nutrition", "/workouts", "/profile"].forEach((path) => revalidatePath(path));
   }
 }
 

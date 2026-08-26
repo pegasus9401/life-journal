@@ -29,3 +29,9 @@ Before release, a curated synthetic travel set evaluates factual grounding, tone
 ## Deferred decisions
 
 Provider, model, embeddings, and image-analysis services are selected only when the relevant feature is designed. No AI dependency belongs in the foundation bundle.
+
+## Gemini provider
+
+Pegas uses the official Google Generative AI provider server-side with the stable `gemini-3.7-flash` model. Configure `GOOGLE_GENERATIVE_AI_API_KEY` as a secret for Preview and Production in Vercel. Never expose it through a `NEXT_PUBLIC_` variable.
+
+The assistant keeps Supabase authentication and RLS boundaries, streams Bulgarian responses, and executes only the registered PegasOS tools.

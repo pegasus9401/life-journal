@@ -21,19 +21,56 @@ export function AssistantExperience() {
   const [image, setImage] = useState<string | null>(null);
   const [imageName, setImageName] = useState("");
   const [imageError, setImageError] = useState("");
+  const [requestError, setRequestError] = useState("");
+  const [retryCommand, setRetryCommand] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   async function send(text: string, attachedImage: string | null = null) {
     const command = text.trim() || (attachedImage ? "Анализирай тази снимка." : ""); if (!command || pending) return;
     const nextMessages: Message[] = [...messages, { role: "user", content: command }];
-    setMessages(nextMessages); setInput(""); setPending(true); setImage(null); setImageName(""); setImageError("");
+    setMessages(nextMessages); setInput(""); setPending(true); setImage(null); setImageName(""); setImageError(""); setRequestError("");
     requestAnimationFrame(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }));
     try {
       const response = await fetch("/api/assistant", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: nextMessages, image: attachedImage }) });
-      const result = await response.json() as { message?: string; error?: string; actions?: unknown[] };
-      setMessages((current) => [...current, { role: "assistant", content: result.message ?? result.error ?? "Не успях да изпълня командата." }]);
-      if (result.actions?.length) router.refresh();
-    } catch { setMessages((current) => [...current, { role: "assistant", content: "Връзката прекъсна. Опитай отново." }]); }
+      if (!response.ok || !response.body || !response.headers.get("content-type")?.includes("application/x-ndjson")) {
+        const result = await response.json().catch(() => null) as { error?: string } | null;
+        throw new Error(result?.error ?? "Не успях да изпълня командата.");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let streamed = "";
+      let assistantStarted = false;
+      let hasActions = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const event = JSON.parse(line) as { type: "text" | "done" | "error"; delta?: string; actions?: unknown[]; error?: string };
+          if (event.type === "error") throw new Error(event.error ?? "Не успях да изпълня командата.");
+          if (event.type === "done") { hasActions = Boolean(event.actions?.length); continue; }
+          streamed += event.delta ?? "";
+          if (!assistantStarted) {
+            assistantStarted = true;
+            setMessages((current) => [...current, { role: "assistant", content: streamed }]);
+          } else {
+            setMessages((current) => [...current.slice(0, -1), { role: "assistant", content: streamed }]);
+          }
+        }
+        if (done) break;
+      }
+      if (!assistantStarted) setMessages((current) => [...current, { role: "assistant", content: "Готово." }]);
+      if (hasActions) router.refresh();
+      setRetryCommand("");
+    } catch (error) {
+      setRequestError(error instanceof Error ? error.message : "Връзката прекъсна. Опитай отново.");
+      setRetryCommand(command);
+    }
     finally { setPending(false); requestAnimationFrame(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" })); }
   }
 
@@ -74,6 +111,7 @@ export function AssistantExperience() {
         {pending ? <article className="assistant-message assistant thinking"><span>AI</span><p><i /><i /><i /></p></article> : null}<div ref={bottomRef} />
       </div>
       {messages.length === 1 ? <div className="assistant-suggestions">{suggestions.map((suggestion) => <button type="button" key={suggestion} onClick={() => void send(suggestion)}>{suggestion}</button>)}</div> : null}
+      {requestError ? <div className="assistant-photo-error" role="alert"><span>{requestError}</span> <button type="button" disabled={pending} onClick={() => void send(retryCommand)}>Опитай отново</button></div> : null}
       <form className="assistant-composer" onSubmit={submit}>
         <label htmlFor="assistant-command">Команда към асистента</label>
         <div className="assistant-capture-actions" aria-label="Сканиране и снимане">

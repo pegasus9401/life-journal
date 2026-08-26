@@ -34,7 +34,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 
   const workoutPlans = normalizeWorkoutCalendarTemplates(user.user_metadata?.workout_templates);
 
-  return <main className="life-app-shell">
+  return <main className="life-app-shell calendar-stitch-shell">
     <AppNavigation active="calendar" title={new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${selected}T12:00:00Z`))} />
     <CalendarExperience view={view} selected={selected} today={today} items={data.items} mealPlans={(mealPlans ?? []).map(plan => ({ plan_date: plan.plan_date, menu_name: plan.menu_name, selections: (plan.selections as Record<string, number>) || {} }))} workoutPlans={workoutPlans} />
     <QuickAdd defaultDate={selected} />

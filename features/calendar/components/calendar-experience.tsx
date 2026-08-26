@@ -11,7 +11,6 @@ import { CalendarItem as ItemCard } from "./calendar-item";
 const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const fullDate = new Intl.DateTimeFormat("en-US", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
 const monthName = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
-const stitchMonthName = new Intl.DateTimeFormat("bg-BG", { month: "long", timeZone: "UTC" });
 const dayNumber = new Intl.DateTimeFormat("bg-BG", { day: "numeric", month: "short", timeZone: "UTC" });
 
 export type CalendarMealPlan = { plan_date: string; menu_name: string; selections?: Record<string, number> };
@@ -34,15 +33,11 @@ function WorkoutBadges({ plans, date, compact = false }: { plans: WorkoutCalenda
 
 export function CalendarExperience({ view, selected, today, items, mealPlans = [], workoutPlans = [] }: { view: CalendarView; selected: string; today: string; items: CalendarItem[]; mealPlans?: CalendarMealPlan[]; workoutPlans?: WorkoutCalendarTemplate[] }) {
   const [mealDate, setMealDate] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [search, setSearch] = useState("");
   const selectedDate = parseDateKey(selected);
   const title = view === "month" ? monthName.format(selectedDate) : view === "week" ? `${dayNumber.format(parseDateKey(startOfWeek(selected)))} - ${dayNumber.format(parseDateKey(addDays(startOfWeek(selected), 6)))}` : fullDate.format(selectedDate);
   const previous = view === "month" ? dateKey(new Date(Date.UTC(selectedDate.getUTCFullYear(), selectedDate.getUTCMonth() - 1, 1))) : addDays(selected, view === "week" ? -7 : -1);
   const next = view === "month" ? dateKey(new Date(Date.UTC(selectedDate.getUTCFullYear(), selectedDate.getUTCMonth() + 1, 1))) : addDays(selected, view === "week" ? 7 : 1);
   const activePlan = mealDate ? mealOn(mealPlans, mealDate) : undefined;
-  const visibleItems = search.trim() ? items.filter((item) => item.title.toLocaleLowerCase("bg-BG").includes(search.trim().toLocaleLowerCase("bg-BG"))) : items;
 
   useEffect(() => {
     if (!mealDate) return;
@@ -61,26 +56,10 @@ export function CalendarExperience({ view, selected, today, items, mealPlans = [
   }, [mealDate]);
 
   return <>
-    <header className="stitch-calendar-mobile-header">
-      <button type="button" className="stitch-header-icon" aria-label="Меню" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((value) => !value)}>☰</button>
-      <div className="stitch-month-navigation">
-        <Link aria-label="Предишен месец" href={href(view, previous)}>‹</Link>
-        <strong>{stitchMonthName.format(selectedDate)}</strong>
-        <Link aria-label="Следващ месец" href={href(view, next)}>›</Link>
-      </div>
-      <div className="stitch-header-actions">
-        <button type="button" className="stitch-header-icon" aria-label="Търсене" aria-expanded={searchOpen} onClick={() => setSearchOpen((value) => !value)}>⌕</button>
-        <Link className="stitch-header-icon" aria-label="Отиди на днес" href={href(view, today)}>▣</Link>
-      </div>
-    </header>
-    {mobileMenuOpen ? <nav className="stitch-calendar-menu" aria-label="Меню на календара">
-      <Link href="/today">Днес</Link><Link href="/nutrition">Здраве</Link><Link href="/calendar">Планер</Link><Link href="/journal">Дневник</Link><Link href="/profile">Прогрес</Link>
-    </nav> : null}
-    {searchOpen ? <div className="stitch-calendar-search"><input autoFocus type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Търсене..." aria-label="Търсене в календара" /><button type="button" onClick={() => { setSearch(""); setSearchOpen(false); }} aria-label="Затвори търсенето">×</button></div> : null}
     <header className="calendar-header"><div><p className="life-kicker">Твоето време</p><h1>{title}</h1></div><div className="calendar-controls"><div className="view-switcher">{(["month", "week", "day"] as CalendarView[]).map(value => <Link key={value} className={view === value ? "active" : ""} href={href(value, selected)}>{value === "month" ? "Месец" : value === "week" ? "Седмица" : "Ден"}</Link>)}</div><div className="date-navigation"><Link aria-label="Назад" href={href(view, previous)}>←</Link><Link href={href(view, today)}>Днес</Link><Link aria-label="Напред" href={href(view, next)}>→</Link></div></div></header>
-    {view === "month" ? <MonthView selected={selected} today={today} items={visibleItems} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
-    {view === "week" ? <WeekView selected={selected} today={today} items={visibleItems} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
-    {view === "day" ? <DayView selected={selected} items={visibleItems} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
+    {view === "month" ? <MonthView selected={selected} today={today} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
+    {view === "week" ? <WeekView selected={selected} today={today} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
+    {view === "day" ? <DayView selected={selected} items={items} mealPlans={mealPlans} workoutPlans={workoutPlans} openMeal={setMealDate} /> : null}
     {mealDate ? <div className="meal-plan-modal-backdrop" role="presentation" onMouseDown={() => setMealDate(null)}>
       <section className="meal-plan-modal" role="dialog" aria-modal="true" aria-label={`Хранене за ${mealDate}`} onMouseDown={event => event.stopPropagation()}>
         <button className="meal-plan-modal-close" type="button" aria-label="Затвори" onClick={() => setMealDate(null)}>×</button>

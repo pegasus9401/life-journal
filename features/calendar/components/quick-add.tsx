@@ -74,7 +74,7 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
   const changeMeal = (value: string) => { setMeal(value); setVariant(0); };
 
   return <>
-    <button className="quick-add-trigger" type="button" aria-label={`Добавяне на ${targetDate.slice(8, 10)}.${targetDate.slice(5, 7)}`} onClick={() => { setChooser(true); setOpen(true); }}><span className="quick-add-label">Добавяне на {targetDate.slice(8, 10)}.{targetDate.slice(5, 7)}</span><span aria-hidden="true">＋</span></button>
+    <button className="quick-add-trigger" type="button" onClick={() => { setChooser(true); setOpen(true); }}><span>＋</span><span>Добави</span></button>
     {open ? <div className="quick-add-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
       <section className="quick-add-sheet" role="dialog" aria-modal="true" aria-labelledby="quick-add-title">
         <header><div>{chooser ? null : <button className="quick-add-back" type="button" aria-label="Назад" onClick={() => setChooser(true)}>‹</button>}<h2 id="quick-add-title">{chooser ? `Добави към ${addDateLabel(targetDate)}` : "Какво предстои?"}</h2></div><button type="button" aria-label="Затвори" onClick={() => setOpen(false)}>×</button></header><div className="quick-add-drag-handle" aria-hidden="true"><span /></div>

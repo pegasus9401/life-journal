@@ -16,7 +16,7 @@ function sofiaDate() {
 
 function friendlyGeminiError(error: unknown) {
   const detail = error instanceof Error ? error.message.toLowerCase() : "";
-  if (detail.includes("429") || detail.includes("rate limit") || detail.includes("quota") || detail.includes("resource_exhausted")) {
+  if (detail.includes("abort") || detail.includes("timeout")) {\n    return { status: 504, message: "Отговорът се забави. Опитай отново — командата не е загубена." };\n  }\n  if (detail.includes("429") || detail.includes("rate limit") || detail.includes("quota") || detail.includes("resource_exhausted")) {
     return { status: 429, message: "Gemini е временно натоварен или безплатният лимит е достигнат. Изчакай малко и опитай отново." };
   }
   if (detail.includes("api key") || detail.includes("api_key_invalid") || detail.includes("permission_denied")) {
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       today: sofiaDate(),
       onAction: (action) => actions.push(action),
     });
-    const result = await agent.generate({ messages: history });
+    const result = await agent.generate({ messages: history, abortSignal: AbortSignal.timeout(25_000) });
     return NextResponse.json({ message: result.text || "Готово.", actions });
   } catch (error) {
     console.error("Gemini assistant error", error);

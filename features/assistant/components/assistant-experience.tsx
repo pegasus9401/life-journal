@@ -32,40 +32,10 @@ export function AssistantExperience() {
     requestAnimationFrame(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }));
     try {
       const response = await fetch("/api/assistant", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: nextMessages, image: attachedImage }) });
-      if (!response.ok || !response.body || !response.headers.get("content-type")?.includes("application/x-ndjson")) {
-        const result = await response.json().catch(() => null) as { error?: string } | null;
-        throw new Error(result?.error ?? "Не успях да изпълня командата.");
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let streamed = "";
-      let assistantStarted = false;
-      let hasActions = false;
-
-      while (true) {
-        const { done, value } = await reader.read();
-        buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() ?? "";
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          const event = JSON.parse(line) as { type: "text" | "done" | "error"; delta?: string; actions?: unknown[]; error?: string };
-          if (event.type === "error") throw new Error(event.error ?? "Не успях да изпълня командата.");
-          if (event.type === "done") { hasActions = Boolean(event.actions?.length); continue; }
-          streamed += event.delta ?? "";
-          if (!assistantStarted) {
-            assistantStarted = true;
-            setMessages((current) => [...current, { role: "assistant", content: streamed }]);
-          } else {
-            setMessages((current) => [...current.slice(0, -1), { role: "assistant", content: streamed }]);
-          }
-        }
-        if (done) break;
-      }
-      if (!assistantStarted) setMessages((current) => [...current, { role: "assistant", content: "Готово." }]);
-      if (hasActions) router.refresh();
+      const result = await response.json().catch(() => null) as { message?: string; error?: string; actions?: unknown[] } | null;
+      if (!response.ok) throw new Error(result?.error ?? "Не успях да изпълня командата.");
+      setMessages((current) => [...current, { role: "assistant", content: result?.message ?? "Готово." }]);
+      if (result?.actions?.length) router.refresh();
       setRetryCommand("");
     } catch (error) {
       setRequestError(error instanceof Error ? error.message : "Връзката прекъсна. Опитай отново.");

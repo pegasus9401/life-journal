@@ -6,7 +6,8 @@ export type ExternalFoodProduct = {
 const number = (value: unknown) => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
 const normalize = (value: string) => value.toLocaleLowerCase("bg-BG").trim().replace(/\s+/g, " ");
 const genericFoods: ExternalFoodProduct[] = [
-  { id: "generic-lettuce", name: "Маруля", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 15, protein100g: 1.4, carbs100g: 2.9, fat100g: .2, imageUrl: "", source: "USDA" },\n  { id: "generic-banana", name: "Банан", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 89, protein100g: 1.1, carbs100g: 22.8, fat100g: .3, imageUrl: "", source: "USDA" },
+  { id: "generic-lettuce", name: "Маруля", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 15, protein100g: 1.4, carbs100g: 2.9, fat100g: .2, imageUrl: "", source: "USDA" },
+  { id: "generic-banana", name: "Банан", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 89, protein100g: 1.1, carbs100g: 22.8, fat100g: .3, imageUrl: "", source: "USDA" },
   { id: "generic-apple", name: "Ябълка", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 52, protein100g: .3, carbs100g: 13.8, fat100g: .2, imageUrl: "", source: "USDA" },
   { id: "generic-potato", name: "Картофи", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 77, protein100g: 2, carbs100g: 17.5, fat100g: .1, imageUrl: "", source: "USDA" },
   { id: "generic-rice", name: "Ориз, сварен", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 130, protein100g: 2.7, carbs100g: 28.2, fat100g: .3, imageUrl: "", source: "USDA" },
@@ -14,7 +15,8 @@ const genericFoods: ExternalFoodProduct[] = [
   { id: "generic-egg", name: "Яйце", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 143, protein100g: 12.6, carbs100g: .7, fat100g: 9.5, imageUrl: "", source: "USDA" },
   { id: "generic-oats", name: "Овесени ядки", brand: "Натурален продукт", barcode: "", packageSize: "100 г", servingGrams: 100, calories100g: 379, protein100g: 13.2, carbs100g: 67.7, fat100g: 6.5, imageUrl: "", source: "USDA" },
 ];
-const genericAliases: Record<string, string> = {\n  "маруля": "generic-lettuce", "зелена салата": "generic-lettuce", "lettuce": "generic-lettuce",
+const genericAliases: Record<string, string> = {
+  "маруля": "generic-lettuce", "зелена салата": "generic-lettuce", "lettuce": "generic-lettuce",
   "банан": "generic-banana", "банани": "generic-banana",
   "ябълка": "generic-apple", "ябълки": "generic-apple",
   "картоф": "generic-potato", "картофи": "generic-potato",

@@ -33,7 +33,11 @@ export function createPegasAgent(context: AgentContext) {
     model: google(PEGAS_GEMINI_MODEL),
     instructions: createPegasSystemPrompt(context.today),
     tools,
-    stopWhen: isStepCount(6),
+    maxOutputTokens: 800,
+    providerOptions: {
+      google: { thinkingConfig: { thinkingLevel: "low" } },
+    },
+    stopWhen: isStepCount(3),
   });
 }
 

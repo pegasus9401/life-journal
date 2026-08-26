@@ -41,51 +41,28 @@ export async function executeAssistantTool(name: string, args: Record<string, un
       calories: Math.round(product.calories100g * (product.servingGrams || 100) / 100), protein: Math.round(product.protein100g * (product.servingGrams || 100)) / 100,
       carbs: Math.round(product.carbs100g * (product.servingGrams || 100)) / 100, fat: Math.round(product.fat100g * (product.servingGrams || 100)) / 100,
     })) };
-    if (!barcode) {
-      const generic = (await lookupFoodProducts(query, "")).filter((product) => product.source === "USDA").slice(0, 5);
-      if (generic.length) return { source: "USDA", query, barcode, products: generic.map((product) => ({ barcode: "", name: product.name, brand: product.brand, package: product.packageSize, serving: "100 g", serving_grams: 100, calories: product.calories100g, protein: product.protein100g, carbs: product.carbs100g, fat: product.fat100g })) };
-    }
-    const fields = "code,product_name,brands,quantity,product_quantity,serving_size,serving_quantity,nutriments";
-    const url = barcode ? new URL(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`) : new URL("https://world.openfoodfacts.org/cgi/search.pl");
-    if (barcode) url.searchParams.set("fields", fields);
-    else {
-      url.searchParams.set("search_terms", query); url.searchParams.set("search_simple", "1"); url.searchParams.set("action", "process");
-      url.searchParams.set("json", "1"); url.searchParams.set("page_size", "5"); url.searchParams.set("sort_by", "popularity_key"); url.searchParams.set("fields", fields);
-    }
-
-    const response = await fetch(url, {
-      headers: { "User-Agent": "LifeJournal/1.0 (https://github.com/pegasus9401/life-journal)" },
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!response.ok) throw new Error(`Продуктовата база не отговори (${response.status}).`);
-    const payload = await response.json() as { product?: Record<string, unknown>; products?: Array<Record<string, unknown>> };
-    const rawProducts = payload.product ? [payload.product] : (payload.products ?? []);
-    const products = rawProducts.flatMap((product) => {
-      const nutriments = (product.nutriments ?? {}) as Record<string, unknown>;
-      const servingGrams = Number(product.serving_quantity) || Number(product.product_quantity) || 100;
-      const factor = servingGrams / 100;
-      const nutrient = (servingKey: string, hundredKey: string) => {
-        const perServing = Number(nutriments[servingKey]);
-        if (Number.isFinite(perServing)) return perServing;
-        const perHundred = Number(nutriments[hundredKey]);
-        return Number.isFinite(perHundred) ? perHundred * factor : 0;
-      };
-      const name = String(product.product_name ?? "").trim();
-      if (!name) return [];
-      return [{
-        barcode: String(product.code ?? ""),
-        name,
-        brand: String(product.brands ?? ""),
-        package: String(product.quantity ?? ""),
-        serving: String(product.serving_size ?? `${servingGrams} g`),
-        serving_grams: servingGrams,
-        calories: Math.round(nutrient("energy-kcal_serving", "energy-kcal_100g")),
-        protein: Math.round(nutrient("proteins_serving", "proteins_100g") * 10) / 10,
-        carbs: Math.round(nutrient("carbohydrates_serving", "carbohydrates_100g") * 10) / 10,
-        fat: Math.round(nutrient("fat_serving", "fat_100g") * 10) / 10,
-      }];
-    });
-    return { source: "Open Food Facts", query, barcode, products };
+    const matches = (await lookupFoodProducts(query, barcode)).slice(0, 5);
+    return {
+      source: matches[0]?.source ?? "Няма намерен продукт",
+      query,
+      barcode,
+      products: matches.map((product) => {
+        const servingGrams = product.servingGrams || 100;
+        const factor = servingGrams / 100;
+        return {
+          barcode: product.barcode,
+          name: product.name,
+          brand: product.brand,
+          package: product.packageSize,
+          serving: `${servingGrams} g`,
+          serving_grams: servingGrams,
+          calories: Math.round(product.calories100g * factor),
+          protein: Math.round(product.protein100g * factor * 10) / 10,
+          carbs: Math.round(product.carbs100g * factor * 10) / 10,
+          fat: Math.round(product.fat100g * factor * 10) / 10,
+        };
+      }),
+    };
   }
 
   if (name === "save_food_product") {

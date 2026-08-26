@@ -68,16 +68,9 @@ export async function POST(request: Request) {
       today: sofiaDate(),
       onAction: (action) => actions.push(action),
     });
-    const result = await agent.stream({ messages: history });
-    const encoder = new TextEncoder();
-    const stream = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const delta of result.textStream) {
-            controller.enqueue(encoder.encode(`${JSON.stringify({ type: "text", delta })}\n`));
-          }
-          controller.enqueue(encoder.encode(`${JSON.stringify({ type: "done", actions })}\n`));
-        } catch (error) {
+    const result = await agent.generate({ messages: history });
+    return NextResponse.json({ message: result.text || "Готово.", actions });
+  } catch (error) {
           console.error("Gemini assistant stream error", error);
           const friendly = friendlyGeminiError(error);
           controller.enqueue(encoder.encode(`${JSON.stringify({ type: "error", error: friendly.message })}\n`));

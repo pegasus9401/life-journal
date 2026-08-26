@@ -4,7 +4,7 @@ import { ToolLoopAgent, dynamicTool, isStepCount, jsonSchema } from "ai";
 import { assistantToolDefinitions, executeAssistantTool } from "@/lib/ai/assistant-tools";
 import { createPegasSystemPrompt } from "@/lib/ai/pegas-system-prompt";
 
-export const PEGAS_GEMINI_MODEL = "gemini-2.5-flash-lite";
+export const PEGAS_GEMINI_MODEL = "gemini-3.5-flash-lite";
 
 type AgentContext = {
   supabase: SupabaseClient;

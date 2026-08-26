@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AssistantExperience } from "./assistant-experience";
@@ -7,7 +9,9 @@ import { AssistantExperience } from "./assistant-experience";
 export function AssistantPopup() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [quickActionsOpen, setQuickActionsOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     if (!open) return;
@@ -30,11 +34,57 @@ export function AssistantPopup() {
     return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("gesture-close-overlay", close); };
   }, []);
 
+  useEffect(() => {
+    let frame = 0;
+    const updateChrome = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY.current;
+      if (Math.abs(delta) >= 8) {
+        const shouldHide = delta > 0 && currentY > 72 && !open;
+        document.documentElement.classList.toggle("mobile-chrome-hidden", shouldHide);
+        lastScrollY.current = currentY;
+      }
+      frame = 0;
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateChrome);
+    };
+    if (open) document.documentElement.classList.remove("mobile-chrome-hidden");
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+      document.documentElement.classList.remove("mobile-chrome-hidden");
+    };
+  }, [open]);
+
   if (pathname === "/login") return null;
 
   return <>
-    <button type="button" className={`assistant-fab${open ? " is-open" : ""}`} onClick={() => setOpen((current) => !current)} aria-label={open ? "Затвори AI асистента" : "Отвори AI асистента"} aria-expanded={open} aria-controls="assistant-popup">
-      <span aria-hidden="true">{open ? "×" : "AI"}</span>
+    <div className="assistant-condensed-bar" aria-label="Компактна навигация">
+      <Link href="/today" aria-label="Начало"><span aria-hidden="true">⌂</span></Link>
+      <button type="button" onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen(true); }} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
+      <button type="button" className="assistant-quick-add-trigger" onClick={() => setQuickActionsOpen(true)} aria-label="Бързо добавяне">＋</button>
+    {quickActionsOpen ? <div className="assistant-quick-add-backdrop" onClick={() => setQuickActionsOpen(false)}>
+      <section className="assistant-quick-add-sheet" role="dialog" aria-modal="true" aria-label="Бързо добавяне" onClick={(event) => event.stopPropagation()}>
+        <button className="assistant-quick-add-close" type="button" onClick={() => setQuickActionsOpen(false)} aria-label="Затвори">×</button>
+        <div className="assistant-quick-actions">
+          <Link href="/assistant" onClick={() => setQuickActionsOpen(false)}><b>AI</b><span>Опиши храна</span></Link>
+          <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>▧</b><span>Добави храна</span></Link>
+          <Link href="/assistant?capture=food" onClick={() => setQuickActionsOpen(false)}><b>●</b><span>Снимай храна</span></Link>
+          <Link href="/products?mode=scan" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай</span></Link>
+          <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
+          <Link href="/products" onClick={() => setQuickActionsOpen(false)}><b>⌕</b><span>Търси храна</span></Link>
+          <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>✦</b><span>Създай меню</span></Link>
+          <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>▥</b><span>Тренировки</span></Link>
+          <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>⌁</b><span>Запиши активност</span></Link>
+        </div>
+      </section>
+    </div> : null}
+    <button type="button" className="assistant-condensed-add" onClick={() => setQuickActionsOpen(true)} aria-label="Бързо добавяне"><span aria-hidden="true">＋</span></button>
+    </div>
+    <button type="button" className={`assistant-fab${open ? " is-open" : ""}`} onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen((current) => !current); }} aria-label={open ? "Затвори AI асистента" : "Отвори AI асистента"} aria-expanded={open} aria-controls="assistant-popup">
+      <Image className="pegas-friend-avatar" src="/images/pegas-friend.png" alt="" width={42} height={32} /><span aria-hidden="true">{open ? "×" : "Friend"}</span>
     </button>
     <div className={`assistant-popup-backdrop${open ? " is-open" : ""}`} onClick={() => setOpen(false)} aria-hidden="true" />
     <div id="assistant-popup" ref={panelRef} className={`assistant-popup${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Личен AI асистент" aria-hidden={!open}>

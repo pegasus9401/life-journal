@@ -57,7 +57,7 @@ export async function saveDynamicMeal(input: DynamicMealDraft) {
 
 export async function deleteDynamicMeal(id: string) {
   const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return { ok: false, message: "Сесията изтече." };
-  const { error } = await supabase.from("day_meals").delete().eq("owner_id", user.id).eq("id", id); revalidatePath("/nutrition"); revalidatePath("/calendar");
+  const { error } = await supabase.from("day_meals").delete().eq("owner_id", user.id).eq("id", id); revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today");
   return { ok: !error, message: error ? "Храненето не можа да бъде изтрито." : "Храненето е изтрито." };
 }
 
@@ -87,7 +87,8 @@ export async function applyMealTemplate(templateId: string, date: string) {
     const mealItems = (items ?? []).filter((item) => item.template_meal_id === meal.id).map(({ id: _id, template_meal_id: _meal, ...item }) => ({ ...item, day_meal_id: dayMeal.id }));
     if (mealItems.length) { const { error: itemError } = await supabase.from("meal_items").insert(mealItems); if (itemError) return { ok: false, message: "Храните от шаблона не можаха да бъдат копирани." }; }
   }
-  revalidatePath("/nutrition"); revalidatePath("/calendar"); return { ok: true, message: "Шаблонът е копиран в деня." };
+  revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today"); return { ok: true, message: "Шаблонът е копиран в деня." };
 }
+
 
 

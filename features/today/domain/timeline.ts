@@ -20,7 +20,8 @@ export function buildTimeline(input: { date: string; today: string; calendar: Ca
   if (input.meals.length) {
     for (const meal of input.meals) {
       const totals = mealTotals(meal);
-      result.push({ id: `meal:${meal.id}`, category: "food", title: meal.name, detail: meal.items.map((item) => item.label).slice(0, 3).join(" · "), meta: `${Math.round(totals.calories)} kcal · ${Math.round(totals.protein)} g протеин`, time: meal.plannedTime ?? undefined, sortAt: meal.plannedTime ?? `12:${String(meal.position).padStart(2, "0")}`, status: input.date < input.today ? "completed" : "planned", href: `/nutrition?date=${input.date}`, icon: "🍽" });
+      const actualTime = localTime(meal.createdAt);
+      result.push({ id: `meal:${meal.id}`, category: "food", title: meal.name, detail: meal.items.map((item) => item.label).slice(0, 3).join(" · "), meta: `${Math.round(totals.calories)} kcal · ${Math.round(totals.protein)} g протеин`, time: meal.plannedTime ?? actualTime, sortAt: meal.plannedTime ?? actualTime, status: meal.plannedTime && input.date >= input.today ? "planned" : "completed", href: `/nutrition?date=${input.date}`, icon: "🍽" });
     }
   } else {
     const grouped = new Map<string, NutritionEntry[]>();

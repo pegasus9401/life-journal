@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthenticatedClient } from "@/lib/supabase/server";
 import type { JournalEntry, JournalPhoto } from "./types";
 
 const withSignedPhotos = async (entry: JournalEntry, supabase: Awaited<ReturnType<typeof createClient>>) => {
@@ -18,8 +18,7 @@ const withSignedPhotos = async (entry: JournalEntry, supabase: Awaited<ReturnTyp
 };
 
 export const getJournalEntries = cache(async () => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
 
   const { data, error } = await supabase
@@ -32,8 +31,7 @@ export const getJournalEntries = cache(async () => {
 });
 
 export const getJournalDay = cache(async (date: string) => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
   const { data, error } = await supabase.from("journal_entries").select("*, journal_photos(*)").eq("owner_id", user.id).eq("entry_date", date).order("created_at");
   if (error) throw new Error(`Дневникът не може да се зареди: ${error.message}`);
@@ -41,8 +39,7 @@ export const getJournalDay = cache(async (date: string) => {
 });
 
 export const getJournalEntry = cache(async (id: string) => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
 
   const { data, error } = await supabase
@@ -53,4 +50,3 @@ export const getJournalEntry = cache(async (id: string) => {
   if (error) throw new Error(`Could not load journal entry: ${error.message}`);
   return data ? withSignedPhotos(data as JournalEntry, supabase) : null;
 });
-

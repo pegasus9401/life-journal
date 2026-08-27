@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthenticatedClient } from "@/lib/supabase/server";
 import { productRowToFoodProduct } from "@/features/products/queries";
 import type { Recipe, RecipeIngredient } from "./types";
 
@@ -7,8 +7,7 @@ type RecipeRow = { id: string; name: string; description: string; instructions: 
 type IngredientRow = { id: string; recipe_id: string; product_id: string; quantity: number; unit: string; grams: number; position: number };
 
 export const getRecipeLibrary = cache(async () => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
   const [recipesResult, ingredientsResult, productsResult] = await Promise.all([
     supabase.from("recipes").select("*").eq("owner_id", user.id).order("favorite", { ascending: false }).order("updated_at", { ascending: false }),
@@ -20,13 +19,14 @@ export const getRecipeLibrary = cache(async () => {
   if (productsResult.error) throw new Error(`Продуктите не могат да се заредят: ${productsResult.error.message}`);
 
   const ingredientRows = (ingredientsResult.data ?? []) as IngredientRow[];
+  const ingredientsByRecipe = new Map<string, IngredientRow[]>();
+  for (const ingredient of ingredientRows) ingredientsByRecipe.set(ingredient.recipe_id, [...(ingredientsByRecipe.get(ingredient.recipe_id) ?? []), ingredient]);
   const recipes: Recipe[] = ((recipesResult.data ?? []) as RecipeRow[]).map((row) => ({
     id: row.id, name: row.name, description: row.description, instructions: row.instructions,
     servings: Number(row.servings), favorite: row.favorite, createdAt: row.created_at, updatedAt: row.updated_at,
-    ingredients: ingredientRows.filter((item) => item.recipe_id === row.id).map((item): RecipeIngredient => ({
+    ingredients: (ingredientsByRecipe.get(row.id) ?? []).map((item): RecipeIngredient => ({
       id: item.id, productId: item.product_id, quantity: Number(item.quantity), unit: item.unit, grams: Number(item.grams), position: item.position,
     })),
   }));
   return { recipes, products: (productsResult.data ?? []).map((row) => productRowToFoodProduct(row as Parameters<typeof productRowToFoodProduct>[0])) };
 });
-

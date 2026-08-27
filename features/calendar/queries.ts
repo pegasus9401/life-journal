@@ -1,12 +1,11 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthenticatedClient } from "@/lib/supabase/server";
 import { aggregateCalendarItems } from "./domain/aggregation";
 import type { BirthdayRow, CalendarEventRow, CalendarItem, TaskRow } from "./types";
 import type { WorkoutSession } from "@/features/workouts/types";
 
 export const getCalendarData = cache(async (rangeStart: string, rangeEnd: string) => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
   const rangeStartIso = `${rangeStart}T00:00:00.000Z`;
   const rangeEndIso = `${rangeEnd}T23:59:59.999Z`;
@@ -55,8 +54,7 @@ export async function getUpcoming(from: string, days = 8) {
 }
 
 export async function getCalendarSource(type: "event" | "task" | "birthday", id: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
   const table = type === "event" ? "calendar_events" : type === "task" ? "tasks" : "birthdays";
   const { data } = await supabase.from(table).select("*").eq("id", id).eq("owner_id", user.id).maybeSingle();

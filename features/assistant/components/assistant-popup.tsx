@@ -2,10 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AssistantExperience } from "./assistant-experience";
-import { FoodCaptureFlow } from "@/features/nutrition/components/food-capture-flow";
+
+const AssistantExperience = dynamic(() => import("./assistant-experience").then((module) => module.AssistantExperience), {
+  loading: () => <div className="assistant-lazy-loading" role="status"><span/><p>Зареждам Pegas…</p></div>,
+});
+const FoodCaptureFlow = dynamic(() => import("@/features/nutrition/components/food-capture-flow").then((module) => module.FoodCaptureFlow), {
+  loading: () => <div className="assistant-food-loading" role="status">Подготвям камерата…</div>,
+});
 
 async function prepareFoodImage(file: File) {
   if (!file.type.startsWith("image/")) throw new Error("Избери снимка на храна.");
@@ -22,6 +28,7 @@ const todayKey = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europ
 export function AssistantPopup() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [assistantMounted, setAssistantMounted] = useState(false);
   const [quickActionsOpen, setQuickActionsOpen] = useState(false);
   const [foodImage, setFoodImage] = useState("");
   const [foodDate, setFoodDate] = useState(todayKey());
@@ -98,6 +105,12 @@ export function AssistantPopup() {
 
   if (pathname === "/login") return null;
 
+  const openAssistant = () => {
+    document.documentElement.classList.remove("mobile-chrome-hidden");
+    setAssistantMounted(true);
+    setOpen(true);
+  };
+
   const captureFood = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; event.target.value = "";
     if (!file) return;
@@ -114,7 +127,7 @@ export function AssistantPopup() {
     <input ref={foodImportRef} className="food-camera-input" type="file" accept="image/*" onChange={(event) => void captureFood(event)} />
     <div className="assistant-condensed-bar" aria-label="Компактна навигация">
       <Link href="/today" aria-label="Начало"><span aria-hidden="true">⌂</span></Link>
-      <button type="button" onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen(true); }} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
+      <button type="button" onClick={openAssistant} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
 
     <button type="button" className="assistant-condensed-add" onClick={() => setQuickActionsOpen((current) => !current)} aria-label={quickActionsOpen ? "Затвори бързите действия" : "Бързо добавяне"}><span aria-hidden="true">{quickActionsOpen ? "×" : "+"}</span></button>
     </div>
@@ -123,11 +136,11 @@ export function AssistantPopup() {
       <section className="assistant-quick-add-sheet" role="dialog" aria-modal="true" aria-label="Бързо добавяне" onClick={(event) => event.stopPropagation()}>
         <button className="assistant-quick-add-close" type="button" onClick={() => setQuickActionsOpen(false)} aria-label="Затвори">×</button>
         <div className="assistant-quick-actions">
-          <button type="button" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b>AI</b><span>Опиши храна</span></button>
+          <button type="button" onClick={() => { setQuickActionsOpen(false); openAssistant(); }}><b>AI</b><span>Опиши храна</span></button>
           <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>▧</b><span>Добави храна</span></Link>
           <button type="button" onClick={() => { setQuickActionsOpen(false); foodCameraRef.current?.click(); }}><b>●</b><span>Снимай храна</span></button>
           <Link href="/products?scan=1" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай</span></Link>
-          <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
+          <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); openAssistant(); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
           <Link href="/products" onClick={() => setQuickActionsOpen(false)}><b>⌕</b><span>Търси храна</span></Link>
           <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>✦</b><span>Създай меню</span></Link>
           <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>▥</b><span>Тренировки</span></Link>
@@ -136,16 +149,21 @@ export function AssistantPopup() {
       </section>
     </div> : null}
     {foodImage ? <FoodCaptureFlow key={foodImage} image={foodImage} date={foodDate} onClose={() => setFoodImage("")} onRetake={() => foodCameraRef.current?.click()} onImport={() => foodImportRef.current?.click()} /> : null}
-    <button type="button" className={`assistant-fab${open ? " is-open" : ""}`} onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen((current) => !current); }} aria-label={open ? "Затвори AI асистента" : "Отвори AI асистента"} aria-expanded={open} aria-controls="assistant-popup">
+    <button type="button" className={`assistant-fab${open ? " is-open" : ""}`} onClick={() => { if (open) setOpen(false); else openAssistant(); }} aria-label={open ? "Затвори AI асистента" : "Отвори AI асистента"} aria-expanded={open} aria-controls="assistant-popup">
       <Image className="pegas-friend-avatar" src="/images/pegas-friend.png" alt="" width={42} height={32} /><span aria-hidden="true">{open ? "×" : "Friend"}</span>
     </button>
     <div className={`assistant-popup-backdrop${open ? " is-open" : ""}`} onClick={() => setOpen(false)} aria-hidden="true" />
     <div id="assistant-popup" ref={panelRef} className={`assistant-popup${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Личен AI асистент" aria-hidden={!open}>
       <div className="assistant-popup-bar"><div><i /><span>Личен AI асистент</span></div><button type="button" onClick={() => setOpen(false)} aria-label="Затвори">×</button></div>
-      <AssistantExperience />
+      {assistantMounted ? <AssistantExperience /> : null}
     </div>
     <style jsx global>{`
       .food-camera-input { position: fixed !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
+      .assistant-lazy-loading { display: grid; flex: 1; place-content: center; justify-items: center; gap: 10px; color: #777e89; background: #fff; font-size: 13px; }
+      .assistant-lazy-loading span { width: 28px; height: 28px; border: 3px solid #ebe9ff; border-top-color: #7169d7; border-radius: 50%; animation: assistantLazySpin .7s linear infinite; }
+      .assistant-lazy-loading p { margin: 0; }
+      .assistant-food-loading { position: fixed; z-index: 205; inset: 0; display: grid; place-content: center; color: #fff; background: rgba(15,17,23,.88); }
+      @keyframes assistantLazySpin { to { transform: rotate(360deg); } }
       @media (max-width: 820px) {
         html body .assistant-popup {
           top: var(--assistant-viewport-top, 0px) !important;

@@ -1,10 +1,9 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthenticatedClient } from "@/lib/supabase/server";
 import { DEFAULT_USER_GOALS, type Profile, type UserGoals } from "./types";
 
 export const getProfileSettings = cache(async () => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
 
   const [profileResult, goalsResult] = await Promise.all([

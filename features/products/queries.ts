@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthenticatedClient } from "@/lib/supabase/server";
 import type { FoodProduct, ProductPrice, ProductSource } from "./types";
 
 type ProductRow = {
@@ -22,8 +22,7 @@ export function productRowToFoodProduct(row: ProductRow): FoodProduct {
 }
 
 export const getFoodProducts = cache(async () => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
   const { data, error } = await supabase.from("products").select("*, product_prices(id, price, store, recorded_at)").eq("owner_id", user.id).order("updated_at", { ascending: false });
   if (error) throw new Error(`Продуктите не могат да се заредят: ${error.message}`);

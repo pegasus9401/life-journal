@@ -22,7 +22,9 @@ export function buildTimeline(input: { date: string; today: string; calendar: Ca
       const totals = mealTotals(meal);
       const actualTime = localTime(meal.createdAt);
       const legacyDescription = typeof meal.legacyPayload?.description === "string" ? meal.legacyPayload.description : "";
-      result.push({ id: `meal:${meal.id}`, category: "food", title: meal.name, detail: meal.items.map((item) => item.label).slice(0, 3).join(" · ") || legacyDescription, meta: `${Math.round(totals.calories)} kcal · ${Math.round(totals.protein)} g протеин`, time: meal.plannedTime ?? actualTime, sortAt: meal.plannedTime ?? actualTime, status: meal.plannedTime && input.date >= input.today ? "planned" : "completed", href: `/nutrition?date=${input.date}`, icon: "🍽" });
+      const capturedItems = Array.isArray(meal.legacyPayload?.items) ? meal.legacyPayload.items as Array<{ name?: string }> : [];
+      const itemNames = capturedItems.map((item) => item.name).filter(Boolean).slice(0, 4).join(" · ");
+      result.push({ id: `meal:${meal.id}`, category: "food", title: meal.name, detail: meal.items.map((item) => item.label).slice(0, 3).join(" · ") || itemNames || legacyDescription, meta: `${Math.round(totals.calories)} kcal · ${Math.round(totals.protein)} g протеин`, time: meal.plannedTime ?? actualTime, sortAt: meal.plannedTime ?? actualTime, status: meal.plannedTime && input.date >= input.today ? "planned" : "completed", href: `/nutrition?date=${input.date}`, icon: "🍽" });
     }
   } else {
     const grouped = new Map<string, NutritionEntry[]>();

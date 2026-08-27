@@ -4,7 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-type Analysis = { name?: string; description?: string; calories?: number; protein?: number; carbs?: number; fat?: number; confidence?: number };
+type FoodItem = { name?: string; grams?: number; calories100g?: number; protein100g?: number; carbs100g?: number; fat100g?: number };
+type Analysis = { name?: string; description?: string; items?: FoodItem[]; confidence?: number };
 
 function parseJson(value: string) {
   return JSON.parse(value.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim()) as Analysis;
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { image?: string; description?: string } | null;
   if (!body?.image || !/^data:image\/(jpeg|png|webp);base64,/.test(body.image) || body.image.length > 3_000_000) return NextResponse.json({ error: "Снимката е невалидна или прекалено голяма." }, { status: 400 });
   const note = String(body.description ?? "").trim().slice(0, 500);
-  const prompt = `Анализирай снимката на готово ястие. ${note ? `Потребителят добави описание: ${note}.` : ""} Оцени цялата видима порция, а не стойности за 100 г. Върни САМО валиден JSON без markdown: {"name":"кратко име на български","description":"кратък списък на разпознатите храни на български","calories":число,"protein":число в грамове,"carbs":число в грамове,"fat":число в грамове,"confidence":число от 0 до 1}. Дай реалистична приблизителна оценка и не задавай въпроси.`;
+  const prompt = `Анализирай снимката на готово ястие. ${note ? `Потребителят добави описание: ${note}.` : ""} Раздели ВСЕКИ видим хранителен продукт или компонент в отделен елемент (например яйца, пилешко, ориз, тортила, сос). Оцени грамажа на всеки компонент и хранителните му стойности за 100 г. Върни САМО валиден JSON без markdown: {"name":"кратко име на ястието на български","description":"кратко описание","items":[{"name":"име на продукта на български","grams":число,"calories100g":число,"protein100g":число,"carbs100g":число,"fat100g":число}],"confidence":число от 0 до 1}. Не обединявай различни продукти в един item. Дай реалистична приблизителна оценка и не задавай въпроси.`;
   try {
     const response = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
       method: "POST",

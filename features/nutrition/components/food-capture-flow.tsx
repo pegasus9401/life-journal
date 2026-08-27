@@ -1,75 +1,32 @@
 "use client";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { saveCapturedMeal } from "../dynamic-actions";
 import styles from "./food-capture-flow.module.css";
-
-type Analysis = { name: string; description: string; calories: number; protein: number; carbs: number; fat: number; confidence?: number };
-type Props = { image: string; date: string; onClose: () => void; onRetake: () => void };
-const number = (value: unknown) => Math.max(0, Number(value) || 0);
-
-export function FoodCaptureFlow({ image, date, onClose, onRetake }: Props) {
-  const router = useRouter();
-  const [stage, setStage] = useState<"preview" | "analyzing" | "review" | "saving" | "done">("preview");
-  const [note, setNote] = useState("");
-  const [analysis, setAnalysis] = useState<Analysis>({ name: "", description: "", calories: 0, protein: 0, carbs: 0, fat: 0 });
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previous; };
-  }, []);
-
-  const analyze = async () => {
-    setStage("analyzing"); setMessage("");
-    try {
-      const response = await fetch("/api/nutrition/analyze-photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image, description: note }) });
-      const payload = await response.json() as { analysis?: Partial<Analysis>; error?: string };
-      if (!response.ok || !payload.analysis) throw new Error(payload.error || "Храната не можа да бъде анализирана.");
-      setAnalysis({ name: String(payload.analysis.name || "Хранене"), description: String(payload.analysis.description || note), calories: number(payload.analysis.calories), protein: number(payload.analysis.protein), carbs: number(payload.analysis.carbs), fat: number(payload.analysis.fat), confidence: number(payload.analysis.confidence) });
-      setStage("review");
-    } catch (error) { setMessage(error instanceof Error ? error.message : "Храната не можа да бъде анализирана."); setStage("preview"); }
-  };
-
-  const save = async () => {
-    setStage("saving"); setMessage("");
-    const result = await saveCapturedMeal({ date, ...analysis, description: analysis.description || note });
-    if (!result.ok) { setMessage(result.message); setStage("review"); return; }
-    setStage("done"); router.refresh();
-  };
-
-  const update = (field: keyof Analysis, value: string) => setAnalysis((current) => ({ ...current, [field]: field === "name" || field === "description" ? value : number(value) }));
-
-  return <div className={styles.backdrop} role="dialog" aria-modal="true" aria-label="Добавяне на храна от снимка">
-    <section className={styles.sheet}>
-      <header><button type="button" onClick={onClose} aria-label="Затвори">×</button><h1>{stage === "review" || stage === "saving" ? "Преглед на храната" : stage === "done" ? "Готово" : "Снимай храна"}</h1><span /></header>
-      {stage === "preview" ? <div className={styles.preview}>
-        <div className={styles.photo}><Image src={image} alt="Снимана храна" fill unoptimized sizes="100vw" /></div>
-        <div className={styles.copy}><h2>Какво хапваш?</h2><p>Добави кратко описание, ако нещо на снимката не се вижда ясно.</p></div>
-        <textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder="Напр. две яйца, салата и една филия…" autoFocus />
-        {message ? <p className={styles.error} role="alert">{message}</p> : null}
-        <div className={styles.actions}><button type="button" className={styles.secondary} onClick={onRetake}>Снимай отново</button><button type="button" className={styles.primary} onClick={() => void analyze()}>Продължи</button></div>
-      </div> : null}
-      {stage === "analyzing" ? <div className={styles.loading}><Image src="/images/pegas-friend.png" alt="" width={118} height={88} /><i /><h2>Pegas анализира храната…</h2><p>Разпознавам продуктите и изчислявам приблизителните калории и макроси.</p></div> : null}
-      {stage === "review" || stage === "saving" ? <div className={styles.review}>
-        <div className={styles.reviewPhoto}><Image src={image} alt="Снимана храна" fill unoptimized sizes="132px" /></div>
-        <label className={styles.wide}>Име<input value={analysis.name} onChange={(event) => update("name", event.target.value)} /></label>
-        <label className={styles.wide}>Разпознати храни<textarea value={analysis.description} onChange={(event) => update("description", event.target.value)} /></label>
-        <div className={styles.nutrients}>
-          <label><span>Калории</span><input type="number" inputMode="decimal" value={analysis.calories} onChange={(event) => update("calories", event.target.value)} /><small>kcal</small></label>
-          <label><span>Протеин</span><input type="number" inputMode="decimal" value={analysis.protein} onChange={(event) => update("protein", event.target.value)} /><small>g</small></label>
-          <label><span>Въглехидрати</span><input type="number" inputMode="decimal" value={analysis.carbs} onChange={(event) => update("carbs", event.target.value)} /><small>g</small></label>
-          <label><span>Мазнини</span><input type="number" inputMode="decimal" value={analysis.fat} onChange={(event) => update("fat", event.target.value)} /><small>g</small></label>
-        </div>
-        <p className={styles.hint}>Стойностите са AI оценка. Провери и коригирай порцията преди запис.</p>
-        {message ? <p className={styles.error} role="alert">{message}</p> : null}
-        <button type="button" className={styles.primary} disabled={stage === "saving" || !analysis.name.trim()} onClick={() => void save()}>{stage === "saving" ? "Запазване…" : "Добави в дневника"}</button>
-      </div> : null}
-      {stage === "done" ? <div className={styles.done}><span>✓</span><h2>Храната е добавена</h2><p>Записът и хранителните стойности вече са в Timeline и в дневника за хранене.</p><button type="button" className={styles.primary} onClick={onClose}>Готово</button></div> : null}
-    </section>
-  </div>;
+type FoodItem={id:string;name:string;grams:number;calories100g:number;protein100g:number;carbs100g:number;fat100g:number};
+type Analysis={name:string;description:string;items:FoodItem[];confidence?:number};
+type Props={image:string;date:string;onClose:()=>void;onRetake:()=>void};
+const number=(value:unknown)=>Math.max(0,Number(value)||0); const round=(value:number)=>Math.round(value*10)/10;
+const emptyItem=():FoodItem=>({id:crypto.randomUUID(),name:"Нов продукт",grams:100,calories100g:0,protein100g:0,carbs100g:0,fat100g:0});
+export function FoodCaptureFlow({image,date,onClose,onRetake}:Props){
+ const router=useRouter(); const [stage,setStage]=useState<"preview"|"analyzing"|"review"|"saving"|"done">("preview"); const [note,setNote]=useState(""); const [analysis,setAnalysis]=useState<Analysis>({name:"",description:"",items:[]}); const [message,setMessage]=useState("");
+ const totals=useMemo(()=>analysis.items.reduce((sum,item)=>{const factor=item.grams/100;return{calories:sum.calories+item.calories100g*factor,protein:sum.protein+item.protein100g*factor,carbs:sum.carbs+item.carbs100g*factor,fat:sum.fat+item.fat100g*factor};},{calories:0,protein:0,carbs:0,fat:0}),[analysis.items]);
+ useEffect(()=>{const previous=document.body.style.overflow;document.body.style.overflow="hidden";return()=>{document.body.style.overflow=previous};},[]);
+ const analyze=async()=>{setStage("analyzing");setMessage("");try{const response=await fetch("/api/nutrition/analyze-photo",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({image,description:note})});const payload=await response.json() as {analysis?:{name?:string;description?:string;items?:Array<Partial<Omit<FoodItem,"id">>>;confidence?:number};error?:string};if(!response.ok||!payload.analysis)throw new Error(payload.error||"Храната не можа да бъде анализирана.");const items=(payload.analysis.items??[]).slice(0,20).map(item=>({id:crypto.randomUUID(),name:String(item.name||"Продукт"),grams:number(item.grams)||100,calories100g:number(item.calories100g),protein100g:number(item.protein100g),carbs100g:number(item.carbs100g),fat100g:number(item.fat100g)}));setAnalysis({name:String(payload.analysis.name||"Хранене"),description:String(payload.analysis.description||note),items:items.length?items:[emptyItem()],confidence:number(payload.analysis.confidence)});setStage("review");}catch(error){setMessage(error instanceof Error?error.message:"Храната не можа да бъде анализирана.");setStage("preview");}};
+ const save=async()=>{setStage("saving");setMessage("");const items=analysis.items.map(item=>{const factor=item.grams/100;return{name:item.name,grams:item.grams,calories:item.calories100g*factor,protein:item.protein100g*factor,carbs:item.carbs100g*factor,fat:item.fat100g*factor};});const result=await saveCapturedMeal({date,name:analysis.name,description:analysis.description||note,...totals,items});if(!result.ok){setMessage(result.message);setStage("review");return;}setStage("done");router.refresh();};
+ const updateItem=(id:string,field:keyof Omit<FoodItem,"id">,value:string)=>setAnalysis(current=>({...current,items:current.items.map(item=>item.id===id?{...item,[field]:field==="name"?value:number(value)}:item)}));
+ return <div className={styles.backdrop} role="dialog" aria-modal="true" aria-label="Добавяне на храна от снимка"><section className={styles.sheet}>
+  <header><button type="button" onClick={onClose} aria-label="Затвори">×</button><h1>{stage==="review"||stage==="saving"?"Преглед на храната":stage==="done"?"Готово":"Снимай храна"}</h1><span/></header>
+  {stage==="preview"?<div className={styles.preview}><div className={styles.photo}><Image src={image} alt="Снимана храна" fill unoptimized sizes="100vw"/></div><div className={styles.copy}><h2>Какво хапваш?</h2><p>Добави кратко описание, ако нещо на снимката не се вижда ясно.</p></div><textarea value={note} onChange={event=>setNote(event.target.value)} placeholder="Напр. две яйца, салата и една филия…" autoFocus/>{message?<p className={styles.error} role="alert">{message}</p>:null}<div className={styles.actions}><button type="button" className={styles.secondary} onClick={onRetake}>Снимай отново</button><button type="button" className={styles.primary} onClick={()=>void analyze()}>Продължи</button></div></div>:null}
+  {stage==="analyzing"?<div className={styles.loading}><Image src="/images/pegas-friend.png" alt="" width={118} height={88}/><i/><h2>Pegas разделя продуктите…</h2><p>Разпознавам всеки компонент и оценявам отделно грамажа и хранителните стойности.</p></div>:null}
+  {stage==="review"||stage==="saving"?<div className={styles.review}>
+   <div className={styles.reviewPhoto}><Image src={image} alt="Снимана храна" fill unoptimized sizes="132px"/></div><label className={styles.wide}>Име на ястието<input value={analysis.name} onChange={event=>setAnalysis(current=>({...current,name:event.target.value}))}/></label>
+   <div className={styles.itemsHeader}><strong>Разпознати продукти</strong><button type="button" onClick={()=>setAnalysis(current=>({...current,items:[...current.items,emptyItem()]}))}>+ Продукт</button></div>
+   <div className={styles.foodItems}>{analysis.items.map(item=><article key={item.id} className={styles.foodItem}><button type="button" className={styles.removeItem} onClick={()=>setAnalysis(current=>({...current,items:current.items.filter(entry=>entry.id!==item.id)}))} aria-label={`Премахни ${item.name}`}>−</button><label className={styles.itemName}>Продукт<input value={item.name} onChange={event=>updateItem(item.id,"name",event.target.value)}/></label><label className={styles.grams}>Количество<input type="number" inputMode="decimal" value={item.grams} onChange={event=>updateItem(item.id,"grams",event.target.value)}/><small>g</small></label><div className={styles.itemMacros}><span><b>{round(item.calories100g*item.grams/100)}</b> kcal</span><span>П {round(item.protein100g*item.grams/100)}</span><span>В {round(item.carbs100g*item.grams/100)}</span><span>М {round(item.fat100g*item.grams/100)}</span></div><details><summary>Стойности за 100 g</summary><div><label>kcal<input type="number" value={item.calories100g} onChange={event=>updateItem(item.id,"calories100g",event.target.value)}/></label><label>Протеин<input type="number" value={item.protein100g} onChange={event=>updateItem(item.id,"protein100g",event.target.value)}/></label><label>Въглех.<input type="number" value={item.carbs100g} onChange={event=>updateItem(item.id,"carbs100g",event.target.value)}/></label><label>Мазнини<input type="number" value={item.fat100g} onChange={event=>updateItem(item.id,"fat100g",event.target.value)}/></label></div></details></article>)}</div>
+   <div className={styles.totalCard}><strong>Общо за ястието</strong><div><span><b>{round(totals.calories)}</b> kcal</span><span><b>{round(totals.protein)}</b> g протеин</span><span><b>{round(totals.carbs)}</b> g въглех.</span><span><b>{round(totals.fat)}</b> g мазнини</span></div></div><p className={styles.hint}>Грамажите и стойностите са AI оценка. Коригирай всеки продукт преди запис.</p>{message?<p className={styles.error} role="alert">{message}</p>:null}<button type="button" className={styles.primary} disabled={stage==="saving"||!analysis.name.trim()||!analysis.items.length} onClick={()=>void save()}>{stage==="saving"?"Запазване…":"Добави в дневника"}</button>
+  </div>:null}
+  {stage==="done"?<div className={styles.done}><span>✓</span><h2>Храната е добавена</h2><p>Всички продукти и коригираните им стойности са записани в Timeline и хранителния дневник.</p><button type="button" className={styles.primary} onClick={onClose}>Готово</button></div>:null}
+ </section></div>;
 }
 

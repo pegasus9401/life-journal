@@ -105,11 +105,8 @@
 /* Global PEGASOS typography */
 html,
 body,
-button,
-input,
-textarea,
-select {
-  font-family: var(--font-manrope), "Manrope", sans-serif;
+body :where(h1,h2,h3,h4,h5,h6,p,a,span,strong,small,label,time,li,dt,dd,th,td,button,input,textarea,select) {
+  font-family: var(--font-manrope), "Manrope", sans-serif !important;
   -webkit-font-feature-settings: "locl" 1;
   font-feature-settings: "locl" 1;
   font-kerning: auto;

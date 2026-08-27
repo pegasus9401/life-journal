@@ -65,9 +65,9 @@ export function AssistantPopup() {
       <Link href="/today" aria-label="Начало"><span aria-hidden="true">⌂</span></Link>
       <button type="button" onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen(true); }} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
 
-    <button type="button" className="assistant-condensed-add" onClick={() => setQuickActionsOpen(true)} aria-label="Бързо добавяне"><span aria-hidden="true">+</span></button>
+    <button type="button" className="assistant-condensed-add" onClick={() => setQuickActionsOpen((current) => !current)} aria-label={quickActionsOpen ? "Затвори бързите действия" : "Бързо добавяне"}><span aria-hidden="true">{quickActionsOpen ? "×" : "+"}</span></button>
     </div>
-    <button type="button" className="assistant-quick-add-trigger" onClick={() => setQuickActionsOpen(true)} aria-label="Бързо добавяне">+</button>
+    <button type="button" className="assistant-quick-add-trigger" onClick={() => setQuickActionsOpen((current) => !current)} aria-label={quickActionsOpen ? "Затвори бързите действия" : "Бързо добавяне"}>{quickActionsOpen ? "×" : "+"}</button>
     {quickActionsOpen ? <div className="assistant-quick-add-backdrop" onClick={() => setQuickActionsOpen(false)}>
       <section className="assistant-quick-add-sheet" role="dialog" aria-modal="true" aria-label="Бързо добавяне" onClick={(event) => event.stopPropagation()}>
         <button className="assistant-quick-add-close" type="button" onClick={() => setQuickActionsOpen(false)} aria-label="Затвори">×</button>

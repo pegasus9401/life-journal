@@ -39,3 +39,73 @@
   }
 }
 
+
+
+/* Final iPhone dock geometry — keep this after all component tokens. */
+@media (max-width: 820px) {
+  :root {
+    --pegasos-dock-bottom: max(4px, calc(env(safe-area-inset-bottom) - 22px));
+  }
+
+  body .p2-top-nav { display: none !important; }
+
+  body .p2-bottom-nav {
+    position: fixed !important;
+    left: 8px !important;
+    right: auto !important;
+    bottom: var(--pegasos-dock-bottom) !important;
+    display: grid !important;
+    width: calc(100vw - 88px) !important;
+    max-width: 318px !important;
+    min-height: 64px !important;
+    height: 64px !important;
+    padding: 4px 6px !important;
+    border-radius: 32px !important;
+  }
+
+  body .assistant-quick-add-trigger {
+    position: fixed !important;
+    right: 8px !important;
+    bottom: var(--pegasos-dock-bottom) !important;
+    display: grid !important;
+    width: 64px !important;
+    height: 64px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  body .assistant-fab {
+    position: fixed !important;
+    inset: auto 8px calc(var(--pegasos-dock-bottom) + 70px) 8px !important;
+    display: flex !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: 54px !important;
+    padding: 0 48px 0 58px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  html.mobile-chrome-hidden body .assistant-fab,
+  html.mobile-chrome-hidden body .p2-bottom-nav,
+  html.mobile-chrome-hidden body .assistant-quick-add-trigger {
+    display: none !important;
+  }
+
+  html.mobile-chrome-hidden body .assistant-condensed-bar {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: var(--pegasos-dock-bottom) !important;
+  }
+}
+
+/* Global PEGASOS typography */
+html,
+body,
+body * {
+  font-family: var(--font-manrope), "Manrope", sans-serif !important;
+  font-feature-settings: "locl" 1;
+}

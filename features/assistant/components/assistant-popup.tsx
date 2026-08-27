@@ -2,15 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AssistantExperience } from "./assistant-experience";
+import { FoodCaptureFlow } from "@/features/nutrition/components/food-capture-flow";
+
+async function prepareFoodImage(file: File) {
+  if (!file.type.startsWith("image/")) throw new Error("Избери снимка на храна.");
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, 1200 / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale); canvas.height = Math.round(bitmap.height * scale);
+  canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height); bitmap.close();
+  return canvas.toDataURL("image/jpeg", .72);
+}
+
+const todayKey = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Sofia" });
 
 export function AssistantPopup() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [quickActionsOpen, setQuickActionsOpen] = useState(false);
+  const [foodImage, setFoodImage] = useState("");
+  const [foodDate, setFoodDate] = useState(todayKey());
   const panelRef = useRef<HTMLDivElement>(null);
+  const foodCameraRef = useRef<HTMLInputElement>(null);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -60,7 +76,19 @@ export function AssistantPopup() {
 
   if (pathname === "/login") return null;
 
+  const captureFood = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; event.target.value = "";
+    if (!file) return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const requestedDate = params.get("date");
+      setFoodDate(requestedDate && /^\d{4}-\d{2}-\d{2}$/.test(requestedDate) ? requestedDate : todayKey());
+      setFoodImage(await prepareFoodImage(file));
+    } catch (error) { window.alert(error instanceof Error ? error.message : "Снимката не можа да бъде отворена."); }
+  };
+
   return <>
+    <input ref={foodCameraRef} className="food-camera-input" type="file" accept="image/*" capture="environment" onChange={(event) => void captureFood(event)} />
     <div className="assistant-condensed-bar" aria-label="Компактна навигация">
       <Link href="/today" aria-label="Начало"><span aria-hidden="true">⌂</span></Link>
       <button type="button" onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen(true); }} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
@@ -74,7 +102,7 @@ export function AssistantPopup() {
         <div className="assistant-quick-actions">
           <button type="button" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b>AI</b><span>Опиши храна</span></button>
           <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>▧</b><span>Добави храна</span></Link>
-          <button type="button" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b>●</b><span>Снимай храна</span></button>
+          <button type="button" onClick={() => { setQuickActionsOpen(false); foodCameraRef.current?.click(); }}><b>●</b><span>Снимай храна</span></button>
           <Link href="/products?mode=scan" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай</span></Link>
           <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
           <Link href="/products" onClick={() => setQuickActionsOpen(false)}><b>⌕</b><span>Търси храна</span></Link>
@@ -84,6 +112,7 @@ export function AssistantPopup() {
         </div>
       </section>
     </div> : null}
+    {foodImage ? <FoodCaptureFlow image={foodImage} date={foodDate} onClose={() => setFoodImage("")} onRetake={() => { setFoodImage(""); window.setTimeout(() => foodCameraRef.current?.click(), 0); }} /> : null}
     <button type="button" className={`assistant-fab${open ? " is-open" : ""}`} onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen((current) => !current); }} aria-label={open ? "Затвори AI асистента" : "Отвори AI асистента"} aria-expanded={open} aria-controls="assistant-popup">
       <Image className="pegas-friend-avatar" src="/images/pegas-friend.png" alt="" width={42} height={32} /><span aria-hidden="true">{open ? "×" : "Friend"}</span>
     </button>
@@ -93,6 +122,7 @@ export function AssistantPopup() {
       <AssistantExperience />
     </div>
     <style jsx global>{`
+      .food-camera-input { position: fixed !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
       @media (max-width: 820px) {
         .assistant-popup {
           inset: 0 !important;

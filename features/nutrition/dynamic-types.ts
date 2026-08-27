@@ -11,9 +11,10 @@ export type DynamicMealDraft = { id: string; date: string; name: string; planned
 export type MealTemplate = { id: string; name: string; description: string; archived: boolean; mealCount: number };
 export type DynamicNutritionData = { meals: DynamicMeal[]; templates: MealTemplate[]; products: FoodProduct[]; recipes: Recipe[] };
 
-export function mealTotals(meal: Pick<DynamicMeal, "items">) {
+export function mealTotals(meal: Pick<DynamicMeal, "items"> & Partial<Pick<DynamicMeal, "legacyPayload">>) {
+  const legacy = meal.legacyPayload?.nutrition as Partial<Record<"calories" | "protein" | "carbs" | "fat", unknown>> | undefined;
+  if (legacy) return { calories: Number(legacy.calories) || 0, protein: Number(legacy.protein) || 0, carbs: Number(legacy.carbs) || 0, fat: Number(legacy.fat) || 0 };
   return meal.items.reduce((sum, item) => ({ calories: sum.calories + item.calories, protein: sum.protein + item.protein, carbs: sum.carbs + item.carbs, fat: sum.fat + item.fat }), { calories: 0, protein: 0, carbs: 0, fat: 0 });
 }
-
 
 

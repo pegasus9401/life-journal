@@ -55,6 +55,47 @@ export async function saveDynamicMeal(input: DynamicMealDraft) {
   } catch (error) { return { ok: false, message: error instanceof Error ? error.message : "Храненето не можа да бъде запазено.", mealId: null }; }
 }
 
+export type CapturedMealDraft = {
+  date: string;
+  name: string;
+  description?: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+};
+
+export async function saveCapturedMeal(input: CapturedMealDraft) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { ok: false, message: "Сесията изтече.", mealId: null };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date)) return { ok: false, message: "Невалидна дата.", mealId: null };
+  const name = String(input.name).trim().slice(0, 100);
+  if (!name) return { ok: false, message: "Въведи име на храненето.", mealId: null };
+  const nutrition = {
+    calories: Math.min(10000, Math.max(0, Number(input.calories) || 0)),
+    protein: Math.min(1000, Math.max(0, Number(input.protein) || 0)),
+    carbs: Math.min(2000, Math.max(0, Number(input.carbs) || 0)),
+    fat: Math.min(1000, Math.max(0, Number(input.fat) || 0)),
+  };
+  try {
+    const { data: lastMeal } = await supabase.from("day_meals").select("position").eq("owner_id", user.id).eq("meal_date", input.date).order("position", { ascending: false }).limit(1).maybeSingle();
+    const { data, error } = await supabase.from("day_meals").insert({
+      owner_id: user.id,
+      meal_date: input.date,
+      name,
+      planned_time: null,
+      position: Number(lastMeal?.position ?? -1) + 1,
+      legacy_payload: { source: "food_photo", description: String(input.description ?? "").trim().slice(0, 500), nutrition },
+    }).select("id").single();
+    if (error) throw error;
+    revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today");
+    return { ok: true, message: "Храната е добавена в дневника.", mealId: data.id };
+  } catch (error) {
+    return { ok: false, message: error instanceof Error ? error.message : "Храната не можа да бъде запазена.", mealId: null };
+  }
+}
+
 export async function deleteDynamicMeal(id: string) {
   const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return { ok: false, message: "Сесията изтече." };
   const { error } = await supabase.from("day_meals").delete().eq("owner_id", user.id).eq("id", id); revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today");
@@ -89,6 +130,5 @@ export async function applyMealTemplate(templateId: string, date: string) {
   }
   revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today"); return { ok: true, message: "Шаблонът е копиран в деня." };
 }
-
 
 

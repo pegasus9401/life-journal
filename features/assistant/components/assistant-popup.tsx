@@ -118,12 +118,65 @@ export function AssistantPopup() {
           min-height: 0 !important;
           display: flex !important;
         }
+        .assistant-popup .assistant-header {
+          flex: 0 0 auto !important;
+          display: flex !important;
+          align-items: center !important;
+          padding: 10px 16px 8px !important;
+          gap: 10px !important;
+          background: #fff !important;
+        }
+        .assistant-popup .assistant-header > div:first-child {
+          min-width: 0 !important;
+        }
+        .assistant-popup .assistant-header .life-kicker {
+          display: none !important;
+        }
+        .assistant-popup .assistant-header h1 {
+          font-size: 17px !important;
+          line-height: 1.25 !important;
+          white-space: nowrap !important;
+        }
+        .assistant-popup .intelligence-header-actions {
+          margin-left: auto !important;
+        }
+        .assistant-popup .intelligence-header-actions button {
+          min-height: 34px !important;
+          padding: 0 10px !important;
+          font-size: 10px !important;
+        }
+        .assistant-popup .intelligence-personas {
+          flex: 0 0 auto !important;
+          padding: 2px 16px 10px !important;
+          background: #fff !important;
+          scrollbar-width: none !important;
+        }
+        .assistant-popup .intelligence-personas::-webkit-scrollbar,
+        .assistant-popup .intelligence-history::-webkit-scrollbar {
+          display: none !important;
+        }
         .assistant-popup .assistant-panel {
           flex: 1 1 auto !important;
           min-height: 0 !important;
           display: flex !important;
           flex-direction: column !important;
           background: #fff !important;
+        }
+        .assistant-popup .intelligence-history {
+          flex: 0 0 auto !important;
+          align-items: center !important;
+          padding: 9px 12px 6px !important;
+          scrollbar-width: none !important;
+        }
+        .assistant-popup .intelligence-history > span {
+          position: sticky !important;
+          left: 0 !important;
+          z-index: 1 !important;
+          padding: 0 6px 0 2px !important;
+          color: #7b8190 !important;
+          background: #fff !important;
+          font-size: 10px !important;
+          font-weight: 800 !important;
         }
         .assistant-popup .assistant-messages {
           flex: 1 1 auto !important;

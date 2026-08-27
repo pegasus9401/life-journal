@@ -2173,3 +2173,39 @@ body .journal-shell.life-app-shell {
   body .assistant-condensed-bar,
   body .assistant-quick-add-trigger { display: none !important; }
 }
+
+
+/* Bevel mobile chrome alignment: assistant above compact nav, add beside it */
+@media (max-width: 820px) {
+  body .p2-bottom-nav {
+    left: 8px;
+    right: auto;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: min(318px, calc(100vw - 92px));
+    max-width: calc(100vw - 92px);
+    height: 64px;
+  }
+
+  body .assistant-quick-add-trigger {
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: 64px;
+    height: 64px;
+  }
+
+  body .assistant-fab {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 72px);
+    width: auto;
+    max-width: none;
+    height: 54px;
+  }
+
+  html.mobile-chrome-hidden body .assistant-condensed-bar {
+    left: 8px;
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}

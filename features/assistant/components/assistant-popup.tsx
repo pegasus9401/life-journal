@@ -144,17 +144,19 @@ export function AssistantPopup() {
         .assistant-popup-bar {
           flex: 0 0 calc(58px + env(safe-area-inset-top)) !important;
           min-height: calc(58px + env(safe-area-inset-top)) !important;
+          box-sizing: border-box !important;
           padding: env(safe-area-inset-top) 12px 0 18px !important;
           color: #30263b !important;
           border-color: #eee7f5 !important;
           background: rgba(255,255,255,.98) !important;
         }
         .assistant-popup .assistant-layout {
-          flex: 1 1 auto !important;
+          flex: 1 1 0 !important;
           width: 100% !important;
           max-width: 100% !important;
-          height: 100% !important;
+          height: auto !important;
           min-height: 0 !important;
+          max-height: 100% !important;
           display: flex !important;
           flex-direction: column !important;
           overflow: hidden !important;

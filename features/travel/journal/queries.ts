@@ -31,6 +31,15 @@ export const getJournalEntries = cache(async () => {
   return Promise.all((data as JournalEntry[]).map((entry) => withSignedPhotos(entry, supabase)));
 });
 
+export const getJournalDay = cache(async (date: string) => {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data, error } = await supabase.from("journal_entries").select("*, journal_photos(*)").eq("owner_id", user.id).eq("entry_date", date).order("created_at");
+  if (error) throw new Error(`Дневникът не може да се зареди: ${error.message}`);
+  return Promise.all(((data ?? []) as JournalEntry[]).map((entry) => withSignedPhotos(entry, supabase)));
+});
+
 export const getJournalEntry = cache(async (id: string) => {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -44,3 +53,4 @@ export const getJournalEntry = cache(async (id: string) => {
   if (error) throw new Error(`Could not load journal entry: ${error.message}`);
   return data ? withSignedPhotos(data as JournalEntry, supabase) : null;
 });
+

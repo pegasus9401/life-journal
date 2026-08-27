@@ -72,9 +72,9 @@ export function AssistantPopup() {
       <section className="assistant-quick-add-sheet" role="dialog" aria-modal="true" aria-label="Бързо добавяне" onClick={(event) => event.stopPropagation()}>
         <button className="assistant-quick-add-close" type="button" onClick={() => setQuickActionsOpen(false)} aria-label="Затвори">×</button>
         <div className="assistant-quick-actions">
-          <Link href="/assistant" onClick={() => setQuickActionsOpen(false)}><b>AI</b><span>Опиши храна</span></Link>
+          <button type="button" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b>AI</b><span>Опиши храна</span></button>
           <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>▧</b><span>Добави храна</span></Link>
-          <Link href="/assistant?capture=food" onClick={() => setQuickActionsOpen(false)}><b>●</b><span>Снимай храна</span></Link>
+          <button type="button" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b>●</b><span>Снимай храна</span></button>
           <Link href="/products?mode=scan" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай</span></Link>
           <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); setOpen(true); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
           <Link href="/products" onClick={() => setQuickActionsOpen(false)}><b>⌕</b><span>Търси храна</span></Link>
@@ -95,21 +95,20 @@ export function AssistantPopup() {
     <style jsx global>{`
       @media (max-width: 820px) {
         .assistant-popup {
-          top: max(10px, env(safe-area-inset-top)) !important;
-          right: 8px !important;
-          bottom: max(10px, env(safe-area-inset-bottom)) !important;
-          left: 8px !important;
-          width: auto !important;
-          height: auto !important;
-          max-height: none !important;
-          border-radius: 24px !important;
+          inset: 0 !important;
+          width: 100vw !important;
+          height: 100dvh !important;
+          max-width: none !important;
+          max-height: 100dvh !important;
+          border: 0 !important;
+          border-radius: 0 !important;
           display: flex !important;
           flex-direction: column !important;
         }
         .assistant-popup-bar {
-          flex: 0 0 58px !important;
-          min-height: 58px !important;
-          padding: 0 12px 0 18px !important;
+          flex: 0 0 calc(58px + env(safe-area-inset-top)) !important;
+          min-height: calc(58px + env(safe-area-inset-top)) !important;
+          padding: env(safe-area-inset-top) 12px 0 18px !important;
           color: #30263b !important;
           border-color: #eee7f5 !important;
           background: rgba(255,255,255,.98) !important;
@@ -148,16 +147,27 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-suggestions {
           flex: 0 0 auto !important;
-          grid-template-columns: 1fr !important;
-          max-height: 178px !important;
-          overflow-y: auto !important;
-          padding: 0 12px 10px !important;
-          gap: 7px !important;
+          display: flex !important;
+          grid-template-columns: none !important;
+          max-height: none !important;
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          overscroll-behavior-x: contain !important;
+          scroll-snap-type: x mandatory !important;
+          scrollbar-width: none !important;
+          padding: 6px 16px 12px !important;
+          gap: 10px !important;
+          -webkit-overflow-scrolling: touch;
+        }
+        .assistant-popup .assistant-suggestions::-webkit-scrollbar {
+          display: none !important;
         }
         .assistant-popup .assistant-suggestions button {
-          min-height: 44px !important;
-          padding: 10px 12px !important;
-          font-size: 11px !important;
+          flex: 0 0 min(78vw, 304px) !important;
+          min-height: 66px !important;
+          padding: 14px 16px !important;
+          scroll-snap-align: start !important;
+          font-size: 13px !important;
           color: #473a55 !important;
           border-color: #e3d8ee !important;
           background: #fbf9fd !important;
@@ -208,7 +218,13 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-composer small { display: none !important; }
         .assistant-fab.is-open { display: none !important; }
+        body:has(.assistant-popup.is-open) .assistant-quick-add-trigger,
+        body:has(.assistant-popup.is-open) .assistant-condensed-add,
+        body:has(.assistant-popup.is-open) .assistant-condensed-bar {
+          display: none !important;
+        }
       }
     `}</style>
   </>;
 }
+

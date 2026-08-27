@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { AssistantPopup } from "@/features/assistant/components/assistant-popup";
 import { ActiveWorkoutTracker } from "@/features/workouts/components/active-workout-tracker";
+import { PwaHomeLauncher } from "@/components/pwa-home-launcher";
 import "./globals.css";
 import "../styles/pegasos-2.css";
 
@@ -48,7 +49,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body className={manrope.variable}>{children}<ActiveWorkoutTracker /><AssistantPopup /></body>
+      <body className={manrope.variable}>{children}<PwaHomeLauncher /><ActiveWorkoutTracker /><AssistantPopup /></body>
     </html>
   );
 }
+

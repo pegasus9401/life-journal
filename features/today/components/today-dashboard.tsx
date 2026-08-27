@@ -23,7 +23,7 @@ export function TodayDashboard({ data }: { data: TodayDashboardData }) {
       <Link href="/profile" aria-label="Отвори профила" className={styles.avatar}>{data.displayName?.slice(0, 1).toUpperCase() ?? "P"}</Link>
     </header>
 
-    <section className={`${styles.brief} intelligence-dashboard-card`} aria-labelledby="daily-brief-title"><span>✦</span><div><p id="daily-brief-title">PEGASOS INTELLIGENCE</p><h2>{buildDailyBrief(data)}</h2><small>{tasks.filter((item) => !item.completed).length} задачи · {schedule.length} събития · {data.workouts.length} тренировки</small></div><Link href="/assistant">Open Intelligence</Link></section>
+    <section className={`${styles.brief} intelligence-dashboard-card`} aria-labelledby="daily-brief-title"><span>✦</span><div><p id="daily-brief-title">PEGASOS INTELLIGENCE</p><h2>{buildDailyBrief(data)}</h2><small>{tasks.filter((item) => !item.completed).length} задачи · {schedule.length} събития · {data.workouts.length} тренировки</small></div></section>
 
     <section className={styles.status} aria-label="Дневен статус">
       {([["Recovery", data.wellness.recovery], ["Strain", data.wellness.strain], ["Sleep", data.wellness.sleep], ["Energy", data.wellness.energy]] as const).map(([label, score]) =>
@@ -57,3 +57,4 @@ export function TodayDashboard({ data }: { data: TodayDashboardData }) {
     <footer className={styles.journal}><div><p>ДНЕВНИК</p><strong>Какво си струва да запазиш от днес?</strong></div><Link href="/journal/new">Запиши</Link></footer>
   </div>;
 }
+

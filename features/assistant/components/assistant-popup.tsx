@@ -27,6 +27,7 @@ export function AssistantPopup() {
   const [foodDate, setFoodDate] = useState(todayKey());
   const panelRef = useRef<HTMLDivElement>(null);
   const foodCameraRef = useRef<HTMLInputElement>(null);
+  const foodImportRef = useRef<HTMLInputElement>(null);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -89,6 +90,7 @@ export function AssistantPopup() {
 
   return <>
     <input ref={foodCameraRef} className="food-camera-input" type="file" accept="image/*" capture="environment" onChange={(event) => void captureFood(event)} />
+    <input ref={foodImportRef} className="food-camera-input" type="file" accept="image/*" onChange={(event) => void captureFood(event)} />
     <div className="assistant-condensed-bar" aria-label="Компактна навигация">
       <Link href="/today" aria-label="Начало"><span aria-hidden="true">⌂</span></Link>
       <button type="button" onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen(true); }} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
@@ -112,7 +114,7 @@ export function AssistantPopup() {
         </div>
       </section>
     </div> : null}
-    {foodImage ? <FoodCaptureFlow image={foodImage} date={foodDate} onClose={() => setFoodImage("")} onRetake={() => { setFoodImage(""); window.setTimeout(() => foodCameraRef.current?.click(), 0); }} /> : null}
+    {foodImage ? <FoodCaptureFlow image={foodImage} date={foodDate} onClose={() => setFoodImage("")} onRetake={() => { setFoodImage(""); window.setTimeout(() => foodCameraRef.current?.click(), 0); }} onImport={() => { setFoodImage(""); window.setTimeout(() => foodImportRef.current?.click(), 0); }} /> : null}
     <button type="button" className={`assistant-fab${open ? " is-open" : ""}`} onClick={() => { document.documentElement.classList.remove("mobile-chrome-hidden"); setOpen((current) => !current); }} aria-label={open ? "Затвори AI асистента" : "Отвори AI асистента"} aria-expanded={open} aria-controls="assistant-popup">
       <Image className="pegas-friend-avatar" src="/images/pegas-friend.png" alt="" width={42} height={32} /><span aria-hidden="true">{open ? "×" : "Friend"}</span>
     </button>

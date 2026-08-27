@@ -57,6 +57,7 @@ export async function saveDynamicMeal(input: DynamicMealDraft) {
 
 export type CapturedMealDraft = {
   date: string;
+  loggedAt?: string;
   name: string;
   description?: string;
   calories: number;
@@ -88,6 +89,7 @@ export async function saveCapturedMeal(input: CapturedMealDraft) {
       planned_time: null,
       position: Number(lastMeal?.position ?? -1) + 1,
       legacy_payload: { source: "food_photo", description: String(input.description ?? "").trim().slice(0, 500), nutrition, items: (input.items ?? []).slice(0, 20).map((item) => ({ name: String(item.name).trim().slice(0, 100), grams: Math.max(0, Number(item.grams) || 0), calories: Math.max(0, Number(item.calories) || 0), protein: Math.max(0, Number(item.protein) || 0), carbs: Math.max(0, Number(item.carbs) || 0), fat: Math.max(0, Number(item.fat) || 0) })) },
+      ...(input.loggedAt && !Number.isNaN(Date.parse(input.loggedAt)) ? { created_at: input.loggedAt } : {}),
     }).select("id").single();
     if (error) throw error;
     revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today");

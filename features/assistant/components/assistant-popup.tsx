@@ -120,14 +120,13 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-header {
           flex: 0 0 auto !important;
-          display: flex !important;
+          display: block !important;
           align-items: center !important;
-          padding: 10px 16px 8px !important;
-          gap: 10px !important;
+          padding: 8px 12px !important;
           background: #fff !important;
         }
         .assistant-popup .assistant-header > div:first-child {
-          min-width: 0 !important;
+          display: none !important;
         }
         .assistant-popup .assistant-header .life-kicker {
           display: none !important;
@@ -138,18 +137,34 @@ export function AssistantPopup() {
           white-space: nowrap !important;
         }
         .assistant-popup .intelligence-header-actions {
-          margin-left: auto !important;
+          display: grid !important;
+          width: 100% !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 8px !important;
+          margin: 0 !important;
         }
         .assistant-popup .intelligence-header-actions button {
-          min-height: 34px !important;
-          padding: 0 10px !important;
-          font-size: 10px !important;
+          min-height: 38px !important;
+          padding: 0 8px !important;
+          font-size: 11px !important;
         }
         .assistant-popup .intelligence-personas {
           flex: 0 0 auto !important;
-          padding: 2px 16px 10px !important;
+          display: grid !important;
+          grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+          gap: 5px !important;
+          padding: 2px 12px 10px !important;
+          overflow: hidden !important;
           background: #fff !important;
           scrollbar-width: none !important;
+        }
+        .assistant-popup .intelligence-personas button {
+          min-width: 0 !important;
+          min-height: 36px !important;
+          padding: 0 4px !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          font-size: 9px !important;
         }
         .assistant-popup .intelligence-personas::-webkit-scrollbar,
         .assistant-popup .intelligence-history::-webkit-scrollbar {
@@ -168,6 +183,12 @@ export function AssistantPopup() {
           padding: 9px 12px 6px !important;
           scrollbar-width: none !important;
         }
+        .assistant-popup .intelligence-history button {
+          flex: 0 0 auto !important;
+          max-width: 138px !important;
+          min-height: 30px !important;
+          font-size: 9px !important;
+        }
         .assistant-popup .intelligence-history > span {
           position: sticky !important;
           left: 0 !important;
@@ -184,8 +205,23 @@ export function AssistantPopup() {
           max-height: none !important;
           overflow-y: auto !important;
           overscroll-behavior: contain !important;
-          padding: 20px 16px !important;
-          gap: 14px !important;
+          padding: 12px 16px !important;
+          gap: 12px !important;
+        }
+        .assistant-popup .intelligence-welcome {
+          min-height: 150px !important;
+          padding: 8px 0 !important;
+        }
+        .assistant-popup .intelligence-welcome img {
+          width: 82px !important;
+          height: 62px !important;
+        }
+        .assistant-popup .intelligence-welcome h2 {
+          margin-top: 3px !important;
+          font-size: 18px !important;
+        }
+        .assistant-popup .intelligence-welcome p {
+          font-size: 11px !important;
         }
         .assistant-popup .assistant-message {
           max-width: 92% !important;
@@ -216,9 +252,9 @@ export function AssistantPopup() {
           display: none !important;
         }
         .assistant-popup .assistant-suggestions button {
-          flex: 0 0 min(78vw, 304px) !important;
-          min-height: 66px !important;
-          padding: 14px 16px !important;
+          flex: 0 0 min(72vw, 280px) !important;
+          min-height: 56px !important;
+          padding: 12px 14px !important;
           scroll-snap-align: start !important;
           font-size: 13px !important;
           color: #473a55 !important;

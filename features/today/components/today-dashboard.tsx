@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { CalendarItem as ItemCard } from "@/features/calendar/components/calendar-item";
+import type { ReactNode } from "react";
 import { buildDailyBrief } from "../domain/daily-brief";
 import type { TodayDashboardData } from "../types";
+import { LifeTimeline } from "./life-timeline";
 import styles from "./today-dashboard.module.css";
 
 const pct = (value: number, goal: number) => Math.min(100, Math.round(goal > 0 ? value / goal * 100 : 0));
 
-export function TodayDashboard({ data }: { data: TodayDashboardData }) {
+export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardData; dateNavigation?: ReactNode }) {
   const tasks = data.plannerItems.filter((item) => item.type === "task");
   const schedule = data.plannerItems.filter((item) => item.type !== "task").slice(0, 4);
   const nutrition = data.nutrition;
@@ -21,6 +22,7 @@ export function TodayDashboard({ data }: { data: TodayDashboardData }) {
       <div><h1>{data.displayName ? `Здравей, ${data.displayName}` : "Здравей"}</h1></div>
       <Link href="/profile" aria-label="Отвори профила" className={styles.avatar}>{data.displayName?.slice(0, 1).toUpperCase() ?? "P"}</Link>
     </header>
+    {dateNavigation}
 
     <section className={`${styles.brief} intelligence-dashboard-card`} aria-labelledby="daily-brief-title"><span>✦</span><div><p id="daily-brief-title">PEGASOS INTELLIGENCE</p><h2>{buildDailyBrief(data)}</h2><small>{tasks.filter((item) => !item.completed).length} задачи · {schedule.length} събития · {data.workouts.length} тренировки</small></div></section>
 
@@ -42,10 +44,7 @@ export function TodayDashboard({ data }: { data: TodayDashboardData }) {
         <div className={styles.stack}>{data.workouts.length ? data.workouts.map((workout) => <article className={styles.workout} key={workout.id}><div><span>{workout.completed ? "ЗАВЪРШЕНА" : "ПЛАНИРАНА"}</span><h3>{workout.title}</h3><p>{workout.duration_minutes} мин · {workout.calories_burned} kcal</p></div><Link href="/workouts">{workout.completed ? "Виж" : "Започни"}</Link></article>) : <div className={styles.empty}><p>Няма планирана тренировка.</p><Link href="/workouts">Добави тренировка</Link></div>}</div>
       </section>
 
-      <section>
-        <div className={styles.sectionHead}><div><p>PLANNER</p><h2>{data.isToday ? "Следва" : "Записи"}</h2></div><Link href={`/calendar?view=day&date=${data.date}`}>Отвори</Link></div>
-        <div className={styles.stack}>{schedule.length ? schedule.map((item) => <ItemCard key={item.id} item={item} compact />) : <div className={styles.empty}><p>Няма предстоящи събития днес.</p></div>}{tasks.slice(0, 3).map((item) => <ItemCard key={item.id} item={item} compact />)}</div>
-      </section>
+      <LifeTimeline items={data.timeline} calories={data.nutrition.calories} calorieGoal={data.nutrition.calorieGoal} protein={data.nutrition.protein} proteinGoal={data.nutrition.proteinGoal}/>
 
       <section className={styles.progress}>
         <div className={styles.sectionHead}><div><p>ПРОГРЕС</p><h2>Текущ статус</h2></div><Link href="/profile">Профил</Link></div>
@@ -53,7 +52,6 @@ export function TodayDashboard({ data }: { data: TodayDashboardData }) {
       </section>
     </div>
 
-    <footer className={styles.journal}><div><p>ДНЕВНИК</p><strong>Какво си струва да запазиш от днес?</strong></div><Link href="/journal/new">Запиши</Link></footer>
   </div>;
 }
 

@@ -5,9 +5,7 @@ import { ActiveWorkoutTracker } from "@/features/workouts/components/active-work
 import "./globals.css";
 import "../styles/pegasos-2.css";
 
-
 const manrope = Manrope({ subsets: ["latin", "cyrillic"], display: "swap", variable: "--font-manrope" });
-
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -16,7 +14,6 @@ export const viewport: Viewport = {
   userScalable: false,
   viewportFit: "cover",
 };
-
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
@@ -37,3 +34,21 @@ export const metadata: Metadata = {
     description: "Дни, които си струва да запазиш.",
     images: [{ url: "/og.png", alt: "Дневник на живота — дни, които си струва да запазиш." }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Дневник на живота",
+    description: "Дни, които си струва да запазиш.",
+    images: ["/og.png"],
+  },
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="bg" suppressHydrationWarning>
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+      </head>
+      <body className={manrope.variable}>{children}<ActiveWorkoutTracker /><AssistantPopup /></body>
+    </html>
+  );
+}

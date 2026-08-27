@@ -291,6 +291,17 @@ export function AssistantPopup() {
           color: #30263b !important;
           background: #f3eef8 !important;
         }
+        .assistant-popup .assistant-message .assistant-rich-text {
+          padding: 13px 15px !important;
+          color: #30263b !important;
+          background: #f3eef8 !important;
+        }
+        .assistant-popup .assistant-message.user .assistant-rich-text { background: #e9ddfb !important; }
+        .assistant-popup .assistant-message .assistant-rich-text p {
+          padding: 0 !important;
+          border-radius: 0 !important;
+          background: transparent !important;
+        }
         .assistant-popup .assistant-suggestions {
           flex: 0 0 auto !important;
           width: 100% !important;

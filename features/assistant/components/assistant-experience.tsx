@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { Fragment, useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 type Action = { tool: string; result: Record<string, unknown> };
@@ -11,6 +11,34 @@ type Conversation = { id: string; title: string; persona: Persona; updated_at: s
 type Memory = { id: string; category: string; content: string; keywords: string[]; enabled: boolean };
 const personaLabels: Record<Persona, string> = { friend: "Friend", guardian: "Guardian", data_nerd: "Data Nerd", commander: "Commander" };
 const suggestions = ["Какво имам днес?", "Планирай деня ми", "Добави храна", "Направи тренировка", "Добави задача", "Анализирай деня ми"];
+const toolLabels: Record<string, string> = {
+  get_day: "Преглед на деня", create_task: "Задачата е добавена", create_event: "Събитието е добавено",
+  add_nutrition: "Храната е добавена", create_workout: "Тренировката е добавена", update_task: "Задачата е обновена",
+  complete_task: "Задачата е завършена", search_food: "Резултати за храна",
+};
+
+function inlineMarkdown(text: string): ReactNode[] {
+  return text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((part, index) => part.startsWith("**") && part.endsWith("**")
+    ? <strong key={index}>{part.slice(2, -2)}</strong>
+    : <Fragment key={index}>{part}</Fragment>);
+}
+
+function AssistantContent({ content }: { content: string }) {
+  const lines = content.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  const blocks: ReactNode[] = [];
+  let list: string[] = [];
+  const flushList = () => { if (list.length) { blocks.push(<ul key={`list-${blocks.length}`}>{list.map((line, index) => <li key={index}>{inlineMarkdown(line)}</li>)}</ul>); list = []; } };
+  lines.forEach((line) => {
+    if (/^[-•]\s+/.test(line)) { list.push(line.replace(/^[-•]\s+/, "")); return; }
+    flushList();
+    if (/^#{1,3}\s+/.test(line)) blocks.push(<h3 key={`heading-${blocks.length}`}>{inlineMarkdown(line.replace(/^#{1,3}\s+/, ""))}</h3>);
+    else blocks.push(<p key={`paragraph-${blocks.length}`}>{inlineMarkdown(line)}</p>);
+  });
+  flushList();
+  return <div className="assistant-rich-text">{blocks}</div>;
+}
+
+function actionLabel(action: Action) { return toolLabels[action.tool] ?? action.tool.split("_").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "); }
 
 export function AssistantExperience() {
   const router = useRouter();
@@ -71,11 +99,10 @@ export function AssistantExperience() {
     {showMemory ? <aside className="intelligence-memory"><header><div><strong>Какво помни Pegas</strong><small>Само включените релевантни записи се изпращат към AI.</small></div><button type="button" onClick={() => setShowMemory(false)}>×</button></header><div className="intelligence-memory-add"><select value={memoryCategory} onChange={(event) => setMemoryCategory(event.target.value)}><option value="goal">Цел</option><option value="preference">Предпочитание</option><option value="training">Тренировки</option><option value="nutrition">Хранене</option><option value="routine">Рутина</option><option value="communication">Комуникация</option></select><input value={memoryDraft} onChange={(event) => setMemoryDraft(event.target.value)} placeholder="Напр. Не обичам сутрешни тренировки"/><button type="button" onClick={() => void saveMemory()}>Добави</button></div><div className="intelligence-memory-list">{memories.map((memory) => <article key={memory.id} className={memory.enabled ? "" : "disabled"}><button type="button" onClick={() => void updateMemory(memory, { enabled: !memory.enabled })}>{memory.enabled ? "●" : "○"}</button><div><small>{memory.category}</small><p contentEditable suppressContentEditableWarning onBlur={(event) => void updateMemory(memory, { content: event.currentTarget.textContent?.trim() || memory.content })}>{memory.content}</p></div><button type="button" onClick={() => void deleteMemory(memory.id)}>×</button></article>)}</div></aside> : null}
     <div className="assistant-panel intelligence-panel">
       {conversations.length ? <nav className="intelligence-history" aria-label="История"><span>История</span>{conversations.map((conversation) => <button type="button" className={conversation.id === conversationId ? "active" : ""} key={conversation.id} onClick={() => void openConversation(conversation.id)}>{conversation.title}</button>)}</nav> : null}
-      <div className="assistant-messages" aria-live="polite">{!messages.length ? <div className="intelligence-welcome"><Image src="/images/pegas-friend.png" alt="Pegas" width={96} height={72}/><h2>{personaLabels[persona]}</h2><p>Кажи ми какво искаш да направим.</p></div> : null}{messages.map((message, index) => <article className={`assistant-message ${message.role}`} key={message.id ?? `${message.role}-${index}`}><span>{message.role === "assistant" ? "P" : "Ти"}</span><div><p>{message.content || (pending ? "Мисля…" : "")}</p>{message.actions?.map((action, actionIndex) => <div className="intelligence-action-card" key={`${action.tool}-${actionIndex}`}><strong>✓ {action.tool.replaceAll("_", " ")}</strong><span>{String(action.result?.preview && typeof action.result.preview === "object" ? (action.result.preview as Record<string, unknown>).title ?? "Изпълнено" : "Изпълнено")}</span><a href={action.tool.includes("event") ? "/calendar" : action.tool.includes("task") ? "/calendar" : action.tool.includes("nutrition") ? "/nutrition" : "/workouts"}>Отвори</a></div>)}</div></article>)}<div ref={bottomRef}/></div>
+      <div className="assistant-messages" aria-live="polite">{!messages.length ? <div className="intelligence-welcome"><Image src="/images/pegas-friend.png" alt="Pegas" width={96} height={72}/><h2>{personaLabels[persona]}</h2><p>Кажи ми какво искаш да направим.</p></div> : null}{messages.map((message, index) => <article className={`assistant-message ${message.role}`} key={message.id ?? `${message.role}-${index}`}><span>{message.role === "assistant" ? "P" : "Ти"}</span><div>{message.content ? <AssistantContent content={message.content}/> : pending ? <div className="assistant-thinking">Мисля…</div> : null}{message.actions?.map((action, actionIndex) => <div className="intelligence-action-card" key={`${action.tool}-${actionIndex}`}><strong>✓ {actionLabel(action)}</strong><span>{action.result?.preview && typeof action.result.preview === "object" && typeof (action.result.preview as Record<string, unknown>).title === "string" && (action.result.preview as Record<string, unknown>).title !== action.tool ? String((action.result.preview as Record<string, unknown>).title) : "Изпълнено успешно"}</span><a href={action.tool.includes("event") ? "/calendar" : action.tool.includes("task") ? "/calendar" : action.tool.includes("nutrition") || action.tool.includes("food") ? "/nutrition" : action.tool === "get_day" ? "/today" : "/workouts"}>Отвори</a></div>)}</div></article>)}<div ref={bottomRef}/></div>
       {!messages.length ? <div className="assistant-suggestions intelligence-suggestions">{suggestions.map((suggestion) => <button type="button" key={suggestion} onClick={() => void send(suggestion)}>{suggestion}</button>)}</div> : null}
       {requestError ? <div className="assistant-photo-error" role="alert">{requestError}</div> : null}
       <form className="assistant-composer" onSubmit={submit}>{image ? <div className="assistant-photo-chip"><Image src={image} alt={imageName} width={48} height={48} unoptimized/><span>{imageName}</span><button type="button" onClick={() => setImage(null)}>×</button></div> : null}<div className="assistant-input-row"><label className="intelligence-photo"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event)} disabled={pending}/><span>📷</span></label><textarea value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Ask Pegas anything…" rows={2} maxLength={8000} disabled={pending}/><button type="submit" disabled={pending || (!input.trim() && !image)} aria-label="Изпрати">↑</button></div></form>
     </div>
   </section>;
 }
-

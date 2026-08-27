@@ -191,3 +191,44 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,span,strong,small,label,time,li,dt,dd,th,td,bu
   font-variant: normal;
   font-feature-settings: normal;
 }
+
+/* Quick Add replaces the assistant bar while keeping bottom navigation visible. */
+@media (max-width: 820px) {
+  body .assistant-quick-add-backdrop {
+    z-index: 92 !important;
+    inset: 0 8px calc(var(--pegasos-dock-bottom) + 70px) 8px !important;
+    padding: 0 !important;
+    align-items: flex-end !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+
+  body .assistant-quick-add-sheet {
+    width: 100% !important;
+    max-height: calc(100svh - 86px - env(safe-area-inset-top)) !important;
+    margin: 0 !important;
+    border-radius: 28px !important;
+  }
+
+  body:has(.assistant-quick-add-backdrop) .assistant-fab {
+    display: none !important;
+  }
+
+  body:has(.assistant-quick-add-backdrop) .p2-bottom-nav {
+    display: grid !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  body:has(.assistant-quick-add-backdrop) .assistant-quick-add-trigger {
+    display: grid !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  body .assistant-quick-add-close {
+    display: none !important;
+  }
+}

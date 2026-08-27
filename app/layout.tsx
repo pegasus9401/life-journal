@@ -51,7 +51,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
         const path = window.location.pathname;
         if (standalone && path !== '/today' && path !== '/login') {
-          document.documentElement.style.visibility = 'hidden';
           window.location.replace('/today');
         }
       })();`}</Script>
@@ -62,4 +61,3 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   );
 }
-

@@ -129,13 +129,17 @@ export function AssistantPopup() {
         .assistant-popup {
           inset: 0 !important;
           width: 100vw !important;
+          max-width: 100vw !important;
           height: 100dvh !important;
-          max-width: none !important;
+          min-height: 100svh !important;
           max-height: 100dvh !important;
+          box-sizing: border-box !important;
           border: 0 !important;
           border-radius: 0 !important;
           display: flex !important;
           flex-direction: column !important;
+          overflow: hidden !important;
+          overscroll-behavior: none !important;
         }
         .assistant-popup-bar {
           flex: 0 0 calc(58px + env(safe-area-inset-top)) !important;
@@ -147,8 +151,13 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-layout {
           flex: 1 1 auto !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          height: 100% !important;
           min-height: 0 !important;
           display: flex !important;
+          flex-direction: column !important;
+          overflow: hidden !important;
         }
         .assistant-popup .assistant-header {
           flex: 0 0 auto !important;
@@ -204,15 +213,23 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-panel {
           flex: 1 1 auto !important;
+          width: 100% !important;
+          max-width: 100% !important;
           min-height: 0 !important;
           display: flex !important;
           flex-direction: column !important;
+          overflow: hidden !important;
           background: #fff !important;
         }
         .assistant-popup .intelligence-history {
           flex: 0 0 auto !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
           align-items: center !important;
           padding: 9px 12px 6px !important;
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
           scrollbar-width: none !important;
         }
         .assistant-popup .intelligence-history button {
@@ -232,16 +249,22 @@ export function AssistantPopup() {
           font-weight: 800 !important;
         }
         .assistant-popup .assistant-messages {
-          flex: 1 1 auto !important;
+          flex: 1 1 0 !important;
+          width: 100% !important;
+          max-width: 100% !important;
           min-height: 0 !important;
           max-height: none !important;
+          box-sizing: border-box !important;
           overflow-y: auto !important;
+          overflow-x: hidden !important;
           overscroll-behavior: contain !important;
           padding: 12px 16px !important;
           gap: 12px !important;
         }
         .assistant-popup .intelligence-welcome {
-          min-height: 150px !important;
+          width: 100% !important;
+          min-height: 0 !important;
+          height: 100% !important;
           padding: 8px 0 !important;
         }
         .assistant-popup .intelligence-welcome img {
@@ -268,6 +291,9 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-suggestions {
           flex: 0 0 auto !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
           display: flex !important;
           grid-template-columns: none !important;
           max-height: none !important;
@@ -295,6 +321,11 @@ export function AssistantPopup() {
         }
         .assistant-popup .assistant-composer {
           flex: 0 0 auto !important;
+          position: relative !important;
+          z-index: 3 !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
           padding: 10px !important;
           padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
           border-color: #e8deef !important;
@@ -345,7 +376,21 @@ export function AssistantPopup() {
           display: none !important;
         }
       }
+      @media (max-width: 820px) and (max-height: 760px) {
+        .assistant-popup-bar {
+          flex-basis: calc(50px + env(safe-area-inset-top)) !important;
+          min-height: calc(50px + env(safe-area-inset-top)) !important;
+        }
+        .assistant-popup .assistant-header { padding: 6px 10px !important; }
+        .assistant-popup .intelligence-header-actions button { min-height: 34px !important; }
+        .assistant-popup .intelligence-personas { padding: 0 10px 7px !important; }
+        .assistant-popup .intelligence-personas button { min-height: 32px !important; }
+        .assistant-popup .intelligence-history { padding: 6px 10px 4px !important; }
+        .assistant-popup .intelligence-welcome img { width: 68px !important; height: 51px !important; }
+        .assistant-popup .intelligence-welcome h2 { font-size: 16px !important; }
+        .assistant-popup .assistant-suggestions { padding: 4px 12px 8px !important; }
+        .assistant-popup .assistant-suggestions button { min-height: 48px !important; }
+      }
     `}</style>
   </>;
 }
-

@@ -4,9 +4,11 @@ import type { WellnessScores } from "@/features/wellness/types";
 
 export type TimelineCategory = "food" | "workout" | "journal" | "tasks" | "events" | "health";
 export type TimelineStatus = "planned" | "in_progress" | "completed" | "missed" | "skipped";
+export type TimelineCompletion = { kind: "task" | "workout" | "meal"; sourceId: string };
 export type TimelineItem = {
   id: string; category: TimelineCategory; title: string; detail?: string; meta?: string;
   time?: string; sortAt: string; status: TimelineStatus; href: string; icon: string;
+  completion?: TimelineCompletion;
 };
 
 export type TodayNutrition = {
@@ -26,4 +28,3 @@ export type TodayDashboardData = {
   timeline: TimelineItem[];
   isToday: boolean;
 };
-

@@ -2209,3 +2209,7 @@ body .journal-shell.life-app-shell {
     bottom: max(8px, env(safe-area-inset-bottom));
   }
 }
+
+@media (max-width: 820px) {
+  body .life-app-shell .quick-add-trigger { display: none !important; }
+}

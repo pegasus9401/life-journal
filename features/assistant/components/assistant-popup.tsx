@@ -45,6 +45,27 @@ export function AssistantPopup() {
   }, [open]);
 
   useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const syncViewport = () => {
+      const viewport = window.visualViewport;
+      root.style.setProperty("--assistant-viewport-height", `${Math.round(viewport?.height ?? window.innerHeight)}px`);
+      root.style.setProperty("--assistant-viewport-top", `${Math.round(viewport?.offsetTop ?? 0)}px`);
+    };
+    syncViewport();
+    window.visualViewport?.addEventListener("resize", syncViewport);
+    window.visualViewport?.addEventListener("scroll", syncViewport);
+    window.addEventListener("orientationchange", syncViewport);
+    return () => {
+      window.visualViewport?.removeEventListener("resize", syncViewport);
+      window.visualViewport?.removeEventListener("scroll", syncViewport);
+      window.removeEventListener("orientationchange", syncViewport);
+      root.style.removeProperty("--assistant-viewport-height");
+      root.style.removeProperty("--assistant-viewport-top");
+    };
+  }, [open]);
+
+  useEffect(() => {
     const close = () => setOpen(false);
     window.addEventListener("close-assistant-popup", close);
     window.addEventListener("gesture-close-overlay", close);
@@ -126,13 +147,16 @@ export function AssistantPopup() {
     <style jsx global>{`
       .food-camera-input { position: fixed !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
       @media (max-width: 820px) {
-        .assistant-popup {
-          inset: 0 !important;
+        html body .assistant-popup {
+          top: var(--assistant-viewport-top, 0px) !important;
+          right: 0 !important;
+          bottom: auto !important;
+          left: 0 !important;
           width: 100vw !important;
           max-width: 100vw !important;
-          height: 100dvh !important;
-          min-height: 100svh !important;
-          max-height: 100dvh !important;
+          height: var(--assistant-viewport-height, 100dvh) !important;
+          min-height: 0 !important;
+          max-height: var(--assistant-viewport-height, 100dvh) !important;
           box-sizing: border-box !important;
           border: 0 !important;
           border-radius: 0 !important;
@@ -140,6 +164,7 @@ export function AssistantPopup() {
           flex-direction: column !important;
           overflow: hidden !important;
           overscroll-behavior: none !important;
+          transform: none !important;
         }
         .assistant-popup-bar {
           flex: 0 0 calc(58px + env(safe-area-inset-top)) !important;

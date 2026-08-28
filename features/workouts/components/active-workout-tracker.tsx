@@ -305,9 +305,13 @@ export function ActiveWorkoutTracker() {
   useEffect(() => {
     if (!active?.restEndsAt || active.restNotificationSentFor === active.restEndsAt || now < active.restEndsAt) return;
     const completedRestEnd = active.restEndsAt;
+    const notificationIsStale = now - completedRestEnd > 15_000;
     const nextExercise = active.exercises.find((exercise) => exercise.results.some((result) => !result.done))?.name;
     const notificationTimer = window.setTimeout(() => {
       setActive((current) => current ? { ...current, restNotificationSentFor: completedRestEnd } : current);
+      // iOS suspends PWA timers in the background. Never emit a delayed
+      // notification when the user returns minutes after the rest ended.
+      if (notificationIsStale || document.visibilityState !== "visible") return;
       void showRestCompleteNotification(active.name, nextExercise).catch((error) => {
         console.warn("[active-workout] Rest notification failed.", error);
       });

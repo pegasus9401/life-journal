@@ -1031,9 +1031,17 @@ body .journal-shell.life-app-shell {
 
 /* Active workout: compact, usable exercise cards on iPhone. */
 .active-workout-panel .active-workout-exercises {
+  position: relative;
+  flex: 1 1 0;
   gap: 10px;
   grid-auto-rows: max-content;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
   padding: 10px 12px 18px;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .active-workout-panel .active-exercise-card {
@@ -1172,6 +1180,20 @@ body .journal-shell.life-app-shell {
   .active-workout-panel .active-exercise-card .active-set-table > div:not(.active-set-head) {
     grid-template-columns: 30px minmax(58px, 1fr) minmax(48px, .72fr) minmax(58px, .82fr) 34px;
     gap: 4px;
+  }
+}
+
+@media (max-width: 820px) {
+  .active-workout-panel {
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+  .active-workout-panel .active-workout-exercises {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: scroll;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

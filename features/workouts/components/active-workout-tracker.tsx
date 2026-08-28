@@ -45,6 +45,7 @@ type ActiveWorkout = {
   startedAt: string;
   restEndsAt: number | null;
   restNotificationSentFor?: number | null;
+  restPushScheduledFor?: number | null;
   exercises: ActiveExercise[];
 };
 
@@ -61,6 +62,28 @@ async function prepareWorkoutNotifications(requestPermission = false) {
   if (permission !== "granted") return false;
   await navigator.serviceWorker.register(NOTIFICATION_WORKER, { scope: "/" });
   return true;
+}
+
+function vapidKeyBytes(value: string) {
+  const padding = "=".repeat((4 - value.length % 4) % 4);
+  const base64 = (value + padding).replace(/-/g, "+").replace(/_/g, "/");
+  return Uint8Array.from(window.atob(base64), (character) => character.charCodeAt(0));
+}
+
+async function scheduleRestPush(input: { endsAt: number; workoutName: string; nextExercise?: string }) {
+  const publicKey = process.env.NEXT_PUBLIC_WEB_PUSH_VAPID_KEY;
+  if (!publicKey || !await prepareWorkoutNotifications(true)) return false;
+  const registration = await navigator.serviceWorker.ready;
+  const subscription = await registration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: vapidKeyBytes(publicKey),
+  });
+  const response = await fetch("/api/workouts/rest-notification", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ subscription: subscription.toJSON(), ...input }),
+  });
+  return response.ok;
 }
 
 async function showRestCompleteNotification(workoutName: string, nextExercise?: string) {
@@ -112,6 +135,7 @@ function createActiveWorkout(template: StartWorkoutDetail, previousExercises?: u
     startedAt: new Date().toISOString(),
     restEndsAt: null,
     restNotificationSentFor: null,
+    restPushScheduledFor: null,
     exercises: template.exercises.map((exercise) => {
       const previous = previousSets(previousExercises, exercise.name);
       return {
@@ -309,6 +333,7 @@ export function ActiveWorkoutTracker() {
     const nextExercise = active.exercises.find((exercise) => exercise.results.some((result) => !result.done))?.name;
     const notificationTimer = window.setTimeout(() => {
       setActive((current) => current ? { ...current, restNotificationSentFor: completedRestEnd } : current);
+      if (active.restPushScheduledFor === completedRestEnd) return;
       // iOS suspends PWA timers in the background. Never emit a delayed
       // notification when the user returns minutes after the rest ended.
       if (notificationIsStale || document.visibilityState !== "visible") return;
@@ -362,15 +387,20 @@ export function ActiveWorkoutTracker() {
   const toggleSet = (exercise: ActiveExercise, index: number) => {
     const result = exercise.results[index];
     const willComplete = !result.done;
-    if (willComplete && exercise.restSeconds && supportsWorkoutNotifications() && Notification.permission === "default") {
-      void prepareWorkoutNotifications(true).catch((error) => {
-        console.warn("[active-workout] Notification permission failed.", error);
-      });
-    }
+    const restEndsAt = willComplete && exercise.restSeconds ? Date.now() + exercise.restSeconds * 1000 : null;
+    if (restEndsAt && supportsWorkoutNotifications()) void scheduleRestPush({
+      endsAt: restEndsAt,
+      workoutName: active.name,
+      nextExercise: active.exercises.find((item) => item.results.some((set) => !set.done))?.name,
+    }).then((scheduled) => {
+      if (!scheduled) return;
+      setActive((current) => current?.restEndsAt === restEndsAt ? { ...current, restPushScheduledFor: restEndsAt } : current);
+    }).catch((error) => console.warn("[active-workout] Server push scheduling failed.", error));
     setActive((current) => current ? {
       ...current,
-      restEndsAt: willComplete && exercise.restSeconds ? Date.now() + exercise.restSeconds * 1000 : current.restEndsAt,
-      restNotificationSentFor: willComplete && exercise.restSeconds ? null : current.restNotificationSentFor,
+      restEndsAt: restEndsAt ?? current.restEndsAt,
+      restNotificationSentFor: restEndsAt ? null : current.restNotificationSentFor,
+      restPushScheduledFor: restEndsAt ? null : current.restPushScheduledFor,
       exercises: current.exercises.map((item) => item.id === exercise.id ? {
         ...item,
         results: item.results.map((set, setIndex) => setIndex === index ? { ...set, done: willComplete } : set),
@@ -394,6 +424,7 @@ export function ActiveWorkoutTracker() {
       ...current,
       restEndsAt: seconds === null ? null : Date.now() + Math.max(0, seconds) * 1000,
       restNotificationSentFor: null,
+      restPushScheduledFor: null,
     } : current);
     setNow(Date.now());
   };

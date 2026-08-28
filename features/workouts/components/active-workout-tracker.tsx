@@ -167,14 +167,23 @@ function ActiveExerciseTracker({
   addSet: (exerciseId: string, targetReps: string) => void;
 }) {
   const exerciseDone = exercise.results.filter((result) => result.done).length;
+  const [isOpen, setIsOpen] = useState(exerciseIndex === 0);
 
-  return <article className="active-exercise-card is-open">
-    <header className="active-exercise-heading">
+  return <article className={`active-exercise-card${isOpen ? " is-open" : ""}`}>
+    <button
+      className="active-exercise-toggle"
+      type="button"
+      aria-expanded={isOpen}
+      aria-controls={`active-exercise-sets-${exercise.id}`}
+      onClick={() => setIsOpen((current) => !current)}
+    >
       <span>{String(exerciseIndex + 1).padStart(2, "0")}</span>
-      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · почивка {exercise.restSeconds} сек.</p><p>Предложение: {progressionSuggestion(exercise)}</p></div>
+      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.results.length} серии × {exercise.reps} · {exercise.restSeconds} сек. почивка</p></div>
       <b>{exerciseDone}/{exercise.results.length}</b>
-    </header>
-    <div className="active-set-table">
+      <i aria-hidden="true">⌄</i>
+    </button>
+    {isOpen ? <div className="active-exercise-suggestion">Предложение: {progressionSuggestion(exercise)}</div> : null}
+    {isOpen ? <div className="active-set-table" id={`active-exercise-sets-${exercise.id}`}>
       <div className="active-set-head"><span>Серия</span><span>Предишно</span><span>кг</span><span>Повторения</span><span>✓</span></div>
       {exercise.results.map((result, index) => <div className={result.done ? "is-done" : ""} key={index}>
         <b className={result.done ? "is-done" : ""}>{result.done ? "✓" : index + 1}</b>
@@ -184,7 +193,7 @@ function ActiveExerciseTracker({
         <button type="button" aria-label={result.done ? "Отбележи серията като незавършена" : "Завърши серията и започни почивката"} aria-pressed={result.done} onClick={() => toggleSet(exercise, index)}>{result.done ? "✓" : "○"}</button>
       </div>)}
       <button className="active-add-set" type="button" onClick={() => addSet(exercise.id, exercise.reps)}>＋ Добави серия</button>
-    </div>
+    </div> : null}
   </article>;
 }
 

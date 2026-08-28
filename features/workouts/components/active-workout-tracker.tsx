@@ -467,6 +467,10 @@ export function ActiveWorkoutTracker() {
       <button className="active-workout-dock-main" type="button" onClick={() => setExpanded(true)}>
         <span className="active-workout-pulse" />
         <span><small>Активна тренировка</small><strong>{active.name}</strong></span>
+        <b className={`active-workout-dock-timer${restSeconds ? " is-rest" : ""}`}>
+          <small>{restSeconds ? "Почивка" : "Време"}</small>
+          <time>{formatTimer(restSeconds || elapsedSeconds)}</time>
+        </b>
       </button>
       <div className="active-workout-dock-stat"><small>{restSeconds ? "Почивка" : "Време"}</small><strong className={restSeconds ? "is-rest" : ""}>{formatTimer(restSeconds || elapsedSeconds)}</strong></div>
       <div className="active-workout-dock-stat"><small>Прогрес</small><strong>{progress}%</strong></div>

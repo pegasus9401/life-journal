@@ -976,6 +976,12 @@ body .journal-shell.life-app-shell {
 .active-workout-dock { position: fixed; z-index: 145; bottom: calc(92px + env(safe-area-inset-bottom)); left: 50%; display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; align-items: center; width: min(720px, calc(100vw - 32px)); min-height: 68px; overflow: hidden; border: 1px solid var(--pegasos-line); border-radius: 20px; background: rgba(255,255,255,.92); box-shadow: 0 14px 42px rgba(28,38,48,.16); backdrop-filter: blur(20px); transform: translateX(-50%); }
 .active-workout-dock-main { display: flex; min-width: 0; min-height: 68px; align-items: center; gap: 12px; padding: 0 18px; border: 0; color: var(--pegasos-ink); background: transparent; text-align: left; }
 .active-workout-dock-main > span:nth-child(2), .active-workout-dock-stat { display: grid; gap: 4px; }
+.active-workout-dock-main > span:nth-child(2) { overflow: hidden; }
+.active-workout-dock-main > span:nth-child(2) strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.active-workout-dock-timer { display: none; flex: 0 0 auto; margin-left: auto; color: var(--pegasos-ink); text-align: right; font-variant-numeric: tabular-nums; }
+.active-workout-dock-timer small { display: block; margin-bottom: 3px; }
+.active-workout-dock-timer time { display: block; font-size: 17px; font-weight: 800; line-height: 1; }
+.active-workout-dock-timer.is-rest time { color: #ba7414; }
 .active-workout-dock small, .active-workout-panel small { color: var(--pegasos-muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
 .active-workout-pulse { width: 11px; height: 11px; border-radius: 50%; background: #22b573; box-shadow: 0 0 0 5px rgba(34,181,115,.12); }
 .active-workout-dock-stat { min-width: 76px; padding: 0 14px; border-left: 1px solid var(--pegasos-line); text-align: center; }
@@ -1017,6 +1023,8 @@ body .journal-shell.life-app-shell {
 @media (max-width: 820px) {
   .active-workout-dock { left: 10px; bottom: calc(92px + env(safe-area-inset-bottom)); grid-template-columns: minmax(0,1fr) auto; width: calc(100vw - 20px); transform: none; }
   .active-workout-dock-stat, .active-workout-expand { display: none; }
+  .active-workout-dock-main { width: 100%; padding-inline: 14px; }
+  .active-workout-dock-timer { display: block; }
   .active-workout-panel { inset: 0; width: 100%; max-height: 100svh; border: 0; border-radius: 0; }
   .active-workout-panel > header { padding-top: calc(14px + env(safe-area-inset-top)); }
 }

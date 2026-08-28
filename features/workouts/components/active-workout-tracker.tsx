@@ -44,8 +44,37 @@ type ActiveWorkout = {
   name: string;
   startedAt: string;
   restEndsAt: number | null;
+  restNotificationSentFor?: number | null;
   exercises: ActiveExercise[];
 };
+
+const NOTIFICATION_WORKER = "/workout-notifications-sw.js";
+
+function supportsWorkoutNotifications() {
+  return typeof window !== "undefined" && "Notification" in window && "serviceWorker" in navigator;
+}
+
+async function prepareWorkoutNotifications(requestPermission = false) {
+  if (!supportsWorkoutNotifications()) return false;
+  let permission = Notification.permission;
+  if (requestPermission && permission === "default") permission = await Notification.requestPermission();
+  if (permission !== "granted") return false;
+  await navigator.serviceWorker.register(NOTIFICATION_WORKER, { scope: "/" });
+  return true;
+}
+
+async function showRestCompleteNotification(workoutName: string, nextExercise?: string) {
+  if (!await prepareWorkoutNotifications()) return;
+  const registration = await navigator.serviceWorker.ready;
+  await registration.showNotification("Почивката приключи", {
+    body: nextExercise ? `Време е за следващата серия: ${nextExercise}` : `Продължи с ${workoutName}.`,
+    icon: "/images/pegas-friend.png",
+    badge: "/images/pegas-friend.png",
+    tag: "pegasos-rest-timer",
+    data: { url: "/workouts" },
+  });
+  navigator.vibrate?.([180, 80, 180]);
+}
 
 function resultReps(target: string) {
   const matches = target.match(/\d+(?:[.,]\d+)?/g);
@@ -82,6 +111,7 @@ function createActiveWorkout(template: StartWorkoutDetail, previousExercises?: u
     name: template.name,
     startedAt: new Date().toISOString(),
     restEndsAt: null,
+    restNotificationSentFor: null,
     exercises: template.exercises.map((exercise) => {
       const previous = previousSets(previousExercises, exercise.name);
       return {
@@ -244,6 +274,19 @@ export function ActiveWorkoutTracker() {
   }, [active]);
 
   useEffect(() => {
+    if (!active?.restEndsAt || active.restNotificationSentFor === active.restEndsAt || now < active.restEndsAt) return;
+    const completedRestEnd = active.restEndsAt;
+    const nextExercise = active.exercises.find((exercise) => exercise.results.some((result) => !result.done))?.name;
+    const notificationTimer = window.setTimeout(() => {
+      setActive((current) => current ? { ...current, restNotificationSentFor: completedRestEnd } : current);
+      void showRestCompleteNotification(active.name, nextExercise).catch((error) => {
+        console.warn("[active-workout] Rest notification failed.", error);
+      });
+    }, 0);
+    return () => window.clearTimeout(notificationTimer);
+  }, [active, now]);
+
+  useEffect(() => {
     const collapse = () => setExpanded(false);
     window.addEventListener("gesture-close-overlay", collapse);
     return () => window.removeEventListener("gesture-close-overlay", collapse);
@@ -286,9 +329,15 @@ export function ActiveWorkoutTracker() {
   const toggleSet = (exercise: ActiveExercise, index: number) => {
     const result = exercise.results[index];
     const willComplete = !result.done;
+    if (willComplete && exercise.restSeconds && supportsWorkoutNotifications() && Notification.permission === "default") {
+      void prepareWorkoutNotifications(true).catch((error) => {
+        console.warn("[active-workout] Notification permission failed.", error);
+      });
+    }
     setActive((current) => current ? {
       ...current,
       restEndsAt: willComplete && exercise.restSeconds ? Date.now() + exercise.restSeconds * 1000 : current.restEndsAt,
+      restNotificationSentFor: willComplete && exercise.restSeconds ? null : current.restNotificationSentFor,
       exercises: current.exercises.map((item) => item.id === exercise.id ? {
         ...item,
         results: item.results.map((set, setIndex) => setIndex === index ? { ...set, done: willComplete } : set),
@@ -308,7 +357,11 @@ export function ActiveWorkoutTracker() {
   };
 
   const changeRest = (seconds: number | null) => {
-    setActive((current) => current ? { ...current, restEndsAt: seconds === null ? null : Date.now() + Math.max(0, seconds) * 1000 } : current);
+    setActive((current) => current ? {
+      ...current,
+      restEndsAt: seconds === null ? null : Date.now() + Math.max(0, seconds) * 1000,
+      restNotificationSentFor: null,
+    } : current);
     setNow(Date.now());
   };
 

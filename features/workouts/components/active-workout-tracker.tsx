@@ -283,6 +283,26 @@ export function ActiveWorkoutTracker() {
   }, [active]);
 
   useEffect(() => {
+    if (!hydrated || !active?.sessionId) return;
+    let cancelled = false;
+    const reconcileSessions = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || cancelled) return;
+      const { error } = await supabase
+        .from("workout_sessions")
+        .update({ status: "cancelled", completed: false, skipped_at: new Date().toISOString() })
+        .eq("owner_id", user.id)
+        .eq("status", "in_progress")
+        .neq("id", active.sessionId);
+      if (error) console.warn("[active-workout] Stale sessions were not reconciled.", error.message);
+      else if (!cancelled) router.refresh();
+    };
+    void reconcileSessions();
+    return () => { cancelled = true; };
+  }, [active?.sessionId, hydrated, router]);
+
+  useEffect(() => {
     if (!active?.restEndsAt || active.restNotificationSentFor === active.restEndsAt || now < active.restEndsAt) return;
     const completedRestEnd = active.restEndsAt;
     const nextExercise = active.exercises.find((exercise) => exercise.results.some((result) => !result.done))?.name;
@@ -374,11 +394,35 @@ export function ActiveWorkoutTracker() {
     setNow(Date.now());
   };
 
-  const cancelWorkout = () => {
+  const cancelWorkout = async () => {
     if (!window.confirm("Да прекратя ли тренировката без да запазвам резултат?")) return;
+    setFinishing(true);
+    setMessage("Прекратяване на тренировката…");
+    if (active.sessionId) {
+      const supabase = createClient();
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        setFinishing(false);
+        setMessage("Сесията е изтекла. Тренировката още не е прекратена.");
+        return;
+      }
+      const { error } = await supabase
+        .from("workout_sessions")
+        .update({ status: "cancelled", completed: false, skipped_at: new Date().toISOString() })
+        .eq("id", active.sessionId)
+        .eq("owner_id", user.id);
+      if (error) {
+        setFinishing(false);
+        setMessage(`Тренировката не беше прекратена: ${error.message}`);
+        return;
+      }
+    }
     setActive(null);
     setExpanded(false);
-    setMessage("");
+    setFinishing(false);
+    setMessage("Тренировката е прекратена.");
+    window.setTimeout(() => setMessage(""), 4000);
+    router.refresh();
   };
 
   const finishWorkout = async () => {
@@ -503,7 +547,7 @@ export function ActiveWorkoutTracker() {
         />)}
       </div>
 
-      <footer><button type="button" onClick={cancelWorkout}>Прекрати тренировката</button><button type="button" onClick={() => setExpanded(false)}>Минимизирай и продължи в приложението</button></footer>
+      <footer><button type="button" onClick={() => void cancelWorkout()} disabled={finishing}>Прекрати тренировката</button><button type="button" onClick={() => setExpanded(false)} disabled={finishing}>Минимизирай и продължи в приложението</button></footer>
     </aside>}
   </>;
 }

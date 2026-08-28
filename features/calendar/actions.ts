@@ -53,6 +53,14 @@ export async function toggleTask(id: string, completed: boolean) {
   refresh(); return { ok: !error };
 }
 
+export async function rescheduleWorkout(formData: FormData) {
+  const id = String(formData.get("id") ?? ""); const workoutDate = String(formData.get("workoutDate") ?? ""); const time = String(formData.get("time") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(id) || !/^\d{4}-\d{2}-\d{2}$/.test(workoutDate) || (time && !/^\d{2}:\d{2}$/.test(time))) return;
+  const { supabase, user } = await userClient(); if (!user) return;
+  await supabase.from("workout_sessions").update({ workout_date: workoutDate, scheduled_at: time ? zonedDateTimeToUtc(workoutDate, time, "Europe/Sofia") : null, status: "planned", completed: false, completed_at: null, skipped_at: null }).eq("id", id).eq("owner_id", user.id);
+  refresh(); revalidatePath("/workouts");
+}
+
 export async function deleteCalendarSource(type: "event" | "task" | "birthday", id: string) {
   const { supabase, user } = await userClient(); if (!user) return { ok: false };
   const table = type === "event" ? "calendar_events" : type === "task" ? "tasks" : "birthdays";

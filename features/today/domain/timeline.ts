@@ -5,6 +5,7 @@ import type { JournalEntry } from "@/features/travel/journal/types";
 import type { DailyWellness } from "@/features/wellness/types";
 import type { WorkoutSession } from "@/features/workouts/types";
 import type { TimelineItem, TimelineStatus } from "../types";
+import { sessionMetrics, workoutStartTime, workoutStatus } from "@/features/workouts/domain/fitness-analytics";
 
 const localTime = (iso: string) => new Intl.DateTimeFormat("bg-BG", { timeZone: "Europe/Sofia", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(iso));
 const statusFor = (completed: boolean | undefined, date: string, today: string): TimelineStatus => completed ? "completed" : date < today ? "missed" : "planned";
@@ -38,8 +39,11 @@ export function buildTimeline(input: { date: string; today: string; calendar: Ca
     }
   }
   for (const workout of input.workouts) {
-    const time = localTime(workout.created_at);
-    result.push({ id: `workout:${workout.id}`, category: "workout", title: workout.title, detail: workout.workout_type === "cardio" ? "Кардио" : "Тренировка", meta: `${workout.duration_minutes} мин · ${workout.exercises.length} упражнения${workout.calories_burned ? ` · ${workout.calories_burned} kcal` : ""}`, time, sortAt: time, status: statusFor(workout.completed, input.date, input.today), href: "/workouts", icon: workout.workout_type === "cardio" ? "◒" : "◆", completion: { kind: "workout", sourceId: workout.id } });
+    const time = workoutStartTime(workout);
+    const state = workoutStatus(workout);
+    const metrics = sessionMetrics(workout);
+    const timelineStatus: TimelineStatus = state === "cancelled" || state === "skipped" ? "skipped" : state === "in_progress" ? "in_progress" : state === "completed" ? "completed" : input.date < input.today ? "missed" : "planned";
+    result.push({ id: `workout:${workout.id}`, category: "workout", title: workout.title, detail: workout.workout_type === "cardio" ? "Кардио" : "Fitness", meta: `${workout.duration_minutes} мин · ${metrics.sets || workout.exercises.length} серии${metrics.volume ? ` · ${Math.round(metrics.volume).toLocaleString("bg-BG")} kg` : ""}`, time, sortAt: time, status: timelineStatus, href: "/workouts", icon: workout.workout_type === "cardio" ? "◒" : "◆", completion: state === "planned" || state === "completed" ? { kind: "workout", sourceId: workout.id } : undefined });
   }
   for (const entry of input.journal) {
     const time = localTime(entry.created_at);

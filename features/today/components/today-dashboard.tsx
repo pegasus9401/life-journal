@@ -4,6 +4,7 @@ import { buildDailyBrief } from "../domain/daily-brief";
 import type { TodayDashboardData } from "../types";
 import { LifeTimeline } from "./life-timeline";
 import styles from "./today-dashboard.module.css";
+import { workoutStartTime, workoutStatus } from "@/features/workouts/domain/fitness-analytics";
 
 const pct = (value: number, goal: number) => Math.min(100, Math.round(goal > 0 ? value / goal * 100 : 0));
 
@@ -41,7 +42,7 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
 
       <section>
         <div className={styles.sectionHead}><div><p>АКТИВНОСТ</p><h2>{data.isToday ? "Днес" : "За деня"}</h2></div><Link href={`/workouts?date=${data.date}`}>Тренировки</Link></div>
-        <div className={styles.stack}>{data.workouts.length ? data.workouts.map((workout) => <article className={styles.workout} key={workout.id}><div><span>{workout.completed ? "ЗАВЪРШЕНА" : "ПЛАНИРАНА"}</span><h3>{workout.title}</h3><p>{workout.duration_minutes} мин · {workout.calories_burned} kcal</p></div><Link href="/workouts">{workout.completed ? "Виж" : "Започни"}</Link></article>) : <div className={styles.empty}><p>Няма планирана тренировка.</p><Link href="/workouts">Добави тренировка</Link></div>}</div>
+        <div className={styles.stack}>{data.workouts.length ? data.workouts.map((workout) => { const status = workoutStatus(workout); return <article className={styles.workout} key={workout.id}><div><span>{status === "completed" ? "ЗАВЪРШЕНА" : status === "in_progress" ? "В ПРОЦЕС" : "ПЛАНИРАНА"}</span><h3>{workout.title}</h3><p>{workoutStartTime(workout)} · ~{workout.duration_minutes || 45} мин</p></div><Link href="/workouts">{status === "completed" ? "Виж" : status === "in_progress" ? "Продължи" : "Започни"}</Link></article>; }) : <div className={styles.empty}><p>Няма планирана тренировка.</p><Link href="/workouts">Добави тренировка</Link></div>}</div>
       </section>
 
       <LifeTimeline items={data.timeline} calories={data.nutrition.calories} calorieGoal={data.nutrition.calorieGoal} protein={data.nutrition.protein} proteinGoal={data.nutrition.proteinGoal}/>
@@ -54,4 +55,3 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
 
   </div>;
 }
-

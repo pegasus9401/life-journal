@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
 import { START_WORKOUT_EVENT, type StartWorkoutDetail } from "./active-workout-tracker";
 import type { WorkoutSession } from "../types";
+import { zonedDateTimeToUtc } from "@/features/calendar/domain/date-utils";
 
 const DAYS = [
   { key: "monday", short: "Пон", label: "Понеделник" },
@@ -212,7 +214,7 @@ function TemplateEditor({ template, onCancel, onSave }: { template: WorkoutTempl
   </section>;
 }
 
-function TemplateView({ template, onStart, onEdit, onDelete }: { template: WorkoutTemplate; onStart: () => void; onEdit: () => void; onDelete: () => void }) {
+function TemplateView({ template, onStart, onSchedule, onDuplicate, onEdit, onDelete }: { template: WorkoutTemplate; onStart: () => void; onSchedule: () => void; onDuplicate: () => void; onEdit: () => void; onDelete: () => void }) {
   const groups = MUSCLE_GROUPS.flatMap((group) => {
     const exercises = template.exercises.filter((exercise) => exercise.group === group);
     return exercises.length ? [{ group, exercises }] : [];
@@ -224,7 +226,7 @@ function TemplateView({ template, onStart, onEdit, onDelete }: { template: Worko
   return <section className="workout-library-view">
     <header>
       <div><p className="life-kicker">Тренировъчна програма</p><h2>{template.name}</h2><p>{template.days.length ? `${template.days.length} пъти седмично` : "Без избрани дни"} · около {template.durationMinutes} минути</p><span className="workout-library-period-label">▣ {period}</span></div>
-      <div><button className="start" type="button" onClick={onStart}>▶ Започни тренировка</button><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
+      <div><button className="start" type="button" onClick={onStart}>▶ Започни тренировка</button><button type="button" onClick={onSchedule}>Планирай</button><button type="button" onClick={onDuplicate}>Дублирай</button><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
     </header>
 
     <div className="workout-library-week">
@@ -234,7 +236,7 @@ function TemplateView({ template, onStart, onEdit, onDelete }: { template: Worko
     <div className="workout-library-groups">
       {groups.map(({ group, exercises }) => <section key={group}>
         <header><span>{group}</span><b>{exercises.length} {exercises.length === 1 ? "упражнение" : "упражнения"}</b></header>
-        <div>{exercises.map((exercise, index) => <article key={exercise.id}><span>{String(template.exercises.indexOf(exercise) + 1).padStart(2, "0")}</span><div><strong>{exercise.name}</strong><p><b>{exercise.sets}</b> серии <i>×</i> <b>{exercise.reps}</b> повторения <i>·</i> Почивка <b>{exercise.restSeconds} сек.</b></p></div></article>)}</div>
+        <div>{exercises.map((exercise) => <article key={exercise.id}><span>{String(template.exercises.indexOf(exercise) + 1).padStart(2, "0")}</span><div><strong>{exercise.name}</strong><p><b>{exercise.sets}</b> серии <i>×</i> <b>{exercise.reps}</b> повторения <i>·</i> Почивка <b>{exercise.restSeconds} сек.</b></p></div></article>)}</div>
       </section>)}
       {!template.exercises.length ? <div className="workout-library-no-exercises">Все още няма добавени упражнения.</div> : null}
     </div>
@@ -254,12 +256,16 @@ function WorkoutHistory({ sessions }: { sessions: WorkoutSession[] }) {
 }
 
 export function WorkoutExperience({ initialTemplates, initialHistory = [] }: { initialTemplates?: unknown; initialHistory?: WorkoutSession[] }) {
+  const router = useRouter();
   const [templates, setTemplates] = useState<WorkoutTemplate[]>(() => normalizeTemplates(initialTemplates));
   const [selectedId, setSelectedId] = useState(() => normalizeTemplates(initialTemplates)[0]?.id ?? "");
   const [draft, setDraft] = useState<WorkoutTemplate | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
   const [screen, setScreen] = useState<"programs" | "history">("programs");
+  const [scheduleTemplate, setScheduleTemplate] = useState<WorkoutTemplate | null>(null);
+  const [scheduleDate, setScheduleDate] = useState(() => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Sofia" }));
+  const [scheduleTime, setScheduleTime] = useState("18:30");
 
   const selected = templates.find((template) => template.id === selectedId) ?? templates[0] ?? null;
 
@@ -292,6 +298,28 @@ export function WorkoutExperience({ initialTemplates, initialHistory = [] }: { i
     await persist(next);
     setSelectedId(next[0]?.id ?? "");
     setDraft(null);
+  };
+
+  const duplicateTemplate = async (template: WorkoutTemplate) => {
+    const duplicate = { ...cloneTemplate(template), id: makeId("workout"), name: `${template.name} · копие`, days: [] };
+    await persist([...templates, duplicate]);
+    setSelectedId(duplicate.id);
+  };
+
+  const scheduleWorkout = async () => {
+    if (!scheduleTemplate) return;
+    setSaveState("saving"); setMessage("Планиране…");
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setSaveState("error"); setMessage("Сесията е изтекла."); return; }
+    const { error } = await supabase.from("workout_sessions").insert({
+      owner_id: user.id, workout_date: scheduleDate, scheduled_at: zonedDateTimeToUtc(scheduleDate, scheduleTime, "Europe/Sofia"), title: scheduleTemplate.name,
+      workout_type: "strength", duration_minutes: scheduleTemplate.durationMinutes, calories_burned: 0, notes: scheduleTemplate.progression || null,
+      exercises: scheduleTemplate.exercises.map((exercise) => ({ name: exercise.name, muscle_group: exercise.group, sets: exercise.sets, reps: exercise.reps, weight: 0, rest_seconds: exercise.restSeconds })),
+      completed: false, status: "planned", source: "template",
+    });
+    if (error) { setSaveState("error"); setMessage(`Тренировката не се планира: ${error.message}`); return; }
+    setScheduleTemplate(null); setSaveState("saved"); setMessage("✓ Тренировката е в Calendar, Timeline, Home и Fitness."); router.refresh();
   };
 
   const startWorkout = (template: WorkoutTemplate) => {
@@ -333,7 +361,9 @@ export function WorkoutExperience({ initialTemplates, initialHistory = [] }: { i
 
     {screen === "programs" && templates.length ? <nav className="workout-library-tabs" aria-label="Тренировъчни програми">{templates.map((template) => <button className={selected?.id === template.id && !draft ? "active" : ""} key={template.id} type="button" onClick={() => { setSelectedId(template.id); setDraft(null); }}><span>{template.name}</span><small>{template.exercises.length} упражнения</small></button>)}</nav> : null}
 
-    {screen === "history" ? <WorkoutHistory sessions={initialHistory} /> : draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onStart={() => startWorkout(selected)} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
+    {screen === "history" ? <WorkoutHistory sessions={initialHistory} /> : draft ? <TemplateEditor key={draft.id} template={draft} onCancel={() => setDraft(null)} onSave={saveTemplate} /> : selected ? <TemplateView template={selected} onStart={() => startWorkout(selected)} onSchedule={() => setScheduleTemplate(selected)} onDuplicate={() => void duplicateTemplate(selected)} onEdit={() => setDraft(cloneTemplate(selected))} onDelete={() => deleteTemplate(selected)} /> : <section className="workout-library-empty"><h2>Добави първата си тренировка</h2><p>Задай упражнения, серии, повторения, почивки и дни от седмицата.</p><button type="button" onClick={addTemplate}>＋ Добави тренировка</button></section>}
+
+    {scheduleTemplate ? <div className="quick-add-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setScheduleTemplate(null); }}><section className="quick-add-sheet" role="dialog" aria-modal="true" aria-labelledby="schedule-workout-title"><header><div><p className="life-kicker">Планирай тренировка</p><h2 id="schedule-workout-title">{scheduleTemplate.name}</h2></div><button type="button" onClick={() => setScheduleTemplate(null)} aria-label="Затвори">×</button></header><div className="quick-form"><label><span>Дата</span><input type="date" value={scheduleDate} onChange={(event) => setScheduleDate(event.target.value)} /></label><label><span>Начален час</span><input type="time" value={scheduleTime} onChange={(event) => setScheduleTime(event.target.value)} /></label><button className="primary-button" type="button" onClick={() => void scheduleWorkout()}>Добави в календара</button></div></section></div> : null}
 
     {message ? <p className={`workout-library-message ${saveState === "error" ? "is-error" : saveState === "saved" ? "is-success" : ""}`}>{message}</p> : null}
   </section>;

@@ -17,3 +17,11 @@ export const getWorkoutHistory = cache(async (limit = 30) => {
   if (error) throw new Error(`Историята на тренировките не може да се зареди: ${error.message}`);
   return (data ?? []) as WorkoutSession[];
 });
+
+export const getWorkoutRange = cache(async (rangeStart: string, rangeEnd: string) => {
+  const { supabase, user } = await getAuthenticatedClient();
+  if (!user) return null;
+  const { data, error } = await supabase.from("workout_sessions").select("*").eq("owner_id", user.id).gte("workout_date", rangeStart).lte("workout_date", rangeEnd).order("workout_date", { ascending: false }).order("created_at", { ascending: false });
+  if (error) throw new Error(`Fitness данните не могат да се заредят: ${error.message}`);
+  return (data ?? []) as WorkoutSession[];
+});

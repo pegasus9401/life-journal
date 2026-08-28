@@ -3,6 +3,7 @@ import { getAuthenticatedClient } from "@/lib/supabase/server";
 import { aggregateCalendarItems } from "./domain/aggregation";
 import type { BirthdayRow, CalendarEventRow, CalendarItem, TaskRow } from "./types";
 import type { WorkoutSession } from "@/features/workouts/types";
+import { workoutStartTime, workoutStatus } from "@/features/workouts/domain/fitness-analytics";
 
 export const getCalendarData = cache(async (rangeStart: string, rangeEnd: string) => {
   const { supabase, user } = await getAuthenticatedClient();
@@ -29,8 +30,9 @@ export const getCalendarData = cache(async (rangeStart: string, rangeEnd: string
     sourceType: "workout_session",
     title: session.title,
     date: session.workout_date,
-    allDay: true,
-    completed: session.completed,
+    time: session.scheduled_at ? workoutStartTime(session) : undefined,
+    allDay: !session.scheduled_at,
+    completed: workoutStatus(session) === "completed",
     category: "Тренировка",
     color: "#8b5cf6",
   }));
@@ -53,10 +55,10 @@ export async function getUpcoming(from: string, days = 8) {
   return getCalendarData(from, end.toISOString().slice(0, 10));
 }
 
-export async function getCalendarSource(type: "event" | "task" | "birthday", id: string) {
+export async function getCalendarSource(type: "event" | "task" | "birthday" | "workout", id: string) {
   const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
-  const table = type === "event" ? "calendar_events" : type === "task" ? "tasks" : "birthdays";
+  const table = type === "event" ? "calendar_events" : type === "task" ? "tasks" : type === "workout" ? "workout_sessions" : "birthdays";
   const { data } = await supabase.from(table).select("*").eq("id", id).eq("owner_id", user.id).maybeSingle();
   return data;
 }

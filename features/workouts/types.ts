@@ -1,4 +1,5 @@
 export type WorkoutType = "strength" | "cardio" | "mobility" | "sport" | "other";
+export type WorkoutStatus = "planned" | "in_progress" | "completed" | "skipped" | "cancelled";
 
 export type WorkoutExercise = {
   name: string;
@@ -21,6 +22,13 @@ export type WorkoutSession = {
   notes: string | null;
   exercises: WorkoutExercise[];
   completed: boolean;
+  status?: WorkoutStatus;
+  scheduled_at?: string | null;
+  started_at?: string | null;
+  completed_at?: string | null;
+  skipped_at?: string | null;
+  source?: string;
+  workout_template_id?: string | null;
   created_at: string;
   updated_at: string;
 };

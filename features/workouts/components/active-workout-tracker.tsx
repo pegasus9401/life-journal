@@ -20,6 +20,7 @@ type StartExercise = {
 
 export type StartWorkoutDetail = {
   id: string;
+  sessionId?: string;
   name: string;
   exercises: StartExercise[];
 };
@@ -39,6 +40,7 @@ type ActiveWorkout = {
   version: 1;
   id: string;
   templateId: string;
+  sessionId: string | null;
   name: string;
   startedAt: string;
   restEndsAt: number | null;
@@ -76,6 +78,7 @@ function createActiveWorkout(template: StartWorkoutDetail, previousExercises?: u
     version: 1,
     id: `active-${Date.now()}`,
     templateId: template.id,
+    sessionId: template.sessionId ?? null,
     name: template.name,
     startedAt: new Date().toISOString(),
     restEndsAt: null,
@@ -105,6 +108,16 @@ function formatTimer(seconds: number) {
   return `${String(Math.floor(safe / 60)).padStart(2, "0")}:${String(safe % 60).padStart(2, "0")}`;
 }
 
+function progressionSuggestion(exercise: ActiveExercise) {
+  const previous = exercise.results.find((result) => result.previous && result.previous !== "—")?.previous;
+  if (!previous) return "Запиши първо изпълнение, за да получиш препоръка.";
+  const match = previous.match(/([\d.,]+)\s*кг\s*×\s*(\d+)/i);
+  if (!match) return `Повтори предишното: ${previous}`;
+  const weight = Number(match[1].replace(",", ".")) || 0; const reps = Number(match[2]) || 0;
+  const target = Number(resultReps(exercise.reps)) || reps;
+  return reps >= target ? `${weight + 2.5} кг × ${Math.max(1, target - 2)}–${target}` : `${weight} кг × ${Math.min(target, reps + 1)}`;
+}
+
 function localDateKey() {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -128,7 +141,7 @@ function ActiveExerciseTracker({
   return <article className="active-exercise-card is-open">
     <header className="active-exercise-heading">
       <span>{String(exerciseIndex + 1).padStart(2, "0")}</span>
-      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · почивка {exercise.restSeconds} сек.</p></div>
+      <div><small>{exercise.group}</small><strong>{exercise.name}</strong><p>{exercise.sets} серии × {exercise.reps} · почивка {exercise.restSeconds} сек.</p><p>Предложение: {progressionSuggestion(exercise)}</p></div>
       <b>{exerciseDone}/{exercise.results.length}</b>
     </header>
     <div className="active-set-table">
@@ -155,16 +168,19 @@ export function ActiveWorkoutTracker() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed: unknown = JSON.parse(stored);
-        if (isActiveWorkout(parsed)) setActive(parsed);
+    const frame = window.requestAnimationFrame(() => {
+      try {
+        const stored = window.localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const parsed: unknown = JSON.parse(stored);
+          if (isActiveWorkout(parsed)) setActive(parsed);
+        }
+      } catch {
+        window.localStorage.removeItem(STORAGE_KEY);
       }
-    } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
-    setHydrated(true);
+      setHydrated(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
@@ -184,6 +200,8 @@ export function ActiveWorkoutTracker() {
       let previousExercises: unknown;
       try {
         const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
         const { data, error } = await supabase
           .from("workout_sessions")
           .select("exercises")
@@ -195,6 +213,18 @@ export function ActiveWorkoutTracker() {
           .maybeSingle();
         if (error) console.warn("[active-workout] Previous performance was not loaded.", error.message);
         previousExercises = data?.exercises;
+
+        const startedAt = new Date().toISOString();
+        let sessionId = detail.sessionId ?? null;
+        if (sessionId) {
+          const { error: startError } = await supabase.from("workout_sessions").update({ status: "in_progress", started_at: startedAt, completed: false }).eq("id", sessionId).eq("owner_id", user.id);
+          if (startError) throw startError;
+        } else {
+          const { data: created, error: createError } = await supabase.from("workout_sessions").insert({ owner_id: user.id, workout_date: localDateKey(), title: detail.name, workout_type: "strength", duration_minutes: 0, calories_burned: 0, exercises: detail.exercises.map((exercise) => ({ name: exercise.name, muscle_group: exercise.group, sets: exercise.sets, reps: exercise.reps, weight: 0, rest_seconds: exercise.restSeconds })), completed: false, status: "in_progress", started_at: startedAt }).select("id").single();
+          if (createError) throw createError;
+          sessionId = created.id;
+        }
+        detail.sessionId = sessionId ?? undefined;
       } catch (error) {
         console.warn("[active-workout] Previous performance lookup failed.", error);
       }
@@ -327,7 +357,7 @@ export function ActiveWorkoutTracker() {
     });
 
     const duration = Math.max(1, Math.round((Date.now() - new Date(active.startedAt).getTime()) / 60000));
-    const { error } = await supabase.from("workout_sessions").insert({
+    const sessionRow = {
       owner_id: user.id,
       workout_date: localDateKey(),
       title: active.name,
@@ -337,13 +367,29 @@ export function ActiveWorkoutTracker() {
       notes: `Изпълнени ${totals.done} от ${totals.all} серии · общ обем ${Math.round(totals.volume)} кг`,
       exercises,
       completed: true,
-    });
+      status: "completed",
+      started_at: active.startedAt,
+      completed_at: new Date().toISOString(),
+    };
+    const result = active.sessionId
+      ? await supabase.from("workout_sessions").update(sessionRow).eq("id", active.sessionId).eq("owner_id", user.id).select("id").single()
+      : await supabase.from("workout_sessions").insert(sessionRow).select("id").single();
+    const { data: savedSession, error } = result;
 
     if (error) {
       console.error("[active-workout] Result save failed.", error.message);
       setFinishing(false);
       setMessage(`Резултатът не се запази: ${error.message}`);
       return;
+    }
+
+    const normalizedSets = active.exercises.flatMap((exercise) => exercise.results.flatMap((set, index) => set.done ? [{
+      owner_id: user.id, workout_session_id: savedSession.id, exercise_key: exercise.id, exercise_name: exercise.name, muscle_group: exercise.group,
+      set_number: index + 1, weight_kg: Number(set.weight.replace(",", ".")) || 0, reps: Number(set.reps.replace(",", ".")) || 0, completed_at: new Date().toISOString(),
+    }] : []));
+    if (normalizedSets.length) {
+      const { error: setsError } = await supabase.from("workout_sets").upsert(normalizedSets, { onConflict: "workout_session_id,exercise_key,set_number" });
+      if (setsError) console.warn("[active-workout] Normalized sets were not saved.", setsError.message);
     }
 
     setActive(null);

@@ -2,6 +2,8 @@ import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { zonedDateTimeToUtc } from "@/features/calendar/domain/date-utils";
 import { userProducts } from "@/features/products/types";
 import { lookupFoodProducts } from "@/lib/food-product-lookup";
+import { fitnessSummary, strengthProgression } from "@/features/workouts/domain/fitness-analytics";
+import type { WorkoutSession } from "@/features/workouts/types";
 
 type Context = { supabase: SupabaseClient; user: User };
 type ToolDefinition = { type: "function"; function: { name: string; description: string; parameters: Record<string, unknown> } };
@@ -20,6 +22,8 @@ export const assistantToolDefinitions: ToolDefinition[] = [
   { type: "function", function: { name: "get_today_nutrition", description: "Връща записите и общите макроси за днешното хранене.", parameters: { type: "object", properties: { date }, required: ["date"] } } },
   { type: "function", function: { name: "get_workout_plan", description: "Връща текущите тренировъчни програми на потребителя.", parameters: { type: "object", properties: {} } } },
   { type: "function", function: { name: "get_workout_history", description: "Връща последните завършени тренировки.", parameters: { type: "object", properties: { limit: { type: "number" } } } } },
+  { type: "function", function: { name: "get_fitness_progress", description: "Изчислява реалния Fitness прогрес, тренировъчен обем, cardio минути, мускулен баланс и прогрес по упражнения за избран период.", parameters: { type: "object", properties: { days: { type: "number", description: "Период в дни, между 7 и 365" } } } } },
+  { type: "function", function: { name: "reschedule_workout", description: "Премества съществуваща планирана тренировка. Използва същия workout запис, без да създава копие.", parameters: { type: "object", properties: { id: { type: "string" }, workout_date: date, start_time: { type: "string" } }, required: ["id", "workout_date"] } } },
   { type: "function", function: { name: "save_event", description: "Създава или редактира календарно събитие. За ясна команда с час действай веднага; ако липсва краен час, използвай 60 минути продължителност.", parameters: { type: "object", properties: { id: nullableId, title: text, date, end_date: date, all_day: { type: "boolean" }, start_time: { type: "string" }, end_time: { type: "string" }, location: text, description: text }, required: ["title", "date", "end_date", "all_day"] } } },
   { type: "function", function: { name: "save_task", description: "Създава или редактира задача.", parameters: { type: "object", properties: { id: nullableId, title: text, due_date: date, due_time: { type: "string" }, description: text, priority: { type: "string", enum: ["low", "normal", "high"] }, completed: { type: "boolean" } }, required: ["title", "priority", "completed"] } } },
   { type: "function", function: { name: "save_journal", description: "Създава или редактира текстов запис в дневника.", parameters: { type: "object", properties: { id: nullableId, entry_date: date, title: text, story: text, mood: { type: "string", enum: ["joyful", "peaceful", "excited", "reflective", "tired", "challenging"] }, weather: text, location: text, tags: { type: "array", items: text }, favorite: { type: "boolean" }, status: { type: "string", enum: ["draft", "published"] } }, required: ["entry_date", "title", "story", "tags", "favorite", "status"] } } },
@@ -112,6 +116,20 @@ export async function executeAssistantTool(name: string, args: Record<string, un
   if (name === "get_today_nutrition") { const { data, error } = await supabase.from("nutrition_entries").select("id,meal_type,name,quantity,calories,protein_g,carbs_g,fat_g").eq("owner_id", user.id).eq("entry_date", String(args.date)).limit(100); if (error) throw error; const totals = (data ?? []).reduce((sum, item) => ({ calories: sum.calories + Number(item.calories), protein: sum.protein + Number(item.protein_g), carbs: sum.carbs + Number(item.carbs_g), fat: sum.fat + Number(item.fat_g) }), { calories: 0, protein: 0, carbs: 0, fat: 0 }); return { entries: data ?? [], totals }; }
   if (name === "get_workout_plan") { return { plans: (user.user_metadata as Record<string, unknown> | undefined)?.workout_templates ?? [] }; }
   if (name === "get_workout_history") { const limit = Math.min(30, Math.max(1, Number(args.limit) || 10)); const { data, error } = await supabase.from("workout_sessions").select("id,workout_date,title,workout_type,duration_minutes,calories_burned,exercises").eq("owner_id", user.id).eq("completed", true).order("workout_date", { ascending: false }).limit(limit); if (error) throw error; return data ?? []; }
+  if (name === "get_fitness_progress") {
+    const days = Math.min(365, Math.max(7, Number(args.days) || 30));
+    const end = new Date(); const start = new Date(); start.setDate(start.getDate() - days + 1);
+    const { data, error } = await supabase.from("workout_sessions").select("*").eq("owner_id", user.id).gte("workout_date", start.toISOString().slice(0, 10)).lte("workout_date", end.toISOString().slice(0, 10)).order("workout_date");
+    if (error) throw error;
+    const sessions = (data ?? []) as WorkoutSession[];
+    return { period_days: days, summary: fitnessSummary(sessions), strength_progression: strengthProgression(sessions).slice(0, 12) };
+  }
+  if (name === "reschedule_workout") {
+    const workoutDate = String(args.workout_date); const startTime = String(args.start_time ?? "").trim();
+    const scheduledAt = startTime ? zonedDateTimeToUtc(workoutDate, startTime, "Europe/Sofia") : null;
+    const { data, error } = await supabase.from("workout_sessions").update({ workout_date: workoutDate, scheduled_at: scheduledAt, status: "planned", completed: false, completed_at: null, skipped_at: null }).eq("id", String(args.id)).eq("owner_id", user.id).select("id,title,workout_date,scheduled_at,status").single();
+    if (error) throw error; return { saved: true, ...data };
+  }
 
   if (name === "save_event") {
     const allDay = Boolean(args.all_day); const selectedDate = String(args.date); const endDate = String(args.end_date);
@@ -140,7 +158,8 @@ export async function executeAssistantTool(name: string, args: Record<string, un
   }
 
   if (name === "save_workout") {
-    const row = { owner_id: user.id, workout_date: args.workout_date, title: String(args.title).slice(0, 160), workout_type: ["strength", "cardio", "mobility", "sport", "other"].includes(String(args.workout_type)) ? args.workout_type : "other", duration_minutes: Math.max(0, Number(args.duration_minutes) || 60), calories_burned: Math.max(0, Number(args.calories_burned) || 0), notes: args.notes ? String(args.notes).slice(0, 3000) : null, exercises: Array.isArray(args.exercises) ? args.exercises : [], completed: args.completed === undefined ? false : Boolean(args.completed) };
+    const completed = args.completed === undefined ? false : Boolean(args.completed);
+    const row = { owner_id: user.id, workout_date: args.workout_date, title: String(args.title).slice(0, 160), workout_type: ["strength", "cardio", "mobility", "sport", "other"].includes(String(args.workout_type)) ? args.workout_type : "other", duration_minutes: Math.max(0, Number(args.duration_minutes) || 60), calories_burned: Math.max(0, Number(args.calories_burned) || 0), notes: args.notes ? String(args.notes).slice(0, 3000) : null, exercises: Array.isArray(args.exercises) ? args.exercises : [], completed, status: completed ? "completed" : "planned", completed_at: completed ? new Date().toISOString() : null };
     const query = args.id ? supabase.from("workout_sessions").update(row).eq("id", String(args.id)).eq("owner_id", user.id) : supabase.from("workout_sessions").insert(row);
     const { data, error } = await query.select("id,title").single(); if (error) throw error; return { saved: true, ...data };
   }

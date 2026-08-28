@@ -16,7 +16,7 @@ export function CalendarItem({ item, compact = false }: { item: Item; compact?: 
     {item.time ? <time>{item.time}</time> : item.allDay && !compact ? <time>Цял ден</time> : null}
   </>;
 
-  if (item.type === "workout") return <Link data-type={item.type} className={`calendar-item ${compact ? "compact" : ""} ${item.completed ? "completed" : ""}`} href="/workouts">{content}</Link>;
+  if (item.type === "workout") return <Link data-type={item.type} className={`calendar-item ${compact ? "compact" : ""} ${item.completed ? "completed" : ""}`} href={`/calendar/edit/workout/${item.sourceId}`}>{content}</Link>;
   if (item.type === "task") return <div data-type={item.type} className={`calendar-item ${compact ? "compact" : ""} ${item.completed ? "completed" : ""}`}><TaskToggle id={item.sourceId} completed={Boolean(item.completed)} />{content}<Link className="item-edit-link" href={`/calendar/edit/task/${item.sourceId}`} aria-label={`Редактирай ${item.title}`}>•••</Link></div>;
   return <Link data-type={item.type} className={`calendar-item ${compact ? "compact" : ""}`} href={`/calendar/edit/${item.type}/${item.sourceId}`}>{content}</Link>;
 }

@@ -13,7 +13,7 @@ export async function setTimelineCompleted(completion: TimelineCompletion, compl
   if (completion.kind === "task") {
     ({ error } = await supabase.from("tasks").update({ completed, completed_at: completed ? new Date().toISOString() : null }).eq("id", completion.sourceId).eq("owner_id", user.id));
   } else if (completion.kind === "workout") {
-    ({ error } = await supabase.from("workout_sessions").update({ completed }).eq("id", completion.sourceId).eq("owner_id", user.id));
+    ({ error } = await supabase.from("workout_sessions").update({ completed, status: completed ? "completed" : "planned", completed_at: completed ? new Date().toISOString() : null }).eq("id", completion.sourceId).eq("owner_id", user.id));
   } else {
     const { data: meal, error: readError } = await supabase.from("day_meals").select("legacy_payload").eq("id", completion.sourceId).eq("owner_id", user.id).single();
     if (readError) error = readError;

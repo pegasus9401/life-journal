@@ -99,18 +99,15 @@ export function ProfileExperience({ email, profile, avatarUrl }: { email: string
         <label><span>Рождена дата</span><input type="date" name="birthDate" defaultValue={profile?.birth_date ?? ""} /></label>
         <label><span>Пол</span><select name="sex" defaultValue={profile?.sex ?? ""}><option value="">Не е зададен</option><option value="female">Жена</option><option value="male">Мъж</option><option value="other">Друго</option><option value="prefer_not_to_say">Предпочитам да не казвам</option></select></label>
         <label><span>Ръст, см</span><input type="number" inputMode="decimal" name="heightCm" min="50" max="300" step="0.1" defaultValue={profile?.height_cm ?? ""} /></label>
-        <label><span>Текущо тегло, кг</span><input type="number" inputMode="decimal" name="currentWeightKg" min="20" max="500" step="0.1" defaultValue={profile?.current_weight_kg ?? ""} /></label>
-        <label><span>Начално тегло, кг</span><input type="number" inputMode="decimal" name="startingWeightKg" min="20" max="500" step="0.1" defaultValue={profile?.starting_weight_kg ?? ""} /></label>
         <label><span>Активност</span><select name="activityLevel" defaultValue={profile?.activity_level ?? ""}><option value="">Не е зададена</option><option value="sedentary">Заседнала</option><option value="light">Лека</option><option value="moderate">Умерена</option><option value="active">Активна</option><option value="very_active">Много активна</option></select></label>
-        <input type="hidden" name="targetWeightKg" value={profile?.target_weight_kg ?? ""} /><input type="hidden" name="fitnessGoal" value={profile?.fitness_goal ?? ""} /><input type="hidden" name="timezone" value={profile?.timezone ?? "Europe/Sofia"} />
+        <input type="hidden" name="currentWeightKg" value={profile?.current_weight_kg ?? ""} /><input type="hidden" name="startingWeightKg" value={profile?.starting_weight_kg ?? ""} /><input type="hidden" name="targetWeightKg" value={profile?.target_weight_kg ?? ""} /><input type="hidden" name="fitnessGoal" value={profile?.fitness_goal ?? ""} /><input type="hidden" name="timezone" value={profile?.timezone ?? "Europe/Sofia"} />
         {profileState.message ? <p className={`${styles.formStatus} ${profileState.status === "error" ? styles.error : ""}`} role="status">{profileState.message}</p> : null}
         <button className={styles.save} type="submit" disabled={profilePending}>{profilePending ? "Запазване…" : "Запази промените"}</button>
       </form> : <div className={styles.dataCard}>
         <DataRow label="Име" value={name.first} /><DataRow label="Фамилия" value={name.last} />
         <DataRow label="Пол" value={profile?.sex ? sexLabels[profile.sex] : "Не е зададен"} /><DataRow label="Ръст" value={profile?.height_cm ? `${profile.height_cm} см` : "Не е зададен"} />
         <DataRow label="Рожден ден" value={formatBirthDate(profile?.birth_date ?? null)} /><DataRow label="Възраст" value={ageFromBirthDate(profile?.birth_date ?? null)} />
-        <DataRow label="Имейл" value={email || "Не е зададен"} /><DataRow label="Текущо тегло" value={profile?.current_weight_kg ? `${profile.current_weight_kg} кг` : "Не е зададено"} />
-        <DataRow label="Начално тегло" value={profile?.starting_weight_kg ? `${profile.starting_weight_kg} кг` : "Не е зададено"} /><DataRow label="Активност" value={profile?.activity_level ? activityLabels[profile.activity_level] : "Не е зададена"} />
+        <DataRow label="Имейл" value={email || "Не е зададен"} /><DataRow label="Активност" value={profile?.activity_level ? activityLabels[profile.activity_level] : "Не е зададена"} />
       </div>}
     </section>
   </main>;

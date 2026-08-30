@@ -10,6 +10,7 @@ const initialState: ProfileActionState = { status: "idle", message: "" };
 type FitnessGoal = NonNullable<Profile["fitness_goal"]>;
 type ProfileSex = NonNullable<Profile["sex"]>;
 type ActivityLevel = NonNullable<Profile["activity_level"]>;
+type MacroValues = { calories: string; protein: string; carbs: string; fat: string };
 function Status({ state }: { state: ProfileActionState }) { return state.message ? <p role="status" className={`${styles.status} ${styles[state.status]}`}>{state.message}</p> : null; }
 
 export function GoalsSettings({ profile, goals }: { profile: Profile | null; goals: UserGoals }) {
@@ -22,21 +23,53 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
   const [height, setHeight] = useState(profile?.height_cm ? String(profile.height_cm) : "");
   const [currentWeight, setCurrentWeight] = useState(profile?.current_weight_kg ? String(profile.current_weight_kg) : "");
   const [activity, setActivity] = useState<ActivityLevel | "">(profile?.activity_level ?? "");
-  const [source, setSource] = useState<"manual" | "automatic">(goals.source === "automatic" ? "automatic" : "manual");
-  const [values, setValues] = useState({ calories: String(goals.calorie_goal), protein: String(goals.protein_goal_g), carbs: String(goals.carbs_goal_g), fat: String(goals.fat_goal_g) });
+  const [manualValues, setManualValues] = useState<MacroValues | null>(null);
+  const [editedSinceSubmit, setEditedSinceSubmit] = useState(false);
   const calculationProfile = useMemo<Profile | null>(() => profile ? { ...profile, birth_date: birthDate || null, sex: sex || null, height_cm: Number(height) || null, current_weight_kg: Number(currentWeight) || null, activity_level: activity || null } : null, [profile, birthDate, sex, height, currentWeight, activity]);
   const recommendation = useMemo(() => recommendNutrition(calculationProfile, goal || null, new Date(), Number(targetWeight) || null), [calculationProfile, goal, targetWeight]);
   const missing = useMemo(() => missingRecommendationFields(calculationProfile, goal || null), [calculationProfile, goal]);
+  const recommendedValues = recommendation ? { calories: String(recommendation.calories), protein: String(recommendation.protein), carbs: String(recommendation.carbs), fat: String(recommendation.fat) } : null;
+  const savedValues = { calories: String(goals.calorie_goal), protein: String(goals.protein_goal_g), carbs: String(goals.carbs_goal_g), fat: String(goals.fat_goal_g) };
+  const values = manualValues ?? recommendedValues ?? savedValues;
+  const [source, setSource] = useState<"manual" | "automatic">(recommendation ? "automatic" : goals.source);
 
   function update(field: keyof typeof values, value: string) {
     setSource("manual");
-    setValues((current) => ({ ...current, [field]: value }));
+    setEditedSinceSubmit(true);
+    setManualValues((manual) => {
+      const current = manual ?? values;
+      const next = { ...current, [field]: value };
+      const changed = Number(value);
+      if (value === "" || !Number.isFinite(changed) || changed < 0) return next;
+      const calories = field === "calories" ? changed : Number(current.calories);
+      if (!Number.isFinite(calories) || calories <= 0) return next;
+      if (field === "calories") {
+        const proteinShare = recommendation ? recommendation.protein * 4 / recommendation.calories : 0.3;
+        const fatShare = recommendation ? recommendation.fat * 9 / recommendation.calories : 0.25;
+        const protein = Math.round(calories * proteinShare / 4);
+        const fat = Math.round(calories * fatShare / 9);
+        return { calories: value, protein: String(protein), fat: String(fat), carbs: String(Math.max(0, Math.round((calories - protein * 4 - fat * 9) / 4))) };
+      }
+      const protein = field === "protein" ? changed : Number(current.protein);
+      const carbs = field === "carbs" ? changed : Number(current.carbs);
+      const fat = field === "fat" ? changed : Number(current.fat);
+      if (![protein, carbs, fat].every(Number.isFinite)) return next;
+      if (field === "carbs") return { ...next, fat: String(Math.max(0, Math.round((calories - protein * 4 - carbs * 4) / 9))) };
+      return { ...next, carbs: String(Math.max(0, Math.round((calories - protein * 4 - fat * 9) / 4))) };
+    });
   }
 
   function applyRecommendation() {
     if (!recommendation) return;
-    setValues({ calories: String(recommendation.calories), protein: String(recommendation.protein), carbs: String(recommendation.carbs), fat: String(recommendation.fat) });
+    setManualValues(null);
     setSource("automatic");
+    setEditedSinceSubmit(true);
+  }
+
+  function refreshRecommendation() {
+    setManualValues(null);
+    setSource("automatic");
+    setEditedSinceSubmit(true);
   }
 
   return <div className={styles.grid}>
@@ -44,14 +77,14 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
       <div><p>Дългосрочни</p><h2>Основна цел</h2><span>Използва се от Home, Progress, Nutrition и AI асистента.</span></div>
       <form action={longAction}>
         <input type="hidden" name="fitnessGoal" value={goal}/><input type="hidden" name="targetWeightKg" value={targetWeight}/><input type="hidden" name="currentWeightKg" value={currentWeight}/><input type="hidden" name="heightCm" value={height}/><input type="hidden" name="birthDate" value={birthDate}/><input type="hidden" name="sex" value={sex}/><input type="hidden" name="activityLevel" value={activity}/>
-        <label>Посока<select value={goal} onChange={(event) => setGoal(event.target.value as FitnessGoal | "")}><option value="">Не е зададена</option><option value="lose_weight">Отслабване</option><option value="maintain">Поддържане</option><option value="gain_muscle">Мускулна маса</option><option value="improve_fitness">По-добра форма</option></select></label>
-        <label>Целево тегло, kg<input type="number" inputMode="decimal" min="20" max="500" step="0.1" value={targetWeight} onChange={(event) => setTargetWeight(event.target.value)}/></label>
+        <label>Посока<select value={goal} onChange={(event) => { refreshRecommendation(); setGoal(event.target.value as FitnessGoal | ""); }}><option value="">Не е зададена</option><option value="lose_weight">Отслабване</option><option value="maintain">Поддържане</option><option value="gain_muscle">Мускулна маса</option><option value="improve_fitness">По-добра форма</option></select></label>
+        <label>Целево тегло, kg<input type="number" inputMode="decimal" min="20" max="500" step="0.1" value={targetWeight} onChange={(event) => { refreshRecommendation(); setTargetWeight(event.target.value); }}/></label>
         <div className={styles.sourceHeading}><strong>Данни за изчислението</strong><span>Идват от профила ти. Промените тук актуализират същите данни.</span></div>
-        <label>Текущо тегло, kg<input type="number" inputMode="decimal" min="20" max="500" step="0.1" value={currentWeight} onChange={(event) => setCurrentWeight(event.target.value)}/></label>
-        <label>Ръст, cm<input type="number" inputMode="decimal" min="50" max="300" step="0.1" value={height} onChange={(event) => setHeight(event.target.value)}/></label>
-        <label>Рождена дата<input type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)}/></label>
-        <label>Пол<select value={sex} onChange={(event) => setSex(event.target.value as ProfileSex | "")}><option value="">Не е зададен</option><option value="female">Жена</option><option value="male">Мъж</option><option value="other">Друго</option><option value="prefer_not_to_say">Предпочитам да не казвам</option></select></label>
-        <label className={styles.wide}>Активност<select value={activity} onChange={(event) => setActivity(event.target.value as ActivityLevel | "")}><option value="">Не е зададена</option><option value="sedentary">Заседнала — почти без движение</option><option value="light">Лека — 1–3 тренировки седмично</option><option value="moderate">Умерена — 3–5 тренировки седмично</option><option value="active">Висока — 6–7 тренировки седмично</option><option value="very_active">Много висока — тежък физически труд/двойни тренировки</option></select></label>
+        <label>Текущо тегло, kg<input type="number" inputMode="decimal" min="20" max="500" step="0.1" value={currentWeight} onChange={(event) => { refreshRecommendation(); setCurrentWeight(event.target.value); }}/></label>
+        <label>Ръст, cm<input type="number" inputMode="decimal" min="50" max="300" step="0.1" value={height} onChange={(event) => { refreshRecommendation(); setHeight(event.target.value); }}/></label>
+        <label>Рождена дата<input type="date" value={birthDate} onChange={(event) => { refreshRecommendation(); setBirthDate(event.target.value); }}/></label>
+        <label>Пол<select value={sex} onChange={(event) => { refreshRecommendation(); setSex(event.target.value as ProfileSex | ""); }}><option value="">Не е зададен</option><option value="female">Жена</option><option value="male">Мъж</option><option value="other">Друго</option><option value="prefer_not_to_say">Предпочитам да не казвам</option></select></label>
+        <label className={styles.wide}>Активност<select value={activity} onChange={(event) => { refreshRecommendation(); setActivity(event.target.value as ActivityLevel | ""); }}><option value="">Не е зададена</option><option value="sedentary">Заседнала — почти без движение</option><option value="light">Лека — 1–3 тренировки седмично</option><option value="moderate">Умерена — 3–5 тренировки седмично</option><option value="active">Висока — 6–7 тренировки седмично</option><option value="very_active">Много висока — тежък физически труд/двойни тренировки</option></select></label>
         <Status state={longState}/><button type="submit" disabled={longPending}>{longPending ? "Запазване…" : "Запази дългосрочните цели"}</button>
       </form>
     </section>
@@ -59,7 +92,7 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
       <div><p>Всеки ден</p><h2>Дневни цели</h2><span>Хранене, хидратация и движение.</span></div>
       {recommendation ? <aside className={styles.recommendation}>
         <div><p>Ориентировъчна дневна цел</p><strong>{recommendation.calories} kcal</strong><span>{recommendation.protein} г протеин · {recommendation.carbs} г въглехидрати · {recommendation.fat} г мазнини</span></div>
-        <button type="button" onClick={applyRecommendation}>Приложи</button>
+        <button type="button" onClick={applyRecommendation}>Върни препоръката</button>
         <details className={styles.calculation} open>
           <summary>Как е изчислено?</summary>
           <div className={styles.steps}>
@@ -72,7 +105,7 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
           <p className={styles.macroLogic}>Макроси: протеинът се съобразява с теглото и е до 30% от калориите; мазнините са около 25%; въглехидратите запълват остатъка.</p>
         </details>
       </aside> : <aside className={styles.missing}><strong>Нужни са още данни за препоръка</strong><span>Липсват: {missing.join(", ")}.</span><small>Можеш да въведеш целите ръчно, докато попълниш параметрите.</small></aside>}
-      <form action={dailyAction}>
+      <form action={dailyAction} onSubmit={() => setEditedSinceSubmit(false)}>
         <input type="hidden" name="source" value={source}/>
         <label>Калории<input type="number" name="calories" min="1" value={values.calories} onChange={(event) => update("calories", event.target.value)} required/></label>
         <label>Протеин, g<input type="number" name="protein" min="0" step="1" value={values.protein} onChange={(event) => update("protein", event.target.value)} required/></label>
@@ -80,8 +113,8 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
         <label>Мазнини, g<input type="number" name="fat" min="0" step="1" value={values.fat} onChange={(event) => update("fat", event.target.value)} required/></label>
         <label>Вода, ml<input type="number" name="water" min="0" max="20000" defaultValue={goals.water_goal_ml} required/></label>
         <label>Стъпки<input type="number" name="steps" min="0" max="200000" defaultValue={goals.steps_goal} required/></label>
-        <p className={styles.hint}>Макросите трябва да отговарят на калориите: протеин и въглехидрати × 4 kcal, мазнини × 9 kcal.</p>
-        <Status state={dailyState}/><button type="submit" disabled={dailyPending}>{dailyPending ? "Запазване…" : "Запази дневните цели"}</button>
+        <p className={styles.hint}>Полетата са свързани: промени едно и останалите ще се преизчислят автоматично, така че калориите да съвпадат.</p>
+        {editedSinceSubmit ? null : <Status state={dailyState}/>}<button type="submit" disabled={dailyPending}>{dailyPending ? "Запазване…" : "Запази дневните цели"}</button>
       </form>
     </section>
   </div>;

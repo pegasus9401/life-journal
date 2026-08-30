@@ -34,7 +34,7 @@ export function ProfileExperience({ email, profile, goals }: { email: string; pr
       </section>
       <aside className="today-side-panel"><section className="today-widget">
         <div className="section-heading"><div><p className="life-kicker">Всеки ден</p><h2>Цели</h2></div></div>
-        <form action={goalsAction} className="entry-main-fields">
+        <form id="goals" action={goalsAction} className="entry-main-fields">
           <input type="hidden" name="source" value="manual" />
           <label className="field"><span>Калории</span><input type="number" name="calories" min="1" defaultValue={goals.calorie_goal} required /></label>
           <label className="field"><span>Протеин, g</span><input type="number" name="protein" min="0" step="0.1" defaultValue={goals.protein_goal_g} required /></label>

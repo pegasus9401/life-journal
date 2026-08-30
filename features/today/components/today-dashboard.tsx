@@ -21,7 +21,7 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
   return <div className={styles.dashboard}>
     <header className={styles.header}>
       <div><h1>{data.displayName ? `Здравей, ${data.displayName}` : "Здравей"}</h1></div>
-      <Link href="/profile" aria-label="Отвори профила" className={styles.avatar}>{data.displayName?.slice(0, 1).toUpperCase() ?? "P"}</Link>
+      <Link href="/settings" aria-label="Отвори настройките" className={styles.avatar}>{data.displayName?.slice(0, 1).toUpperCase() ?? "P"}</Link>
     </header>
     {dateNavigation}
 

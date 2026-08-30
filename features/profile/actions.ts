@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { longTermGoalsSchema, profileSchema, userGoalsSchema } from "./schema";
 
-export type ProfileActionState = { status: "idle" | "success" | "error"; message: string };
+export type ProfileActionState = { status: "idle" | "success" | "error"; message: string; savedActivityLevel?: string | null };
 const result = (status: ProfileActionState["status"], message: string): ProfileActionState => ({ status, message });
 
 async function authenticatedClient() {
@@ -62,13 +62,15 @@ export async function saveLongTermGoals(_state: ProfileActionState, formData: Fo
   if (!parsed.success) return result("error", parsed.error.issues[0]?.message ?? "Провери дългосрочните цели.");
   const { supabase, user } = await authenticatedClient();
   if (!user) return result("error", "Сесията изтече.");
-  const { error } = await supabase.from("profiles").upsert({
-    owner_id: user.id, target_weight_kg: parsed.data.targetWeightKg ?? null, fitness_goal: parsed.data.fitnessGoal,
+  const { data, error } = await supabase.from("profiles").update({
+    target_weight_kg: parsed.data.targetWeightKg ?? null, fitness_goal: parsed.data.fitnessGoal,
     birth_date: parsed.data.birthDate, sex: parsed.data.sex, height_cm: parsed.data.heightCm ?? null,
     current_weight_kg: parsed.data.currentWeightKg ?? null, activity_level: parsed.data.activityLevel,
-  }, { onConflict: "owner_id" });
+  }).eq("owner_id", user.id).select("activity_level").maybeSingle();
   if (error) return result("error", "Дългосрочните цели не можаха да бъдат запазени.");
+  if (!data) return result("error", "Профилът не беше намерен и промените не са записани.");
   revalidatePath("/settings/goals"); revalidatePath("/profile"); revalidatePath("/today");
-  return result("success", "Целта и данните за изчислението са запазени.");
+  const activityNames: Record<string, string> = { sedentary: "заседнала", light: "лека", moderate: "умерена", active: "висока", very_active: "много висока" };
+  return { status: "success", message: `Запазено. Активност: ${activityNames[data.activity_level ?? ""] ?? "не е зададена"}.`, savedActivityLevel: data.activity_level };
 }
 

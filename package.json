@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "node --experimental-strip-types --test features/calendar/domain/*.test.ts features/workouts/domain/*.test.ts"
+    "test": "node --experimental-strip-types --test features/calendar/domain/*.test.ts features/workouts/domain/*.test.ts features/profile/*.test.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.51",
@@ -38,3 +38,4 @@
     "typescript": "6.0.3"
   }
 }
+

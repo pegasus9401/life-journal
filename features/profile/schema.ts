@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { validateMacroEnergy } from "./nutrition-goals";
 
 const optionalNumber = (min: number, max: number) => z.preprocess(
   (value) => value === "" || value === null ? undefined : value,
@@ -26,6 +27,9 @@ export const userGoalsSchema = z.object({
   water: z.coerce.number().int().min(0).max(20000),
   steps: z.coerce.number().int().min(0).max(200000),
   source: z.enum(["manual", "automatic"]),
+}).superRefine((value, context) => {
+  const message = validateMacroEnergy(value.calories, value.protein, value.carbs, value.fat);
+  if (message) context.addIssue({ code: "custom", message, path: ["calories"] });
 });
 
 export const longTermGoalsSchema = z.object({

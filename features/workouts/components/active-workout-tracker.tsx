@@ -443,7 +443,7 @@ export function ActiveWorkoutTracker() {
       }
       const { error } = await supabase
         .from("workout_sessions")
-        .update({ status: "cancelled", completed: false, skipped_at: new Date().toISOString() })
+        .delete()
         .eq("id", active.sessionId)
         .eq("owner_id", user.id);
       if (error) {

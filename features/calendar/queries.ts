@@ -22,7 +22,11 @@ export const getCalendarData = cache(async (rangeStart: string, rangeEnd: string
   if (error) throw new Error(`Календарът не можа да се зареди: ${error.message}`);
   const events = [...(oneTimeEvents.data ?? []), ...(recurringEvents.data ?? [])] as CalendarEventRow[];
   const tasks = [...(datedTasks.data ?? []), ...(recurringTasks.data ?? [])] as TaskRow[];
-  const sessions = (workoutSessions.data ?? []) as WorkoutSession[];
+  // Cancelled workouts are abandoned sessions, not calendar activities. Older
+  // clients kept those rows, so exclude them at the shared data boundary as
+  // well as deleting newly cancelled sessions in the active tracker.
+  const sessions = ((workoutSessions.data ?? []) as WorkoutSession[])
+    .filter((session) => workoutStatus(session) !== "cancelled");
   const completedWorkoutItems: CalendarItem[] = sessions.map((session) => ({
     id: `workout-${session.id}`,
     type: "workout",

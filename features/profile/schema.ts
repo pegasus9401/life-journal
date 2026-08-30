@@ -35,6 +35,10 @@ export const userGoalsSchema = z.object({
 export const longTermGoalsSchema = z.object({
   targetWeightKg: optionalNumber(20, 500),
   fitnessGoal: z.union([z.enum(["lose_weight", "maintain", "gain_muscle", "improve_fitness"]), z.literal("")]).transform((value) => value || null),
+  birthDate: z.union([z.iso.date(), z.literal("")]).transform((value) => value || null),
+  sex: z.union([z.enum(["female", "male", "other", "prefer_not_to_say"]), z.literal("")]).transform((value) => value || null),
+  heightCm: optionalNumber(50, 300),
+  currentWeightKg: optionalNumber(20, 500),
+  activityLevel: z.union([z.enum(["sedentary", "light", "moderate", "active", "very_active"]), z.literal("")]).transform((value) => value || null),
 });
-
 

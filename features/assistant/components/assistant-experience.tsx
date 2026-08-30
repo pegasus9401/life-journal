@@ -8,7 +8,6 @@ type Action = { tool: string; result: Record<string, unknown> };
 type Message = { id?: string; role: "user" | "assistant"; content: string; actions?: Action[] };
 type Persona = "friend" | "guardian" | "data_nerd" | "commander";
 type Conversation = { id: string; title: string; persona: Persona; updated_at: string };
-type Memory = { id: string; category: string; content: string; keywords: string[]; enabled: boolean };
 const personaLabels: Record<Persona, string> = { friend: "Friend", guardian: "Guardian", data_nerd: "Data Nerd", commander: "Commander" };
 const suggestions = ["Какво имам днес?", "Планирай деня ми", "Добави храна", "Направи тренировка", "Добави задача", "Анализирай деня ми"];
 const conversationDate = new Intl.DateTimeFormat("bg-BG", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -45,14 +44,13 @@ export function AssistantExperience() {
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]); const [input, setInput] = useState(""); const [pending, setPending] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null); const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [persona, setPersona] = useState<Persona>("friend"); const [memories, setMemories] = useState<Memory[]>([]); const [showMemory, setShowMemory] = useState(false); const [showHistory, setShowHistory] = useState(false);
-  const [memoryDraft, setMemoryDraft] = useState(""); const [memoryCategory, setMemoryCategory] = useState("preference"); const [requestError, setRequestError] = useState("");
+  const [persona, setPersona] = useState<Persona>("friend"); const [showHistory, setShowHistory] = useState(false); const [requestError, setRequestError] = useState("");
   const [image, setImage] = useState<string | null>(null); const [imageName, setImageName] = useState(""); const bottomRef = useRef<HTMLDivElement>(null);
 
   async function load(id?: string | null) {
     const response = await fetch(`/api/assistant${id ? `?conversationId=${id}` : ""}`, { cache: "no-store" }); const data = await response.json();
     if (!response.ok) throw new Error(data.error ?? "Intelligence не се зареди.");
-    setConversations(data.conversations ?? []); setMemories(data.memories ?? []); setPersona(data.persona ?? "friend");
+    setConversations(data.conversations ?? []); setPersona(data.persona ?? "friend");
     if (id) setMessages((data.messages ?? []).map((message: { id: string; role: "user" | "assistant"; content: string; metadata?: { actions?: Action[] } }) => ({ id: message.id, role: message.role, content: message.content, actions: message.metadata?.actions })));
   }
 
@@ -61,7 +59,7 @@ export function AssistantExperience() {
 
   async function choosePersona(value: Persona) { setPersona(value); const response = await fetch("/api/assistant/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ persona: value }) }); if (!response.ok) setRequestError("Persona не беше запазена."); }
   async function openConversation(id: string) { setConversationId(id); setShowHistory(false); setRequestError(""); await load(id).catch((error) => setRequestError(error.message)); }
-  function newConversation() { setConversationId(null); setMessages([]); setShowHistory(false); setShowMemory(false); setRequestError(""); }
+  function newConversation() { setConversationId(null); setMessages([]); setShowHistory(false); setRequestError(""); }
 
   async function send(text: string, attachedImage: string | null = null) {
     const command = text.trim() || (attachedImage ? "Анализирай тази снимка." : ""); if (!command || pending) return;
@@ -84,20 +82,13 @@ export function AssistantExperience() {
     finally { setPending(false); }
   }
 
-  async function saveMemory() {
-    if (!memoryDraft.trim()) return; const response = await fetch("/api/assistant/memories", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ category: memoryCategory, content: memoryDraft, keywords: [], enabled: true }) }); const data = await response.json();
-    if (!response.ok) { setRequestError(data.error); return; } setMemories((current) => [data.memory, ...current]); setMemoryDraft("");
-  }
-  async function updateMemory(memory: Memory, patch: Partial<Memory>) { const next = { ...memory, ...patch }; const response = await fetch("/api/assistant/memories", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(next) }); if (response.ok) setMemories((current) => current.map((item) => item.id === memory.id ? next : item)); }
-  async function deleteMemory(id: string) { const response = await fetch(`/api/assistant/memories?id=${id}`, { method: "DELETE" }); if (response.ok) setMemories((current) => current.filter((item) => item.id !== id)); }
   function submit(event: FormEvent) { event.preventDefault(); void send(input, image); }
 
   async function attachPhoto(event: ChangeEvent<HTMLInputElement>) { const file = event.target.files?.[0]; event.target.value = ""; if (!file || !file.type.startsWith("image/") || file.size > 15 * 1024 * 1024) { setRequestError("Избери JPG/PNG снимка до 15 MB."); return; } const bitmap = await createImageBitmap(file); const scale = Math.min(1, 1024 / Math.max(bitmap.width, bitmap.height)); const canvas = document.createElement("canvas"); canvas.width = Math.round(bitmap.width * scale); canvas.height = Math.round(bitmap.height * scale); canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height); bitmap.close(); const encoded = canvas.toDataURL("image/jpeg", .65); if (encoded.length > 2_900_000) { setRequestError("Снимката е прекалено голяма."); return; } setImage(encoded); setImageName("Снимка на храна"); }
 
   return <section className="assistant-layout intelligence-layout">
-    <header className="assistant-header intelligence-header"><div><p className="life-kicker">PegasOS Intelligence</p><h1>Какво да направим?</h1></div><div className="intelligence-header-actions"><button type="button" onClick={() => { setShowHistory((value) => !value); setShowMemory(false); }}>История</button><button type="button" onClick={() => { setShowMemory((value) => !value); setShowHistory(false); }}>Памет</button><button type="button" onClick={newConversation}>＋ Нов разговор</button></div></header>
+    <header className="assistant-header intelligence-header"><div><p className="life-kicker">PegasOS Intelligence</p><h1>Какво да направим?</h1></div><div className="intelligence-header-actions"><button type="button" onClick={() => setShowHistory((value) => !value)}>История</button><button type="button" onClick={newConversation}>＋ Нов разговор</button></div></header>
     <div className="intelligence-personas" aria-label="AI persona">{(Object.keys(personaLabels) as Persona[]).map((value) => <button type="button" className={persona === value ? "active" : ""} key={value} onClick={() => void choosePersona(value)}>{personaLabels[value]}</button>)}</div>
-    {showMemory ? <aside className="intelligence-memory"><header><div><strong>Какво помни Pegas</strong><small>Само включените релевантни записи се изпращат към AI.</small></div><button type="button" onClick={() => setShowMemory(false)}>×</button></header><div className="intelligence-memory-add"><select value={memoryCategory} onChange={(event) => setMemoryCategory(event.target.value)}><option value="goal">Цел</option><option value="preference">Предпочитание</option><option value="training">Тренировки</option><option value="nutrition">Хранене</option><option value="routine">Рутина</option><option value="communication">Комуникация</option></select><input value={memoryDraft} onChange={(event) => setMemoryDraft(event.target.value)} placeholder="Напр. Не обичам сутрешни тренировки"/><button type="button" onClick={() => void saveMemory()}>Добави</button></div><div className="intelligence-memory-list">{memories.map((memory) => <article key={memory.id} className={memory.enabled ? "" : "disabled"}><button type="button" onClick={() => void updateMemory(memory, { enabled: !memory.enabled })}>{memory.enabled ? "●" : "○"}</button><div><small>{memory.category}</small><p contentEditable suppressContentEditableWarning onBlur={(event) => void updateMemory(memory, { content: event.currentTarget.textContent?.trim() || memory.content })}>{memory.content}</p></div><button type="button" onClick={() => void deleteMemory(memory.id)}>×</button></article>)}</div></aside> : null}
     {showHistory ? <aside className="intelligence-history-panel"><header><div><strong>История на разговорите</strong><small>{conversations.length ? `${conversations.length} разговора` : "Все още няма разговори"}</small></div><button type="button" onClick={() => setShowHistory(false)}>×</button></header><button className="intelligence-history-new" type="button" onClick={newConversation}>＋ Нов разговор</button><div className="intelligence-history-list">{conversations.length ? conversations.map((conversation) => <button type="button" className={conversation.id === conversationId ? "active" : ""} key={conversation.id} onClick={() => void openConversation(conversation.id)}><span>{conversation.title || "Разговор без заглавие"}</span><small>{conversationDate.format(new Date(conversation.updated_at))}</small></button>) : <div className="intelligence-history-empty"><strong>Няма предишни разговори</strong><p>Когато започнеш разговор с Pegas, той ще се появи тук.</p></div>}</div></aside> : null}
     <div className="assistant-panel intelligence-panel">
       <div className="assistant-messages" aria-live="polite">{!messages.length ? <div className="intelligence-welcome"><Image src="/images/pegas-friend.png" alt="Pegas" width={96} height={72}/><h2>{personaLabels[persona]}</h2><p>Кажи ми какво искаш да направим.</p></div> : null}{messages.map((message, index) => <article className={`assistant-message ${message.role}`} key={message.id ?? `${message.role}-${index}`}><span>{message.role === "assistant" ? "P" : "Ти"}</span><div>{message.content ? <AssistantContent content={message.content}/> : pending ? <div className="assistant-thinking">Мисля…</div> : null}{message.actions?.map((action, actionIndex) => <div className="intelligence-action-card" key={`${action.tool}-${actionIndex}`}><strong>✓ {actionLabel(action)}</strong><span>{action.result?.preview && typeof action.result.preview === "object" && typeof (action.result.preview as Record<string, unknown>).title === "string" && (action.result.preview as Record<string, unknown>).title !== action.tool ? String((action.result.preview as Record<string, unknown>).title) : "Изпълнено успешно"}</span><a href={action.tool.includes("event") ? "/calendar" : action.tool.includes("task") ? "/calendar" : action.tool.includes("nutrition") || action.tool.includes("food") ? "/nutrition" : action.tool === "get_day" ? "/today" : "/workouts"}>Отвори</a></div>)}</div></article>)}<div ref={bottomRef}/></div>

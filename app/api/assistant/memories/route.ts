@@ -4,6 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 
 const memorySchema = z.object({ id: z.uuid().optional(), category: z.enum(["goal", "preference", "training", "nutrition", "routine", "communication"]), content: z.string().trim().min(1).max(1000), keywords: z.array(z.string().trim().min(1).max(80)).max(20).default([]), enabled: z.boolean().default(true) });
 
+export async function GET() {
+  const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Сесията изтече." }, { status: 401 });
+  const { data, error } = await supabase.from("ai_memories").select("id,category,content,keywords,enabled,created_at,updated_at").eq("owner_id", user.id).order("updated_at", { ascending: false });
+  if (error) return NextResponse.json({ error: "Паметта не може да се зареди." }, { status: 500 });
+  return NextResponse.json({ memories: data ?? [] });
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Сесията изтече." }, { status: 401 });

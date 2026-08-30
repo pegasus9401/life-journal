@@ -225,7 +225,7 @@ export function AssistantPopup() {
         .assistant-popup .intelligence-header-actions {
           display: grid !important;
           width: 100% !important;
-          grid-template-columns: .82fr .82fr 1.36fr !important;
+          grid-template-columns: .9fr 1.35fr !important;
           gap: 8px !important;
           margin: 0 !important;
         }

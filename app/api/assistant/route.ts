@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   if (!user) return NextResponse.json({ error: "Сесията изтече." }, { status: 401 });
   const conversationId = new URL(request.url).searchParams.get("conversationId");
   const [conversations, preferences, memories, messages] = await Promise.all([
-    supabase.from("ai_conversations").select("id,title,persona,created_at,updated_at").eq("owner_id", user.id).order("updated_at", { ascending: false }).limit(30),
+    supabase.from("ai_conversations").select("id,title,persona,created_at,updated_at").eq("owner_id", user.id).order("updated_at", { ascending: false }),
     supabase.from("ai_preferences").select("persona").eq("owner_id", user.id).maybeSingle(),
     supabase.from("ai_memories").select("id,category,content,keywords,enabled,created_at,updated_at").eq("owner_id", user.id).order("updated_at", { ascending: false }),
     conversationId ? supabase.from("ai_messages").select("id,role,content,metadata,created_at").eq("owner_id", user.id).eq("conversation_id", conversationId).order("created_at").limit(100) : Promise.resolve({ data: [], error: null }),

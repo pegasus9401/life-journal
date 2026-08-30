@@ -225,14 +225,14 @@ export function AssistantPopup() {
         .assistant-popup .intelligence-header-actions {
           display: grid !important;
           width: 100% !important;
-          grid-template-columns: 1fr 1fr !important;
+          grid-template-columns: .82fr .82fr 1.36fr !important;
           gap: 8px !important;
           margin: 0 !important;
         }
         .assistant-popup .intelligence-header-actions button {
           min-height: 38px !important;
           padding: 0 8px !important;
-          font-size: 11px !important;
+          font-size: 10px !important;
         }
         .assistant-popup .intelligence-personas {
           flex: 0 0 auto !important;

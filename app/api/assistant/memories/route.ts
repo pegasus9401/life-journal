@@ -24,7 +24,9 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return NextResponse.json({ error: "Сесията изтече." }, { status: 401 });
-  const id = new URL(request.url).searchParams.get("id"); if (!id || !z.uuid().safeParse(id).success) return NextResponse.json({ error: "Невалиден запис." }, { status: 400 });
+  const params = new URL(request.url).searchParams;
+  if (params.get("all") === "true") { const { error } = await supabase.from("ai_memories").delete().eq("owner_id", user.id); if (error) return NextResponse.json({ error: "Паметта не беше изчистена." }, { status: 500 }); return NextResponse.json({ deleted: true }); }
+  const id = params.get("id"); if (!id || !z.uuid().safeParse(id).success) return NextResponse.json({ error: "Невалиден запис." }, { status: 400 });
   const { error } = await supabase.from("ai_memories").delete().eq("id", id).eq("owner_id", user.id); if (error) return NextResponse.json({ error: "Memory записът не беше изтрит." }, { status: 500 });
   return NextResponse.json({ deleted: true });
 }

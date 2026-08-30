@@ -2,7 +2,7 @@
 
 import { useActionState, useMemo, useState } from "react";
 import { saveLongTermGoals, saveUserGoals, type ProfileActionState } from "../actions";
-import { missingRecommendationFields, recommendNutrition } from "../nutrition-goals";
+import { missingRecommendationFields, recommendNutrition, type MacroStyle } from "../nutrition-goals";
 import type { Profile, UserGoals } from "../types";
 import styles from "./goals-settings.module.css";
 
@@ -12,6 +12,19 @@ type ProfileSex = NonNullable<Profile["sex"]>;
 type ActivityLevel = NonNullable<Profile["activity_level"]>;
 type MacroValues = { calories: string; protein: string; carbs: string; fat: string };
 function Status({ state }: { state: ProfileActionState }) { return state.message ? <p role="status" className={`${styles.status} ${styles[state.status]}`}>{state.message}</p> : null; }
+
+function inferMacroStyle(goals: UserGoals): MacroStyle {
+  const calories = goals.calorie_goal;
+  if (!calories) return "balanced";
+  const proteinShare = goals.protein_goal_g * 4 / calories;
+  const carbsShare = goals.carbs_goal_g * 4 / calories;
+  const fatShare = goals.fat_goal_g * 9 / calories;
+  if (carbsShare <= 0.10) return "keto";
+  if (carbsShare <= 0.30) return "low_carb";
+  if (proteinShare >= 0.33) return "high_protein";
+  if (fatShare >= 0.28 && proteinShare <= 0.28) return "mediterranean";
+  return "balanced";
+}
 
 export function GoalsSettings({ profile, goals }: { profile: Profile | null; goals: UserGoals }) {
   const [longState, longAction, longPending] = useActionState(saveLongTermGoals, initialState);
@@ -23,10 +36,11 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
   const [height, setHeight] = useState(profile?.height_cm ? String(profile.height_cm) : "");
   const [currentWeight, setCurrentWeight] = useState(profile?.current_weight_kg ? String(profile.current_weight_kg) : "");
   const [activity, setActivity] = useState<ActivityLevel | "">(profile?.activity_level ?? "");
+  const [macroStyle, setMacroStyle] = useState<MacroStyle>(() => inferMacroStyle(goals));
   const [manualValues, setManualValues] = useState<MacroValues | null>(null);
   const [editedSinceSubmit, setEditedSinceSubmit] = useState(false);
   const calculationProfile = useMemo<Profile | null>(() => profile ? { ...profile, birth_date: birthDate || null, sex: sex || null, height_cm: Number(height) || null, current_weight_kg: Number(currentWeight) || null, activity_level: activity || null } : null, [profile, birthDate, sex, height, currentWeight, activity]);
-  const recommendation = useMemo(() => recommendNutrition(calculationProfile, goal || null, new Date(), Number(targetWeight) || null), [calculationProfile, goal, targetWeight]);
+  const recommendation = useMemo(() => recommendNutrition(calculationProfile, goal || null, new Date(), Number(targetWeight) || null, macroStyle), [calculationProfile, goal, targetWeight, macroStyle]);
   const missing = useMemo(() => missingRecommendationFields(calculationProfile, goal || null), [calculationProfile, goal]);
   const recommendedValues = recommendation ? { calories: String(recommendation.calories), protein: String(recommendation.protein), carbs: String(recommendation.carbs), fat: String(recommendation.fat) } : null;
   const savedValues = { calories: String(goals.calorie_goal), protein: String(goals.protein_goal_g), carbs: String(goals.carbs_goal_g), fat: String(goals.fat_goal_g) };
@@ -90,8 +104,18 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
     </section>
     <section className={styles.card}>
       <div><p>Всеки ден</p><h2>Дневни цели</h2><span>Хранене, хидратация и движение.</span></div>
+      <label className={styles.stylePicker}>Хранителен режим
+        <select value={macroStyle} onChange={(event) => { refreshRecommendation(); setMacroStyle(event.target.value as MacroStyle); }}>
+          <option value="balanced">Балансиран</option>
+          <option value="high_protein">Високопротеинов</option>
+          <option value="low_carb">Нисковъглехидратен</option>
+          <option value="keto">Кето</option>
+          <option value="mediterranean">Средиземноморски</option>
+        </select>
+        <small>Режимът променя макросите, но не и калорийния дефицит, определен от целта ти.</small>
+      </label>
       {recommendation ? <aside className={styles.recommendation}>
-        <div><p>Ориентировъчна дневна цел</p><strong>{recommendation.calories} kcal</strong><span>{recommendation.protein} г протеин · {recommendation.carbs} г въглехидрати · {recommendation.fat} г мазнини</span></div>
+        <div><p>Ориентировъчна дневна цел · {recommendation.macroStyleLabel}</p><strong>{recommendation.calories} kcal</strong><span>{recommendation.protein} г протеин · {recommendation.carbs} г въглехидрати · {recommendation.fat} г мазнини</span></div>
         <button type="button" onClick={applyRecommendation}>Върни препоръката</button>
         <details className={styles.calculation} open>
           <summary>Как е изчислено?</summary>
@@ -102,7 +126,8 @@ export function GoalsSettings({ profile, goals }: { profile: Profile | null; goa
             <i>→</i><span><small>Корекция</small><b>{recommendation.goalLabel}</b><em>{recommendation.adjustmentCalories > 0 ? "+" : ""}{recommendation.adjustmentCalories} kcal/ден</em></span>
           </div>
           <p className={styles.pace}>{recommendation.estimatedWeeklyChangeKg > 0 ? `Ориентировъчно темпо: ~${recommendation.estimatedWeeklyChangeKg} кг/седмица` : "Целта е поддържане на теглото"}{recommendation.estimatedWeeks ? ` · около ${recommendation.estimatedWeeks} седмици до ${targetWeight} кг` : ""}.</p>
-          <p className={styles.macroLogic}>Макроси: протеинът се съобразява с теглото и е до 30% от калориите; мазнините са около 25%; въглехидратите запълват остатъка.</p>
+          <p className={styles.macroLogic}>Макросите са разпределени според режим „{recommendation.macroStyleLabel}“. При ръчна промяна останалите стойности се преизчисляват спрямо същите калории.</p>
+          {macroStyle === "keto" ? <p className={styles.caution}>Кето е хранителен профил, не медицинска препоръка. При заболяване, бременност или лекарства първо се консултирай с лекар.</p> : null}
         </details>
       </aside> : <aside className={styles.missing}><strong>Нужни са още данни за препоръка</strong><span>Липсват: {missing.join(", ")}.</span><small>Можеш да въведеш целите ръчно, докато попълниш параметрите.</small></aside>}
       <form action={dailyAction} onSubmit={() => setEditedSinceSubmit(false)}>

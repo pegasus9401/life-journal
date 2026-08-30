@@ -23,3 +23,14 @@ test("activity level materially changes the recommendation", () => {
   assert.equal(moderate.activityLabel, "Умерена активност");
 });
 
+test("diet style redistributes macros without changing calories", () => {
+  const balanced = recommendNutrition(profile, "lose_weight", new Date("2026-08-30T12:00:00Z"), 76, "balanced");
+  const highProtein = recommendNutrition(profile, "lose_weight", new Date("2026-08-30T12:00:00Z"), 76, "high_protein");
+  const keto = recommendNutrition(profile, "lose_weight", new Date("2026-08-30T12:00:00Z"), 76, "keto");
+  assert.ok(balanced && highProtein && keto);
+  assert.equal(highProtein.calories, balanced.calories);
+  assert.ok(highProtein.protein > balanced.protein);
+  assert.ok(keto.carbs < balanced.carbs);
+  assert.equal(validateMacroEnergy(keto.calories, keto.protein, keto.carbs, keto.fat), null);
+});
+

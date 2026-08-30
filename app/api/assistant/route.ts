@@ -4,6 +4,7 @@ import type { ModelMessage } from "ai";
 import { createClient } from "@/lib/supabase/server";
 import { createPegasAgent } from "@/lib/ai/pegas-agent";
 import { buildDailyContext, ensureConversation, getPersona } from "@/lib/ai/intelligence";
+import { syncConversationMemories } from "@/lib/ai/memory-sync";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -63,6 +64,8 @@ export async function POST(request: Request) {
           const assistantText = complete.trim() || "Готово.";
           await supabase.from("ai_messages").insert({ owner_id: user.id, conversation_id: conversationId, role: "assistant", content: assistantText, metadata: { actions } });
           await supabase.from("ai_conversations").update({ persona }).eq("id", conversationId).eq("owner_id", user.id);
+          try { await syncConversationMemories(supabase, user.id, latestText, assistantText); }
+          catch (error) { console.error("Pegas memory sync error", error); }
           controller.enqueue(encoder.encode(`${JSON.stringify({ type: "done", actions })}\n`));
           ["/today", "/calendar", "/nutrition", "/workouts"].forEach((path) => revalidatePath(path));
         } catch (error) { controller.enqueue(encoder.encode(`${JSON.stringify({ type: "error", error: friendlyError(error) })}\n`)); }

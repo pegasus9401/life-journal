@@ -16,7 +16,7 @@ export const settingsGroups: SettingsGroup[] = [
     { label: "Импортиране на данни", href: "/settings/import", detail: "Добави архив или файл" },
   ] },
   { title: "Персонализация", items: [
-    { label: "Цели", href: "/profile#goals", detail: "Дневни и дългосрочни цели" },
+    { label: "Цели", href: "/settings/goals", detail: "Дневни и дългосрочни цели" },
     { label: "Мерни единици", href: "/settings/units", detail: "kg, cm, kcal" },
     { label: "Зони на пулса", href: "/settings/heart-rate-zones", detail: "Персонални тренировъчни зони" },
     { label: "Изчисления", href: "/settings/calculations", detail: "Метаболизъм и активност" },

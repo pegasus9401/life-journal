@@ -8,6 +8,6 @@ export const metadata = { title: "Профил · PegasOS" };
 export default async function ProfilePage() {
   const data = await getProfileSettings();
   if (!data) redirect("/login");
-  return <main className="life-app-shell"><AppNavigation active="profile" /><ProfileExperience {...data} /></main>;
+  return <main className="life-app-shell"><AppNavigation active="profile" /><ProfileExperience email={data.email} profile={data.profile} /></main>;
 }
 

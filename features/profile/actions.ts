@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { profileSchema, userGoalsSchema } from "./schema";
+import { longTermGoalsSchema, profileSchema, userGoalsSchema } from "./schema";
 
 export type ProfileActionState = { status: "idle" | "success" | "error"; message: string };
 const result = (status: ProfileActionState["status"], message: string): ProfileActionState => ({ status, message });
@@ -49,8 +49,18 @@ export async function saveUserGoals(_state: ProfileActionState, formData: FormDa
     fat_goal_g: value.fat, water_goal_ml: value.water, steps_goal: value.steps, source: value.source,
   }, { onConflict: "owner_id" });
   if (error) return result("error", "Целите не можаха да бъдат запазени.");
-  revalidatePath("/profile"); revalidatePath("/today"); revalidatePath("/nutrition");
+  revalidatePath("/settings/goals"); revalidatePath("/today"); revalidatePath("/nutrition");
   return result("success", "Дневните цели са запазени.");
 }
 
+export async function saveLongTermGoals(_state: ProfileActionState, formData: FormData): Promise<ProfileActionState> {
+  const parsed = longTermGoalsSchema.safeParse({ targetWeightKg: formData.get("targetWeightKg"), fitnessGoal: formData.get("fitnessGoal") });
+  if (!parsed.success) return result("error", parsed.error.issues[0]?.message ?? "Провери дългосрочните цели.");
+  const { supabase, user } = await authenticatedClient();
+  if (!user) return result("error", "Сесията изтече.");
+  const { error } = await supabase.from("profiles").upsert({ owner_id: user.id, target_weight_kg: parsed.data.targetWeightKg ?? null, fitness_goal: parsed.data.fitnessGoal }, { onConflict: "owner_id" });
+  if (error) return result("error", "Дългосрочните цели не можаха да бъдат запазени.");
+  revalidatePath("/settings/goals"); revalidatePath("/today");
+  return result("success", "Дългосрочните цели са запазени.");
+}
 

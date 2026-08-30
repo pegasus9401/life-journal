@@ -28,4 +28,9 @@ export const userGoalsSchema = z.object({
   source: z.enum(["manual", "automatic"]),
 });
 
+export const longTermGoalsSchema = z.object({
+  targetWeightKg: optionalNumber(20, 500),
+  fitnessGoal: z.union([z.enum(["lose_weight", "maintain", "gain_muscle", "improve_fitness"]), z.literal("")]).transform((value) => value || null),
+});
+
 

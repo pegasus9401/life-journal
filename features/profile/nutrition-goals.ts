@@ -1,10 +1,16 @@
 import type { Profile } from "./types";
 
-export type NutritionRecommendation = { calories: number; protein: number; carbs: number; fat: number; basis: string };
+export type NutritionRecommendation = {
+  calories: number; protein: number; carbs: number; fat: number;
+  age: number; restingCalories: number; maintenanceCalories: number; adjustmentCalories: number;
+  activityLabel: string; goalLabel: string; estimatedWeeklyChangeKg: number; estimatedWeeks: number | null;
+};
 
 const activityFactor = { sedentary: 1.2, light: 1.375, moderate: 1.55, active: 1.725, very_active: 1.9 } as const;
 const goalFactor = { lose_weight: 0.85, maintain: 1, gain_muscle: 1.1, improve_fitness: 1 } as const;
 const proteinPerKg = { lose_weight: 1.8, maintain: 1.5, gain_muscle: 1.8, improve_fitness: 1.6 } as const;
+const activityLabel = { sedentary: "Заседнала", light: "Лека активност", moderate: "Умерена активност", active: "Висока активност", very_active: "Много висока активност" } as const;
+const goalLabel = { lose_weight: "Отслабване (−15%)", maintain: "Поддържане", gain_muscle: "Мускулна маса (+10%)", improve_fitness: "По-добра форма" } as const;
 
 function ageOnDate(birthDate: string, today = new Date()) {
   const [year, month, day] = birthDate.split("-").map(Number);
@@ -24,19 +30,25 @@ export function missingRecommendationFields(profile: Profile | null, goal = prof
   return missing;
 }
 
-export function recommendNutrition(profile: Profile | null, goal = profile?.fitness_goal ?? null, today = new Date()): NutritionRecommendation | null {
+export function recommendNutrition(profile: Profile | null, goal = profile?.fitness_goal ?? null, today = new Date(), targetWeightKg = profile?.target_weight_kg ?? null): NutritionRecommendation | null {
   if (!profile || missingRecommendationFields(profile, goal).length || !goal || !profile.birth_date || !profile.height_cm || !profile.current_weight_kg || !profile.activity_level) return null;
   if (profile.sex !== "male" && profile.sex !== "female") return null;
   const age = ageOnDate(profile.birth_date, today);
   if (age < 18 || age > 100) return null;
   const sexOffset = profile.sex === "male" ? 5 : -161;
   const restingEnergy = 10 * profile.current_weight_kg + 6.25 * profile.height_cm - 5 * age + sexOffset;
-  const calories = Math.round(restingEnergy * activityFactor[profile.activity_level] * goalFactor[goal] / 10) * 10;
+  const maintenanceCalories = Math.round(restingEnergy * activityFactor[profile.activity_level] / 10) * 10;
+  const calories = Math.round(maintenanceCalories * goalFactor[goal] / 10) * 10;
   const proteinByWeight = profile.current_weight_kg * proteinPerKg[goal];
   const protein = Math.round(Math.min(proteinByWeight, calories * 0.30 / 4));
   const fat = Math.round(calories * 0.25 / 9);
   const carbs = Math.max(0, Math.round((calories - protein * 4 - fat * 9) / 4));
-  return { calories, protein, carbs, fat, basis: `Mifflin–St Jeor · ${age} г. · ${profile.current_weight_kg} кг · ${profile.height_cm} см` };
+  const adjustmentCalories = calories - maintenanceCalories;
+  const estimatedWeeklyChangeKg = Math.round(Math.abs(adjustmentCalories) * 7 / 7700 * 100) / 100;
+  const targetDifference = targetWeightKg ? Math.abs(profile.current_weight_kg - targetWeightKg) : 0;
+  const directionMatches = goal === "lose_weight" ? Boolean(targetWeightKg && targetWeightKg < profile.current_weight_kg) : goal === "gain_muscle" ? Boolean(targetWeightKg && targetWeightKg > profile.current_weight_kg) : false;
+  const estimatedWeeks = directionMatches && estimatedWeeklyChangeKg > 0 ? Math.ceil(targetDifference / estimatedWeeklyChangeKg) : null;
+  return { calories, protein, carbs, fat, age, restingCalories: Math.round(restingEnergy), maintenanceCalories, adjustmentCalories, activityLabel: activityLabel[profile.activity_level], goalLabel: goalLabel[goal], estimatedWeeklyChangeKg, estimatedWeeks };
 }
 
 export function validateMacroEnergy(calories: number, protein: number, carbs: number, fat: number) {

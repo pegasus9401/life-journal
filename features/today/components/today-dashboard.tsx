@@ -50,12 +50,9 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
 
       <LifeTimeline items={data.timeline} calories={data.nutrition.calories} calorieGoal={data.nutrition.calorieGoal} protein={data.nutrition.protein} proteinGoal={data.nutrition.proteinGoal}/>
 
-      <section className={styles.progress}>
-        <div className={styles.sectionHead}><div><p>ПРОГРЕС</p><h2>Текущ статус</h2></div><Link href="/profile">Профил</Link></div>
-        <div><strong>{data.currentWeight ? `${data.currentWeight} kg` : "—"}</strong><span>Текущо тегло</span><strong>{data.workouts.filter((workout) => workout.completed).length}</strong><span>Тренировки днес</span></div>
-      </section>
       <Link className={styles.journalEntry} href="/journal/new"><span>✎</span><div><small>ДНЕВНИК</small><strong>Запиши днешния ден</strong></div><b>›</b></Link>
     </div>
 
   </div>;
 }
+

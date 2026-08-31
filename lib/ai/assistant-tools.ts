@@ -11,6 +11,8 @@ type ToolDefinition = { type: "function"; function: { name: string; description:
 const text = { type: "string" };
 const date = { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" };
 const nullableId = { type: "string", description: "ID за редактиране; пропусни при нов запис" };
+const mealNames = { breakfast: "Закуска", lunch: "Обяд", dinner: "Вечеря", snack: "Междинно" } as const;
+const mealTimes = { breakfast: "08:00", lunch: "13:00", dinner: "19:00", snack: "16:00" } as const;
 
 export const assistantToolDefinitions: ToolDefinition[] = [
   { type: "function", function: { name: "find_food_product", description: "Търси пакетиран хранителен продукт по име, марка или баркод в Open Food Facts. Използвай преди save_nutrition, когато потребителят не е дал калории и макроси. Ако резултатите са нееднозначни, покажи кратък избор и попитай.", parameters: { type: "object", properties: { query: { type: "string", description: "Име и марка, например: 7 Days кроасан какао" }, barcode: { type: "string", description: "Цифрите от баркода, ако са разчетени надеждно от снимка" } } } } },
@@ -27,7 +29,7 @@ export const assistantToolDefinitions: ToolDefinition[] = [
   { type: "function", function: { name: "save_event", description: "Създава или редактира календарно събитие. За ясна команда с час действай веднага; ако липсва краен час, използвай 60 минути продължителност.", parameters: { type: "object", properties: { id: nullableId, title: text, date, end_date: date, all_day: { type: "boolean" }, start_time: { type: "string" }, end_time: { type: "string" }, location: text, description: text }, required: ["title", "date", "end_date", "all_day"] } } },
   { type: "function", function: { name: "save_task", description: "Създава или редактира задача.", parameters: { type: "object", properties: { id: nullableId, title: text, due_date: date, due_time: { type: "string" }, description: text, priority: { type: "string", enum: ["low", "normal", "high"] }, completed: { type: "boolean" } }, required: ["title", "priority", "completed"] } } },
   { type: "function", function: { name: "save_journal", description: "Създава или редактира текстов запис в дневника.", parameters: { type: "object", properties: { id: nullableId, entry_date: date, title: text, story: text, mood: { type: "string", enum: ["joyful", "peaceful", "excited", "reflective", "tired", "challenging"] }, weather: text, location: text, tags: { type: "array", items: text }, favorite: { type: "boolean" }, status: { type: "string", enum: ["draft", "published"] } }, required: ["entry_date", "title", "story", "tags", "favorite", "status"] } } },
-  { type: "function", function: { name: "save_nutrition", description: "Създава или редактира хранене.", parameters: { type: "object", properties: { id: nullableId, entry_date: date, meal_type: { type: "string", enum: ["breakfast", "lunch", "dinner", "snack"] }, name: text, quantity: text, calories: { type: "number" }, protein: { type: "number" }, carbs: { type: "number" }, fat: { type: "number" }, notes: text }, required: ["entry_date", "meal_type", "name", "calories", "protein", "carbs", "fat"] } } },
+  { type: "function", function: { name: "save_nutrition", description: "Създава или редактира хранене в хранителния план. За меню, план или бъдещо хранене остави completed=false. Използвай completed=true само ако потребителят изрично казва, че вече го е изял.", parameters: { type: "object", properties: { id: nullableId, entry_date: date, meal_type: { type: "string", enum: ["breakfast", "lunch", "dinner", "snack"] }, planned_time: { type: "string", description: "Час HH:MM; ако липсва, използва стандартен час според храненето" }, name: text, quantity: text, calories: { type: "number" }, protein: { type: "number" }, carbs: { type: "number" }, fat: { type: "number" }, notes: text, completed: { type: "boolean", description: "По подразбиране false; true само за вече консумирана храна" } }, required: ["entry_date", "meal_type", "name", "calories", "protein", "carbs", "fat"] } } },
   { type: "function", function: { name: "save_workout", description: "Създава или редактира дневник на тренировка. Използвай за извършена или подробно описана тренировка; за планирана тренировка с час използвай save_event.", parameters: { type: "object", properties: { id: nullableId, workout_date: date, title: text, workout_type: { type: "string", enum: ["strength", "cardio", "mobility", "sport", "other"] }, duration_minutes: { type: "number" }, calories_burned: { type: "number" }, notes: text, completed: { type: "boolean" }, exercises: { type: "array", items: { type: "object", properties: { name: text, sets: { type: "number" }, reps: { type: "number" }, weight: { type: "number" } } } } }, required: ["workout_date", "title"] } } },
   { type: "function", function: { name: "delete_item", description: "Изтрива запис. Използвай САМО ако потребителят изрично е потвърдил изтриването в последното си съобщение.", parameters: { type: "object", properties: { kind: { type: "string", enum: ["event", "task", "journal", "nutrition", "workout"] }, id: { type: "string" } }, required: ["kind", "id"] } } },
 ];
@@ -35,6 +37,21 @@ export const assistantToolDefinitions: ToolDefinition[] = [
 function richText(story: string) {
   const paragraphs = story.split(/\n{2,}/).filter(Boolean);
   return { type: "doc", content: paragraphs.map((paragraph) => ({ type: "paragraph", content: [{ type: "text", text: paragraph }] })) };
+}
+
+export async function getNutritionForDate(supabase: SupabaseClient, ownerId: string, selectedDate: string) {
+  const { data: meals, error } = await supabase.from("day_meals").select("id,name,planned_time,legacy_payload").eq("owner_id", ownerId).eq("meal_date", selectedDate).order("position");
+  if (error) throw error;
+  const ids = (meals ?? []).map((meal) => meal.id);
+  const { data: items, error: itemsError } = ids.length ? await supabase.from("meal_items").select("day_meal_id,label,calories,protein_g,carbs_g,fat_g").eq("owner_id", ownerId).in("day_meal_id", ids) : { data: [], error: null };
+  if (itemsError) throw itemsError;
+  return (meals ?? []).map((meal) => {
+    const payload = meal.legacy_payload && typeof meal.legacy_payload === "object" ? meal.legacy_payload as Record<string, unknown> : {};
+    const legacy = payload.nutrition && typeof payload.nutrition === "object" ? payload.nutrition as Record<string, unknown> : null;
+    const mealItems = (items ?? []).filter((item) => item.day_meal_id === meal.id);
+    const totals = legacy ? { calories: Number(legacy.calories) || 0, protein: Number(legacy.protein) || 0, carbs: Number(legacy.carbs) || 0, fat: Number(legacy.fat) || 0 } : mealItems.reduce((sum, item) => ({ calories: sum.calories + Number(item.calories), protein: sum.protein + Number(item.protein_g), carbs: sum.carbs + Number(item.carbs_g), fat: sum.fat + Number(item.fat_g) }), { calories: 0, protein: 0, carbs: 0, fat: 0 });
+    return { id: meal.id, name: meal.name, planned_time: meal.planned_time?.slice(0, 5) ?? null, description: typeof payload.description === "string" ? payload.description : mealItems.map((item) => item.label).join(" · "), completed: typeof payload.completed_at === "string", ...totals };
+  });
 }
 
 export async function executeAssistantTool(name: string, args: Record<string, unknown>, context: Context) {
@@ -101,10 +118,10 @@ export async function executeAssistantTool(name: string, args: Record<string, un
       supabase.from("calendar_events").select("id,title,description,start_date,end_date,starts_at,ends_at,all_day,location").eq("owner_id", user.id).or(`and(all_day.eq.true,start_date.lte.${selectedDate},end_date.gte.${selectedDate}),and(all_day.eq.false,starts_at.lte.${endIso},ends_at.gte.${startIso})`),
       supabase.from("tasks").select("id,title,description,due_date,due_time,priority,completed").eq("owner_id", user.id).eq("due_date", selectedDate),
       supabase.from("journal_entries").select("id,entry_date,title,content_text,mood,weather,location_name,tags,status").eq("owner_id", user.id).eq("entry_date", selectedDate),
-      supabase.from("nutrition_entries").select("id,meal_type,name,quantity,calories,protein_g,carbs_g,fat_g,notes").eq("owner_id", user.id).eq("entry_date", selectedDate),
+      getNutritionForDate(supabase, user.id, selectedDate),
       supabase.from("workout_sessions").select("id,title,workout_type,duration_minutes,calories_burned,notes,exercises,completed").eq("owner_id", user.id).eq("workout_date", selectedDate),
     ]);
-    return { date: selectedDate, events: events.data ?? [], tasks: tasks.data ?? [], journal: journal.data ?? [], nutrition: nutrition.data ?? [], workouts: workouts.data ?? [] };
+    return { date: selectedDate, events: events.data ?? [], tasks: tasks.data ?? [], journal: journal.data ?? [], nutrition, workouts: workouts.data ?? [] };
   }
 
   if (name === "get_events") {
@@ -113,7 +130,7 @@ export async function executeAssistantTool(name: string, args: Record<string, un
   }
   if (name === "get_tasks") { const { data, error } = await supabase.from("tasks").select("id,title,description,due_date,due_time,priority,completed").eq("owner_id", user.id).eq("due_date", String(args.date)).limit(60); if (error) throw error; return data ?? []; }
   if (name === "complete_task") { const { data, error } = await supabase.from("tasks").update({ completed: true, completed_at: new Date().toISOString() }).eq("id", String(args.id)).eq("owner_id", user.id).select("id,title").single(); if (error) throw error; return { saved: true, completed: true, ...data }; }
-  if (name === "get_today_nutrition") { const { data, error } = await supabase.from("nutrition_entries").select("id,meal_type,name,quantity,calories,protein_g,carbs_g,fat_g").eq("owner_id", user.id).eq("entry_date", String(args.date)).limit(100); if (error) throw error; const totals = (data ?? []).reduce((sum, item) => ({ calories: sum.calories + Number(item.calories), protein: sum.protein + Number(item.protein_g), carbs: sum.carbs + Number(item.carbs_g), fat: sum.fat + Number(item.fat_g) }), { calories: 0, protein: 0, carbs: 0, fat: 0 }); return { entries: data ?? [], totals }; }
+  if (name === "get_today_nutrition") { const entries = await getNutritionForDate(supabase, user.id, String(args.date)); const totals = entries.reduce((sum, item) => ({ calories: sum.calories + item.calories, protein: sum.protein + item.protein, carbs: sum.carbs + item.carbs, fat: sum.fat + item.fat }), { calories: 0, protein: 0, carbs: 0, fat: 0 }); return { entries, totals }; }
   if (name === "get_workout_plan") { return { plans: (user.user_metadata as Record<string, unknown> | undefined)?.workout_templates ?? [] }; }
   if (name === "get_workout_history") { const limit = Math.min(30, Math.max(1, Number(args.limit) || 10)); const { data, error } = await supabase.from("workout_sessions").select("id,workout_date,title,workout_type,duration_minutes,calories_burned,exercises").eq("owner_id", user.id).eq("completed", true).order("workout_date", { ascending: false }).limit(limit); if (error) throw error; return data ?? []; }
   if (name === "get_fitness_progress") {
@@ -152,9 +169,15 @@ export async function executeAssistantTool(name: string, args: Record<string, un
   }
 
   if (name === "save_nutrition") {
-    const row = { owner_id: user.id, entry_date: args.entry_date, meal_type: args.meal_type, name: String(args.name).slice(0, 160), quantity: args.quantity ? String(args.quantity).slice(0, 80) : null, calories: Math.max(0, Number(args.calories)), protein_g: Math.max(0, Number(args.protein)), carbs_g: Math.max(0, Number(args.carbs)), fat_g: Math.max(0, Number(args.fat)), notes: args.notes ? String(args.notes).slice(0, 1000) : null };
-    const query = args.id ? supabase.from("nutrition_entries").update(row).eq("id", String(args.id)).eq("owner_id", user.id) : supabase.from("nutrition_entries").insert(row);
-    const { data, error } = await query.select("id,name").single(); if (error) throw error; return { saved: true, ...data };
+    const mealType = String(args.meal_type) as keyof typeof mealNames;
+    if (!(mealType in mealNames)) throw new Error("Невалиден вид хранене.");
+    const id = args.id && /^[0-9a-f-]{36}$/i.test(String(args.id)) ? String(args.id) : crypto.randomUUID();
+    const completed = Boolean(args.completed);
+    const plannedTime = /^\d{2}:\d{2}$/.test(String(args.planned_time ?? "")) ? String(args.planned_time) : mealTimes[mealType];
+    const nutrition = { calories: Math.max(0, Number(args.calories)), protein: Math.max(0, Number(args.protein)), carbs: Math.max(0, Number(args.carbs)), fat: Math.max(0, Number(args.fat)) };
+    const payload = { source: "assistant", meal_type: mealType, description: [String(args.name).slice(0, 160), args.quantity ? String(args.quantity).slice(0, 80) : "", args.notes ? String(args.notes).slice(0, 1000) : ""].filter(Boolean).join(" · "), nutrition, items: [{ name: String(args.name).slice(0, 160), calories: nutrition.calories }], completed_at: completed ? new Date().toISOString() : null };
+    const { data, error } = await supabase.from("day_meals").upsert({ id, owner_id: user.id, meal_date: args.entry_date, name: mealNames[mealType], planned_time: plannedTime, position: { breakfast: 0, lunch: 1, snack: 2, dinner: 3 }[mealType], legacy_payload: payload }, { onConflict: "id" }).select("id,name,planned_time,legacy_payload").single();
+    if (error) throw error; return { saved: true, status: completed ? "completed" : "planned", ...data };
   }
 
   if (name === "save_workout") {
@@ -165,9 +188,10 @@ export async function executeAssistantTool(name: string, args: Record<string, un
   }
 
   if (name === "delete_item") {
-    const tables = { event: "calendar_events", task: "tasks", journal: "journal_entries", nutrition: "nutrition_entries", workout: "workout_sessions" } as const;
+    const tables = { event: "calendar_events", task: "tasks", journal: "journal_entries", nutrition: "day_meals", workout: "workout_sessions" } as const;
     const table = tables[args.kind as keyof typeof tables]; if (!table) throw new Error("Невалиден вид запис.");
     const { error } = await supabase.from(table).delete().eq("id", String(args.id)).eq("owner_id", user.id); if (error) throw error; return { deleted: true, kind: args.kind, id: args.id };
   }
   throw new Error("Непознат инструмент.");
 }
+

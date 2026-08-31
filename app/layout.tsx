@@ -6,6 +6,7 @@ import { ActiveWorkoutTracker } from "@/features/workouts/components/active-work
 import { PwaHomeLauncher } from "@/components/pwa-home-launcher";
 import "./globals.css";
 import "../styles/pegasos-2.css";
+import "../styles/pegasos-ios.css";
 
 const manrope = Manrope({ subsets: ["latin", "cyrillic"], display: "swap", variable: "--font-manrope" });
 

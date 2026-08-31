@@ -17,19 +17,22 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
     ["Въглехидрати", nutrition.carbs, nutrition.carbsGoal, "carbs"],
     ["Мазнини", nutrition.fat, nutrition.fatGoal, "fat"],
   ] as const;
+  const dateText = new Intl.DateTimeFormat("bg-BG", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }).format(new Date(`${data.date}T12:00:00Z`));
+  const nextItem = data.timeline.find((item) => item.status !== "completed");
+  const nextWorkout = data.workouts.find((workout) => workoutStatus(workout) !== "completed") ?? data.workouts[0];
 
   return <div className={styles.dashboard}>
     <header className={styles.header}>
-      <div><h1>{data.displayName ? `Здравей, ${data.displayName}` : "Здравей"}</h1></div>
-      <Link href="/settings" aria-label="Отвори настройките" className={styles.avatar}>{data.displayName?.slice(0, 1).toUpperCase() ?? "P"}</Link>
+      <div><p>{dateText}</p><h1>{data.displayName ? `Здравей, ${data.displayName}` : "Здравей"}</h1></div>
+      <Link href="/profile" aria-label="Отвори профила" className={styles.avatar}>{data.displayName?.slice(0, 1).toUpperCase() ?? "P"}</Link>
     </header>
     {dateNavigation}
 
-    <section className={`${styles.brief} intelligence-dashboard-card`} aria-labelledby="daily-brief-title"><span>✦</span><div><p id="daily-brief-title">PEGASOS INTELLIGENCE</p><h2>{buildDailyBrief(data)}</h2><small>{tasks.filter((item) => !item.completed).length} задачи · {schedule.length} събития · {data.workouts.length} тренировки</small></div></section>
+    <section className={`${styles.brief} intelligence-dashboard-card`} aria-labelledby="daily-brief-title"><span>✦</span><div><p id="daily-brief-title">СЛЕДВАЩО{nextItem?.time ? ` · ${nextItem.time}` : ""}</p><h2>{nextItem ? nextItem.title : buildDailyBrief(data)}</h2><small>{nextItem?.detail ?? `${tasks.filter((item) => !item.completed).length} задачи · ${schedule.length} събития · ${data.workouts.length} тренировки`}</small><div className={styles.briefActions}>{nextItem ? <Link href={nextItem.href}>Отбележи</Link> : null}<Link href="/assistant">Питай Pegas</Link></div></div></section>
 
     <section className={styles.status} aria-label="Дневен статус">
-      {([["Recovery", data.wellness.recovery], ["Strain", data.wellness.strain], ["Sleep", data.wellness.sleep], ["Energy", data.wellness.energy]] as const).map(([label, score]) =>
-        <div key={label}><strong>{score ? `${score}%` : "—"}</strong><span>{label}</span></div>)}
+      {([["Recovery", data.wellness.recovery], ["Sleep", data.wellness.sleep], ["Energy", data.wellness.energy], ["Strain", data.wellness.strain]] as const).map(([label, score]) =>
+        <div key={label}><i style={{ background: `conic-gradient(var(--ios-green) ${score || 0}%, #f0f0ec 0)` }}><strong>{score ? `${score}` : "—"}</strong></i><span>{label}</span></div>)}
     </section>
 
     <div className={styles.grid}>
@@ -40,9 +43,9 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
         {nutrition.nextMeal ? <p className={styles.next}>Следващо хранене <strong>{nutrition.nextMeal}</strong></p> : null}
       </section>
 
-      <section>
+      <section className={styles.workoutSection}>
         <div className={styles.sectionHead}><div><p>АКТИВНОСТ</p><h2>{data.isToday ? "Днес" : "За деня"}</h2></div><Link href={`/workouts?date=${data.date}`}>Тренировки</Link></div>
-        <div className={styles.stack}>{data.workouts.length ? data.workouts.map((workout) => { const status = workoutStatus(workout); return <article className={styles.workout} key={workout.id}><div><span>{status === "completed" ? "ЗАВЪРШЕНА" : status === "in_progress" ? "В ПРОЦЕС" : "ПЛАНИРАНА"}</span><h3>{workout.title}</h3><p>{workoutStartTime(workout)} · ~{workout.duration_minutes || 45} мин</p></div><Link href="/workouts">{status === "completed" ? "Виж" : status === "in_progress" ? "Продължи" : "Започни"}</Link></article>; }) : <div className={styles.empty}><p>Няма планирана тренировка.</p><Link href="/workouts">Добави тренировка</Link></div>}</div>
+        <div className={styles.stack}>{nextWorkout ? (() => { const status = workoutStatus(nextWorkout); return <article className={styles.workout} key={nextWorkout.id}><div><span>{status === "completed" ? "ЗАВЪРШЕНА" : status === "in_progress" ? "В ПРОЦЕС" : "ПЛАНИРАНА"}</span><h3>{nextWorkout.title}</h3><p>{workoutStartTime(nextWorkout)} · ~{nextWorkout.duration_minutes || 45} мин</p></div><Link href="/workouts">{status === "completed" ? "Виж" : status === "in_progress" ? "Продължи" : "Започни"}</Link></article>; })() : <div className={styles.empty}><p>Няма планирана тренировка.</p><Link href="/workouts">Добави тренировка</Link></div>}</div>
       </section>
 
       <LifeTimeline items={data.timeline} calories={data.nutrition.calories} calorieGoal={data.nutrition.calorieGoal} protein={data.nutrition.protein} proteinGoal={data.nutrition.proteinGoal}/>
@@ -51,6 +54,7 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
         <div className={styles.sectionHead}><div><p>ПРОГРЕС</p><h2>Текущ статус</h2></div><Link href="/profile">Профил</Link></div>
         <div><strong>{data.currentWeight ? `${data.currentWeight} kg` : "—"}</strong><span>Текущо тегло</span><strong>{data.workouts.filter((workout) => workout.completed).length}</strong><span>Тренировки днес</span></div>
       </section>
+      <Link className={styles.journalEntry} href="/journal/new"><span>✎</span><div><small>ДНЕВНИК</small><strong>Запиши днешния ден</strong></div><b>›</b></Link>
     </div>
 
   </div>;

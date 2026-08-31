@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOut } from "@/features/auth/actions";
+import { CaptureButton } from "@/components/capture-button";
 
 type Area = "today" | "health" | "planner" | "journal" | "progress";
 function areaFor(active?: string): Area | undefined {
@@ -18,24 +19,27 @@ function Icon({ name }: { name: Area }) {
   };
   return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 }
-const areas: Array<{ key: Area; label: string; href: string }> = [
+const desktopAreas: Array<{ key: Area; label: string; href: string }> = [
   { key: "today", label: "Днес", href: "/today" },
   { key: "health", label: "Здраве", href: "/nutrition" },
   { key: "planner", label: "Планер", href: "/calendar" },
   { key: "journal", label: "Дневник", href: "/journal" },
   { key: "progress", label: "Прогрес", href: "/profile" },
 ];
+const mobileAreas = desktopAreas.filter((area) => area.key !== "progress");
 
 export function AppNavigation({ active, title }: { active?: string; title?: string }) {
   const selected = areaFor(active);
   return <>
     <nav className="p2-top-nav" aria-label="Основна навигация">
       <Link className="p2-brand" href="/today" aria-label="PEGASOS — Днес"><span>✦</span><strong>{title ?? "PEGASOS"}</strong></Link>
-      <div>{areas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}>{area.label}</Link>)}</div>
+      <div>{desktopAreas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}>{area.label}</Link>)}</div>
       <form action={signOut}><button type="submit">Изход</button></form>
     </nav>
     <nav className="p2-bottom-nav" aria-label="Мобилна навигация">
-      {areas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
+      {mobileAreas.slice(0, 2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
+      <CaptureButton />
+      {mobileAreas.slice(2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
     </nav>
   </>;
 }

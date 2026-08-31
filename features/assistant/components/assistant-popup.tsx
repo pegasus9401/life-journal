@@ -74,9 +74,11 @@ export function AssistantPopup() {
 
   useEffect(() => {
     const close = () => setOpen(false);
+    const openCapture = () => setQuickActionsOpen(true);
     window.addEventListener("close-assistant-popup", close);
     window.addEventListener("gesture-close-overlay", close);
-    return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("gesture-close-overlay", close); };
+    window.addEventListener("open-quick-capture", openCapture);
+    return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("gesture-close-overlay", close); window.removeEventListener("open-quick-capture", openCapture); };
   }, []);
 
   useEffect(() => {
@@ -125,11 +127,8 @@ export function AssistantPopup() {
   return <>
     <input ref={foodCameraRef} className="food-camera-input" type="file" accept="image/*" capture="environment" onChange={(event) => void captureFood(event)} />
     <input ref={foodImportRef} className="food-camera-input" type="file" accept="image/*" onChange={(event) => void captureFood(event)} />
-    <div className="assistant-condensed-bar" aria-label="Компактна навигация">
-      <Link href="/today" aria-label="Начало"><span aria-hidden="true">⌂</span></Link>
-      <button type="button" onClick={openAssistant} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span>Ask Pegas anything</span></button>
-
-    <button type="button" className="assistant-condensed-add" onClick={() => setQuickActionsOpen((current) => !current)} aria-label={quickActionsOpen ? "Затвори бързите действия" : "Бързо добавяне"}><span aria-hidden="true">{quickActionsOpen ? "×" : "+"}</span></button>
+    <div className="assistant-condensed-bar" aria-label="Pegas асистент">
+      <button type="button" onClick={openAssistant} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span><b>Попитай Pegas</b><small>{pathname.startsWith("/nutrition") ? "Добави храна или планирай меню" : pathname.startsWith("/workouts") ? "Планирай или анализирай тренировка" : pathname.startsWith("/calendar") ? "Подреди деня си" : "Как мога да помогна?"}</small></span><em>›</em></button>
     </div>
     <button type="button" className="assistant-quick-add-trigger" onClick={() => setQuickActionsOpen((current) => !current)} aria-label={quickActionsOpen ? "Затвори бързите действия" : "Бързо добавяне"}>{quickActionsOpen ? "×" : "+"}</button>
     {quickActionsOpen ? <div className="assistant-quick-add-backdrop" onClick={() => setQuickActionsOpen(false)}>
@@ -166,18 +165,18 @@ export function AssistantPopup() {
       @keyframes assistantLazySpin { to { transform: rotate(360deg); } }
       @media (max-width: 820px) {
         html body .assistant-popup {
-          top: var(--assistant-viewport-top, 0px) !important;
+          top: calc(var(--assistant-viewport-top, 0px) + 120px) !important;
           right: 0 !important;
           bottom: auto !important;
           left: 0 !important;
           width: 100vw !important;
           max-width: 100vw !important;
-          height: var(--assistant-viewport-height, 100dvh) !important;
+          height: calc(var(--assistant-viewport-height, 100dvh) - 120px) !important;
           min-height: 0 !important;
-          max-height: var(--assistant-viewport-height, 100dvh) !important;
+          max-height: calc(var(--assistant-viewport-height, 100dvh) - 120px) !important;
           box-sizing: border-box !important;
           border: 0 !important;
-          border-radius: 0 !important;
+          border-radius: 28px 28px 0 0 !important;
           display: flex !important;
           flex-direction: column !important;
           overflow: hidden !important;

@@ -38,9 +38,11 @@ export function AssistantPopup() {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !quickActionsOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key !== "Escape") return;
+      setQuickActionsOpen(false);
+      setOpen(false);
     };
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -49,7 +51,7 @@ export function AssistantPopup() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [open]);
+  }, [open, quickActionsOpen]);
 
   useEffect(() => {
     if (!open) return;

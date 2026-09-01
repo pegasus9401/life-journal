@@ -7,13 +7,13 @@ body{background:var(--ios-bg);color:var(--ios-ink)}
   .life-app-shell,.p2-shell{width:100%;max-width:760px;min-height:100dvh;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px calc(164px + env(safe-area-inset-bottom))}
   .p2-top-nav{display:none!important}
   html body .p2-bottom-nav{position:fixed!important;z-index:150!important;right:0!important;bottom:0!important;left:0!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;width:100%!important;max-width:none!important;height:calc(76px + env(safe-area-inset-bottom))!important;min-height:0!important;padding:8px max(12px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(12px,env(safe-area-inset-left))!important;border:0!important;border-top:1px solid rgba(20,22,26,.08)!important;border-radius:0!important;background:rgba(250,249,246,.94)!important;box-shadow:0 -8px 30px rgba(20,22,26,.06)!important;backdrop-filter:blur(22px)!important}
-  .p2-bottom-nav>a{display:grid!important;place-content:center!important;justify-items:center!important;gap:4px!important;min-width:0!important;padding:0!important;color:#8a9099!important;background:none!important;font-size:10px!important;font-weight:700!important;text-decoration:none!important}
+  .p2-bottom-nav>a{display:grid!important;place-content:center!important;justify-items:center!important;gap:4px!important;min-width:0!important;padding:0!important;overflow:hidden!important;color:#8a9099!important;background:none!important;font-size:10px!important;font-weight:700!important;text-decoration:none!important;white-space:nowrap!important}
   .p2-bottom-nav>a.active{color:#14161a!important}
   .p2-bottom-nav>a svg{width:23px!important;height:23px!important}
   .p2-capture-button{align-self:start;justify-self:center;display:grid;width:54px;height:54px;margin-top:-18px;place-items:center;border:5px solid var(--ios-bg);border-radius:18px;color:var(--ios-accent);background:var(--ios-ink);box-shadow:0 8px 18px rgba(20,22,26,.22);font:400 32px/1 var(--font-manrope),sans-serif;cursor:pointer}
   .p2-capture-button span{transform:translateY(-1px)}
 
-  .assistant-condensed-bar{position:fixed!important;z-index:149!important;right:12px!important;bottom:calc(80px + env(safe-area-inset-bottom))!important;left:12px!important;display:block!important;width:auto!important;height:50px!important;padding:0!important;border:0!important;border-radius:16px!important;background:rgba(20,22,26,.94)!important;box-shadow:0 12px 32px rgba(20,22,26,.19)!important;backdrop-filter:blur(18px)!important;transition:transform .2s ease,opacity .2s ease!important}
+  .assistant-condensed-bar{position:fixed!important;z-index:149!important;right:12px!important;bottom:calc(80px + env(safe-area-inset-bottom))!important;left:12px!important;display:block!important;width:auto!important;height:50px!important;padding:0!important;border:0!important;border-radius:16px!important;background:rgba(20,22,26,.94)!important;box-shadow:0 12px 32px rgba(20,22,26,.19)!important;backdrop-filter:blur(18px)!important;pointer-events:auto!important;transition:transform .2s ease,opacity .2s ease,visibility .2s ease!important}
   .assistant-condensed-bar>a,.assistant-condensed-add{display:none!important}
   .assistant-condensed-bar>button{display:flex!important;width:100%!important;height:100%!important;align-items:center!important;gap:10px!important;padding:5px 12px 5px 7px!important;border:0!important;color:#fff!important;background:transparent!important;text-align:left!important;font-family:inherit!important}
   .assistant-condensed-bar>button i{display:grid!important;width:38px!important;height:38px!important;flex:none!important;place-items:center!important;overflow:hidden!important;border-radius:12px!important;background:var(--ios-accent)!important}
@@ -21,11 +21,19 @@ body{background:var(--ios-bg);color:var(--ios-ink)}
   .assistant-condensed-bar>button>span{display:grid!important;flex:1!important;gap:1px!important;color:#fff!important}
   .assistant-condensed-bar b{font-size:12px!important}.assistant-condensed-bar small{color:rgba(255,255,255,.55)!important;font-size:10px!important}.assistant-condensed-bar em{color:var(--ios-accent);font-size:25px;font-style:normal}
   html body .assistant-fab,html body .assistant-quick-add-trigger{display:none!important}
-  html.mobile-chrome-hidden .assistant-condensed-bar{transform:translateY(18px);opacity:0}
+  html.mobile-chrome-hidden .assistant-condensed-bar{visibility:hidden!important;opacity:0!important;pointer-events:none!important;transform:translateY(18px)!important}
 
-  .assistant-popup-backdrop{background:rgba(20,22,26,.38)!important;backdrop-filter:blur(4px)}
-  html body .assistant-popup{top:120px!important;height:calc(100dvh - 120px)!important;border-radius:28px 28px 0 0!important;background:#fff!important;box-shadow:0 -20px 60px rgba(20,22,26,.2)!important}
+  .assistant-popup-backdrop{z-index:170!important;background:rgba(20,22,26,.38)!important;backdrop-filter:blur(4px)}
+  html body .assistant-popup{z-index:180!important;top:120px!important;height:calc(100dvh - 120px)!important;border-radius:28px 28px 0 0!important;background:#fff!important;box-shadow:0 -20px 60px rgba(20,22,26,.2)!important}
   .assistant-popup-bar{min-height:54px!important;padding:0 14px!important;color:var(--ios-ink)!important;background:#fff!important}
+
+  body:has(.assistant-popup.is-open) .p2-bottom-nav,
+  body:has(.assistant-quick-add-backdrop) .p2-bottom-nav,
+  body:has(.assistant-quick-add-backdrop) .assistant-condensed-bar{display:none!important}
+  html body .assistant-quick-add-backdrop{z-index:190!important;padding:12px max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;overscroll-behavior:contain!important}
+  html body .assistant-quick-add-sheet{padding:22px 14px 18px!important;border-radius:28px!important}
+  html body .assistant-quick-add-close{top:12px!important;right:12px!important;bottom:auto!important;width:40px!important;height:40px!important;border-radius:14px!important;font-size:26px!important}
+  html body .assistant-quick-actions{padding-top:42px!important}
 
   .shopping-page,.journal-page,.calendar-page,.nutrition-page,.workouts-page{padding-top:14px!important}
   .shopping-page>h1,.journal-page h1,.calendar-page h1,.nutrition-page h1,.workouts-page h1{font-size:29px!important;line-height:1.08!important;letter-spacing:-.03em!important}

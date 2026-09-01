@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 import { createClient } from "@/lib/supabase/client";
 import { deleteFoodProduct, saveFoodProduct } from "../actions";
-import type { FoodProduct, ProductDraft, ProductPrice, ProductSource } from "../types";
+import type { FoodProduct, ProductDraft, ProductPrice } from "../types";
 import type { Promotion } from "@/lib/promotions";
 
 type ExternalProduct = Omit<ProductDraft, "favorite" | "imagePath" | "priceHistory">;
@@ -67,42 +67,62 @@ export function ProductLibrary({ initialProducts, initialPromotions = {} }: { in
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("scan") !== "1") return;
-    setScannerOpen(true);
     url.searchParams.delete("scan");
     window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    const frame = window.requestAnimationFrame(() => setScannerOpen(true));
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   const searchExternal = async () => {
     if (!query.trim()) return;
     setBusy(true); setMessage("Търсене в продуктовата база…"); setResults([]);
-    const barcode = /^\d{8,14}$/.test(query.replace(/\s/g, "")) ? query : "";
-    const response = await fetch("/api/products/lookup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: barcode ? "" : query, barcode }) });
-    const payload = await response.json() as { products?: ExternalProduct[]; error?: string };
-    setResults(payload.products ?? []); setMessage(payload.error ?? (payload.products?.length ? "Избери точния продукт." : "Не е намерен продукт. Снимай етикета или го добави ръчно.")); setBusy(false);
+    try {
+      const barcode = /^\d{8,14}$/.test(query.replace(/\s/g, "")) ? query : "";
+      const response = await fetch("/api/products/lookup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: barcode ? "" : query, barcode }) });
+      if (!response.ok) throw new Error("Търсенето временно не е достъпно.");
+      const payload = await response.json() as { products?: ExternalProduct[]; error?: string };
+      setResults(payload.products ?? []); setMessage(payload.error ?? (payload.products?.length ? "Избери точния продукт." : "Не е намерен продукт. Снимай етикета или го добави ръчно."));
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Търсенето не можа да завърши.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const searchBarcode = async (barcode: string) => {
     setBusy(true); setQuery(barcode); setResults([]); setMessage(`Баркод ${barcode} е разпознат. Търсене на продукта…`);
-    const response = await fetch("/api/products/lookup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ barcode }) });
-    const payload = await response.json() as { products?: ExternalProduct[]; error?: string };
-    setResults(payload.products ?? []); setMessage(payload.error ?? (payload.products?.length ? "Продуктът е намерен. Провери и го избери." : "Баркодът е прочетен, но продуктът липсва. Снимай етикета, за да го добавиш.")); setBusy(false);
+    try {
+      const response = await fetch("/api/products/lookup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ barcode }) });
+      if (!response.ok) throw new Error("Баркодът е прочетен, но търсенето временно не е достъпно.");
+      const payload = await response.json() as { products?: ExternalProduct[]; error?: string };
+      setResults(payload.products ?? []); setMessage(payload.error ?? (payload.products?.length ? "Продуктът е намерен. Провери и го избери." : "Баркодът е прочетен, но продуктът липсва. Снимай етикета, за да го добавиш."));
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Търсенето по баркод не можа да завърши.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   useEffect(() => {
     if (!scannerOpen || !videoRef.current) return;
     detectedRef.current = false;
     setScannerStatus("Фокусирай целия баркод в цветната рамка.");
+    let cancelled = false;
     let stop: (() => void) | undefined;
     const focusTimer = window.setTimeout(() => setScannerStatus("Не намирам код. Отдалечи на 20–30 см или използвай „Снимай баркода“."), 7000);
     void createBarcodeReader().then(async (reader) => {
+      if (cancelled) return;
       const controls = await reader.decodeFromConstraints({ audio: false, video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } } }, videoRef.current!, (result) => {
         const barcode = result?.getText().replace(/\D/g, "") ?? "";
         if (detectedRef.current || barcode.length < 8) return;
         detectedRef.current = true; window.clearTimeout(focusTimer); setScannerStatus(`Разпознат баркод ${barcode}`); setScannerOpen(false); void searchBarcode(barcode);
       });
-      stop = () => controls.stop();
-    }).catch((error) => { setScannerOpen(false); setMessage(error instanceof Error && error.name === "NotAllowedError" ? "Разреши достъп до камерата от настройките на Safari и опитай отново." : "Камерата не можа да се отвори. Опитай със снимка на баркода."); });
-    return () => { window.clearTimeout(focusTimer); stop?.(); };
+      if (cancelled) controls.stop(); else stop = () => controls.stop();
+    }).catch((error) => {
+      if (cancelled) return;
+      setScannerOpen(false); setMessage(error instanceof Error && error.name === "NotAllowedError" ? "Разреши достъп до камерата от настройките на Safari и опитай отново." : "Камерата не можа да се отвори. Опитай със снимка на баркода.");
+    });
+    return () => { cancelled = true; window.clearTimeout(focusTimer); stop?.(); };
   }, [scannerOpen]);
 
   const scanBarcodePhoto = async (event: ChangeEvent<HTMLInputElement>) => {

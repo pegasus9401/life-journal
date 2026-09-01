@@ -6,7 +6,7 @@ body{background:var(--ios-bg);color:var(--ios-ink)}
   body{background:var(--ios-bg)}
   .life-app-shell,.p2-shell{width:100%;max-width:760px;min-height:100dvh;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px calc(164px + env(safe-area-inset-bottom))}
   .p2-top-nav{display:none!important}
-  .p2-bottom-nav{position:fixed!important;z-index:150!important;right:0!important;bottom:0!important;left:0!important;display:grid!important;grid-template-columns:repeat(5,1fr)!important;width:100%!important;height:calc(76px + env(safe-area-inset-bottom))!important;padding:8px max(12px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(12px,env(safe-area-inset-left))!important;border:0!important;border-top:1px solid rgba(20,22,26,.08)!important;border-radius:0!important;background:rgba(250,249,246,.94)!important;box-shadow:0 -8px 30px rgba(20,22,26,.06)!important;backdrop-filter:blur(22px)!important}
+  html body .p2-bottom-nav{position:fixed!important;z-index:150!important;right:0!important;bottom:0!important;left:0!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;width:100%!important;max-width:none!important;height:calc(76px + env(safe-area-inset-bottom))!important;min-height:0!important;padding:8px max(12px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(12px,env(safe-area-inset-left))!important;border:0!important;border-top:1px solid rgba(20,22,26,.08)!important;border-radius:0!important;background:rgba(250,249,246,.94)!important;box-shadow:0 -8px 30px rgba(20,22,26,.06)!important;backdrop-filter:blur(22px)!important}
   .p2-bottom-nav>a{display:grid!important;place-content:center!important;justify-items:center!important;gap:4px!important;min-width:0!important;padding:0!important;color:#8a9099!important;background:none!important;font-size:10px!important;font-weight:700!important;text-decoration:none!important}
   .p2-bottom-nav>a.active{color:#14161a!important}
   .p2-bottom-nav>a svg{width:23px!important;height:23px!important}
@@ -20,7 +20,7 @@ body{background:var(--ios-bg);color:var(--ios-ink)}
   .assistant-condensed-bar>button i img{width:34px!important;height:auto!important}
   .assistant-condensed-bar>button>span{display:grid!important;flex:1!important;gap:1px!important;color:#fff!important}
   .assistant-condensed-bar b{font-size:12px!important}.assistant-condensed-bar small{color:rgba(255,255,255,.55)!important;font-size:10px!important}.assistant-condensed-bar em{color:var(--ios-accent);font-size:25px;font-style:normal}
-  .assistant-fab,.assistant-quick-add-trigger{display:none!important}
+  html body .assistant-fab,html body .assistant-quick-add-trigger{display:none!important}
   html.mobile-chrome-hidden .assistant-condensed-bar{transform:translateY(18px);opacity:0}
 
   .assistant-popup-backdrop{background:rgba(20,22,26,.38)!important;backdrop-filter:blur(4px)}

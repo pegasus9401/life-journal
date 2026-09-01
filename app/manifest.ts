@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Дневник на живота",
-    short_name: "Life Journal",
-    description: "Личен дневник, календар, хранене и тренировки.",
+    name: "PEGASOS",
+    short_name: "PEGASOS",
+    description: "Личен LifeOS за деня, здравето, плановете и спомените.",
     start_url: "/today",
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#171522",
-    theme_color: "#171522",
+    background_color: "#f4f3f8",
+    theme_color: "#171521",
   };
 }

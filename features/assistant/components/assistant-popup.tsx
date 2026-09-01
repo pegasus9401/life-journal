@@ -76,7 +76,7 @@ export function AssistantPopup() {
 
   useEffect(() => {
     const close = () => setOpen(false);
-    const openCapture = () => setQuickActionsOpen(true);
+    const openCapture = (event: Event) => { if (!event.defaultPrevented) setQuickActionsOpen(true); };
     window.addEventListener("close-assistant-popup", close);
     window.addEventListener("gesture-close-overlay", close);
     window.addEventListener("open-quick-capture", openCapture);

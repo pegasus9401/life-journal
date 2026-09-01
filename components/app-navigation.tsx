@@ -11,7 +11,7 @@ function areaFor(active?: string): Area | undefined {
 }
 function Icon({ name }: { name: Area }) {
   const paths = {
-    today: <><path d="M5 5.5h14v14H5z"/><path d="M8 3v5M16 3v5M5 9h14"/><circle cx="10" cy="14" r="1.7"/></>,
+    today: <><path d="M3.5 11.5 12 4l8.5 7.5"/><path d="M5.5 10.5V20h13v-9.5M9.5 20v-6h5v6"/></>,
     health: <><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/><path d="M8.5 12h2l1-2.5 1.7 5 1-2.5h1.8"/></>,
     planner: <><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3v5M16 3v5M4 10h16M8 14h.01M12 14h.01M16 14h.01"/></>,
     journal: <><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5z"/><path d="M5 4.5v17M9 7h6M9 11h6"/></>,
@@ -30,14 +30,14 @@ export function AppNavigation({ active, title }: { active?: string; title?: stri
   const selected = areaFor(active);
   return <>
     <nav className="p2-top-nav" aria-label="Основна навигация">
-      <Link className="p2-brand" href="/today" aria-label="PEGASOS — Днес"><span>✦</span><strong>{title ?? "PEGASOS"}</strong></Link>
-      <div>{desktopAreas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}>{area.label}</Link>)}</div>
+      <Link className="p2-brand" href="/today" aria-label="PEGASOS - Днес"><span>✦</span><strong>{title ?? "PEGASOS"}</strong></Link>
+      <div>{desktopAreas.map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} aria-current={selected === area.key ? "page" : undefined} href={area.href}>{area.label}</Link>)}</div>
       <form action={signOut}><button type="submit">Изход</button></form>
     </nav>
     <nav className="p2-bottom-nav" aria-label="Мобилна навигация">
-      {mobileAreas.slice(0, 2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
+      {mobileAreas.slice(0, 2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} aria-current={selected === area.key ? "page" : undefined} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
       <CaptureButton />
-      {mobileAreas.slice(2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
+      {mobileAreas.slice(2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} aria-current={selected === area.key ? "page" : undefined} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
     </nav>
   </>;
 }

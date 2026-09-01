@@ -64,10 +64,20 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
   }, []);
 
   useEffect(() => {
+    const openFromDock = (event: Event) => { event.preventDefault(); setChooser(true); setOpen(true); };
+    window.addEventListener("open-quick-capture", openFromDock, true);
+    return () => window.removeEventListener("open-quick-capture", openFromDock, true);
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     const close = () => setOpen(false);
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     window.addEventListener("gesture-close-overlay", close);
-    return () => window.removeEventListener("gesture-close-overlay", close);
+    window.addEventListener("keydown", closeOnEscape);
+    return () => { document.body.style.overflow = previousOverflow; window.removeEventListener("gesture-close-overlay", close); window.removeEventListener("keydown", closeOnEscape); };
   }, [open]);
 
   const changeMenu = (value: string) => { setMenu(value); setMeal("Закуска"); setVariant(0); };

@@ -16,31 +16,32 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
+  themeColor: "#171521",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Дневник на живота",
-  description: "Тихо място за спомените от живота, който живееш.",
+  title: "PEGASOS",
+  description: "Твоят личен LifeOS за деня, здравето, плановете и спомените.",
   manifest: "/pwa.webmanifest",
-  applicationName: "Дневник на живота",
+  applicationName: "PEGASOS",
   appleWebApp: {
     capable: true,
-    title: "Дневник на живота",
+    title: "PEGASOS",
     statusBarStyle: "black-translucent",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    title: "Дневник на живота",
-    description: "Дни, които си струва да запазиш.",
-    images: [{ url: "/og.png", alt: "Дневник на живота — дни, които си струва да запазиш." }],
+    title: "PEGASOS",
+    description: "Твоят живот, подреден и насочван от AI.",
+    images: [{ url: "/og.png", alt: "PEGASOS - твоят личен LifeOS." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Дневник на живота",
-    description: "Дни, които си струва да запазиш.",
+    title: "PEGASOS",
+    description: "Твоят живот, подреден и насочван от AI.",
     images: ["/og.png"],
   },
 };

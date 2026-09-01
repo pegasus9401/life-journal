@@ -1,0 +1,38 @@
+name: Update Bulgarian Holidays Calendar
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/holidays/**'
+      - '.github/workflows/update-holidays.yml'
+  schedule:
+    - cron: '23 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate calendar
+        run: python tools/holidays/update_holidays.py
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/holidays/calendar.ics
+          if git diff --cached --quiet; then
+            echo "No calendar changes"
+          else
+            git commit -m "Update Bulgarian holidays calendar"
+            git push
+          fi

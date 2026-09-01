@@ -16,7 +16,7 @@ EXCEPTIONS = {
     "Dana":"Дана","Danail":"Данаил","Danaila":"Данаила","Daniela":"Даниела","Dimitar":"Димитър","Dimitrina":"Димитрина","Dona":"Дона","Doncho":"Дончо","Donka":"Донка",
     "Efimir":"Ефимир","Ekaterina":"Екатерина","Elisaveta":"Елисавета","Emil":"Емил","Emilian":"Емилиан","Emiliya":"Емилия","Evgeni":"Евгени","Evgeniya":"Евгения","Evlogi":"Евлоги","Evtim":"Евтим","Evtimiya":"Евтимия",
     "Filio":"Фильо","Filip":"Филип","Filipa":"Филипа","Gavrail":"Гавраил","Gavril":"Гаврил","Grigor":"Григор",
-    "Haralampi":"Харалампи","Hari":"Хари","Hristina":"Христина","Hristo":"Христо","Ignat":"Игнат","Ioan":"Йоан","Iordan":"Йордан","Iordanka":"Йорданка","Iosif":"Йосиф","Ivan":"Иван","Ivanka":"Иванка","Ivayla":"Ивайла","Ivaylo":"Ивайло","Ivet":"Ивет",
+    "Haralampi":"Харалампи","Hari":"Хари","Hristina":"Христина","Hristo":"Христо","Ignat":"Игнат","Ioan":"Йоан","Ioana":"Йоана","Iordan":"Йордан","Iordanka":"Йорданка","Iosif":"Йосиф","Ivan":"Иван","Ivanka":"Иванка","Ivayla":"Ивайла","Ivaylo":"Ивайло","Ivet":"Ивет",
     "Kaloian":"Калоян","Kaloyan":"Калоян","Katerina":"Катерина","Katina":"Катина","Katya":"Катя","Kliment":"Климент","Klimentina":"Климентина","Krustan":"Кръстан","Krustina":"Кръстина","Krustyo":"Кръстьо",
     "Lyuba":"Люба","Lyuben":"Любен","Lyubomir":"Любомир","Lyubov":"Любов","Lyudmil":"Людмил","Lyudmila":"Людмила",
     "Maksim":"Максим","Mariya":"Мария","Matei":"Матей","Mihaela":"Михаела","Mihail":"Михаил","Minka":"Минка","Minko":"Минко","Mitko":"Митко","Momchil":"Момчил",
@@ -56,21 +56,27 @@ def fetch_events():
         d, mo, y = map(int, m.groups())
         if y < 100:
             y += 2000
-        # Event text is normally the last cell. Ignore weekday/date columns.
         title = cells[-1].strip()
         if not title or date_re.search(title):
             continue
         if title.lower() in {"monday","tuesday","wednesday","thursday","friday","saturday","sunday"}:
             continue
-        names = [n.strip() for n in title.split(",") if n.strip()]
-        if not names:
+        raw_names = [n.strip() for n in title.split(",") if n.strip()]
+        if not raw_names:
             continue
+        translated = []
+        seen = set()
+        for raw in raw_names:
+            name = bg(raw)
+            if name not in seen:
+                translated.append(name)
+                seen.add(name)
         try:
             dt = datetime(y, mo, d)
         except ValueError:
             continue
         key = dt.strftime("%Y%m%d")
-        events[key] = ", ".join(bg(n) for n in names)
+        events[key] = ", ".join(translated)
     if not events:
         raise RuntimeError("No name-day events parsed from source")
     return events

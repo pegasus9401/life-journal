@@ -1,13 +1,12 @@
 import { redirect } from "next/navigation";
 
 import { AppNavigation } from "@/components/app-navigation";
-import { WorkoutExperience } from "@/features/workouts/components/workout-experience";
 import { FitnessDashboard } from "@/features/workouts/components/fitness-dashboard";
 import { createClient } from "@/lib/supabase/server";
 import { getWorkoutRange } from "@/features/workouts/queries";
 import { addDays, localDateKey } from "@/features/calendar/domain/date-utils";
 
-export const metadata = { title: "Тренировки · Дневник на живота" };
+export const metadata = { title: "Тренировки · PEGASOS" };
 
 export default async function WorkoutsPage() {
   const supabase = await createClient();
@@ -22,10 +21,14 @@ export default async function WorkoutsPage() {
   const history = sessions.filter((session) => session.completed || session.status === "completed");
 
   return (
-    <main className="life-app-shell">
+    <main className="life-app-shell p2-shell">
       <AppNavigation active="workouts" captureDate={today} />
-      <FitnessDashboard sessions={sessions} today={today} />
-      <div id="workout-templates"><WorkoutExperience initialTemplates={user.user_metadata?.workout_templates} initialHistory={history} /></div>
+      <FitnessDashboard
+        sessions={sessions}
+        today={today}
+        initialTemplates={user.user_metadata?.workout_templates}
+        initialHistory={history}
+      />
     </main>
   );
 }

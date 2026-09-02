@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
 import { START_WORKOUT_EVENT, type StartWorkoutDetail } from "./active-workout-tracker";
 import type { WorkoutSession } from "../types";
 import { zonedDateTimeToUtc } from "@/features/calendar/domain/date-utils";
+import styles from "./workout-experience.module.css";
 
 const DAYS = [
   { key: "monday", short: "Пон", label: "Понеделник" },
@@ -43,6 +44,7 @@ type WorkoutTemplate = {
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
+export const OPEN_WORKOUT_BUILDER_EVENT = "life-journal:open-workout-builder";
 
 const FULL_BODY: WorkoutTemplate = {
   id: "full-body",
@@ -226,7 +228,7 @@ function TemplateView({ template, onStart, onSchedule, onDuplicate, onEdit, onDe
   return <section className="workout-library-view">
     <header>
       <div><p className="life-kicker">Тренировъчна програма</p><h2>{template.name}</h2><p>{template.days.length ? `${template.days.length} пъти седмично` : "Без избрани дни"} · около {template.durationMinutes} минути</p><span className="workout-library-period-label">▣ {period}</span></div>
-      <div><button className="start" type="button" onClick={onStart}>▶ Започни тренировка</button><button type="button" onClick={onSchedule}>Планирай</button><button type="button" onClick={onDuplicate}>Дублирай</button><button type="button" onClick={onEdit}>Редактирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div>
+      <div><button className="start" type="button" onClick={onStart}>▶ Започни тренировка</button><button type="button" onClick={onSchedule}>Планирай</button><details className="workout-library-more"><summary>Още</summary><div><button type="button" onClick={onEdit}>Редактирай</button><button type="button" onClick={onDuplicate}>Дублирай</button><button className="danger" type="button" onClick={onDelete}>Изтрий</button></div></details></div>
     </header>
 
     <div className="workout-library-week">
@@ -255,19 +257,38 @@ function WorkoutHistory({ sessions }: { sessions: WorkoutSession[] }) {
   })}</div></section>;
 }
 
-export function WorkoutExperience({ initialTemplates, initialHistory = [] }: { initialTemplates?: unknown; initialHistory?: WorkoutSession[] }) {
+export function WorkoutExperience({
+  initialTemplates,
+  initialHistory = [],
+  screen = "programs",
+}: {
+  initialTemplates?: unknown;
+  initialHistory?: WorkoutSession[];
+  screen?: "programs" | "history";
+}) {
   const router = useRouter();
   const [templates, setTemplates] = useState<WorkoutTemplate[]>(() => normalizeTemplates(initialTemplates));
   const [selectedId, setSelectedId] = useState(() => normalizeTemplates(initialTemplates)[0]?.id ?? "");
   const [draft, setDraft] = useState<WorkoutTemplate | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
-  const [screen, setScreen] = useState<"programs" | "history">("programs");
   const [scheduleTemplate, setScheduleTemplate] = useState<WorkoutTemplate | null>(null);
   const [scheduleDate, setScheduleDate] = useState(() => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Sofia" }));
   const [scheduleTime, setScheduleTime] = useState("18:30");
 
   const selected = templates.find((template) => template.id === selectedId) ?? templates[0] ?? null;
+
+  useEffect(() => {
+    const openBuilder = () => {
+      const next = blankTemplate();
+      setSelectedId(next.id);
+      setDraft(next);
+      setSaveState("idle");
+      setMessage("");
+    };
+    window.addEventListener(OPEN_WORKOUT_BUILDER_EVENT, openBuilder);
+    return () => window.removeEventListener(OPEN_WORKOUT_BUILDER_EVENT, openBuilder);
+  }, []);
 
   const persist = async (next: WorkoutTemplate[]) => {
     setSaveState("saving");
@@ -351,13 +372,11 @@ export function WorkoutExperience({ initialTemplates, initialHistory = [] }: { i
     setMessage("");
   };
 
-  return <section className="workout-library">
-    <header className="workout-library-header">
-      <div><p className="life-kicker">Моите програми</p><h1>Тренировки</h1><p>Създавай и подреждай тренировъчните си програми. Изпълнението и тежестите не се записват на този екран.</p></div>
-      <button type="button" onClick={addTemplate}>＋ Добави тренировка</button>
-    </header>
-
-    <nav className="workout-section-tabs" aria-label="Тренировки"><button className={screen === "programs" ? "active" : ""} type="button" onClick={() => setScreen("programs")}><span>Програми</span><small>{templates.length}</small></button><button className={screen === "history" ? "active" : ""} type="button" onClick={() => setScreen("history")}><span>История</span><small>{initialHistory.length}</small></button></nav>
+  return <section className={`workout-library ${styles.root}`} id="workout-templates">
+    {screen === "programs" ? <header className="workout-library-header">
+      <div><p className="life-kicker">ТВОЯТА СИСТЕМА</p><h2>Тренировъчни програми</h2><p>Избираш програмата тук, а серии, тежести и почивки записваш в активната тренировка.</p></div>
+      <button type="button" onClick={addTemplate}>＋ Нова програма</button>
+    </header> : null}
 
     {screen === "programs" && templates.length ? <nav className="workout-library-tabs" aria-label="Тренировъчни програми">{templates.map((template) => <button className={selected?.id === template.id && !draft ? "active" : ""} key={template.id} type="button" onClick={() => { setSelectedId(template.id); setDraft(null); }}><span>{template.name}</span><small>{template.exercises.length} упражнения</small></button>)}</nav> : null}
 

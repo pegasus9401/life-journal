@@ -1,0 +1,317 @@
+.root {
+  display: grid;
+  gap: 16px;
+  padding: 0 0 24px;
+}
+
+.root :global(.workout-library-header) {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 6px 2px 2px;
+}
+
+.root :global(.workout-library-header h2) {
+  margin: 4px 0 0;
+  color: var(--p2-text);
+  font: 780 clamp(25px, 5vw, 34px)/1.05 var(--font-onest), sans-serif;
+  letter-spacing: -.04em;
+}
+
+.root :global(.workout-library-header > div > p:last-child) {
+  max-width: 610px;
+  margin: 9px 0 0;
+  color: var(--p2-text-2);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.root :global(.workout-library-header > button),
+.root :global(.workout-library-empty button) {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #7669ea, #9f67e8);
+  box-shadow: 0 12px 28px rgba(102, 85, 211, .2);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.root :global(.workout-library-tabs) {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid var(--p2-border);
+  border-radius: 16px;
+  background: var(--p2-surface-2);
+  box-shadow: none;
+  scrollbar-width: none;
+}
+
+.root :global(.workout-library-tabs::-webkit-scrollbar) { display: none; }
+
+.root :global(.workout-library-tabs button) {
+  display: grid;
+  flex: 0 0 auto;
+  min-width: 170px;
+  min-height: 54px;
+  place-content: center;
+  gap: 3px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--p2-text-2);
+  background: transparent;
+  text-align: left;
+}
+
+.root :global(.workout-library-tabs button span) { font-size: 11px; font-weight: 800; }
+.root :global(.workout-library-tabs button small) { color: var(--p2-text-3); font-size: 8px; }
+
+.root :global(.workout-library-tabs button.active) {
+  color: var(--p2-text);
+  background: var(--p2-surface);
+  box-shadow: 0 5px 16px rgba(31, 35, 49, .08);
+}
+
+.root :global(.workout-library-view),
+.root :global(.workout-library-editor) {
+  display: grid;
+  gap: 18px;
+  padding: clamp(17px, 3vw, 24px);
+  border: 1px solid var(--p2-border);
+  border-radius: 24px;
+  color: var(--p2-text);
+  background: var(--p2-surface);
+  box-shadow: 0 14px 34px rgba(34, 38, 52, .055);
+}
+
+.root :global(.workout-library-view > header),
+.root :global(.workout-library-editor > header) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.root :global(.workout-library-view > header h2),
+.root :global(.workout-library-editor > header h2) {
+  margin: 3px 0 0;
+  color: var(--p2-text);
+  font: 780 clamp(24px, 5vw, 34px)/1.08 var(--font-onest), sans-serif;
+  letter-spacing: -.04em;
+}
+
+.root :global(.workout-library-view > header > div:first-child > p:last-of-type) {
+  margin: 8px 0 0;
+  color: var(--p2-text-2);
+  font-size: 10px;
+}
+
+.root :global(.workout-library-view > header > div:last-child) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.root :global(.workout-library-view > header button),
+.root :global(.workout-library-editor > header > button) {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--p2-border);
+  border-radius: 11px;
+  color: var(--p2-text-2);
+  background: var(--p2-surface-2);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.root :global(.workout-library-view > header button.start) {
+  border: 0;
+  color: #fff;
+  background: linear-gradient(135deg, #7669ea, #9f67e8);
+}
+
+.root :global(.workout-library-view > header button.danger) {
+  border-color: rgba(197, 66, 66, .16);
+  color: #b44b55;
+  background: #fff6f6;
+}
+
+.root :global(.workout-library-more) { position: relative; }
+.root :global(.workout-library-more summary) {
+  display: grid;
+  min-height: 38px;
+  place-items: center;
+  padding: 0 13px;
+  border: 1px solid var(--p2-border);
+  border-radius: 11px;
+  color: var(--p2-text-2);
+  background: var(--p2-surface-2);
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 750;
+  list-style: none;
+}
+.root :global(.workout-library-more summary::-webkit-details-marker) { display: none; }
+.root :global(.workout-library-more > div) {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  right: 0;
+  display: grid;
+  width: 148px;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid var(--p2-border);
+  border-radius: 13px;
+  background: var(--p2-surface);
+  box-shadow: 0 16px 34px rgba(31, 35, 49, .14);
+}
+.root :global(.workout-library-more > div button) { width: 100%; justify-content: flex-start; text-align: left; }
+
+.root :global(.workout-library-period-label) {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 6px 9px;
+  border-radius: 9px;
+  color: #6459c9;
+  background: #f0efff;
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.root :global(.workout-library-week) {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.root :global(.workout-library-week > div) {
+  display: grid;
+  min-height: 62px;
+  place-content: center;
+  gap: 4px;
+  padding: 7px;
+  border: 1px solid var(--p2-border);
+  border-radius: 12px;
+  color: var(--p2-text-3);
+  background: var(--p2-surface-2);
+  text-align: center;
+}
+
+.root :global(.workout-library-week b) { font-size: 10px; }
+.root :global(.workout-library-week span) { overflow: hidden; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+
+.root :global(.workout-library-week .is-training) {
+  border-color: rgba(118, 105, 234, .25);
+  color: #6257c7;
+  background: #f0efff;
+  box-shadow: inset 0 -2px #7669ea;
+}
+
+.root :global(.workout-library-groups) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.root :global(.workout-library-groups > section) {
+  overflow: hidden;
+  border: 1px solid var(--p2-border);
+  border-radius: 16px;
+  background: var(--p2-surface-2);
+}
+
+.root :global(.workout-library-groups > section > header) {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 13px;
+  border-bottom: 1px solid var(--p2-border);
+  background: rgba(118, 105, 234, .06);
+}
+
+.root :global(.workout-library-groups > section > header span) { color: #6257c7; font-size: 9px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.root :global(.workout-library-groups > section > header b) { color: var(--p2-text-3); font-size: 8px; }
+
+.root :global(.workout-library-groups article) {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  min-height: 64px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--p2-border);
+}
+
+.root :global(.workout-library-groups article:last-child) { border-bottom: 0; }
+.root :global(.workout-library-groups article > span) { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 9px; color: #6257c7; background: #eceaff; font-size: 8px; font-weight: 850; }
+.root :global(.workout-library-groups article > div) { display: grid; min-width: 0; gap: 5px; }
+.root :global(.workout-library-groups article strong) { font-size: 11px; line-height: 1.35; }
+.root :global(.workout-library-groups article p) { margin: 0; color: var(--p2-text-2); font-size: 8px; line-height: 1.4; }
+.root :global(.workout-library-groups article p b) { color: var(--p2-text); }
+
+.root :global(.workout-library-progression) {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(42, 169, 120, .18);
+  border-radius: 14px;
+  background: #effaf6;
+}
+
+.root :global(.workout-library-progression > span) { display: grid; flex: 0 0 34px; height: 34px; place-items: center; border-radius: 10px; color: #16815b; background: #dff5ec; }
+.root :global(.workout-library-progression strong) { color: #16815b; font-size: 10px; }
+.root :global(.workout-library-progression p) { margin: 4px 0 0; color: #527269; font-size: 9px; line-height: 1.5; }
+
+.root :global(.workout-history > header) { padding: 4px 2px 8px; }
+.root :global(.workout-history > header h2) { color: var(--p2-text); font: 780 clamp(25px, 5vw, 34px)/1.05 var(--font-onest), sans-serif; letter-spacing: -.04em; }
+.root :global(.workout-history-card) { border-color: var(--p2-border); border-radius: 17px; background: var(--p2-surface); box-shadow: 0 10px 28px rgba(34, 38, 52, .045); }
+.root :global(.workout-history-icon) { color: #16815b; background: #e4f7ef; }
+.root :global(.workout-history-stats) { background: var(--p2-surface-2); }
+
+.root :global(.workout-library-editor-basics),
+.root :global(.workout-library-period > div) { gap: 10px; }
+
+.root :global(.workout-library-editor input),
+.root :global(.workout-library-editor select),
+.root :global(.workout-library-editor textarea) {
+  border-color: var(--p2-border);
+  color: var(--p2-text);
+  background: var(--p2-surface);
+}
+
+.root :global(.workout-library-days button) { border-color: var(--p2-border); color: var(--p2-text-2); background: var(--p2-surface-2); }
+.root :global(.workout-library-days button.active) { border-color: rgba(118, 105, 234, .25); color: #6257c7; background: #f0efff; }
+.root :global(.workout-library-period) { border-color: var(--p2-border); background: var(--p2-surface-2); }
+.root :global(.workout-library-exercise-editor) { border-color: var(--p2-border); background: var(--p2-surface-2); }
+.root :global(.workout-library-save) { background: linear-gradient(135deg, #7669ea, #9f67e8); }
+
+@media (max-width: 760px) {
+  .root { gap: 13px; }
+  .root :global(.workout-library-header) { align-items: flex-start; }
+  .root :global(.workout-library-header > div > p:last-child) { font-size: 10px; }
+  .root :global(.workout-library-header > button) { flex: 0 0 auto; min-height: 40px; padding: 0 12px; font-size: 9px; }
+  .root :global(.workout-library-tabs) { margin-inline: -1px; }
+  .root :global(.workout-library-tabs button) { min-width: 145px; }
+  .root :global(.workout-library-view > header) { display: grid; }
+  .root :global(.workout-library-view > header > div:last-child) { justify-content: flex-start; }
+  .root :global(.workout-library-view > header button.start) { flex: 1 0 100%; }
+  .root :global(.workout-library-week) { overflow-x: auto; grid-template-columns: repeat(7, 62px); padding-bottom: 2px; scrollbar-width: none; }
+  .root :global(.workout-library-groups) { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .root :global(.workout-library-header) { display: grid; }
+  .root :global(.workout-library-header > button) { width: 100%; }
+  .root :global(.workout-library-view),
+  .root :global(.workout-library-editor) { padding: 15px; border-radius: 20px; }
+}

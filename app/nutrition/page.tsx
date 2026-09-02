@@ -6,7 +6,7 @@ import { getNutritionDay } from "@/features/nutrition/queries";
 import { localDateKey } from "@/features/calendar/domain/date-utils";
 import { getWorkoutDay } from "@/features/workouts/queries";
 import { workoutStatus } from "@/features/workouts/domain/fitness-analytics";
-import { bestPromotions, getPromotions } from "@/lib/promotions";
+import { bestPromotionsByStore, getPromotions, interleavePromotionsByStore } from "@/lib/promotions";
 
 export const metadata = { title: "Хранене · PEGASOS" };
 
@@ -23,9 +23,9 @@ export default async function NutritionPage({ searchParams }: { searchParams: Pr
 
   const promotionMap = new Map<string, (typeof offers)[number]>();
   for (const label of data.meals.flatMap((meal) => meal.items.map((item) => item.label))) {
-    for (const offer of bestPromotions(label, offers, 2)) promotionMap.set(offer.id, offer);
+    for (const offer of bestPromotionsByStore(label, offers)) promotionMap.set(offer.id, offer);
   }
-  const promotions = [...promotionMap.values()].sort((a, b) => a.store.localeCompare(b.store, "bg") || a.price - b.price).slice(0, 12);
+  const promotions = interleavePromotionsByStore([...promotionMap.values()].sort((a, b) => a.price - b.price), 20);
   const completed = workouts.filter((workout) => workoutStatus(workout) === "completed");
   const dayContext = completed.some((workout) => workout.workout_type === "cardio")
     ? "Cardio ден"

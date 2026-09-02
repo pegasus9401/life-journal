@@ -87,10 +87,10 @@ function ProductImage({ product, preview }: { product?: Partial<ProductDraft>; p
     : <span className={styles.imageFallback} aria-hidden="true"><Icon name="spark"/></span>;
 }
 
-function coachCopy(productCount: number, missingPrices: number, offerCount: number) {
+function coachCopy(productCount: number, missingPrices: number, offerCount: number, offerStoreCount: number) {
   if (!productCount) return "Сканирай първия си продукт. Pegas ще използва точните му стойности в планове, рецепти и дневния прием.";
   if (missingPrices > 0) return "Добави цена на още " + missingPrices + " продукта, за да стане прогнозата за пазаруване по-точна.";
-  if (offerCount > 0) return "Има " + offerCount + " актуални оферти за продукти от твоята база. Провери ги преди следващото пазаруване.";
+  if (offerCount > 0) return "Има " + offerCount + " актуални оферти в " + offerStoreCount + (offerStoreCount === 1 ? " магазин" : " магазина") + " за продукти от твоята база.";
   return "Базата ти е подредена. Използвай продуктите директно в дневния план или ги комбинирай в рецепта.";
 }
 
@@ -99,7 +99,7 @@ export function ProductLibrary({
   initialPromotions = {},
 }: {
   initialProducts: FoodProduct[];
-  initialPromotions?: Record<string, Promotion>;
+  initialPromotions?: Record<string, Promotion[]>;
 }) {
   const [products, setProducts] = useState(initialProducts);
   const [results, setResults] = useState<ExternalProduct[]>([]);
@@ -119,22 +119,30 @@ export function ProductLibrary({
   const videoRef = useRef<HTMLVideoElement>(null);
   const detectedRef = useRef(false);
 
-  const counts = useMemo(() => ({
-    favorites: products.filter((product) => product.favorite).length,
-    priced: products.filter((product) => Boolean(latestPrice(product))).length,
-    offers: products.filter((product) => Boolean(initialPromotions[product.id])).length,
-  }), [initialPromotions, products]);
-  const stores = useMemo(() => [...new Set(products.flatMap((product) => product.priceHistory.map((price) => price.store).filter(Boolean)))].sort((a, b) => a.localeCompare(b, "bg")), [products]);
+  const counts = useMemo(() => {
+    const productOffers = products.flatMap((product) => initialPromotions[product.id] ?? []);
+    return {
+      favorites: products.filter((product) => product.favorite).length,
+      priced: products.filter((product) => Boolean(latestPrice(product))).length,
+      offerProducts: products.filter((product) => Boolean(initialPromotions[product.id]?.length)).length,
+      offers: productOffers.length,
+      offerStores: new Set(productOffers.map((offer) => offer.store.toLocaleLowerCase("bg-BG"))).size,
+    };
+  }, [initialPromotions, products]);
+  const stores = useMemo(() => [...new Set([
+    ...products.flatMap((product) => product.priceHistory.map((price) => price.store).filter(Boolean)),
+    ...products.flatMap((product) => (initialPromotions[product.id] ?? []).map((offer) => offer.store)),
+  ])].sort((a, b) => a.localeCompare(b, "bg")), [initialPromotions, products]);
   const visibleProducts = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase("bg-BG");
     return products
       .filter((product) => {
         const searchable = [product.name, product.brand, product.barcode, product.packageSize, product.source, ...product.priceHistory.map((price) => price.store)].join(" ").toLocaleLowerCase("bg-BG");
         if (needle && !searchable.includes(needle)) return false;
-        if (storeFilter && !product.priceHistory.some((price) => price.store === storeFilter)) return false;
+        if (storeFilter && !product.priceHistory.some((price) => price.store === storeFilter) && !(initialPromotions[product.id] ?? []).some((offer) => offer.store === storeFilter)) return false;
         if (filter === "favorites" && !product.favorite) return false;
         if (filter === "priced" && !latestPrice(product)) return false;
-        if (filter === "offers" && !initialPromotions[product.id]) return false;
+        if (filter === "offers" && !initialPromotions[product.id]?.length) return false;
         return true;
       })
       .sort((a, b) => Number(b.favorite) - Number(a.favorite) || b.updatedAt.localeCompare(a.updatedAt));
@@ -417,7 +425,7 @@ export function ProductLibrary({
       <div className={styles.heroCopy}>
         <p><span aria-hidden="true"/> PEGAS · ХРАНИТЕЛНА БАЗА</p>
         <h2 id="product-coach-title">{products.length ? "Базата ти работи за целия ден" : "Започни с един реален продукт"}</h2>
-        <p>{coachCopy(products.length, missingPrices, counts.offers)}</p>
+        <p>{coachCopy(products.length, missingPrices, counts.offers, counts.offerStores)}</p>
         <div className={styles.heroStats}>
           <span><strong>{counts.priced}</strong> с цена</span>
           <span><strong>{counts.favorites}</strong> любими</span>
@@ -475,7 +483,7 @@ export function ProductLibrary({
             ["all", "Всички", products.length],
             ["favorites", "Любими", counts.favorites],
             ["priced", "С цена", counts.priced],
-            ["offers", "В оферта", counts.offers],
+            ["offers", "В оферта", counts.offerProducts],
           ] as const).map(([value, label, count]) => <button type="button" key={value} aria-pressed={filter === value} onClick={() => setFilter(value)}>{label}<span>{count}</span></button>)}
         </div>
         {stores.length ? <label className={styles.storeSelect}>Магазин<select value={storeFilter} onChange={(event) => setStoreFilter(event.target.value)}><option value="">Всички</option>{stores.map((store) => <option key={store}>{store}</option>)}</select></label> : null}
@@ -486,7 +494,7 @@ export function ProductLibrary({
           const current = product.priceHistory[0];
           const previous = product.priceHistory[1];
           const change = current && previous ? current.price - previous.price : 0;
-          const promotion = initialPromotions[product.id];
+          const promotions = initialPromotions[product.id] ?? [];
           return <article className={styles.productCard} key={product.id}>
             <div className={styles.productImage}><ProductImage product={product}/></div>
             <div className={styles.productContent}>
@@ -511,10 +519,13 @@ export function ProductLibrary({
                 <span><b>{round(product.carbs100g)}</b> В</span>
                 <span><b>{round(product.fat100g)}</b> М</span>
               </div>
-              {promotion ? <a className={styles.promotion} href={promotion.url} target="_blank" rel="noreferrer">
-                <span><b>{promotion.store}</b><small>Оферта до {promotion.validUntil}</small></span>
-                <strong>{money(promotion.price)}</strong><i aria-hidden="true">↗</i>
-              </a> : current ? <div className={styles.price}>
+              {promotions.length ? <div className={styles.promotionGroup}>
+                <div className={styles.promotionHeading}><small>АКТУАЛНИ ОФЕРТИ</small><span>{promotions.length} {promotions.length === 1 ? "магазин" : "магазина"}</span></div>
+                <div className={styles.promotionRail}>{promotions.map((promotion) => <a className={styles.promotion} href={promotion.url} target="_blank" rel="noreferrer" key={`${promotion.store}-${promotion.id}`}>
+                  <span><b>{promotion.store}</b><small>до {promotion.validUntil}</small></span>
+                  <strong>{money(promotion.price)}</strong><i aria-hidden="true">↗</i>
+                </a>)}</div>
+              </div> : current ? <div className={styles.price}>
                 <span><small>ПОСЛЕДНА ЦЕНА</small><strong>{money(current.price)}</strong></span>
                 <span><b>{current.store || "Без магазин"}</b><small>{current.recordedAt}</small></span>
                 {previous && change !== 0 ? <em className={change > 0 ? styles.priceUp : styles.priceDown}>{change > 0 ? "↑ " : "↓ "}{money(Math.abs(change))}</em> : null}

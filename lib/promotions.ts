@@ -13,20 +13,6 @@ export type Promotion = {
   source: "SmartPazar";
 };
 
-type SmartPazarOffer = {
-  id?: string | number;
-  name?: string;
-  store?: string;
-  old_price_eur?: number | null;
-  new_price_eur?: number | null;
-  valid_from?: string;
-  valid_until?: string;
-  url?: string;
-  image_url?: string;
-};
-
-const sourceUrl = "https://smartpazar.net/smartpazar_db.json";
-
 export const preferredPromotionStores = ["Kaufland", "Lidl", "Billa", "Fantastico", "T-Market"] as const;
 
 export const retailerBrochures: Partial<Record<string, string>> = {
@@ -146,19 +132,7 @@ function isCurrentOrUpcoming(value: string) {
   return end.getTime() >= now.getTime() - 24 * 60 * 60 * 1000;
 }
 
-export async function getPromotions(): Promise<Promotion[]> {
-  const fallback = (promotionFallback as Promotion[]).filter((offer) => isCurrentOrUpcoming(offer.validUntil));
-  try {
-    const response = await fetch(sourceUrl, { headers: { Accept: "application/json", "User-Agent": "LifeJournal/1.0 promotions reader" }, next: { revalidate: 6 * 60 * 60 } });
-    if (!response.ok) return fallback;
-    const data = await response.json() as SmartPazarOffer[];
-    const remote = data.flatMap((item): Promotion[] => {
-      const store = String(item.store ?? "").trim().slice(0, 80);
-      const price = Number(item.new_price_eur);
-      if (!store || !item.name || !Number.isFinite(price) || price <= 0 || !isCurrentOrUpcoming(String(item.valid_until ?? ""))) return [];
-      return [{ id: String(item.id ?? `${store}-${item.name}`), name: String(item.name).slice(0, 240), store, oldPrice: Number(item.old_price_eur) > price ? Number(item.old_price_eur) : null, price, validFrom: String(item.valid_from ?? ""), validUntil: String(item.valid_until ?? ""), url: String(item.url ?? retailerBrochures[store] ?? ""), imageUrl: String(item.image_url ?? ""), source: "SmartPazar" }];
-    });
-    const remoteStores = new Set(remote.map((offer) => offer.store.toLocaleLowerCase("bg-BG")));
-    return [...remote, ...fallback.filter((offer) => !remoteStores.has(offer.store.toLocaleLowerCase("bg-BG")))];
-  } catch { return fallback; }
+export function getPromotions(): Promise<Promotion[]> {
+  const current = (promotionFallback as Promotion[]).filter((offer) => isCurrentOrUpcoming(offer.validUntil));
+  return Promise.resolve(current);
 }

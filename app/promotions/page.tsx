@@ -34,7 +34,7 @@ export default async function PromotionsPage({
   const requestedStore = String(params.store ?? "");
   const selectedStore = stores.includes(requestedStore) ? requestedStore : "";
   const query = String(params.q ?? "").trim().toLocaleLowerCase("bg-BG");
-  const dietView = params.view !== "all";
+  const dietView = params.view === "diet";
   const menus = getMenuLibrary(user.user_metadata as MealMenuSettings);
   const dietTerms = dietTermsFromMenus(menus);
   const relevantOffers = allOffers
@@ -48,11 +48,11 @@ export default async function PromotionsPage({
     return counts;
   }, new Map());
   const dietHref = `?${new URLSearchParams({
+    view: "diet",
     ...(params.q ? { q: params.q } : {}),
     ...(selectedStore ? { store: selectedStore } : {}),
   })}`;
   const allHref = `?${new URLSearchParams({
-    view: "all",
     ...(params.q ? { q: params.q } : {}),
     ...(selectedStore ? { store: selectedStore } : {}),
   })}`;
@@ -77,7 +77,7 @@ export default async function PromotionsPage({
       </nav>
 
       <form className="promotion-filters">
-        {!dietView ? <input type="hidden" name="view" value="all" /> : null}
+        {dietView ? <input type="hidden" name="view" value="diet" /> : null}
         <input name="q" defaultValue={params.q ?? ""} placeholder="Търси продукт, марка или разфасовка" />
         <select name="store" defaultValue={selectedStore}>
           <option value="">Всички магазини</option>

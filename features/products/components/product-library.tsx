@@ -12,6 +12,7 @@ import styles from "./product-library.module.css";
 type ExternalProduct = Omit<ProductDraft, "favorite" | "imagePath" | "priceHistory">;
 type Analysis = Partial<Pick<ProductDraft, "name" | "brand" | "barcode" | "packageSize" | "servingGrams" | "calories100g" | "protein100g" | "carbs100g" | "fat100g">>;
 type Filter = "all" | "favorites" | "priced" | "offers";
+type PromotionStoreSummary = { store: string; count: number };
 type IconName = "search" | "scan" | "camera" | "plus" | "spark" | "cart" | "star" | "edit" | "trash" | "meal" | "close";
 
 const today = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Sofia" });
@@ -89,17 +90,19 @@ function ProductImage({ product, preview }: { product?: Partial<ProductDraft>; p
 
 function coachCopy(productCount: number, missingPrices: number, offerCount: number, offerStoreCount: number) {
   if (!productCount) return "Сканирай първия си продукт. Pegas ще използва точните му стойности в планове, рецепти и дневния прием.";
+  if (offerCount > 0) return "Следя " + offerCount + " актуални оферти в " + offerStoreCount + (offerStoreCount === 1 ? " магазин" : " магазина") + " и ги свързвам с продуктите ти.";
   if (missingPrices > 0) return "Добави цена на още " + missingPrices + " продукта, за да стане прогнозата за пазаруване по-точна.";
-  if (offerCount > 0) return "Има " + offerCount + " актуални оферти в " + offerStoreCount + (offerStoreCount === 1 ? " магазин" : " магазина") + " за продукти от твоята база.";
   return "Базата ти е подредена. Използвай продуктите директно в дневния план или ги комбинирай в рецепта.";
 }
 
 export function ProductLibrary({
   initialProducts,
   initialPromotions = {},
+  promotionSummary,
 }: {
   initialProducts: FoodProduct[];
   initialPromotions?: Record<string, Promotion[]>;
+  promotionSummary: PromotionStoreSummary[];
 }) {
   const [products, setProducts] = useState(initialProducts);
   const [results, setResults] = useState<ExternalProduct[]>([]);
@@ -120,15 +123,13 @@ export function ProductLibrary({
   const detectedRef = useRef(false);
 
   const counts = useMemo(() => {
-    const productOffers = products.flatMap((product) => initialPromotions[product.id] ?? []);
     return {
       favorites: products.filter((product) => product.favorite).length,
       priced: products.filter((product) => Boolean(latestPrice(product))).length,
       offerProducts: products.filter((product) => Boolean(initialPromotions[product.id]?.length)).length,
-      offers: productOffers.length,
-      offerStores: new Set(productOffers.map((offer) => offer.store.toLocaleLowerCase("bg-BG"))).size,
     };
   }, [initialPromotions, products]);
+  const promotionTotal = promotionSummary.reduce((total, store) => total + store.count, 0);
   const stores = useMemo(() => [...new Set([
     ...products.flatMap((product) => product.priceHistory.map((price) => price.store).filter(Boolean)),
     ...products.flatMap((product) => (initialPromotions[product.id] ?? []).map((offer) => offer.store)),
@@ -425,11 +426,11 @@ export function ProductLibrary({
       <div className={styles.heroCopy}>
         <p><span aria-hidden="true"/> PEGAS · ХРАНИТЕЛНА БАЗА</p>
         <h2 id="product-coach-title">{products.length ? "Базата ти работи за целия ден" : "Започни с един реален продукт"}</h2>
-        <p>{coachCopy(products.length, missingPrices, counts.offers, counts.offerStores)}</p>
+        <p>{coachCopy(products.length, missingPrices, promotionTotal, promotionSummary.length)}</p>
         <div className={styles.heroStats}>
           <span><strong>{counts.priced}</strong> с цена</span>
           <span><strong>{counts.favorites}</strong> любими</span>
-          <span><strong>{counts.offers}</strong> оферти</span>
+          <span><strong>{promotionTotal}</strong> оферти</span>
         </div>
         <div className={styles.heroActions}>
           <button type="button" onClick={() => window.dispatchEvent(new Event("open-assistant-popup"))}><Icon name="spark"/> Попитай Pegas</button>
@@ -437,6 +438,12 @@ export function ProductLibrary({
         </div>
       </div>
     </section>
+
+    {promotionTotal ? <Link className={styles.offerHub} href="/promotions">
+      <span aria-hidden="true"><Icon name="cart"/></span>
+      <div><small>АКТУАЛНИ ОФЕРТИ</small><strong>{promotionTotal} предложения от {promotionSummary.length} вериги</strong><p>{promotionSummary.map((store) => `${store.store} ${store.count}`).join(" · ")}</p></div>
+      <b aria-hidden="true">›</b>
+    </Link> : null}
 
     <section className={styles.capturePanel} aria-labelledby="add-product-title">
       <header>

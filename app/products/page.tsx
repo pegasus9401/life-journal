@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
 import { ProductLibrary } from "@/features/products/components/product-library";
 import { getFoodProducts } from "@/features/products/queries";
-import { bestPromotionsByStore, getPromotions } from "@/lib/promotions";
+import { bestPromotionsByStore, getPromotions, promotionStoreNames } from "@/lib/promotions";
 
 export const metadata = { title: "Продукти · PEGASOS" };
 
@@ -22,6 +22,11 @@ export default async function ProductsPage() {
     const matches = branded.length ? branded : bestPromotionsByStore(product.name, offers);
     return matches.length ? [[product.id, matches]] : [];
   }));
-  return <main className="life-app-shell p2-shell"><AppNavigation active="products" /><ProductLibrary initialProducts={withImages} initialPromotions={promotions} /></main>;
+  const promotionCounts = offers.reduce<Map<string, number>>((counts, offer) => {
+    counts.set(offer.store, (counts.get(offer.store) ?? 0) + 1);
+    return counts;
+  }, new Map());
+  const promotionSummary = promotionStoreNames(offers).map((store) => ({ store, count: promotionCounts.get(store) ?? 0 }));
+  return <main className="life-app-shell p2-shell"><AppNavigation active="products" /><ProductLibrary initialProducts={withImages} initialPromotions={promotions} promotionSummary={promotionSummary} /></main>;
 }
 

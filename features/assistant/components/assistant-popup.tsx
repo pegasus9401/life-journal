@@ -76,11 +76,13 @@ export function AssistantPopup() {
 
   useEffect(() => {
     const close = () => setOpen(false);
+    const open = () => { setAssistantMounted(true); setOpen(true); };
     const openCapture = (event: Event) => { if (!event.defaultPrevented) setQuickActionsOpen(true); };
     window.addEventListener("close-assistant-popup", close);
+    window.addEventListener("open-assistant-popup", open);
     window.addEventListener("gesture-close-overlay", close);
     window.addEventListener("open-quick-capture", openCapture);
-    return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("gesture-close-overlay", close); window.removeEventListener("open-quick-capture", openCapture); };
+    return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("open-assistant-popup", open); window.removeEventListener("gesture-close-overlay", close); window.removeEventListener("open-quick-capture", openCapture); };
   }, []);
 
   useEffect(() => {
@@ -130,7 +132,7 @@ export function AssistantPopup() {
     <input ref={foodCameraRef} className="food-camera-input" type="file" accept="image/*" capture="environment" onChange={(event) => void captureFood(event)} />
     <input ref={foodImportRef} className="food-camera-input" type="file" accept="image/*" onChange={(event) => void captureFood(event)} />
     <div className="assistant-condensed-bar" aria-label="Pegas асистент">
-      <button type="button" onClick={openAssistant} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span><b>Попитай Pegas</b><small>{pathname.startsWith("/nutrition") ? "Добави храна или планирай меню" : pathname.startsWith("/workouts") ? "Планирай или анализирай тренировка" : pathname.startsWith("/calendar") ? "Подреди деня си" : "Как мога да помогна?"}</small></span><em>›</em></button>
+      <button type="button" onClick={openAssistant} aria-label="Попитай Pegas"><i aria-hidden="true"><Image src="/images/pegas-friend.png" alt="" width={34} height={34} /></i><span><b>Попитай Pegas</b><small>{pathname.startsWith("/nutrition") ? "Добави храна или планирай меню" : pathname.startsWith("/workouts") ? "Планирай или анализирай тренировка" : pathname.startsWith("/calendar") ? "Подреди деня си" : pathname.startsWith("/health") ? "Анализирай състоянието ми" : pathname.startsWith("/profile") ? "Настрой целите и плана ми" : "Как мога да помогна?"}</small></span><em>›</em></button>
     </div>
     <button type="button" className="assistant-quick-add-trigger" onClick={() => setQuickActionsOpen((current) => !current)} aria-label={quickActionsOpen ? "Затвори бързите действия" : "Бързо добавяне"}>{quickActionsOpen ? "×" : "+"}</button>
     {quickActionsOpen ? <div className="assistant-quick-add-backdrop" onClick={() => setQuickActionsOpen(false)}>

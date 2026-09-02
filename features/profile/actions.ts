@@ -31,7 +31,7 @@ export async function saveProfile(_state: ProfileActionState, formData: FormData
     activity_level: value.activityLevel, fitness_goal: value.fitnessGoal, timezone: value.timezone,
   }, { onConflict: "owner_id" });
   if (error) return result("error", "Профилът не можа да бъде запазен.");
-  revalidatePath("/profile"); revalidatePath("/today");
+  revalidatePath("/profile"); revalidatePath("/today"); revalidatePath("/health");
   return result("success", "Профилът е запазен.");
 }
 
@@ -49,7 +49,7 @@ export async function saveUserGoals(_state: ProfileActionState, formData: FormDa
     fat_goal_g: value.fat, water_goal_ml: value.water, steps_goal: value.steps, source: value.source,
   }, { onConflict: "owner_id" });
   if (error) return result("error", "Целите не можаха да бъдат запазени.");
-  revalidatePath("/settings/goals"); revalidatePath("/today"); revalidatePath("/nutrition");
+  revalidatePath("/settings/goals"); revalidatePath("/profile"); revalidatePath("/today"); revalidatePath("/nutrition"); revalidatePath("/health");
   return result("success", "Дневните цели са запазени.");
 }
 
@@ -62,14 +62,13 @@ export async function saveLongTermGoals(_state: ProfileActionState, formData: Fo
   if (!parsed.success) return result("error", parsed.error.issues[0]?.message ?? "Провери дългосрочните цели.");
   const { supabase, user } = await authenticatedClient();
   if (!user) return result("error", "Сесията изтече.");
-  const { data, error } = await supabase.from("profiles").update({
-    target_weight_kg: parsed.data.targetWeightKg ?? null, fitness_goal: parsed.data.fitnessGoal,
+  const { data, error } = await supabase.from("profiles").upsert({
+    owner_id: user.id, target_weight_kg: parsed.data.targetWeightKg ?? null, fitness_goal: parsed.data.fitnessGoal,
     birth_date: parsed.data.birthDate, sex: parsed.data.sex, height_cm: parsed.data.heightCm ?? null,
     current_weight_kg: parsed.data.currentWeightKg ?? null, activity_level: parsed.data.activityLevel,
-  }).eq("owner_id", user.id).select("activity_level").maybeSingle();
+  }, { onConflict: "owner_id" }).select("activity_level").single();
   if (error) return result("error", "Дългосрочните цели не можаха да бъдат запазени.");
-  if (!data) return result("error", "Профилът не беше намерен и промените не са записани.");
-  revalidatePath("/settings/goals"); revalidatePath("/profile"); revalidatePath("/today");
+  revalidatePath("/settings/goals"); revalidatePath("/profile"); revalidatePath("/today"); revalidatePath("/health");
   const activityNames: Record<string, string> = { sedentary: "заседнала", light: "лека", moderate: "умерена", active: "висока", very_active: "много висока" };
   return { status: "success", message: `Запазено. Активност: ${activityNames[data.activity_level ?? ""] ?? "не е зададена"}.`, savedActivityLevel: data.activity_level };
 }

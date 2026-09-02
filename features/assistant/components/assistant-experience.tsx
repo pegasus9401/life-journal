@@ -9,12 +9,17 @@ type Message = { id?: string; role: "user" | "assistant"; content: string; actio
 type Persona = "friend" | "guardian" | "data_nerd" | "commander";
 type Conversation = { id: string; title: string; persona: Persona; updated_at: string };
 const personaLabels: Record<Persona, string> = { friend: "Friend", guardian: "Guardian", data_nerd: "Data Nerd", commander: "Commander" };
-const suggestions = ["Какво имам днес?", "Планирай деня ми", "Добави храна", "Направи тренировка", "Добави задача", "Анализирай деня ми"];
+const suggestions = ["Какво имам днес?", "Планирай деня ми", "Как се възстановявам?", "Добави храна", "Направи тренировка", "Анализирай прогреса ми"];
 const conversationDate = new Intl.DateTimeFormat("bg-BG", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
 const toolLabels: Record<string, string> = {
-  get_day: "Преглед на деня", create_task: "Задачата е добавена", create_event: "Събитието е добавено",
-  add_nutrition: "Храната е добавена", create_workout: "Тренировката е добавена", update_task: "Задачата е обновена",
-  complete_task: "Задачата е завършена", search_food: "Резултати за храна",
+  find_food_product: "Намерени хранителни данни", save_food_product: "Продуктът е запазен", get_day: "Преглед на деня",
+  get_events: "Преглед на събитията", get_tasks: "Преглед на задачите", complete_task: "Задачата е завършена",
+  get_today_nutrition: "Преглед на храненето", get_workout_plan: "Преглед на тренировъчния план", get_workout_history: "Преглед на тренировките",
+  get_fitness_progress: "Анализ на прогреса", reschedule_workout: "Тренировката е преместена", get_health_profile: "Преглед на здравния контекст",
+  save_wellness: "Дневното състояние е записано", update_profile: "Профилът е обновен", update_daily_goals: "Дневните цели са обновени",
+  set_persona: "Стилът на Pegas е сменен", save_event: "Събитието е записано", save_task: "Задачата е записана",
+  save_journal: "Записът в дневника е запазен", save_nutrition: "Храненето е записано", save_workout: "Тренировката е записана",
+  delete_item: "Записът е изтрит",
 };
 
 function inlineMarkdown(text: string): ReactNode[] {
@@ -39,6 +44,23 @@ function AssistantContent({ content }: { content: string }) {
 }
 
 function actionLabel(action: Action) { return toolLabels[action.tool] ?? action.tool.split("_").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "); }
+function actionHref(action: Action) {
+  if (action.tool === "get_day") return "/today";
+  if (action.tool.includes("health") || action.tool.includes("wellness")) return "/health";
+  if (action.tool.includes("profile") || action.tool.includes("goals") || action.tool === "set_persona") return "/profile";
+  if (action.tool.includes("event") || action.tool.includes("task")) return "/calendar";
+  if (action.tool.includes("nutrition") || action.tool.includes("food")) return "/nutrition";
+  if (action.tool.includes("journal")) return "/journal";
+  if (action.tool.includes("workout") || action.tool.includes("fitness")) return "/workouts";
+  if (action.tool === "delete_item") {
+    const kind = String(action.result?.kind ?? "");
+    if (kind === "journal") return "/journal";
+    if (kind === "nutrition") return "/nutrition";
+    if (kind === "workout") return "/workouts";
+    return "/calendar";
+  }
+  return "/today";
+}
 
 export function AssistantExperience() {
   const router = useRouter();
@@ -89,10 +111,10 @@ export function AssistantExperience() {
     <header className="assistant-header intelligence-header"><div><p className="life-kicker">PegasOS Intelligence</p><h1>Какво да направим?</h1></div><div className="intelligence-header-actions"><button type="button" onClick={() => setShowHistory((value) => !value)}>История</button><button type="button" onClick={newConversation}>＋ Нов разговор</button></div></header>
     {showHistory ? <aside className="intelligence-history-panel"><header><div><strong>История на разговорите</strong><small>{conversations.length ? `${conversations.length} разговора` : "Все още няма разговори"}</small></div><button type="button" onClick={() => setShowHistory(false)}>×</button></header><button className="intelligence-history-new" type="button" onClick={newConversation}>＋ Нов разговор</button><div className="intelligence-history-list">{conversations.length ? conversations.map((conversation) => <button type="button" className={conversation.id === conversationId ? "active" : ""} key={conversation.id} onClick={() => void openConversation(conversation.id)}><span>{conversation.title || "Разговор без заглавие"}</span><small>{conversationDate.format(new Date(conversation.updated_at))}</small></button>) : <div className="intelligence-history-empty"><strong>Няма предишни разговори</strong><p>Когато започнеш разговор с Pegas, той ще се появи тук.</p></div>}</div></aside> : null}
     <div className="assistant-panel intelligence-panel">
-      <div className="assistant-messages" aria-live="polite">{!messages.length ? <div className="intelligence-welcome"><Image src="/images/pegas-friend.png" alt="Pegas" width={96} height={72}/><h2>{personaLabels[persona]}</h2><p>Кажи ми какво искаш да направим.</p></div> : null}{messages.map((message, index) => <article className={`assistant-message ${message.role}`} key={message.id ?? `${message.role}-${index}`}><span>{message.role === "assistant" ? "P" : "Ти"}</span><div>{message.content ? <AssistantContent content={message.content}/> : pending ? <div className="assistant-thinking">Мисля…</div> : null}{message.actions?.map((action, actionIndex) => <div className="intelligence-action-card" key={`${action.tool}-${actionIndex}`}><strong>✓ {actionLabel(action)}</strong><span>{action.result?.preview && typeof action.result.preview === "object" && typeof (action.result.preview as Record<string, unknown>).title === "string" && (action.result.preview as Record<string, unknown>).title !== action.tool ? String((action.result.preview as Record<string, unknown>).title) : "Изпълнено успешно"}</span><a href={action.tool.includes("event") ? "/calendar" : action.tool.includes("task") ? "/calendar" : action.tool.includes("nutrition") || action.tool.includes("food") ? "/nutrition" : action.tool === "get_day" ? "/today" : "/workouts"}>Отвори</a></div>)}</div></article>)}<div ref={bottomRef}/></div>
+      <div className="assistant-messages" aria-live="polite">{!messages.length ? <div className="intelligence-welcome"><Image src="/images/pegas-friend.png" alt="Pegas" width={96} height={72}/><h2>{personaLabels[persona]}</h2><p>Кажи ми какво искаш да планираме, анализираме или променим.</p></div> : null}{messages.map((message, index) => <article className={`assistant-message ${message.role}`} key={message.id ?? `${message.role}-${index}`}><span>{message.role === "assistant" ? "P" : "Ти"}</span><div>{message.content ? <AssistantContent content={message.content}/> : pending ? <div className="assistant-thinking">Мисля…</div> : null}{message.actions?.map((action, actionIndex) => <div className="intelligence-action-card" key={`${action.tool}-${actionIndex}`}><strong>✓ {actionLabel(action)}</strong><span>{action.result?.preview && typeof action.result.preview === "object" && typeof (action.result.preview as Record<string, unknown>).title === "string" && (action.result.preview as Record<string, unknown>).title !== action.tool ? String((action.result.preview as Record<string, unknown>).title) : "Изпълнено успешно"}</span><a href={actionHref(action)}>Отвори</a></div>)}</div></article>)}<div ref={bottomRef}/></div>
       {!messages.length ? <div className="assistant-suggestions intelligence-suggestions">{suggestions.map((suggestion) => <button type="button" key={suggestion} onClick={() => void send(suggestion)}>{suggestion}</button>)}</div> : null}
       {requestError ? <div className="assistant-photo-error" role="alert">{requestError}</div> : null}
-      <form className="assistant-composer" onSubmit={submit}>{image ? <div className="assistant-photo-chip"><Image src={image} alt={imageName} width={48} height={48} unoptimized/><span>{imageName}</span><button type="button" onClick={() => setImage(null)}>×</button></div> : null}<div className="assistant-input-row"><label className="intelligence-photo"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event)} disabled={pending}/><span>📷</span></label><textarea value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Ask Pegas anything…" rows={2} maxLength={8000} disabled={pending}/><button type="submit" disabled={pending || (!input.trim() && !image)} aria-label="Изпрати">↑</button></div></form>
+      <form className="assistant-composer" onSubmit={submit}>{image ? <div className="assistant-photo-chip"><Image src={image} alt={imageName} width={48} height={48} unoptimized/><span>{imageName}</span><button type="button" onClick={() => setImage(null)}>×</button></div> : null}<div className="assistant-input-row"><label className="intelligence-photo"><input type="file" accept="image/*" capture="environment" onChange={(event) => void attachPhoto(event)} disabled={pending}/><span>📷</span></label><textarea value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(input, image); } }} placeholder="Кажи на Pegas какво ти трябва..." rows={2} maxLength={8000} disabled={pending}/><button type="submit" disabled={pending || (!input.trim() && !image)} aria-label="Изпрати">↑</button></div></form>
     </div>
   </section>;
 }

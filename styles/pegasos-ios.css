@@ -94,7 +94,7 @@ body{color:var(--ios-ink);background:radial-gradient(circle at 82% 0,rgba(153,12
   html body .quick-add-tabs{border-color:#e3dfe7!important;background:#f1eff4!important}
   html body .quick-add-tabs button[aria-selected="true"]{color:#fff!important;background:linear-gradient(135deg,#7569e5,#9568df)!important}
   html body .quick-form input,html body .quick-form select,html body .quick-form textarea{color:#2b2731!important;border-color:#ded9e3!important;background:#fff!important}
-  body:has(.quick-add-backdrop) .p2-bottom-nav,body:has(.quick-add-backdrop) .assistant-condensed-bar{display:none!important}
+  body:has(.quick-add-backdrop) .p2-bottom-nav,body:has(.quick-add-backdrop) .assistant-condensed-bar,body:has([data-health-checkin]) .p2-bottom-nav,body:has([data-health-checkin]) .assistant-condensed-bar{display:none!important}
 
   .shopping-page,.journal-page,.calendar-page,.nutrition-page,.workouts-page,.products-page,.promotions-page{padding-top:14px!important}
   .shopping-page>h1,.journal-page h1,.calendar-page h1,.nutrition-page h1,.workouts-page h1,.products-page h1,.promotions-page h1{color:var(--ios-ink)!important;font-size:29px!important;line-height:1.08!important;letter-spacing:-.035em!important}

@@ -28,5 +28,6 @@ export async function setTimelineCompleted(completion: TimelineCompletion, compl
   revalidatePath("/calendar");
   revalidatePath("/nutrition");
   revalidatePath("/workouts");
+  revalidatePath("/health");
   return { ok: !error, message: error ? "Записът не можа да бъде обновен." : completed ? "Отбелязано като готово." : "Върнато в планирани." };
 }

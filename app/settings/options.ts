@@ -16,7 +16,7 @@ export const settingsGroups: SettingsGroup[] = [
     { label: "Импортиране на данни", href: "/settings/import", detail: "Добави архив или файл" },
   ] },
   { title: "Персонализация", items: [
-    { label: "Цели", href: "/settings/goals", detail: "Дневни и дългосрочни цели" },
+    { label: "Цели", href: "/profile?tab=goals", detail: "Дневни и дългосрочни цели" },
     { label: "Мерни единици", href: "/settings/units", detail: "kg, cm, kcal" },
     { label: "Зони на пулса", href: "/settings/heart-rate-zones", detail: "Персонални тренировъчни зони" },
     { label: "Изчисления", href: "/settings/calculations", detail: "Метаболизъм и активност" },
@@ -24,7 +24,7 @@ export const settingsGroups: SettingsGroup[] = [
     { label: "Периодично гладуване", href: "/settings/fasting", detail: "Прозорец за хранене" },
     { label: "Силова програма", href: "/workouts", detail: "Тренировки и прогрес" },
     { label: "Дневник", href: "/journal", detail: "Записи и дневни обобщения" },
-    { label: "AI асистент", href: "/settings/ai-assistant", detail: "Pegas и автоматична памет" },
+    { label: "AI асистент", href: "/profile?tab=pegas", detail: "Pegas и автоматична памет" },
   ] },
   { title: "Ресурси", items: [
     { label: "Какво ново", href: "/settings/whats-new" },

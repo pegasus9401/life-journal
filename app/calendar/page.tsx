@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
 import { CalendarExperience } from "@/features/calendar/components/calendar-experience";
-import { QuickAdd } from "@/features/calendar/components/quick-add";
 import { addDays, getViewRange, localDateKey, startOfWeek } from "@/features/calendar/domain/date-utils";
 import { getCalendarData } from "@/features/calendar/queries";
 import { createClient } from "@/lib/supabase/server";
 import type { CalendarView } from "@/features/calendar/types";
 import { normalizeWorkoutCalendarTemplates } from "@/features/workouts/workout-library";
 
-export const metadata = { title: "Календар · Дневник на живота" };
+export const metadata = { title: "Планер · PEGASOS" };
 
 export default async function CalendarPage({ searchParams }: { searchParams: Promise<{ view?: string; date?: string }> }) {
   const params = await searchParams;
@@ -35,8 +34,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
   const workoutPlans = normalizeWorkoutCalendarTemplates(user.user_metadata?.workout_templates);
 
   return <main className="life-app-shell">
-    <AppNavigation active="calendar" title={new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${selected}T12:00:00Z`))} />
+    <AppNavigation active="calendar" captureDate={selected} />
     <CalendarExperience view={view} selected={selected} today={today} items={data.items} mealPlans={(mealPlans ?? []).map(plan => ({ plan_date: plan.plan_date, menu_name: plan.menu_name, selections: (plan.selections as Record<string, number>) || {} }))} workoutPlans={workoutPlans} />
-    <QuickAdd defaultDate={selected} />
   </main>;
 }

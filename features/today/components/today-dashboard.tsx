@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
@@ -59,7 +61,7 @@ export function TodayDashboard({ data, dateNavigation }: { data: TodayDashboardD
         <h2>{nextItem?.title ?? "Денят е под контрол"}</h2>
         <div className={styles.briefInsight}>{buildDailyBrief(data)}</div>
         <div className={styles.briefStats} aria-label="Обобщение на деня"><span><b>{openTasks}</b> задачи</span><span><b>{schedule.length}</b> събития</span><span><b>{data.workouts.length}</b> тренировки</span></div>
-        <div className={styles.briefActions}>{nextItem ? <Link href={nextItem.href}>Отвори</Link> : null}<Link href="/assistant">Попитай Pegas</Link></div>
+        <div className={styles.briefActions}>{nextItem ? <Link href={nextItem.href}>Отвори</Link> : null}<button type="button" onClick={() => window.dispatchEvent(new Event("open-assistant-popup"))}>Попитай Pegas</button></div>
       </div>
     </section>
 

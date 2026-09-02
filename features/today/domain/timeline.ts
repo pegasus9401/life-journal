@@ -49,6 +49,6 @@ export function buildTimeline(input: { date: string; today: string; calendar: Ca
     const time = localTime(entry.created_at);
     result.push({ id: `journal:${entry.id}`, category: "journal", title: entry.title, detail: entry.content_text.slice(0, 140), meta: [entry.mood, entry.journal_photos.length ? `${entry.journal_photos.length} снимки` : ""].filter(Boolean).join(" · "), time, sortAt: time, status: "completed", href: `/journal/${entry.id}`, icon: entry.journal_photos.length ? "▧" : "□" });
   }
-  if (input.wellness) result.push({ id: `health:${input.date}`, category: "health", title: "Дневно състояние", detail: `${input.wellness.sleep_hours} ч сън · енергия ${input.wellness.energy}/5`, meta: input.wellness.resting_heart_rate ? `${input.wellness.resting_heart_rate} bpm в покой` : undefined, sortAt: "06:00", status: "completed", href: "/profile", icon: "♡" });
+  if (input.wellness) result.push({ id: `health:${input.date}`, category: "health", title: "Дневно състояние", detail: `${input.wellness.sleep_hours} ч сън · енергия ${input.wellness.energy}/5`, meta: input.wellness.resting_heart_rate ? `${input.wellness.resting_heart_rate} bpm в покой` : undefined, sortAt: "06:00", status: "completed", href: "/health", icon: "♡" });
   return result.sort((a, b) => a.sortAt.localeCompare(b.sortAt) || a.title.localeCompare(b.title, "bg"));
 }

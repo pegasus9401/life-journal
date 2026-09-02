@@ -23,7 +23,7 @@ export default async function WorkoutsPage() {
 
   return (
     <main className="life-app-shell">
-      <AppNavigation active="workouts" />
+      <AppNavigation active="workouts" captureDate={today} />
       <FitnessDashboard sessions={sessions} today={today} />
       <div id="workout-templates"><WorkoutExperience initialTemplates={user.user_metadata?.workout_templates} initialHistory={history} /></div>
     </main>

@@ -36,18 +36,19 @@ export async function getRelevantMemories(supabase: SupabaseClient, userId: stri
 
 export async function buildDailyContext(supabase: SupabaseClient, user: User, today: string, query: string) {
   const startIso = `${today}T00:00:00.000Z`; const endIso = `${today}T23:59:59.999Z`;
-  const [events, tasks, nutrition, workouts, profile, goals, memories] = await Promise.all([
+  const [events, tasks, nutrition, workouts, profile, goals, wellness, memories] = await Promise.all([
     supabase.from("calendar_events").select("id,title,start_date,end_date,starts_at,ends_at,all_day,location").eq("owner_id", user.id).or(`and(all_day.eq.true,start_date.lte.${today},end_date.gte.${today}),and(all_day.eq.false,starts_at.lte.${endIso},ends_at.gte.${startIso})`).limit(20),
     supabase.from("tasks").select("id,title,due_date,due_time,priority,completed").eq("owner_id", user.id).eq("due_date", today).limit(30),
     getNutritionForDate(supabase, user.id, today),
     supabase.from("workout_sessions").select("id,title,workout_type,duration_minutes,completed").eq("owner_id", user.id).eq("workout_date", today).limit(10),
-    supabase.from("profiles").select("display_name,fitness_goal,activity_level").eq("owner_id", user.id).maybeSingle(),
-    supabase.from("user_goals").select("calorie_goal,protein_goal_g,carbs_goal_g,fat_goal_g,steps_goal").eq("owner_id", user.id).maybeSingle(),
+    supabase.from("profiles").select("display_name,birth_date,sex,height_cm,current_weight_kg,target_weight_kg,fitness_goal,activity_level,timezone").eq("owner_id", user.id).maybeSingle(),
+    supabase.from("user_goals").select("calorie_goal,protein_goal_g,carbs_goal_g,fat_goal_g,water_goal_ml,steps_goal,source").eq("owner_id", user.id).maybeSingle(),
+    supabase.from("daily_wellness").select("entry_date,sleep_hours,sleep_quality,energy,soreness,stress,resting_heart_rate,notes").eq("owner_id", user.id).eq("entry_date", today).maybeSingle(),
     getRelevantMemories(supabase, user.id, query),
   ]);
   const totals = nutrition.reduce((sum, row) => ({ calories: sum.calories + row.calories, protein: sum.protein + row.protein, carbs: sum.carbs + row.carbs, fat: sum.fat + row.fat }), { calories: 0, protein: 0, carbs: 0, fat: 0 });
   const templates = normalizeWorkoutCalendarTemplates((user.user_metadata as Record<string, unknown> | undefined)?.workout_templates);
-  return { date: today, timezone: "Europe/Sofia", profile: profile.data, goals: goals.data, events: events.data ?? [], tasks: tasks.data ?? [], nutrition: { totals, entries: nutrition.length }, workout: { today: workouts.data ?? [], currentPlan: templates.slice(0, 4) }, memories };
+  return { date: today, timezone: profile.data?.timezone ?? "Europe/Sofia", profile: profile.data, goals: goals.data, wellness: wellness.data, events: events.data ?? [], tasks: tasks.data ?? [], nutrition: { totals, entries: nutrition.length }, workout: { today: workouts.data ?? [], currentPlan: templates.slice(0, 4) }, memories };
 }
 
 export async function ensureConversation(supabase: SupabaseClient, userId: string, conversationId: string | null, persona: Persona, firstMessage: string) {

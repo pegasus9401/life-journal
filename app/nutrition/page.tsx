@@ -22,10 +22,10 @@ export default async function NutritionPage({ searchParams }: { searchParams: Pr
   const completed = workouts.filter((workout) => workoutStatus(workout) === "completed");
   const dayContext = completed.some((workout) => workout.workout_type === "cardio") ? "Cardio ден" : workouts.length ? "Тренировъчен ден" : "Почивен ден";
   return <main className="life-app-shell">
-    <AppNavigation active="nutrition" />
+    <AppNavigation active="nutrition" captureDate={date} />
     <header className="nutrition-header"><div><p className="life-kicker">Моят режим · {dayContext}</p><h1>Хранене</h1><p>{workouts.length ? `${workouts.map((workout) => workout.title).join(" · ")} · хранителните цели остават под твой контрол` : "Планирай деня, използвай рецепти и повтаряй работещите комбинации."}</p></div></header>
     <nav className="nutrition-section-nav" aria-label="Хранене">
-      <Link className="active" href="/nutrition">Дневник</Link><Link href="/recipes">Рецепти</Link><Link href="/products">Продукти</Link><Link href="/settings/goals">Цели</Link>
+      <Link className="active" href="/nutrition">Дневник</Link><Link href="/recipes">Рецепти</Link><Link href="/products">Продукти</Link><Link href="/profile?tab=goals">Цели</Link>
     </nav>
     <DynamicNutritionPlanner date={date} data={data} goals={nutrition.goals} promotions={promotions} openNew={params.add === "meal"} />
   </main>;

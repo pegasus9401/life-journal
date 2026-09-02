@@ -27,7 +27,7 @@ export async function saveWorkout(_state: WorkoutActionState, formData: FormData
   const query = value.id ? supabase.from("workout_sessions").update(data).eq("id", value.id).eq("owner_id", user.id) : supabase.from("workout_sessions").insert(data);
   const { error } = await query;
   if (error) return response("error", "Тренировката не можа да бъде запазена.");
-  revalidatePath("/workouts"); revalidatePath("/today"); revalidatePath("/calendar");
+  revalidatePath("/workouts"); revalidatePath("/today"); revalidatePath("/calendar"); revalidatePath("/health");
   return response("success", value.id ? "Промените са запазени." : "Тренировката е добавена.");
 }
 
@@ -35,7 +35,7 @@ export async function deleteWorkout(id: string) {
   const { supabase, user } = await userClient();
   if (!user) return { ok: false };
   const { error } = await supabase.from("workout_sessions").delete().eq("id", id).eq("owner_id", user.id);
-  revalidatePath("/workouts"); revalidatePath("/today"); revalidatePath("/calendar");
+  revalidatePath("/workouts"); revalidatePath("/today"); revalidatePath("/calendar"); revalidatePath("/health");
   return { ok: !error };
 }
 
@@ -43,6 +43,6 @@ export async function toggleWorkout(id: string, completed: boolean) {
   const { supabase, user } = await userClient();
   if (!user) return { ok: false };
   const { error } = await supabase.from("workout_sessions").update({ completed, status: completed ? "completed" : "planned", completed_at: completed ? new Date().toISOString() : null }).eq("id", id).eq("owner_id", user.id);
-  revalidatePath("/workouts"); revalidatePath("/today"); revalidatePath("/calendar");
+  revalidatePath("/workouts"); revalidatePath("/today"); revalidatePath("/calendar"); revalidatePath("/health");
   return { ok: !error };
 }

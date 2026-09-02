@@ -3,6 +3,7 @@ import { zonedDateTimeToUtc } from "@/features/calendar/domain/date-utils";
 import { userProducts } from "@/features/products/types";
 import { lookupFoodProducts } from "@/lib/food-product-lookup";
 import { fitnessSummary, strengthProgression } from "@/features/workouts/domain/fitness-analytics";
+import { validateMacroEnergy } from "@/features/profile/nutrition-goals";
 import type { WorkoutSession } from "@/features/workouts/types";
 
 type Context = { supabase: SupabaseClient; user: User };
@@ -26,6 +27,11 @@ export const assistantToolDefinitions: ToolDefinition[] = [
   { type: "function", function: { name: "get_workout_history", description: "Връща последните завършени тренировки.", parameters: { type: "object", properties: { limit: { type: "number" } } } } },
   { type: "function", function: { name: "get_fitness_progress", description: "Изчислява реалния Fitness прогрес, тренировъчен обем, cardio минути, мускулен баланс и прогрес по упражнения за избран период.", parameters: { type: "object", properties: { days: { type: "number", description: "Период в дни, между 7 и 365" } } } } },
   { type: "function", function: { name: "reschedule_workout", description: "Премества съществуваща планирана тренировка. Използва същия workout запис, без да създава копие.", parameters: { type: "object", properties: { id: { type: "string" }, workout_date: date, start_time: { type: "string" } }, required: ["id", "workout_date"] } } },
+  { type: "function", function: { name: "get_health_profile", description: "Връща личния профил, дългосрочната цел, дневните цели и здравния check-in за избрана дата. Използвай за персонален анализ и преди промяна на профил или цели.", parameters: { type: "object", properties: { date }, required: ["date"] } } },
+  { type: "function", function: { name: "save_wellness", description: "Записва или обновява здравния check-in за дата. Използвай само стойности, които потребителят е дал или изрично е потвърдил. Не отгатвай здравни данни.", parameters: { type: "object", properties: { date, sleep_hours: { type: "number", minimum: 0, maximum: 24 }, sleep_quality: { type: "number", minimum: 1, maximum: 5 }, energy: { type: "number", minimum: 1, maximum: 5 }, soreness: { type: "number", minimum: 1, maximum: 5 }, stress: { type: "number", minimum: 1, maximum: 5 }, resting_heart_rate: { type: "number", minimum: 25, maximum: 220 }, notes: text }, required: ["date", "sleep_hours", "sleep_quality", "energy", "soreness", "stress"] } } },
+  { type: "function", function: { name: "update_profile", description: "Обновява само изрично поисканите лични параметри. Никога не сменяй име, тегло, активност или основна цел по собствена инициатива. Преди действие трябва да има ясна команда от потребителя.", parameters: { type: "object", properties: { display_name: text, birth_date: date, sex: { type: "string", enum: ["female", "male", "other", "prefer_not_to_say"] }, height_cm: { type: "number", minimum: 50, maximum: 300 }, current_weight_kg: { type: "number", minimum: 20, maximum: 500 }, target_weight_kg: { type: "number", minimum: 20, maximum: 500 }, activity_level: { type: "string", enum: ["sedentary", "light", "moderate", "active", "very_active"] }, fitness_goal: { type: "string", enum: ["lose_weight", "maintain", "gain_muscle", "improve_fitness"] } } } } },
+  { type: "function", function: { name: "update_daily_goals", description: "Обновява дневните цели след ясна команда. За калории и макроси подай и четирите взаимно съгласувани стойности. Не променяй цели само защото Pegas препоръчва нещо.", parameters: { type: "object", properties: { calorie_goal: { type: "number", minimum: 1, maximum: 100000 }, protein_goal_g: { type: "number", minimum: 0 }, carbs_goal_g: { type: "number", minimum: 0 }, fat_goal_g: { type: "number", minimum: 0 }, water_goal_ml: { type: "number", minimum: 0, maximum: 20000 }, steps_goal: { type: "number", minimum: 0, maximum: 200000 } }, required: ["calorie_goal", "protein_goal_g", "carbs_goal_g", "fat_goal_g"] } } },
+  { type: "function", function: { name: "set_persona", description: "Сменя стила на Pegas само когато потребителят изрично поиска това.", parameters: { type: "object", properties: { persona: { type: "string", enum: ["friend", "guardian", "data_nerd", "commander"] } }, required: ["persona"] } } },
   { type: "function", function: { name: "save_event", description: "Създава или редактира календарно събитие. За ясна команда с час действай веднага; ако липсва краен час, използвай 60 минути продължителност.", parameters: { type: "object", properties: { id: nullableId, title: text, date, end_date: date, all_day: { type: "boolean" }, start_time: { type: "string" }, end_time: { type: "string" }, location: text, description: text }, required: ["title", "date", "end_date", "all_day"] } } },
   { type: "function", function: { name: "save_task", description: "Създава или редактира задача.", parameters: { type: "object", properties: { id: nullableId, title: text, due_date: date, due_time: { type: "string" }, description: text, priority: { type: "string", enum: ["low", "normal", "high"] }, completed: { type: "boolean" } }, required: ["title", "priority", "completed"] } } },
   { type: "function", function: { name: "save_journal", description: "Създава или редактира текстов запис в дневника.", parameters: { type: "object", properties: { id: nullableId, entry_date: date, title: text, story: text, mood: { type: "string", enum: ["joyful", "peaceful", "excited", "reflective", "tired", "challenging"] }, weather: text, location: text, tags: { type: "array", items: text }, favorite: { type: "boolean" }, status: { type: "string", enum: ["draft", "published"] } }, required: ["entry_date", "title", "story", "tags", "favorite", "status"] } } },
@@ -37,6 +43,16 @@ export const assistantToolDefinitions: ToolDefinition[] = [
 function richText(story: string) {
   const paragraphs = story.split(/\n{2,}/).filter(Boolean);
   return { type: "doc", content: paragraphs.map((paragraph) => ({ type: "paragraph", content: [{ type: "text", text: paragraph }] })) };
+}
+
+function boundedNumber(value: unknown, minimum: number, maximum: number, label: string, integer = false) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed < minimum || parsed > maximum) throw new Error(`Невалидна стойност за ${label}.`);
+  return integer ? Math.round(parsed) : parsed;
+}
+
+function hasArgument(args: Record<string, unknown>, key: string) {
+  return Object.prototype.hasOwnProperty.call(args, key) && args[key] !== undefined && args[key] !== null && args[key] !== "";
 }
 
 export async function getNutritionForDate(supabase: SupabaseClient, ownerId: string, selectedDate: string) {
@@ -124,6 +140,19 @@ export async function executeAssistantTool(name: string, args: Record<string, un
     return { date: selectedDate, events: events.data ?? [], tasks: tasks.data ?? [], journal: journal.data ?? [], nutrition, workouts: workouts.data ?? [] };
   }
 
+  if (name === "get_health_profile") {
+    const selectedDate = String(args.date);
+    const [profile, goals, wellness] = await Promise.all([
+      supabase.from("profiles").select("display_name,birth_date,sex,height_cm,current_weight_kg,starting_weight_kg,target_weight_kg,activity_level,fitness_goal,timezone").eq("owner_id", user.id).maybeSingle(),
+      supabase.from("user_goals").select("calorie_goal,protein_goal_g,carbs_goal_g,fat_goal_g,water_goal_ml,steps_goal,source").eq("owner_id", user.id).maybeSingle(),
+      supabase.from("daily_wellness").select("entry_date,sleep_hours,sleep_quality,energy,soreness,stress,resting_heart_rate,notes").eq("owner_id", user.id).eq("entry_date", selectedDate).maybeSingle(),
+    ]);
+    if (profile.error) throw profile.error;
+    if (goals.error) throw goals.error;
+    if (wellness.error) throw wellness.error;
+    return { date: selectedDate, profile: profile.data, goals: goals.data, wellness: wellness.data };
+  }
+
   if (name === "get_events") {
     const selectedDate = String(args.date); const startIso = `${selectedDate}T00:00:00.000Z`; const endIso = `${selectedDate}T23:59:59.999Z`;
     const { data, error } = await supabase.from("calendar_events").select("id,title,description,start_date,end_date,starts_at,ends_at,all_day,location").eq("owner_id", user.id).or(`and(all_day.eq.true,start_date.lte.${selectedDate},end_date.gte.${selectedDate}),and(all_day.eq.false,starts_at.lte.${endIso},ends_at.gte.${startIso})`).limit(40); if (error) throw error; return data ?? [];
@@ -146,6 +175,90 @@ export async function executeAssistantTool(name: string, args: Record<string, un
     const scheduledAt = startTime ? zonedDateTimeToUtc(workoutDate, startTime, "Europe/Sofia") : null;
     const { data, error } = await supabase.from("workout_sessions").update({ workout_date: workoutDate, scheduled_at: scheduledAt, status: "planned", completed: false, completed_at: null, skipped_at: null }).eq("id", String(args.id)).eq("owner_id", user.id).select("id,title,workout_date,scheduled_at,status").single();
     if (error) throw error; return { saved: true, ...data };
+  }
+
+  if (name === "save_wellness") {
+    const selectedDate = String(args.date);
+    const { data: current, error: currentError } = await supabase.from("daily_wellness").select("resting_heart_rate,notes").eq("owner_id", user.id).eq("entry_date", selectedDate).maybeSingle();
+    if (currentError) throw currentError;
+    const row = {
+      owner_id: user.id,
+      entry_date: selectedDate,
+      sleep_hours: boundedNumber(args.sleep_hours, 0, 24, "часове сън"),
+      sleep_quality: boundedNumber(args.sleep_quality, 1, 5, "качество на съня", true),
+      energy: boundedNumber(args.energy, 1, 5, "енергия", true),
+      soreness: boundedNumber(args.soreness, 1, 5, "мускулна умора", true),
+      stress: boundedNumber(args.stress, 1, 5, "стрес", true),
+      resting_heart_rate: hasArgument(args, "resting_heart_rate") ? boundedNumber(args.resting_heart_rate, 25, 220, "пулс в покой", true) : current?.resting_heart_rate ?? null,
+      notes: hasArgument(args, "notes") ? String(args.notes).trim().slice(0, 500) || null : current?.notes ?? null,
+    };
+    const { data, error } = await supabase.from("daily_wellness").upsert(row, { onConflict: "owner_id,entry_date" }).select("entry_date,sleep_hours,sleep_quality,energy,soreness,stress,resting_heart_rate,notes").single();
+    if (error) throw error;
+    return { saved: true, wellness: data };
+  }
+
+  if (name === "update_profile") {
+    const row: Record<string, unknown> = { owner_id: user.id };
+    if (hasArgument(args, "display_name")) row.display_name = String(args.display_name).trim().slice(0, 100);
+    if (hasArgument(args, "birth_date")) {
+      const value = String(args.birth_date);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error("Невалидна рождена дата.");
+      row.birth_date = value;
+    }
+    if (hasArgument(args, "sex")) {
+      const value = String(args.sex);
+      if (!["female", "male", "other", "prefer_not_to_say"].includes(value)) throw new Error("Невалидна стойност за пол.");
+      row.sex = value;
+    }
+    if (hasArgument(args, "height_cm")) row.height_cm = boundedNumber(args.height_cm, 50, 300, "ръст");
+    if (hasArgument(args, "current_weight_kg")) row.current_weight_kg = boundedNumber(args.current_weight_kg, 20, 500, "текущо тегло");
+    if (hasArgument(args, "target_weight_kg")) row.target_weight_kg = boundedNumber(args.target_weight_kg, 20, 500, "целево тегло");
+    if (hasArgument(args, "activity_level")) {
+      const value = String(args.activity_level);
+      if (!["sedentary", "light", "moderate", "active", "very_active"].includes(value)) throw new Error("Невалидно ниво на активност.");
+      row.activity_level = value;
+    }
+    if (hasArgument(args, "fitness_goal")) {
+      const value = String(args.fitness_goal);
+      if (!["lose_weight", "maintain", "gain_muscle", "improve_fitness"].includes(value)) throw new Error("Невалидна основна цел.");
+      row.fitness_goal = value;
+    }
+    if (Object.keys(row).length === 1) throw new Error("Не е посочена промяна в профила.");
+    const { data, error } = await supabase.from("profiles").upsert(row, { onConflict: "owner_id" }).select("display_name,birth_date,sex,height_cm,current_weight_kg,target_weight_kg,activity_level,fitness_goal").single();
+    if (error) throw error;
+    return { saved: true, profile: data };
+  }
+
+  if (name === "update_daily_goals") {
+    const calorieGoal = boundedNumber(args.calorie_goal, 1, 100000, "калорийна цел", true);
+    const proteinGoal = boundedNumber(args.protein_goal_g, 0, 100000, "протеин");
+    const carbsGoal = boundedNumber(args.carbs_goal_g, 0, 100000, "въглехидрати");
+    const fatGoal = boundedNumber(args.fat_goal_g, 0, 100000, "мазнини");
+    const macroError = validateMacroEnergy(calorieGoal, proteinGoal, carbsGoal, fatGoal);
+    if (macroError) throw new Error(macroError);
+    const { data: current, error: currentError } = await supabase.from("user_goals").select("water_goal_ml,steps_goal").eq("owner_id", user.id).maybeSingle();
+    if (currentError) throw currentError;
+    const row = {
+      owner_id: user.id,
+      calorie_goal: calorieGoal,
+      protein_goal_g: proteinGoal,
+      carbs_goal_g: carbsGoal,
+      fat_goal_g: fatGoal,
+      water_goal_ml: hasArgument(args, "water_goal_ml") ? boundedNumber(args.water_goal_ml, 0, 20000, "вода", true) : current?.water_goal_ml ?? 2000,
+      steps_goal: hasArgument(args, "steps_goal") ? boundedNumber(args.steps_goal, 0, 200000, "стъпки", true) : current?.steps_goal ?? 8000,
+      source: "manual",
+    };
+    const { data, error } = await supabase.from("user_goals").upsert(row, { onConflict: "owner_id" }).select("calorie_goal,protein_goal_g,carbs_goal_g,fat_goal_g,water_goal_ml,steps_goal,source").single();
+    if (error) throw error;
+    return { saved: true, goals: data };
+  }
+
+  if (name === "set_persona") {
+    const persona = String(args.persona);
+    if (!["friend", "guardian", "data_nerd", "commander"].includes(persona)) throw new Error("Невалиден стил на Pegas.");
+    const { data, error } = await supabase.from("ai_preferences").upsert({ owner_id: user.id, persona }, { onConflict: "owner_id" }).select("persona").single();
+    if (error) throw error;
+    return { saved: true, persona: data.persona };
   }
 
   if (name === "save_event") {

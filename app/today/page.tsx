@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
-import { QuickAdd } from "@/features/calendar/components/quick-add";
 import { localDateKey } from "@/features/calendar/domain/date-utils";
 import { getUpcoming } from "@/features/calendar/queries";
 import { getNutritionEntriesDay } from "@/features/nutrition/queries";
@@ -42,5 +41,5 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
     timeline: buildTimeline({ date: selected, today, calendar: dayItems, nutrition: nutritionEntries, meals: dynamicMeals, workouts, journal, wellness }),
   };
 
-  return <main className="life-app-shell p2-shell"><AppNavigation active="today"/><TodayDayView data={data} today={today}/><QuickAdd defaultDate={selected}/></main>;
+  return <main className="life-app-shell p2-shell"><AppNavigation active="today" captureDate={selected}/><TodayDayView data={data} today={today}/></main>;
 }

@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { signOut } from "@/features/auth/actions";
 import { CaptureButton } from "@/components/capture-button";
+import { QuickAdd } from "@/features/calendar/components/quick-add";
+import { localDateKey } from "@/features/calendar/domain/date-utils";
 
 type Area = "today" | "health" | "planner" | "journal";
 function areaFor(active?: string): Area | undefined {
   if (active === "nutrition" || active === "recipes" || active === "products" || active === "workouts") return "health";
   if (active === "calendar") return "planner";
-  if (active === "profile") return undefined;
+  if (active === "profile") return "health";
   return active as Area | undefined;
 }
 function Icon({ name }: { name: Area }) {
@@ -20,13 +22,13 @@ function Icon({ name }: { name: Area }) {
 }
 const desktopAreas: Array<{ key: Area; label: string; href: string }> = [
   { key: "today", label: "Днес", href: "/today" },
-  { key: "health", label: "Здраве", href: "/nutrition" },
+  { key: "health", label: "Здраве", href: "/health" },
   { key: "planner", label: "Планер", href: "/calendar" },
   { key: "journal", label: "Дневник", href: "/journal" },
 ];
 const mobileAreas = desktopAreas;
 
-export function AppNavigation({ active, title }: { active?: string; title?: string }) {
+export function AppNavigation({ active, title, captureDate }: { active?: string; title?: string; captureDate?: string }) {
   const selected = areaFor(active);
   return <>
     <nav className="p2-top-nav" aria-label="Основна навигация">
@@ -39,6 +41,7 @@ export function AppNavigation({ active, title }: { active?: string; title?: stri
       <CaptureButton />
       {mobileAreas.slice(2).map((area) => <Link key={area.key} className={selected === area.key ? "active" : ""} aria-current={selected === area.key ? "page" : undefined} href={area.href}><Icon name={area.key}/><span>{area.label}</span></Link>)}
     </nav>
+    <QuickAdd defaultDate={captureDate ?? localDateKey()} />
   </>;
 }
 

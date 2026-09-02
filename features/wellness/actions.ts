@@ -19,6 +19,6 @@ export async function saveDailyWellness(_state: WellnessState, formData: FormDat
   const v = parsed.data;
   const { error } = await supabase.from("daily_wellness").upsert({ owner_id: user.id, entry_date: v.date, sleep_hours: v.sleepHours, sleep_quality: v.sleepQuality, energy: v.energy, soreness: v.soreness, stress: v.stress, resting_heart_rate: v.restingHeartRate, notes: v.notes || null }, { onConflict: "owner_id,entry_date" });
   if (error) return { status: "error", message: "Дневният check-in не можа да бъде запазен." };
-  revalidatePath("/today"); return { status: "success", message: "Днешното състояние е обновено." };
+  revalidatePath("/today"); revalidatePath("/health"); return { status: "success", message: "Днешното състояние е обновено." };
 }
 

@@ -121,13 +121,15 @@ body{color:var(--ios-ink);background:radial-gradient(circle at 82% 0,rgba(153,12
     width:calc(100vw - 96px)!important;
     max-width:none!important;
     grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    overflow:visible!important;
   }
   html body .p2-capture-button{
-    position:fixed!important;
+    position:absolute!important;
     z-index:151!important;
-    right:12px!important;
-    bottom:var(--pegasos-dock-bottom)!important;
-    left:auto!important;
+    top:-1px!important;
+    right:auto!important;
+    bottom:auto!important;
+    left:calc(100% + 12px)!important;
     width:68px!important;
     height:68px!important;
     border:1px solid rgba(255,255,255,.72)!important;

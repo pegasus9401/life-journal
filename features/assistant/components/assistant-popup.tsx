@@ -78,11 +78,22 @@ export function AssistantPopup() {
     const close = () => setOpen(false);
     const open = () => { setAssistantMounted(true); setOpen(true); };
     const openCapture = (event: Event) => { if (!event.defaultPrevented) setQuickActionsOpen(true); };
+    const openFoodCamera = () => { setQuickActionsOpen(false); foodCameraRef.current?.click(); };
+    const openFoodImport = () => { setQuickActionsOpen(false); foodImportRef.current?.click(); };
     window.addEventListener("close-assistant-popup", close);
     window.addEventListener("open-assistant-popup", open);
     window.addEventListener("gesture-close-overlay", close);
     window.addEventListener("open-quick-capture", openCapture);
-    return () => { window.removeEventListener("close-assistant-popup", close); window.removeEventListener("open-assistant-popup", open); window.removeEventListener("gesture-close-overlay", close); window.removeEventListener("open-quick-capture", openCapture); };
+    window.addEventListener("open-food-camera", openFoodCamera);
+    window.addEventListener("open-food-import", openFoodImport);
+    return () => {
+      window.removeEventListener("close-assistant-popup", close);
+      window.removeEventListener("open-assistant-popup", open);
+      window.removeEventListener("gesture-close-overlay", close);
+      window.removeEventListener("open-quick-capture", openCapture);
+      window.removeEventListener("open-food-camera", openFoodCamera);
+      window.removeEventListener("open-food-import", openFoodImport);
+    };
   }, []);
 
   useEffect(() => {

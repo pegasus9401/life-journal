@@ -18,7 +18,7 @@ function mapMeals(mealRows: MealRow[], itemRows: ItemRow[]) {
 export const getDynamicNutritionTimelineDay = cache(async (date: string) => {
   const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
-  const mealsResult = await supabase.from("day_meals").select("id, meal_date, name, planned_time, position, legacy_payload, created_at").eq("owner_id", user.id).eq("meal_date", date).order("position");
+  const mealsResult = await supabase.from("day_meals").select("id, meal_date, name, planned_time, position, legacy_payload, created_at").eq("owner_id", user.id).eq("meal_date", date).order("position").order("created_at");
   if (mealsResult.error) throw new Error(`Дневните хранения не могат да се заредят: ${mealsResult.error.message}`);
   const mealRows = (mealsResult.data ?? []) as MealRow[];
   if (!mealRows.length) return [] as DynamicMeal[];
@@ -30,18 +30,24 @@ export const getDynamicNutritionTimelineDay = cache(async (date: string) => {
 export const getDynamicNutritionDay = cache(async (date: string): Promise<DynamicNutritionData | null> => {
   const { supabase, user } = await getAuthenticatedClient();
   if (!user) return null;
-  const [mealsResult, itemsResult, templatesResult, templateMealsResult, library] = await Promise.all([
-    supabase.from("day_meals").select("id, meal_date, name, planned_time, position, legacy_payload, created_at").eq("owner_id", user.id).eq("meal_date", date).order("position"),
-    supabase.from("meal_items").select("id, day_meal_id, item_type, product_id, recipe_id, label, quantity, unit, calories, protein_g, carbs_g, fat_g, position").eq("owner_id", user.id).order("position"),
-    supabase.from("meal_templates").select("id, name, description, archived").eq("owner_id", user.id).eq("archived", false).order("updated_at", { ascending: false }),
-    supabase.from("template_meals").select("id, template_id").eq("owner_id", user.id),
+  const mealsPromise = supabase.from("day_meals").select("id, meal_date, name, planned_time, position, legacy_payload, created_at").eq("owner_id", user.id).eq("meal_date", date).order("position").order("created_at");
+  const templatesPromise = supabase.from("meal_templates").select("id, name, description, archived").eq("owner_id", user.id).eq("archived", false).order("updated_at", { ascending: false });
+  const templateMealsPromise = supabase.from("template_meals").select("id, template_id").eq("owner_id", user.id);
+  const [mealsResult, templatesResult, templateMealsResult, library] = await Promise.all([
+    mealsPromise,
+    templatesPromise,
+    templateMealsPromise,
     getRecipeLibrary(),
   ]);
   if (mealsResult.error) throw new Error(`Дневните хранения не могат да се заредят: ${mealsResult.error.message}`);
-  if (itemsResult.error) throw new Error(`Храните не могат да се заредят: ${itemsResult.error.message}`);
   if (templatesResult.error || templateMealsResult.error) throw new Error("Хранителните шаблони не могат да се заредят.");
   if (!library) return null;
-  const meals = mapMeals((mealsResult.data ?? []) as MealRow[], (itemsResult.data ?? []) as ItemRow[]);
+  const mealRows = (mealsResult.data ?? []) as MealRow[];
+  const itemsResult = mealRows.length
+    ? await supabase.from("meal_items").select("id, day_meal_id, item_type, product_id, recipe_id, label, quantity, unit, calories, protein_g, carbs_g, fat_g, position").eq("owner_id", user.id).in("day_meal_id", mealRows.map((meal) => meal.id)).order("position")
+    : { data: [] as ItemRow[], error: null };
+  if (itemsResult.error) throw new Error(`Храните не могат да се заредят: ${itemsResult.error.message}`);
+  const meals = mapMeals(mealRows, (itemsResult.data ?? []) as ItemRow[]);
   const templateMealRows = templateMealsResult.data ?? [];
   const templateMealCounts = new Map<string, number>();
   for (const meal of templateMealRows) templateMealCounts.set(meal.template_id, (templateMealCounts.get(meal.template_id) ?? 0) + 1);

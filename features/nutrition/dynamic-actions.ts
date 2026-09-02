@@ -45,8 +45,25 @@ export async function saveDynamicMeal(input: DynamicMealDraft) {
   const name = String(input.name).trim().slice(0, 100); if (!name) return { ok: false, message: "Въведи име на храненето.", mealId: null };
   if (!input.items.length) return { ok: false, message: "Добави поне една храна.", mealId: null };
   try {
-    const id = uuid(input.id); const resolved = await resolveItems(supabase, user.id, input.items);
-    const { error: mealError } = await supabase.from("day_meals").upsert({ id, owner_id: user.id, meal_date: input.date, name, planned_time: /^\d{2}:\d{2}$/.test(input.plannedTime) ? input.plannedTime : null, position: 0, legacy_payload: null }, { onConflict: "id" });
+    const id = uuid(input.id);
+    const resolved = await resolveItems(supabase, user.id, input.items);
+    const [{ data: existing, error: existingError }, { data: lastMeal, error: positionError }] = await Promise.all([
+      supabase.from("day_meals").select("position, legacy_payload").eq("owner_id", user.id).eq("id", id).maybeSingle(),
+      supabase.from("day_meals").select("position").eq("owner_id", user.id).eq("meal_date", input.date).order("position", { ascending: false }).limit(1).maybeSingle(),
+    ]);
+    if (existingError || positionError) throw existingError ?? positionError;
+    const completedAt = existing?.legacy_payload && typeof existing.legacy_payload === "object" && typeof existing.legacy_payload.completed_at === "string"
+      ? existing.legacy_payload.completed_at
+      : null;
+    const { error: mealError } = await supabase.from("day_meals").upsert({
+      id,
+      owner_id: user.id,
+      meal_date: input.date,
+      name,
+      planned_time: /^\d{2}:\d{2}$/.test(input.plannedTime) ? input.plannedTime : null,
+      position: Number(existing?.position ?? Number(lastMeal?.position ?? -1) + 1),
+      legacy_payload: completedAt ? { completed_at: completedAt } : null,
+    }, { onConflict: "id" });
     if (mealError) throw mealError;
     const { error: clearError } = await supabase.from("meal_items").delete().eq("owner_id", user.id).eq("day_meal_id", id); if (clearError) throw clearError;
     const { error: itemError } = await supabase.from("meal_items").insert(resolved.map((item) => ({ ...item, owner_id: user.id, day_meal_id: id }))); if (itemError) throw itemError;
@@ -58,6 +75,8 @@ export async function saveDynamicMeal(input: DynamicMealDraft) {
 export type CapturedMealDraft = {
   date: string;
   loggedAt?: string;
+  source?: "food_photo" | "assistant" | "manual";
+  completed?: boolean;
   name: string;
   description?: string;
   calories: number;
@@ -81,14 +100,15 @@ export async function saveCapturedMeal(input: CapturedMealDraft) {
     fat: Math.min(1000, Math.max(0, Number(input.fat) || 0)),
   };
   try {
-    const { data: lastMeal } = await supabase.from("day_meals").select("position").eq("owner_id", user.id).eq("meal_date", input.date).order("position", { ascending: false }).limit(1).maybeSingle();
+    const { data: lastMeal, error: positionError } = await supabase.from("day_meals").select("position").eq("owner_id", user.id).eq("meal_date", input.date).order("position", { ascending: false }).limit(1).maybeSingle();
+    if (positionError) throw positionError;
     const { data, error } = await supabase.from("day_meals").insert({
       owner_id: user.id,
       meal_date: input.date,
       name,
       planned_time: null,
       position: Number(lastMeal?.position ?? -1) + 1,
-      legacy_payload: { source: "food_photo", description: String(input.description ?? "").trim().slice(0, 500), nutrition, items: (input.items ?? []).slice(0, 20).map((item) => ({ name: String(item.name).trim().slice(0, 100), grams: Math.max(0, Number(item.grams) || 0), unit: ["g", "ml", "piece", "serving"].includes(String(item.unit)) ? item.unit : "g", calories: Math.max(0, Number(item.calories) || 0), protein: Math.max(0, Number(item.protein) || 0), carbs: Math.max(0, Number(item.carbs) || 0), fat: Math.max(0, Number(item.fat) || 0) })) },
+      legacy_payload: { source: input.source ?? "food_photo", description: String(input.description ?? "").trim().slice(0, 500), nutrition, items: (input.items ?? []).slice(0, 20).map((item) => ({ name: String(item.name).trim().slice(0, 100), grams: Math.max(0, Number(item.grams) || 0), unit: ["g", "ml", "piece", "serving"].includes(String(item.unit)) ? item.unit : "g", calories: Math.max(0, Number(item.calories) || 0), protein: Math.max(0, Number(item.protein) || 0), carbs: Math.max(0, Number(item.carbs) || 0), fat: Math.max(0, Number(item.fat) || 0) })), completed_at: input.completed === false ? null : new Date().toISOString() },
       ...(input.loggedAt && !Number.isNaN(Date.parse(input.loggedAt)) ? { created_at: input.loggedAt } : {}),
     }).select("id").single();
     if (error) throw error;
@@ -97,6 +117,38 @@ export async function saveCapturedMeal(input: CapturedMealDraft) {
   } catch (error) {
     return { ok: false, message: error instanceof Error ? error.message : "Храната не можа да бъде запазена.", mealId: null };
   }
+}
+
+
+export async function updateCapturedMeal(input: CapturedMealDraft & { id: string }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { ok: false, message: "Сесията изтече." };
+  if (!/^[0-9a-f-]{36}$/i.test(input.id)) return { ok: false, message: "Невалиден запис." };
+  const name = String(input.name).trim().slice(0, 100);
+  if (!name) return { ok: false, message: "Въведи име на храненето." };
+  const { data: current, error: readError } = await supabase.from("day_meals").select("legacy_payload").eq("owner_id", user.id).eq("id", input.id).single();
+  if (readError) return { ok: false, message: "Храненето не може да бъде заредено." };
+  const currentPayload = current.legacy_payload && typeof current.legacy_payload === "object" ? current.legacy_payload as Record<string, unknown> : {};
+  const nutrition = {
+    calories: Math.min(10000, Math.max(0, Number(input.calories) || 0)),
+    protein: Math.min(1000, Math.max(0, Number(input.protein) || 0)),
+    carbs: Math.min(2000, Math.max(0, Number(input.carbs) || 0)),
+    fat: Math.min(1000, Math.max(0, Number(input.fat) || 0)),
+  };
+  const { error } = await supabase.from("day_meals").update({
+    name,
+    legacy_payload: {
+      ...currentPayload,
+      source: input.source ?? currentPayload.source ?? "manual",
+      description: String(input.description ?? "").trim().slice(0, 500),
+      nutrition,
+      items: input.items ?? currentPayload.items ?? [],
+      completed_at: typeof currentPayload.completed_at === "string" ? currentPayload.completed_at : input.completed ? new Date().toISOString() : null,
+    },
+  }).eq("owner_id", user.id).eq("id", input.id);
+  revalidatePath("/nutrition"); revalidatePath("/calendar"); revalidatePath("/today"); revalidatePath("/health");
+  return { ok: !error, message: error ? "Храненето не можа да бъде обновено." : "Храненето е обновено." };
 }
 
 export async function deleteDynamicMeal(id: string) {
@@ -108,12 +160,14 @@ export async function deleteDynamicMeal(id: string) {
 export async function saveDayAsTemplate(date: string, rawName: string) {
   const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return { ok: false, message: "Сесията изтече." };
   const name = rawName.trim().slice(0, 100); if (!name) return { ok: false, message: "Въведи име на шаблона." };
-  const { data: meals, error: mealsError } = await supabase.from("day_meals").select("id, name, planned_time, position").eq("owner_id", user.id).eq("meal_date", date).is("legacy_payload", null).order("position");
+  const { data: meals, error: mealsError } = await supabase.from("day_meals").select("id, name, planned_time, position").eq("owner_id", user.id).eq("meal_date", date).order("position");
   if (mealsError || !meals?.length) return { ok: false, message: "Денят няма динамични хранения за шаблон." };
   const { data: items, error: itemsError } = await supabase.from("meal_items").select("*").eq("owner_id", user.id).in("day_meal_id", meals.map((meal) => meal.id)); if (itemsError) return { ok: false, message: "Храните не могат да бъдат копирани." };
+  const reusableMeals = meals.filter((meal) => (items ?? []).some((item) => item.day_meal_id === meal.id));
+  if (!reusableMeals.length) return { ok: false, message: "Няма планирани хранения с продукти за шаблон." };
   const { data: template, error: templateError } = await supabase.from("meal_templates").upsert({ owner_id: user.id, name }, { onConflict: "owner_id,name" }).select("id").single(); if (templateError) return { ok: false, message: templateError.message };
   await supabase.from("template_meals").delete().eq("owner_id", user.id).eq("template_id", template.id);
-  for (const meal of meals) {
+  for (const meal of reusableMeals) {
     const { data: templateMeal, error } = await supabase.from("template_meals").insert({ owner_id: user.id, template_id: template.id, name: meal.name, planned_time: meal.planned_time, position: meal.position }).select("id").single(); if (error) return { ok: false, message: "Шаблонът не можа да бъде създаден." };
     const mealItems = (items ?? []).filter((item) => item.day_meal_id === meal.id).map(({ id: _id, day_meal_id: _meal, created_at: _created, ...item }) => ({ ...item, template_meal_id: templateMeal.id }));
     if (mealItems.length) { const { error: itemError } = await supabase.from("template_meal_items").insert(mealItems); if (itemError) return { ok: false, message: "Съставките на шаблона не можаха да бъдат копирани." }; }
@@ -125,9 +179,20 @@ export async function applyMealTemplate(templateId: string, date: string) {
   const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return { ok: false, message: "Сесията изтече." };
   const { data: meals, error } = await supabase.from("template_meals").select("id, name, planned_time, position").eq("owner_id", user.id).eq("template_id", templateId).order("position"); if (error || !meals?.length) return { ok: false, message: "Шаблонът е празен или липсва." };
   const { data: items, error: itemsError } = await supabase.from("template_meal_items").select("*").eq("owner_id", user.id).in("template_meal_id", meals.map((meal) => meal.id)); if (itemsError) return { ok: false, message: "Шаблонът не може да бъде зареден." };
-  const { error: clearError } = await supabase.from("day_meals").delete().eq("owner_id", user.id).eq("meal_date", date); if (clearError) return { ok: false, message: "Старият ден не можа да бъде заменен." };
-  for (const meal of meals) {
-    const { data: dayMeal, error: mealError } = await supabase.from("day_meals").insert({ owner_id: user.id, meal_date: date, name: meal.name, planned_time: meal.planned_time, position: meal.position }).select("id").single(); if (mealError) return { ok: false, message: "Шаблонът не можа да бъде приложен." };
+  const { data: existingMeals, error: existingError } = await supabase.from("day_meals").select("id, planned_time, position, legacy_payload").eq("owner_id", user.id).eq("meal_date", date);
+  if (existingError) return { ok: false, message: "Текущият ден не може да бъде зареден." };
+  const replaceIds = (existingMeals ?? []).filter((meal) => {
+    const completedAt = meal.legacy_payload && typeof meal.legacy_payload === "object" ? meal.legacy_payload.completed_at : null;
+    return Boolean(meal.planned_time) && typeof completedAt !== "string";
+  }).map((meal) => meal.id);
+  if (replaceIds.length) {
+    const { error: clearError } = await supabase.from("day_meals").delete().eq("owner_id", user.id).in("id", replaceIds);
+    if (clearError) return { ok: false, message: "Старият план не можа да бъде заменен." };
+  }
+  const preservedMeals = (existingMeals ?? []).filter((meal) => !replaceIds.includes(meal.id));
+  const nextPosition = preservedMeals.reduce((maximum, meal) => Math.max(maximum, Number(meal.position)), -1) + 1;
+  for (const [mealIndex, meal] of meals.entries()) {
+    const { data: dayMeal, error: mealError } = await supabase.from("day_meals").insert({ owner_id: user.id, meal_date: date, name: meal.name, planned_time: meal.planned_time, position: nextPosition + mealIndex }).select("id").single(); if (mealError) return { ok: false, message: "Шаблонът не можа да бъде приложен." };
     const mealItems = (items ?? []).filter((item) => item.template_meal_id === meal.id).map(({ id: _id, template_meal_id: _meal, ...item }) => ({ ...item, day_meal_id: dayMeal.id }));
     if (mealItems.length) { const { error: itemError } = await supabase.from("meal_items").insert(mealItems); if (itemError) return { ok: false, message: "Храните от шаблона не можаха да бъдат копирани." }; }
   }

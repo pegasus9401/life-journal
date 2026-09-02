@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { AppNavigation } from "@/components/app-navigation";
 import { localDateKey } from "@/features/calendar/domain/date-utils";
 import { getDynamicNutritionTimelineDay } from "@/features/nutrition/dynamic-queries";
-import { mealTotals } from "@/features/nutrition/dynamic-types";
+import { mealCompleted, mealTotals } from "@/features/nutrition/dynamic-types";
 import { getNutritionEntriesDay } from "@/features/nutrition/queries";
 import { getProfileSettings } from "@/features/profile/queries";
 import { getDailyWellness } from "@/features/wellness/queries";
@@ -27,7 +27,7 @@ export default async function HealthPage() {
     calories: sum.calories + Number(entry.calories),
     protein: sum.protein + Number(entry.protein_g),
   }), { calories: 0, protein: 0 });
-  const dynamicTotals = dynamicMeals.reduce((sum, meal) => {
+  const dynamicTotals = dynamicMeals.filter(mealCompleted).reduce((sum, meal) => {
     const value = mealTotals(meal);
     return { calories: sum.calories + value.calories, protein: sum.protein + value.protein };
   }, { calories: 0, protein: 0 });

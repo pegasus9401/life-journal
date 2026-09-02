@@ -46,9 +46,12 @@ export async function buildDailyContext(supabase: SupabaseClient, user: User, to
     supabase.from("daily_wellness").select("entry_date,sleep_hours,sleep_quality,energy,soreness,stress,resting_heart_rate,notes").eq("owner_id", user.id).eq("entry_date", today).maybeSingle(),
     getRelevantMemories(supabase, user.id, query),
   ]);
-  const totals = nutrition.reduce((sum, row) => ({ calories: sum.calories + row.calories, protein: sum.protein + row.protein, carbs: sum.carbs + row.carbs, fat: sum.fat + row.fat }), { calories: 0, protein: 0, carbs: 0, fat: 0 });
+  const sumNutrition = (rows: typeof nutrition) => rows.reduce((sum, row) => ({ calories: sum.calories + row.calories, protein: sum.protein + row.protein, carbs: sum.carbs + row.carbs, fat: sum.fat + row.fat }), { calories: 0, protein: 0, carbs: 0, fat: 0 });
+  const completedNutrition = nutrition.filter((row) => row.completed);
+  const totals = sumNutrition(completedNutrition);
+  const plannedTotals = sumNutrition(nutrition);
   const templates = normalizeWorkoutCalendarTemplates((user.user_metadata as Record<string, unknown> | undefined)?.workout_templates);
-  return { date: today, timezone: profile.data?.timezone ?? "Europe/Sofia", profile: profile.data, goals: goals.data, wellness: wellness.data, events: events.data ?? [], tasks: tasks.data ?? [], nutrition: { totals, entries: nutrition.length }, workout: { today: workouts.data ?? [], currentPlan: templates.slice(0, 4) }, memories };
+  return { date: today, timezone: profile.data?.timezone ?? "Europe/Sofia", profile: profile.data, goals: goals.data, wellness: wellness.data, events: events.data ?? [], tasks: tasks.data ?? [], nutrition: { totals, plannedTotals, entries: nutrition.length, completedEntries: completedNutrition.length }, workout: { today: workouts.data ?? [], currentPlan: templates.slice(0, 4) }, memories };
 }
 
 export async function ensureConversation(supabase: SupabaseClient, userId: string, conversationId: string | null, persona: Persona, firstMessage: string) {

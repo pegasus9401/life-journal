@@ -4,7 +4,7 @@ import { localDateKey } from "@/features/calendar/domain/date-utils";
 import { getUpcoming } from "@/features/calendar/queries";
 import { getNutritionEntriesDay } from "@/features/nutrition/queries";
 import { getDynamicNutritionTimelineDay } from "@/features/nutrition/dynamic-queries";
-import { mealTotals } from "@/features/nutrition/dynamic-types";
+import { mealCompleted, mealTotals } from "@/features/nutrition/dynamic-types";
 import { getProfileSettings } from "@/features/profile/queries";
 import { TodayDayView } from "@/features/today/components/today-day-view";
 import type { TodayDashboardData } from "@/features/today/types";
@@ -31,12 +31,13 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
     calories: sum.calories + Number(entry.calories), protein: sum.protein + Number(entry.protein_g),
     carbs: sum.carbs + Number(entry.carbs_g), fat: sum.fat + Number(entry.fat_g),
   }), { calories: 0, protein: 0, carbs: 0, fat: 0 });
-  const dynamicTotals = dynamicMeals.reduce((sum, meal) => { const value = mealTotals(meal); return { calories: sum.calories + value.calories, protein: sum.protein + value.protein, carbs: sum.carbs + value.carbs, fat: sum.fat + value.fat }; }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+  const dynamicTotals = dynamicMeals.filter(mealCompleted).reduce((sum, meal) => { const value = mealTotals(meal); return { calories: sum.calories + value.calories, protein: sum.protein + value.protein, carbs: sum.carbs + value.carbs, fat: sum.fat + value.fat }; }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
   const totals = dynamicMeals.length ? dynamicTotals : legacyTotals;
+  const nextMeal = dynamicMeals.find((meal) => !mealCompleted(meal))?.name ?? null;
   const goals = profile.goals;
   const data: TodayDashboardData = {
     date: selected, isToday: selected === today, displayName: profile.profile?.display_name ?? null, wellness: wellnessScores(wellness, workouts.length),
-    nutrition: { ...totals, calorieGoal: goals.calorie_goal, proteinGoal: goals.protein_goal_g, carbsGoal: goals.carbs_goal_g, fatGoal: goals.fat_goal_g, nextMeal: null },
+    nutrition: { ...totals, calorieGoal: goals.calorie_goal, proteinGoal: goals.protein_goal_g, carbsGoal: goals.carbs_goal_g, fatGoal: goals.fat_goal_g, nextMeal },
     workouts, plannerItems: dayItems, currentWeight: selected === today ? profile.profile?.current_weight_kg ?? null : null,
     timeline: buildTimeline({ date: selected, today, calendar: dayItems, nutrition: nutritionEntries, meals: dynamicMeals, workouts, journal, wellness }),
   };

@@ -77,7 +77,7 @@ export function AssistantPopup() {
   useEffect(() => {
     const close = () => setOpen(false);
     const open = () => { setAssistantMounted(true); setOpen(true); };
-    const openCapture = (event: Event) => { if (!event.defaultPrevented) setQuickActionsOpen(true); };
+    const openCapture = (event: Event) => { if (!event.defaultPrevented) setQuickActionsOpen((current) => !current); };
     const openFoodCamera = () => { setQuickActionsOpen(false); foodCameraRef.current?.click(); };
     const openFoodImport = () => { setQuickActionsOpen(false); foodImportRef.current?.click(); };
     window.addEventListener("close-assistant-popup", close);
@@ -164,13 +164,13 @@ export function AssistantPopup() {
         <button className="assistant-quick-add-close" type="button" onClick={() => setQuickActionsOpen(false)} aria-label="Затвори">×</button>
         <div className="assistant-quick-actions">
           <button type="button" onClick={() => { setQuickActionsOpen(false); openAssistant(); }}><b>AI</b><span>Опиши храна</span></button>
-          <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>▧</b><span>Добави храна</span></Link>
+          <button type="button" onClick={() => { setQuickActionsOpen(false); foodImportRef.current?.click(); }}><b>▧</b><span>Импортирай храна</span></button>
           <button type="button" onClick={() => { setQuickActionsOpen(false); foodCameraRef.current?.click(); }}><b>●</b><span>Снимай храна</span></button>
-          <Link href="/products?scan=1" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай</span></Link>
+          <Link href="/products?scan=1" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай баркод</span></Link>
           <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); openAssistant(); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
           <Link href="/products" onClick={() => setQuickActionsOpen(false)}><b>⌕</b><span>Търси храна</span></Link>
           <Link href="/journal/new" onClick={() => setQuickActionsOpen(false)}><b>□</b><span>Добави в дневника</span></Link>
-          <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>▥</b><span>Тренировки</span></Link>
+          <Link href="/workouts#workout-templates" onClick={() => setQuickActionsOpen(false)}><b>▥</b><span>Тренировъчни шаблони</span></Link>
           <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>⌁</b><span>Запиши активност</span></Link>
         </div>
       </section>

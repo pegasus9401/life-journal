@@ -64,12 +64,6 @@ export function QuickAdd({ defaultDate }: { defaultDate: string }) {
   }, []);
 
   useEffect(() => {
-    const openFromDock = (event: Event) => { event.preventDefault(); setChooser(true); setOpen(true); };
-    window.addEventListener("open-quick-capture", openFromDock, true);
-    return () => window.removeEventListener("open-quick-capture", openFromDock, true);
-  }, []);
-
-  useEffect(() => {
     if (!open) return;
     const close = () => setOpen(false);
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };

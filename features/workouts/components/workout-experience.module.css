@@ -1,11 +1,18 @@
 .root {
   display: grid;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   gap: 16px;
+  overflow-x: clip;
   padding: 0 0 24px;
 }
 
+.root > * { min-width: 0; max-width: 100%; }
+
 .root :global(.workout-library-header) {
   display: flex;
+  min-width: 0;
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
@@ -42,6 +49,9 @@
 
 .root :global(.workout-library-tabs) {
   display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   gap: 7px;
   overflow-x: auto;
   padding: 4px;
@@ -81,6 +91,9 @@
 .root :global(.workout-library-view),
 .root :global(.workout-library-editor) {
   display: grid;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   gap: 18px;
   padding: clamp(17px, 3vw, 24px);
   border: 1px solid var(--p2-border);
@@ -217,6 +230,7 @@
 
 .root :global(.workout-library-groups) {
   display: grid;
+  min-width: 0;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
@@ -292,7 +306,11 @@
 .root :global(.workout-library-days button) { border-color: var(--p2-border); color: var(--p2-text-2); background: var(--p2-surface-2); }
 .root :global(.workout-library-days button.active) { border-color: rgba(118, 105, 234, .25); color: #6257c7; background: #f0efff; }
 .root :global(.workout-library-period) { border-color: var(--p2-border); background: var(--p2-surface-2); }
-.root :global(.workout-library-exercise-editor) { border-color: var(--p2-border); background: var(--p2-surface-2); }
+.root :global(.workout-library-exercise-editor) { min-width: 0; max-width: 100%; overflow-x: clip; border-color: var(--p2-border); background: var(--p2-surface-2); }
+.root :global(.workout-library-exercise-row),
+.root :global(.workout-history),
+.root :global(.workout-history-list),
+.root :global(.workout-history-card) { min-width: 0; max-width: 100%; }
 .root :global(.workout-library-save) { background: linear-gradient(135deg, #7669ea, #9f67e8); }
 
 @media (max-width: 760px) {

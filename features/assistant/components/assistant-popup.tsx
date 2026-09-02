@@ -169,7 +169,7 @@ export function AssistantPopup() {
           <Link href="/products?scan=1" onClick={() => setQuickActionsOpen(false)}><b>▣</b><span>Сканирай</span></Link>
           <button type="button" className="ask-pegas" onClick={() => { setQuickActionsOpen(false); openAssistant(); }}><b><Image src="/images/pegas-friend.png" alt="" width={62} height={42} /></b><span>Попитай Pegas</span></button>
           <Link href="/products" onClick={() => setQuickActionsOpen(false)}><b>⌕</b><span>Търси храна</span></Link>
-          <Link href="/nutrition" onClick={() => setQuickActionsOpen(false)}><b>✦</b><span>Създай меню</span></Link>
+          <Link href="/journal/new" onClick={() => setQuickActionsOpen(false)}><b>□</b><span>Добави в дневника</span></Link>
           <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>▥</b><span>Тренировки</span></Link>
           <Link href="/workouts" onClick={() => setQuickActionsOpen(false)}><b>⌁</b><span>Запиши активност</span></Link>
         </div>

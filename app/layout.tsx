@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
+import Script from "next/script";
 import { AssistantPopup } from "@/features/assistant/components/assistant-popup";
 import { ActiveWorkoutTracker } from "@/features/workouts/components/active-workout-tracker";
 import "./globals.css";
@@ -50,7 +51,19 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body className={manrope.variable}>{children}<ActiveWorkoutTracker /><AssistantPopup /></body>
+      <body className={manrope.variable}>
+        <Script id="pegasos-pwa-start" strategy="beforeInteractive">{`
+          (() => {
+            try {
+              const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+              const path = window.location.pathname;
+              const authRoute = path === "/login" || path.startsWith("/auth/");
+              if (standalone && path !== "/today" && !authRoute) window.location.replace("/today");
+            } catch {}
+          })();
+        `}</Script>
+        {children}<ActiveWorkoutTracker /><AssistantPopup />
+      </body>
     </html>
   );
 }

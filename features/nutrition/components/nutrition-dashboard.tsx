@@ -107,6 +107,7 @@ export function NutritionDashboard({
   dayContext,
   workoutLabel,
   openNew = false,
+  initialProductId,
 }: {
   date: string;
   data: DynamicNutritionData;
@@ -115,10 +116,20 @@ export function NutritionDashboard({
   dayContext: string;
   workoutLabel: string;
   openNew?: boolean;
+  initialProductId?: string;
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [draft, setDraft] = useState<DynamicMealDraft | null>(() => openNew ? emptyMeal(date) : null);
+  const [draft, setDraft] = useState<DynamicMealDraft | null>(() => {
+    if (!openNew) return null;
+    const product = initialProductId ? data.products.find((item) => item.id === initialProductId) : undefined;
+    if (!product) return emptyMeal(date);
+    return {
+      ...emptyMeal(date),
+      name: product.name,
+      items: [{ id: crypto.randomUUID(), itemType: "product", referenceId: product.id, quantity: product.servingGrams || 100 }],
+    };
+  });
   const [loggedDraft, setLoggedDraft] = useState<LoggedDraft | null>(null);
   const [message, setMessage] = useState<{ text: string; error?: boolean } | null>(null);
   const [templateName, setTemplateName] = useState("");

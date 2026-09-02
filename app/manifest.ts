@@ -6,6 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "PEGASOS",
     description: "Личен LifeOS за деня, здравето, плановете и спомените.",
     start_url: "/today",
+    id: "/today",
     scope: "/",
     display: "standalone",
     orientation: "portrait",

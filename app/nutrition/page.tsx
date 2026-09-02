@@ -10,7 +10,7 @@ import { bestPromotions, getPromotions } from "@/lib/promotions";
 
 export const metadata = { title: "Хранене · PEGASOS" };
 
-export default async function NutritionPage({ searchParams }: { searchParams: Promise<{ date?: string; add?: string }> }) {
+export default async function NutritionPage({ searchParams }: { searchParams: Promise<{ date?: string; add?: string; product?: string }> }) {
   const params = await searchParams;
   const date = /^\d{4}-\d{2}-\d{2}$/.test(params.date ?? "") ? params.date! : localDateKey();
   const [data, nutrition, workouts, offers] = await Promise.all([
@@ -41,6 +41,7 @@ export default async function NutritionPage({ searchParams }: { searchParams: Pr
       dayContext={dayContext}
       workoutLabel={workouts.map((workout) => workout.title).join(" · ")}
       openNew={params.add === "meal"}
+      initialProductId={params.product}
     />
   </main>;
 }

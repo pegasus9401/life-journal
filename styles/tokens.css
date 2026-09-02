@@ -112,16 +112,12 @@
     transform: none !important;
   }
 
-  html.mobile-chrome-hidden body .assistant-fab,
-  html.mobile-chrome-hidden body .p2-bottom-nav,
-  html.mobile-chrome-hidden body .assistant-quick-add-trigger {
-    display: none !important;
-  }
-
-  html.mobile-chrome-hidden body .assistant-condensed-bar {
-    left: 8px !important;
-    right: 8px !important;
-    bottom: var(--pegasos-dock-bottom) !important;
+  html.assistant-prompt-hidden body .assistant-fab,
+  html.assistant-prompt-hidden body .assistant-condensed-bar {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(18px) scale(.98) !important;
   }
 }
 

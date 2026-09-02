@@ -60,8 +60,7 @@ body{color:var(--ios-ink);background:radial-gradient(circle at 82% 0,rgba(153,12
   .assistant-condensed-bar>button>span{display:grid!important;min-width:0!important;flex:1!important;gap:2px!important;color:#fff!important}
   .assistant-condensed-bar b{font-size:12px!important}.assistant-condensed-bar small{overflow:hidden;color:#aaa4b7!important;font-size:9px!important;text-overflow:ellipsis;white-space:nowrap}.assistant-condensed-bar em{color:#a99cff!important;font-size:25px!important;font-style:normal!important}
   html body .assistant-fab,html body .assistant-quick-add-trigger{display:none!important}
-  html.mobile-chrome-hidden body .assistant-condensed-bar,html.mobile-chrome-hidden body .p2-bottom-nav{visibility:hidden!important;display:block!important;opacity:0!important;pointer-events:none!important;transform:translateY(22px)!important}
-  html.mobile-chrome-hidden body .p2-bottom-nav{display:grid!important;transform:translateY(calc(100% + 22px))!important}
+  html.assistant-prompt-hidden body .assistant-condensed-bar{visibility:hidden!important;opacity:0!important;pointer-events:none!important;transform:translateY(18px) scale(.98)!important}
 
   .assistant-popup-backdrop{z-index:170!important;background:rgba(18,15,26,.48)!important;backdrop-filter:blur(8px)!important}
   html body .assistant-popup.is-open{z-index:180!important;top:max(8px,env(safe-area-inset-top))!important;right:8px!important;bottom:auto!important;left:8px!important;width:auto!important;max-width:none!important;height:calc(100dvh - max(8px,env(safe-area-inset-top)))!important;max-height:none!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:28px 28px 0 0!important;background:#f7f6fa!important;box-shadow:0 -20px 70px rgba(21,17,31,.26)!important}

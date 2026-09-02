@@ -98,32 +98,45 @@ export function AssistantPopup() {
 
   useEffect(() => {
     let frame = 0;
-    const updateChrome = () => {
-      const currentY = window.scrollY;
+    const root = document.documentElement;
+    const mobileViewport = window.matchMedia("(max-width: 820px)");
+    const revealPrompt = () => root.classList.remove("assistant-prompt-hidden");
+    const syncViewport = () => {
+      lastScrollY.current = Math.max(0, window.scrollY);
+      if (!mobileViewport.matches) revealPrompt();
+    };
+    const updatePrompt = () => {
+      const currentY = Math.max(0, window.scrollY);
       const delta = currentY - lastScrollY.current;
-      if (Math.abs(delta) >= 8) {
-        const shouldHide = delta > 0 && currentY > 72 && !open;
-        document.documentElement.classList.toggle("mobile-chrome-hidden", shouldHide);
+      if (!mobileViewport.matches || open || quickActionsOpen || currentY <= 72) {
+        revealPrompt();
+      } else if (Math.abs(delta) >= 8) {
+        root.classList.toggle("assistant-prompt-hidden", delta > 0);
         lastScrollY.current = currentY;
       }
       frame = 0;
     };
     const onScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(updateChrome);
+      if (!frame) frame = window.requestAnimationFrame(updatePrompt);
     };
-    if (open) document.documentElement.classList.remove("mobile-chrome-hidden");
+    root.classList.remove("mobile-chrome-hidden");
+    syncViewport();
+    if (open || quickActionsOpen) revealPrompt();
     window.addEventListener("scroll", onScroll, { passive: true });
+    mobileViewport.addEventListener("change", syncViewport);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      mobileViewport.removeEventListener("change", syncViewport);
       if (frame) window.cancelAnimationFrame(frame);
-      document.documentElement.classList.remove("mobile-chrome-hidden");
+      revealPrompt();
+      root.classList.remove("mobile-chrome-hidden");
     };
-  }, [open]);
+  }, [open, pathname, quickActionsOpen]);
 
   if (pathname === "/login") return null;
 
   const openAssistant = () => {
-    document.documentElement.classList.remove("mobile-chrome-hidden");
+    document.documentElement.classList.remove("assistant-prompt-hidden", "mobile-chrome-hidden");
     setAssistantMounted(true);
     setOpen(true);
   };

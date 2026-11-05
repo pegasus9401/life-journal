@@ -756,6 +756,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Kaufland:120206314",
+    "name": "Домашни потреби",
+    "store": "Kaufland",
+    "oldPrice": null,
+    "price": 1,
+    "validFrom": "02.11",
+    "validUntil": "08.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20020623S_P-32",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Kaufland:120682926",
     "name": "Домашни потреби различни видове",
     "store": "Kaufland",
@@ -4340,7 +4352,7 @@
     "validFrom": "02.11",
     "validUntil": "08.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://media.kaufland.com/images/PPIM/KMO/BG300_20952015_P.jpg",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20952015_P",
     "source": "SmartPazar"
   },
   {
@@ -10388,7 +10400,7 @@
     "validFrom": "02.11",
     "validUntil": "08.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://media.kaufland.com/images/PPIM/KMO/BG300_20286496_P.jpg",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20286496_P",
     "source": "SmartPazar"
   },
   {
@@ -12232,8 +12244,8 @@
     "name": "Авокадо бр.",
     "store": "Lidl",
     "oldPrice": 0.99,
-    "price": 0.59,
-    "validFrom": "02.11",
+    "price": 0.49,
+    "validFrom": "05.11",
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/avokado/p11214527",
     "imageUrl": "https://www.lidl.bg/assets/gcp65141e12139c4d97859f194d8cc4ede3.png",
@@ -12405,18 +12417,6 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/bira/p11311049",
     "imageUrl": "https://www.lidl.bg/assets/gcpae45313c96ed4bf0993931a15a6e9735.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11588622",
-    "name": "Бира 12 x 0.5 l",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 5.69,
-    "validFrom": "02.11",
-    "validUntil": "08.11",
-    "url": "https://www.lidl.bg/p/bira/p11588622",
-    "imageUrl": "https://www.lidl.bg/assets/gcpd0ec80fbfd6d444caab17a6d5872bd75.png",
     "source": "SmartPazar"
   },
   {
@@ -12756,18 +12756,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11006921",
-    "name": "Газирана безалкохолна напитка 1.5 l",
-    "store": "Lidl",
-    "oldPrice": 1.56,
-    "price": 1.15,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/gazirana-bezalkokolna-napitka/p11006921",
-    "imageUrl": "https://www.lidl.bg/assets/gcp7d0f5c307d8f4b2f9ec031c16c2b580f.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11006685",
     "name": "Газирана безалкохолна напитка 2 x 1.5 l",
     "store": "Lidl",
@@ -12937,13 +12925,13 @@
   },
   {
     "id": "Lidl:11500942",
-    "name": "Десертен бар Черноморец 47 g",
+    "name": "Десертен бар 47 g",
     "store": "Lidl",
     "oldPrice": 0.69,
     "price": 0.55,
     "validFrom": "09.11",
     "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/deserten-bar-cernomoret/p11500942",
+    "url": "https://www.lidl.bg/p/deserten-bar/p11500942",
     "imageUrl": "https://www.lidl.bg/assets/gcpe7116010c56145f5ad9ef21be16cf62d.png",
     "source": "SmartPazar"
   },
@@ -13365,6 +13353,18 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/kamember/p11210195",
     "imageUrl": "https://www.lidl.bg/assets/gcp72341fb91e874d159a6a5dd54cdeaa11.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11588622",
+    "name": "КАМЕНИЦА Бира 12 x 0.5 l",
+    "store": "Lidl",
+    "oldPrice": null,
+    "price": 5.69,
+    "validFrom": "02.11",
+    "validUntil": "08.11",
+    "url": "https://www.lidl.bg/p/kamenita-bira/p11588622",
+    "imageUrl": "https://www.lidl.bg/assets/gcpd0ec80fbfd6d444caab17a6d5872bd75.png",
     "source": "SmartPazar"
   },
   {
@@ -14053,7 +14053,7 @@
   },
   {
     "id": "Lidl:11030427",
-    "name": "Мини Маршмелоу 180 g",
+    "name": "Мини маршмелоу 180 g",
     "store": "Lidl",
     "oldPrice": null,
     "price": 1.78,
@@ -14556,18 +14556,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11000804",
-    "name": "Пица на пещ 340 g",
-    "store": "Lidl",
-    "oldPrice": 2.55,
-    "price": 2.19,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/pita-na-pes/p11000804",
-    "imageUrl": "https://www.lidl.bg/assets/gcp06de4ff267154727a6df8398505b948a.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11003599",
     "name": "Плато от местни специалитети 120 g",
     "store": "Lidl",
@@ -14616,6 +14604,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11585057",
+    "name": "ПОРЦИЯ СВЕЖЕСТ Пресен суджук XXL за kg",
+    "store": "Lidl",
+    "oldPrice": null,
+    "price": 5.49,
+    "validFrom": "12.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/portiy-svezest-presen-sudzuk-xxl/p11585057",
+    "imageUrl": "https://www.lidl.bg/assets/gcp3875b5b1a4294aada54a5d3d50d71ea8.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11600395",
     "name": "ПОРЦИЯ СВЕЖЕСТ Прясно пилешко бутче XXL за kg",
     "store": "Lidl",
@@ -14640,6 +14640,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11584369",
+    "name": "ПОРЦИЯ СВЕЖЕСТ Свински гърди 700 g",
+    "store": "Lidl",
+    "oldPrice": 5.59,
+    "price": 4.59,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/portiy-svezest-svinski-g'rdi/p11584369",
+    "imageUrl": "https://www.lidl.bg/assets/gcpb940aa9bc0f3464abb1a792ae549fb11.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11029698",
     "name": "Праз 3 бр.",
     "store": "Lidl",
@@ -14661,18 +14673,6 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/predna-cetv'rt-ot-malko-prasente/p11603614",
     "imageUrl": "https://www.lidl.bg/assets/gcp7b1bc965cb8d424ca2a03f726ef6926c.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11585057",
-    "name": "Пресен суджук XXL за kg",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 5.49,
-    "validFrom": "12.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/presen-sudzuk-xxl/p11585057",
-    "imageUrl": "https://www.lidl.bg/assets/gcpe78390570ade4b9b981c2a07ccd16431.jpg",
     "source": "SmartPazar"
   },
   {
@@ -14728,7 +14728,7 @@
     "name": "Прясна дъгова пъстърва XXL за kg",
     "store": "Lidl",
     "oldPrice": null,
-    "price": 6.09,
+    "price": 5.99,
     "validFrom": "05.11",
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/prysna-d'gova-p'st'rva-xxl/p11585981",
@@ -14745,6 +14745,18 @@
     "validUntil": "06.12",
     "url": "https://www.lidl.bg/p/prysna-pasta/p11101893",
     "imageUrl": "https://www.lidl.bg/assets/gcpf6f3e9a21d914531bfab0f277b569915.jpg",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11139936",
+    "name": "Прясна паста 250 g",
+    "store": "Lidl",
+    "oldPrice": 1.53,
+    "price": 1.29,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/prysna-pasta/p11139936",
+    "imageUrl": "https://www.lidl.bg/assets/gcp8d543af32b2a4870961a570f5992919a.png",
     "source": "SmartPazar"
   },
   {
@@ -14976,18 +14988,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11006994",
-    "name": "Салам 100 g",
-    "store": "Lidl",
-    "oldPrice": 2.22,
-    "price": 1.79,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/salam/p11006994",
-    "imageUrl": "https://www.lidl.bg/assets/gcp6ee75f6acef9474b82e9ebca7f633dd2.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11210006",
     "name": "Салам Спианата 120 g",
     "store": "Lidl",
@@ -15129,18 +15129,6 @@
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/svinski-but-xxl/p11586048",
     "imageUrl": "https://www.lidl.bg/assets/gcpc94e5bf279454ad6ae06ae4489c6df6f.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11584369",
-    "name": "Свински гърди 700 g",
-    "store": "Lidl",
-    "oldPrice": 5.59,
-    "price": 4.59,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/svinski-g'rdi/p11584369",
-    "imageUrl": "https://www.lidl.bg/assets/gcpb940aa9bc0f3464abb1a792ae549fb11.png",
     "source": "SmartPazar"
   },
   {
@@ -15744,18 +15732,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11329208",
-    "name": "Хапки в сос за котки 24 x 85 g",
-    "store": "Lidl",
-    "oldPrice": 6.89,
-    "price": 5.39,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/kapki-v-sos-za-kotki/p11329208",
-    "imageUrl": "https://www.lidl.bg/assets/gcp2f92b6f185f442eabd672683cf754387.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11000241",
     "name": "Хартия за печене XXL 40 бр.",
     "store": "Lidl",
@@ -15948,6 +15924,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11008161",
+    "name": "Шоколад 90 или 100 g",
+    "store": "Lidl",
+    "oldPrice": 1.99,
+    "price": 1.69,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.lidl.bg/p/sokolad/p11008161",
+    "imageUrl": "https://www.lidl.bg/assets/gcp78cc3b8a880242a1ad4a37356cb40971.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11586979",
     "name": "Шоколадов десерт 128 g",
     "store": "Lidl",
@@ -15981,6 +15969,18 @@
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/sokolad/p11690992",
     "imageUrl": "https://www.lidl.bg/assets/gcpabe6931a3b674e8592ff01af8f8836fc.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11007011",
+    "name": "Шоколадови близалки 10 x 15 g",
+    "store": "Lidl",
+    "oldPrice": 2.19,
+    "price": 1.89,
+    "validFrom": "09.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/sokoladovi-blizalki/p11007011",
+    "imageUrl": "https://www.lidl.bg/assets/gcp8ade73ab3e4b4a9b8c7593c47a1fb3de.png",
     "source": "SmartPazar"
   },
   {
@@ -16029,18 +16029,6 @@
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/sokoladovi-parcenta/p11002781",
     "imageUrl": "https://www.lidl.bg/assets/gcpa4b9981efe36402698c899fbe77e0372.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11468408",
-    "name": "Шотландско уиски 1.5 l",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 14.82,
-    "validFrom": "02.11",
-    "validUntil": "08.11",
-    "url": "https://www.lidl.bg/p/sotlandsko-uiski/p11468408",
-    "imageUrl": "https://www.lidl.bg/assets/gcp7b66fb33aff847008bfb60ca39d0ffe7.png",
     "source": "SmartPazar"
   },
   {
@@ -16344,18 +16332,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11139936",
-    "name": "CHEF SELECT Прясна паста 250 g",
-    "store": "Lidl",
-    "oldPrice": 1.53,
-    "price": 1.29,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/chef-select-prysna-pasta/p11139936",
-    "imageUrl": "https://www.lidl.bg/assets/gcp8d543af32b2a4870961a570f5992919a.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11007138",
     "name": "CHEF SELECT Салата Едамаме 200 g",
     "store": "Lidl",
@@ -16464,6 +16440,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11006921",
+    "name": "COCA-COLA | COCA-COLA ZERO | SPRITE Газирана безалкохолна напитка 1.5 l",
+    "store": "Lidl",
+    "oldPrice": 1.56,
+    "price": 1.15,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/coca-cola-coca-cola-zero-sprite-gazirana-bezalkokolna-napitka/p11006921",
+    "imageUrl": "https://www.lidl.bg/assets/gcp7d0f5c307d8f4b2f9ec031c16c2b580f.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11340154",
     "name": "COMTE DE SENNEVAL Шампанско 0.375 l",
     "store": "Lidl",
@@ -16561,7 +16549,7 @@
   },
   {
     "id": "Lidl:11083664",
-    "name": "CRIVIT Дъмбел комплект",
+    "name": "Crivit Дъмбел комплект",
     "store": "Lidl",
     "oldPrice": null,
     "price": 14.99,
@@ -16848,6 +16836,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11006994",
+    "name": "DULANO SELECTION Салам 100 g",
+    "store": "Lidl",
+    "oldPrice": 2.22,
+    "price": 1.79,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/dulano-selection-salam/p11006994",
+    "imageUrl": "https://www.lidl.bg/assets/gcp6ee75f6acef9474b82e9ebca7f633dd2.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11586374",
     "name": "EMEKA Кухненска хартия 12 бр.",
     "store": "Lidl",
@@ -16869,6 +16869,18 @@
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/esmara-bluza/p11099284",
     "imageUrl": "https://www.lidl.bg/assets/gcp5f4ff7c436734598ae2dcb844164ca0d.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11106216",
+    "name": "Esmara Блуза бр.",
+    "store": "Lidl",
+    "oldPrice": null,
+    "price": 7.99,
+    "validFrom": "09.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/esmara-bluza/p11106216",
+    "imageUrl": "https://www.lidl.bg/assets/gcp12394c41442e47d6a0212fcb939fd362.png",
     "source": "SmartPazar"
   },
   {
@@ -16917,6 +16929,18 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/esmara-bluzi/p11107900",
     "imageUrl": "https://www.lidl.bg/assets/gcpc3b629a0c5b64fc898106b1efed54ab4.jpg",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11102610",
+    "name": "ESMARA Боти чифт",
+    "store": "Lidl",
+    "oldPrice": null,
+    "price": 8.99,
+    "validFrom": "09.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/esmara-boti/p11102610",
+    "imageUrl": "https://www.lidl.bg/assets/gcp0476af87f8864146b0c780ff788de4bb.png",
     "source": "SmartPazar"
   },
   {
@@ -17280,6 +17304,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11003501",
+    "name": "Favorina Коледна фигурка с шоколадови дражета 200 g",
+    "store": "Lidl",
+    "oldPrice": 4.29,
+    "price": 3.89,
+    "validFrom": "09.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/favorina-koledna-figurka-s-sokoladovi-drazeta/p11003501",
+    "imageUrl": "https://www.lidl.bg/assets/gcpd007a5a3b79d49628afd87999827e832.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11006723",
     "name": "FELIX PURINA Пауч за котки 18 x 85 g",
     "store": "Lidl",
@@ -17373,6 +17409,18 @@
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/grillmeister-zapalka-s-reaktivna-struy/p11042265",
     "imageUrl": "https://www.lidl.bg/assets/gcpd08caba56d6249ae9db5c71acf70db9c.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11468408",
+    "name": "HANKEY BANNISTER Шотландско уиски 1.5 l",
+    "store": "Lidl",
+    "oldPrice": null,
+    "price": 14.82,
+    "validFrom": "02.11",
+    "validUntil": "08.11",
+    "url": "https://www.lidl.bg/p/hankey-bannister-sotlandsko-uiski/p11468408",
+    "imageUrl": "https://www.lidl.bg/assets/gcp7b66fb33aff847008bfb60ca39d0ffe7.png",
     "source": "SmartPazar"
   },
   {
@@ -17621,8 +17669,8 @@
     "store": "Lidl",
     "oldPrice": 4.35,
     "price": 3.79,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
+    "validFrom": "16.11",
+    "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/lenor-omekotitel/p11000192",
     "imageUrl": "https://www.lidl.bg/assets/gcp489dbffd6bcc452880d5070f58fc58cb.jpg",
     "source": "SmartPazar"
@@ -17633,8 +17681,8 @@
     "store": "Lidl",
     "oldPrice": null,
     "price": 9.19,
-    "validFrom": "02.11",
-    "validUntil": "08.11",
+    "validFrom": "16.11",
+    "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/lenor-parfymni-perli/p11000218",
     "imageUrl": "https://www.lidl.bg/assets/gcp1457596df4f547dd923429418c9b986f.png",
     "source": "SmartPazar"
@@ -18540,6 +18588,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11329208",
+    "name": "MILA'S WORLD Хапки в сос за котки 24 x 85 g",
+    "store": "Lidl",
+    "oldPrice": 6.89,
+    "price": 5.39,
+    "validFrom": "09.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/mila-s-world-kapki-v-sos-za-kotki/p11329208",
+    "imageUrl": "https://www.lidl.bg/assets/gcp2f92b6f185f442eabd672683cf754387.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11040521",
     "name": "MILBONA Британско сирене чедър 250 g",
     "store": "Lidl",
@@ -18585,18 +18645,6 @@
     "validUntil": "08.11",
     "url": "https://www.lidl.bg/p/milka-kroasan/p11320944",
     "imageUrl": "https://www.lidl.bg/assets/gcpdfc6251c7dc7465699c9218fc4ab17e3.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11008161",
-    "name": "MILKA Шоколад 90 или 100 g",
-    "store": "Lidl",
-    "oldPrice": 1.99,
-    "price": 1.69,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/milka-sokolad/p11008161",
-    "imageUrl": "https://www.lidl.bg/assets/gcp78cc3b8a880242a1ad4a37356cb40971.png",
     "source": "SmartPazar"
   },
   {
@@ -20076,6 +20124,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Lidl:11000804",
+    "name": "TRATTORIA ALFREDO Пица на пещ 340 g",
+    "store": "Lidl",
+    "oldPrice": 2.55,
+    "price": 2.19,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/trattoria-alfredo-pita-na-pes/p11000804",
+    "imageUrl": "https://www.lidl.bg/assets/gcp06de4ff267154727a6df8398505b948a.png",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Lidl:11000901",
     "name": "TRATTORIA ALFREDO Пица на пещ Салами XXL 4 x 350 g",
     "store": "Lidl",
@@ -20209,7 +20269,7 @@
   },
   {
     "id": "Lidl:11109585",
-    "name": "Ultimate Speed Калъфи за гуми комплект",
+    "name": "ULTIMATE SPEED Калъфи за гуми комплект",
     "store": "Lidl",
     "oldPrice": null,
     "price": 9.99,
@@ -35676,6 +35736,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "T-Market:40700726",
+    "name": "Банани, Еквадор, кг.(Клас I)",
+    "store": "T-Market",
+    "oldPrice": 1.84,
+    "price": 1.29,
+    "validFrom": "05.11",
+    "validUntil": "08.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "",
+    "source": "SmartPazar"
+  },
+  {
     "id": "T-Market:40748239",
     "name": "Баничка пура със сирене ТТ бр",
     "store": "T-Market",
@@ -36180,6 +36252,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "T-Market:41367257",
+    "name": "Кисело мляко ЕЛИ 2% 370 г",
+    "store": "T-Market",
+    "oldPrice": 0.72,
+    "price": 0.45,
+    "validFrom": "05.11",
+    "validUntil": "08.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/185517/200",
+    "source": "SmartPazar"
+  },
+  {
     "id": "T-Market:40906181",
     "name": "Кисело мляко САЯНА 2% 400гр",
     "store": "T-Market",
@@ -36492,6 +36576,54 @@
     "source": "SmartPazar"
   },
   {
+    "id": "T-Market:40888767",
+    "name": "Кроасан 7DAYS Double ванилия&ягода 92гр",
+    "store": "T-Market",
+    "oldPrice": 0.81,
+    "price": 0.61,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/138705/200",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:40785863",
+    "name": "Кроасан 7DAYS Double какао&ванилия 92гр",
+    "store": "T-Market",
+    "oldPrice": 0.81,
+    "price": 0.61,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/138710/200",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:40487435",
+    "name": "Кроасан 7DAYS max крем брюле 92гр",
+    "store": "T-Market",
+    "oldPrice": 0.81,
+    "price": 0.61,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/138706/200",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:40855528",
+    "name": "Кроасан 7DAYS max Лешник 92гр",
+    "store": "T-Market",
+    "oldPrice": 0.81,
+    "price": 0.61,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/138709/200",
+    "source": "SmartPazar"
+  },
+  {
     "id": "T-Market:40820819",
     "name": "Кроасан 7DAYS Super max какао 110г",
     "store": "T-Market",
@@ -36513,6 +36645,78 @@
     "validUntil": "09.11",
     "url": "https://tmarket.bg/page/ceni-za-denya",
     "imageUrl": "https://ebag.bg/products/images/138707/200",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:41325129",
+    "name": "Кроасан BREAMORE какао 55г",
+    "store": "T-Market",
+    "oldPrice": 0.26,
+    "price": 0.2,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:41325119",
+    "name": "Кроасан BREAMORE ягода 55г",
+    "store": "T-Market",
+    "oldPrice": 0.26,
+    "price": 0.2,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:41393023",
+    "name": "Кроасан DOLCE FIORE какаово-леш.крем 70г",
+    "store": "T-Market",
+    "oldPrice": 0.61,
+    "price": 0.46,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:41393013",
+    "name": "Кроасан DOLCE FIORE крем брюле 70г",
+    "store": "T-Market",
+    "oldPrice": 0.61,
+    "price": 0.46,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:41382578",
+    "name": "Кроасан MILKA ванилия 50г",
+    "store": "T-Market",
+    "oldPrice": 1.02,
+    "price": 0.77,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/174597/200",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "T-Market:41382577",
+    "name": "Кроасан MILKA шоколад 50г",
+    "store": "T-Market",
+    "oldPrice": 1.02,
+    "price": 0.77,
+    "validFrom": "05.11",
+    "validUntil": "06.11",
+    "url": "https://tmarket.bg/page/ceni-za-denya",
+    "imageUrl": "https://ebag.bg/products/images/174598/200",
     "source": "SmartPazar"
   },
   {

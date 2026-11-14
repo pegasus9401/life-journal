@@ -36264,30 +36264,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "T-Market:40700196",
-    "name": "*Краве сирене БОЖЕНЦИ вак. кг",
-    "store": "T-Market",
-    "oldPrice": 9.66,
-    "price": 7.73,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/141064/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41245332",
-    "name": "*Краве сирене БОРИНО УЛАН,вак.кг",
-    "store": "T-Market",
-    "oldPrice": 10.58,
-    "price": 8.46,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "T-Market:41377149",
     "name": "*Краве сирене ДОН ЧЕПЕЛАРЕ вак,кг",
     "store": "T-Market",
@@ -36309,54 +36285,6 @@
     "validUntil": "15.11",
     "url": "https://tmarket.bg/page/ceni-za-denya",
     "imageUrl": "https://ebag.bg/products/images/197133/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41377352",
-    "name": "*Краве сирене ЕЛИ вак,кг",
-    "store": "T-Market",
-    "oldPrice": 7.82,
-    "price": 6.26,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41376677",
-    "name": "*Краве сирене САЯНА вак,кг",
-    "store": "T-Market",
-    "oldPrice": 8.69,
-    "price": 6.95,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/183009/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41377150",
-    "name": "*Краве сирене СОКОЛОВО, обезмасл, вак,кг",
-    "store": "T-Market",
-    "oldPrice": 6.99,
-    "price": 5.59,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41221241",
-    "name": "*Краве сирене Съединение,вак,кг",
-    "store": "T-Market",
-    "oldPrice": 11.5,
-    "price": 9.2,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175318/200",
     "source": "SmartPazar"
   },
   {
@@ -36408,18 +36336,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "T-Market:41210445",
-    "name": "Бяло салам. сирене СОКОЛОВО,обезмасл,кг",
-    "store": "T-Market",
-    "oldPrice": 6.98,
-    "price": 5.58,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "T-Market:41079927",
     "name": "Бяло саламурено сирене БУЛГАРЧЕ,кг",
     "store": "T-Market",
@@ -36441,54 +36357,6 @@
     "validUntil": "16.11",
     "url": "https://tmarket.bg/page/ceni-za-denya",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41367263",
-    "name": "Бяло саламурено сирене ЕЛИ кг",
-    "store": "T-Market",
-    "oldPrice": 7.82,
-    "price": 6.26,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/197767/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41298336",
-    "name": "Бяло саламурено сирене НАБОРЪ,класик,кг",
-    "store": "T-Market",
-    "oldPrice": 7.36,
-    "price": 5.89,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/191878/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41143960",
-    "name": "Бяло саламурено сирене САЯНА, домашно,кг",
-    "store": "T-Market",
-    "oldPrice": 10.52,
-    "price": 8.42,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/107988/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41111274",
-    "name": "Бяло саламурено сирене САЯНА, кг",
-    "store": "T-Market",
-    "oldPrice": 8.69,
-    "price": 6.95,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/107988/200",
     "source": "SmartPazar"
   },
   {
@@ -36852,30 +36720,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "T-Market:41321312",
-    "name": "Краве сирене БЕЛЕНСКО 400 г",
-    "store": "T-Market",
-    "oldPrice": 5.52,
-    "price": 4.42,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41417276",
-    "name": "Краве сирене БЕЛЕНСКО 800 г тенекия",
-    "store": "T-Market",
-    "oldPrice": 8.69,
-    "price": 6.95,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "T-Market:40951922",
     "name": "Краве сирене БЕЛИИСА 400г",
     "store": "T-Market",
@@ -36900,90 +36744,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "T-Market:41301295",
-    "name": "Краве сирене ВЕРЕЯ 200г",
-    "store": "T-Market",
-    "oldPrice": 2.79,
-    "price": 2.23,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175319/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40812072",
-    "name": "Краве сирене ВЕРЕЯ 400г",
-    "store": "T-Market",
-    "oldPrice": 4.26,
-    "price": 3.41,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175319/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40812071",
-    "name": "Краве сирене ВЕРЕЯ 700г",
-    "store": "T-Market",
-    "oldPrice": 7.37,
-    "price": 5.9,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175319/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40812070",
-    "name": "Краве сирене ВЕРЕЯ кут.400гр",
-    "store": "T-Market",
-    "oldPrice": 5.18,
-    "price": 4.14,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175317/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41260035",
-    "name": "Краве сирене ВЕРЕЯ кутия 900 гр",
-    "store": "T-Market",
-    "oldPrice": 10,
-    "price": 8,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175319/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41355495",
-    "name": "Краве сирене ДУНАВИЯ в саламура 200г",
-    "store": "T-Market",
-    "oldPrice": 2.75,
-    "price": 2.2,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/108244/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41129309",
-    "name": "Краве сирене ДУНАВИЯ в саламура 400гр",
-    "store": "T-Market",
-    "oldPrice": 4.6,
-    "price": 3.68,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/108244/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "T-Market:40925772",
     "name": "Краве сирене ЕЛБИ 400г",
     "store": "T-Market",
@@ -36993,150 +36753,6 @@
     "validUntil": "30.11",
     "url": "https://tmarket.bg/page/ceni-za-denya",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41414962",
-    "name": "Краве сирене ЕЛИТ домашно кутия 800 г",
-    "store": "T-Market",
-    "oldPrice": 6.99,
-    "price": 5.59,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/174244/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41367256",
-    "name": "Краве сирене ЗАФИРОВИ 400 г",
-    "store": "T-Market",
-    "oldPrice": 4.6,
-    "price": 3.68,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40742449",
-    "name": "Краве сирене ЗОРОВ по ЗНП 600г",
-    "store": "T-Market",
-    "oldPrice": 6.24,
-    "price": 4.99,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41396729",
-    "name": "Краве сирене КЕНАНА 600г",
-    "store": "T-Market",
-    "oldPrice": 4.6,
-    "price": 3.68,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41395042",
-    "name": "Краве сирене МАДЖАРОВ без лактоза 400г",
-    "store": "T-Market",
-    "oldPrice": 5.98,
-    "price": 4.78,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/175031/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40389820",
-    "name": "Краве сирене МАДЖАРОВ ЗНП 400г",
-    "store": "T-Market",
-    "oldPrice": 5.52,
-    "price": 4.42,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/134986/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40679137",
-    "name": "Краве сирене МАДЖАРОВ ЗНП 700 г",
-    "store": "T-Market",
-    "oldPrice": 8.28,
-    "price": 6.62,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/134986/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40389819",
-    "name": "Краве сирене МАДЖАРОВ ЗНП кут. 500гр",
-    "store": "T-Market",
-    "oldPrice": 7.36,
-    "price": 5.89,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/141823/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:40389926",
-    "name": "Краве сирене МАДЖАРОВ натрошено 900 гр",
-    "store": "T-Market",
-    "oldPrice": 7.82,
-    "price": 6.26,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/32144/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41355499",
-    "name": "Краве сирене МОЕ ТВОЕ НАШЕ 400г",
-    "store": "T-Market",
-    "oldPrice": 4.14,
-    "price": 3.31,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/128653/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41249633",
-    "name": "Краве сирене РОДОПСКО ЧУДО 200гр",
-    "store": "T-Market",
-    "oldPrice": 3.1,
-    "price": 2.48,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/124234/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41088874",
-    "name": "Краве сирене САЯНА 400гр",
-    "store": "T-Market",
-    "oldPrice": 4.27,
-    "price": 3.42,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/183009/200",
     "source": "SmartPazar"
   },
   {
@@ -37152,54 +36768,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "T-Market:41266364",
-    "name": "Краве сирене САЯНА ЗНП кутия 800гр",
-    "store": "T-Market",
-    "oldPrice": 8.74,
-    "price": 6.99,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/183009/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41228986",
-    "name": "Краве сирене ХАДЖИЙСКИ 400г",
-    "store": "T-Market",
-    "oldPrice": 4.14,
-    "price": 3.31,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41216275",
-    "name": "Краве сирене DURRA TERRA 800гр тенекия",
-    "store": "T-Market",
-    "oldPrice": 8.74,
-    "price": 6.99,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41186220",
-    "name": "Краве сирене LACRIMA екстра 350гр",
-    "store": "T-Market",
-    "oldPrice": 4.87,
-    "price": 3.9,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/141060/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "T-Market:41201461",
     "name": "Краве сирене LACRIMA екстра 700 гр",
     "store": "T-Market",
@@ -37209,30 +36777,6 @@
     "validUntil": "16.11",
     "url": "https://tmarket.bg/page/ceni-za-denya",
     "imageUrl": "https://ebag.bg/products/images/141060/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41002571",
-    "name": "Краве сирене LACRIMA ЗНП 700гр",
-    "store": "T-Market",
-    "oldPrice": 8,
-    "price": 6.4,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/142505/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41215918",
-    "name": "Краве сирене VEDRARE 400г",
-    "store": "T-Market",
-    "oldPrice": 5.52,
-    "price": 4.42,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "https://ebag.bg/products/images/109765/200",
     "source": "SmartPazar"
   },
   {
@@ -38059,18 +37603,6 @@
     "price": 5.99,
     "validFrom": "10.11",
     "validUntil": "16.11",
-    "url": "https://tmarket.bg/page/ceni-za-denya",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "T-Market:41396547",
-    "name": "Свежо сирене РАФТИС 600г",
-    "store": "T-Market",
-    "oldPrice": 3.21,
-    "price": 2.57,
-    "validFrom": "12.11",
-    "validUntil": "13.11",
     "url": "https://tmarket.bg/page/ceni-za-denya",
     "imageUrl": "",
     "source": "SmartPazar"

@@ -24,87 +24,15 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100041220",
-    "name": "7 DAYS Кейк Бар какао 30 г",
-    "store": "Kaufland",
-    "oldPrice": 0.33,
-    "price": 0.26,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00041220_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120712283",
-    "name": "7 DAYS Кроасан различни видове 60 г",
-    "store": "Kaufland",
-    "oldPrice": 0.51,
-    "price": 0.4,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/7622201388300_BG_P-1",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120668632",
-    "name": "7 DAYS Кроасан Super Max/Double Super Max 110 г",
-    "store": "Kaufland",
-    "oldPrice": 1.02,
-    "price": 0.81,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/325_20668632-1",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120949642",
     "name": "7 DAYS Миникроасани различни видове 300 г",
     "store": "Kaufland",
     "oldPrice": 3.39,
-    "price": 2.71,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
+    "price": 2.69,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20949642",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102900514",
-    "name": "7 DAYS Миникроасани различни вкусове 185 г",
-    "store": "Kaufland",
-    "oldPrice": 2.04,
-    "price": 1.63,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/5201360543205_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120934147",
-    "name": "7 Days Руло различни видове 200 г",
-    "store": "Kaufland",
-    "oldPrice": 1.68,
-    "price": 1.34,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/7622202277290_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102900547",
-    "name": "7 DAYS Bake Rolls различни видове 80 г",
-    "store": "Kaufland",
-    "oldPrice": 0.76,
-    "price": 0.6,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/323_02900547_P",
     "source": "SmartPazar"
   },
   {
@@ -112,9 +40,9 @@
     "name": "7 Days Max/7 Days Double Max Кроасан различни видове 70 - 92 г",
     "store": "Kaufland",
     "oldPrice": 0.81,
-    "price": 0.64,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
+    "price": 0.55,
+    "validFrom": "18.11",
+    "validUntil": "21.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00059631_P-1",
     "source": "SmartPazar"
@@ -984,18 +912,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100103841",
-    "name": "Букет микс 40 см",
-    "store": "Kaufland",
-    "oldPrice": null,
-    "price": 6.45,
-    "validFrom": "10.11",
-    "validUntil": "15.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00103841__20IMG_0091_20_281_29",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120292579",
     "name": "Букет рози",
     "store": "Kaufland",
@@ -1500,18 +1416,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100093300",
-    "name": "Вита баница различни видове 460 г",
-    "store": "Kaufland",
-    "oldPrice": 2.59,
-    "price": 1.75,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/155_00093300C_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:101001500",
     "name": "Вита баница различни видове 740 г",
     "store": "Kaufland",
@@ -1629,18 +1533,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2828970000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100056968",
-    "name": "Градус Цяло пиле с две цели бутчета",
-    "store": "Kaufland",
-    "oldPrice": 3.52,
-    "price": 2.45,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2869610000000_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -1767,7 +1659,7 @@
     "id": "Kaufland:120982943",
     "name": "Денито Патладжан с майонеза от свежата витрина",
     "store": "Kaufland",
-    "oldPrice": 9.99,
+    "oldPrice": 8.49,
     "price": 6.99,
     "validFrom": "16.11",
     "validUntil": "22.11",
@@ -2049,18 +1941,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800110301311_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100069512",
-    "name": "Домлян Кисело мляко 500 г",
-    "store": "Kaufland",
-    "oldPrice": 0.92,
-    "price": 0.65,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800110300208_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -2541,18 +2421,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/8717191061384_BG_P-1",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100042089",
-    "name": "Дъгова пъстърва изчистена, прясна",
-    "store": "Kaufland",
-    "oldPrice": 7.99,
-    "price": 5.99,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00042089B_P",
     "source": "SmartPazar"
   },
   {
@@ -3528,18 +3396,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:104000573",
-    "name": "Крина Леща 500 г",
-    "store": "Kaufland",
-    "oldPrice": 2.14,
-    "price": 1.6,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800106402053_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100045226",
     "name": "КРИНОС Торта Френска селска 600 г",
     "store": "Kaufland",
@@ -3768,255 +3624,15 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100115488",
-    "name": "КФМ Бекон Маестро слайс 100 г",
-    "store": "Kaufland",
-    "oldPrice": 2.72,
-    "price": 1.9,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800202641127_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100109785",
-    "name": "КФМ Виенски кренвирши Чиста храна 220 г",
-    "store": "Kaufland",
-    "oldPrice": 3.59,
-    "price": 2.51,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/234_00109785_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100089641",
-    "name": "КФМ Кренвирши Бейби Чиста Храна 140 г",
-    "store": "Kaufland",
-    "oldPrice": 2.39,
-    "price": 1.67,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800202640915_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120983844",
-    "name": "КФМ Луканка Панагюрска или телешка 250 г",
-    "store": "Kaufland",
-    "oldPrice": 5.99,
-    "price": 4.19,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20983844_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100065173",
-    "name": "КФМ Луканка Смядовска 170 г",
-    "store": "Kaufland",
-    "oldPrice": 3.94,
-    "price": 2.75,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800202647488_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120734268",
-    "name": "КФМ Луканка старобългарска или Сушеница 150 г",
-    "store": "Kaufland",
-    "oldPrice": 3.65,
-    "price": 2.55,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20734268_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100109653",
-    "name": "КФМ Луканков салам Закуска 160 г",
-    "store": "Kaufland",
-    "oldPrice": 2.95,
-    "price": 2.06,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00109653_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100079124",
     "name": "КФМ Луканков салам Закуска 600 г",
     "store": "Kaufland",
     "oldPrice": 11.15,
-    "price": 7.8,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
+    "price": 7.19,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800202643336_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120683515",
-    "name": "КФМ Луканков салам Чиста храна 100 г",
-    "store": "Kaufland",
-    "oldPrice": 2.09,
-    "price": 1.46,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20683515_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100102201",
-    "name": "КФМ Макси Луканка Чановете различни видове 500 г",
-    "store": "Kaufland",
-    "oldPrice": 13.89,
-    "price": 9.72,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/238_00102201_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120981030",
-    "name": "КФМ Печено филе или Шунка Чиста храна 80 г",
-    "store": "Kaufland",
-    "oldPrice": 2.39,
-    "price": 1.67,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20981030_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120735753",
-    "name": "КФМ Пилешко или Пуешко филе слайс 160 г",
-    "store": "Kaufland",
-    "oldPrice": 4.29,
-    "price": 3,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20735753_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120783518",
-    "name": "КФМ Пилешко или Пуешко филе слайс 80 г",
-    "store": "Kaufland",
-    "oldPrice": 2.55,
-    "price": 1.78,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/235_20783518_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120983812",
-    "name": "КФМ Пуешко или Пилешко филе 250 г",
-    "store": "Kaufland",
-    "oldPrice": 3.99,
-    "price": 2.79,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20983812_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100086374",
-    "name": "КФМ Пуешко филе слайс 120 г",
-    "store": "Kaufland",
-    "oldPrice": 3.22,
-    "price": 2.25,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00086374_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100115261",
-    "name": "КФМ Смядовска луканка слайс 100 г",
-    "store": "Kaufland",
-    "oldPrice": 2.95,
-    "price": 2.06,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://media.kaufland.com/images/PPIM/KMO/BG300_00115261_P.jpg",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120947164",
-    "name": "КФМ Филе Елена резерва слайс 100 г",
-    "store": "Kaufland",
-    "oldPrice": 3.79,
-    "price": 2.65,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20947164_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100115262",
-    "name": "КФМ Хамон Серано слайс 100 г",
-    "store": "Kaufland",
-    "oldPrice": 3.65,
-    "price": 2.55,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800202645118_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100107818",
-    "name": "КФМ Шпек Бургас Резерва 220 г",
-    "store": "Kaufland",
-    "oldPrice": 5.29,
-    "price": 3.7,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00107818_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100098076",
-    "name": "КФМ Шунка различни видове 120 г",
-    "store": "Kaufland",
-    "oldPrice": 3.22,
-    "price": 2.25,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00098076_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100038890",
-    "name": "КФМ Шунка различни видове 160 г",
-    "store": "Kaufland",
-    "oldPrice": 4.29,
-    "price": 3,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00038890_P",
     "source": "SmartPazar"
   },
   {
@@ -4245,18 +3861,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/AdobeStock_144770773",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100015669",
-    "name": "Мандарини",
-    "store": "Kaufland",
-    "oldPrice": 2.99,
-    "price": 1.29,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2831830000000_BG_P-1",
     "source": "SmartPazar"
   },
   {
@@ -4768,9 +4372,9 @@
     "name": "Моркови",
     "store": "Kaufland",
     "oldPrice": 1.29,
-    "price": 0.45,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
+    "price": 0.55,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/09702481_P-1",
     "source": "SmartPazar"
@@ -7020,18 +6624,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:102300101",
-    "name": "Хисар Натурална минерална вода 10 л РЕТ",
-    "store": "Kaufland",
-    "oldPrice": 2.28,
-    "price": 1.29,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800105612170_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100024977",
     "name": "Хляб Добруджа 500 г",
     "store": "Kaufland",
@@ -7324,9 +6916,9 @@
     "name": "Черни маслини Супер супер Мамут",
     "store": "Kaufland",
     "oldPrice": 7.15,
-    "price": 3.89,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
+    "price": 5,
+    "validFrom": "18.11",
+    "validUntil": "21.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840830000000_BG_P",
     "source": "SmartPazar"
@@ -7669,14 +7261,14 @@
   },
   {
     "id": "Kaufland:120912335",
-    "name": "Air Wick Ел. комплект extra oils 19 мл",
+    "name": "Air Wick Електрически комплект различни видове",
     "store": "Kaufland",
     "oldPrice": 9.45,
     "price": 6.61,
     "validFrom": "16.11",
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://media.kaufland.com/images/PPIM/KMO/BG300_20912335_P.jpg",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20912335_616",
     "source": "SmartPazar"
   },
   {
@@ -9349,7 +8941,7 @@
   },
   {
     "id": "Kaufland:120714373",
-    "name": "BRIO Електрическа мелница 23 см,",
+    "name": "BRIO Електрическа мелница",
     "store": "Kaufland",
     "oldPrice": 15.33,
     "price": 7.59,
@@ -12817,7 +12409,7 @@
   },
   {
     "id": "Kaufland:100093403",
-    "name": "Four Friends Червено, бяло вино или розе различни сортове 0,75 л",
+    "name": "Four Friends Червено, Бяло вино или Розе различни сортове 0,75 л",
     "store": "Kaufland",
     "oldPrice": 7.66,
     "price": 4.99,
@@ -12921,18 +12513,6 @@
     "validUntil": "15.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800208640384_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120717893",
-    "name": "Gala Мляно кафе Ala Carte 500 г",
-    "store": "Kaufland",
-    "oldPrice": 11.39,
-    "price": 5.59,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20717893_P",
     "source": "SmartPazar"
   },
   {
@@ -14508,18 +14088,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100402126",
-    "name": "K-Classic Прясно мляко 1 л",
-    "store": "Kaufland",
-    "oldPrice": 1.32,
-    "price": 0.95,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00402126_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120652135",
     "name": "K-Classic Пушен кашкавал 45% масленост 730 г",
     "store": "Kaufland",
@@ -15156,30 +14724,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120271950",
-    "name": "Krina Боб, Нахут или Леща 540 г",
-    "store": "Kaufland",
-    "oldPrice": 1.84,
-    "price": 1.38,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/403_20271950_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:103200140",
-    "name": "Krina Захар кафява, тръстикова 500 г",
-    "store": "Kaufland",
-    "oldPrice": 1.46,
-    "price": 1.09,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800106403043_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100059400",
     "name": "Krina Киноа бяла 500 г",
     "store": "Kaufland",
@@ -15192,63 +14736,15 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:104001182",
-    "name": "Krina Леща 1 кг",
-    "store": "Kaufland",
-    "oldPrice": 3.47,
-    "price": 2.6,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800106402008_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100084927",
-    "name": "Krina Ориз 1 кг",
-    "store": "Kaufland",
-    "oldPrice": 2.96,
-    "price": 2.22,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800106405214_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:104000570",
-    "name": "Krina Ориз 500 г",
-    "store": "Kaufland",
-    "oldPrice": 1.32,
-    "price": 0.99,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800106400288_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:104001651",
     "name": "Krina Ориз перлен 1 кг",
     "store": "Kaufland",
     "oldPrice": 2.53,
-    "price": 1.89,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
+    "price": 1.59,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800106400011_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100027366",
-    "name": "Krina Оризов грис 500 г",
-    "store": "Kaufland",
-    "oldPrice": 1.22,
-    "price": 0.91,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00027366_P",
     "source": "SmartPazar"
   },
   {
@@ -15345,6 +14841,30 @@
     "validUntil": "15.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3600524266998_BG_P",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Kaufland:100078805",
+    "name": "La Perla Риба тон 185 г",
+    "store": "Kaufland",
+    "oldPrice": 1.4,
+    "price": 1.19,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4006795395037_BG_P",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Kaufland:100081770",
+    "name": "La Perla Риба тон късчета в собствен сос 185 г",
+    "store": "Kaufland",
+    "oldPrice": 1.02,
+    "price": 0.89,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4006795308037_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -15489,18 +15009,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/8000070038493_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120689720",
-    "name": "Lavazza Кафе на зърна Suerte 1 кг",
-    "store": "Kaufland",
-    "oldPrice": 21.47,
-    "price": 14.59,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/8000070021747_BG_P-1",
     "source": "SmartPazar"
   },
   {
@@ -16164,6 +15672,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Kaufland:120972041",
+    "name": "LUPILU Детски термоклин 98 - 128",
+    "store": "Kaufland",
+    "oldPrice": null,
+    "price": 2.49,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4066628138330_BG_P",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Kaufland:120972043",
     "name": "LUPILU Детски термокомплект 98 - 128",
     "store": "Kaufland",
@@ -16429,7 +15949,7 @@
   },
   {
     "id": "Kaufland:121008887",
-    "name": "MEDIX Почистващи кърпи различни видове 100 бр.",
+    "name": "MEDIX Почистващи кърпи различни видове",
     "store": "Kaufland",
     "oldPrice": 3.99,
     "price": 2.99,
@@ -16677,30 +16197,6 @@
     "validUntil": "15.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00022724_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102700982",
-    "name": "Merci Шоколадови бонбони различни видове 210 - 250 г",
-    "store": "Kaufland",
-    "oldPrice": 6.54,
-    "price": 4.45,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/518_02700982_P-1",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100038145",
-    "name": "Merci Шоколадови бонбони различни видове 250 г",
-    "store": "Kaufland",
-    "oldPrice": 6.54,
-    "price": 4.45,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/517_00038145-1",
     "source": "SmartPazar"
   },
   {
@@ -17268,6 +16764,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Kaufland:105102190",
+    "name": "Naturella Дамски превръзки 14 - 20 бр.",
+    "store": "Kaufland",
+    "oldPrice": null,
+    "price": 2.49,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4015400125068_BG_P",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Kaufland:105103031",
     "name": "Naturella Дамски превръзки различни видове 14 - 20 бр.",
     "store": "Kaufland",
@@ -17277,18 +16785,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4015400436058_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:105102190",
-    "name": "Naturella Ultra Дамски превръзки 14 - 20 бр. в опаковка",
-    "store": "Kaufland",
-    "oldPrice": null,
-    "price": 2.49,
-    "validFrom": "16.11",
-    "validUntil": "22.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4015400125068_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -17640,6 +17136,18 @@
     "source": "SmartPazar"
   },
   {
+    "id": "Kaufland:120955457",
+    "name": "NIVEA Дезодорант стик или спрей 50 - 150 мл",
+    "store": "Kaufland",
+    "oldPrice": null,
+    "price": 3.59,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/9005800400181_BG_P",
+    "source": "SmartPazar"
+  },
+  {
     "id": "Kaufland:120955460",
     "name": "NIVEA Дезодорант стик или спрей различни видове 50 - 150 мл",
     "store": "Kaufland",
@@ -17649,18 +17157,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/9005800401195_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120955457",
-    "name": "NIVEA Дезодорант Derma Control Clinical 50 - 150 мл",
-    "store": "Kaufland",
-    "oldPrice": null,
-    "price": 3.59,
-    "validFrom": "16.11",
-    "validUntil": "22.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/9005800400181_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -17761,7 +17257,7 @@
   },
   {
     "id": "Kaufland:120947457",
-    "name": "NIVEA MEN Афтършейв балсам Anti-age",
+    "name": "NIVEA MEN Афтършейв балсам различни видове",
     "store": "Kaufland",
     "oldPrice": null,
     "price": 6.15,
@@ -18453,18 +17949,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/636_20625861",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100105555",
-    "name": "Parоdontax Паста или Четка за зъби различни видове паста: 75 мл четка: 1 бр.",
-    "store": "Kaufland",
-    "oldPrice": null,
-    "price": 3.89,
-    "validFrom": "16.11",
-    "validUntil": "22.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/5054563065711_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -19296,18 +18780,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:102100067",
-    "name": "Passport Шотландско уиски 0,7 л",
-    "store": "Kaufland",
-    "oldPrice": 11.24,
-    "price": 6.59,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/5000299210048_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120781258",
     "name": "Patos Rolls Царевичен чипс различни вкусове 119 - 140 г",
     "store": "Kaufland",
@@ -19464,44 +18936,8 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120683906",
-    "name": "PERSIL Гел различни видове",
-    "store": "Kaufland",
-    "oldPrice": 23,
-    "price": 11.39,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20683906_596",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120696641",
-    "name": "PERSIL Гел, Прах или Капсули",
-    "store": "Kaufland",
-    "oldPrice": null,
-    "price": 17.99,
-    "validFrom": "16.11",
-    "validUntil": "22.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/9000101567335_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120688458",
-    "name": "Persil Прах Color",
-    "store": "Kaufland",
-    "oldPrice": 13.29,
-    "price": 11.39,
-    "validFrom": "11.11",
-    "validUntil": "14.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://media.kaufland.com/images/PPIM/KMO/BG300_20688458_P.jpg",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120703095",
-    "name": "Persil прах Color 100 пранета",
+    "name": "Persil Гел, Прах или Капсули",
     "store": "Kaufland",
     "oldPrice": null,
     "price": 17.99,
@@ -19513,7 +18949,7 @@
   },
   {
     "id": "Kaufland:120920149",
-    "name": "Persil Discs капсули 70 бр. Color",
+    "name": "Persil Гел, Прах или Капсули различни видове",
     "store": "Kaufland",
     "oldPrice": null,
     "price": 17.99,
@@ -20604,18 +20040,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120886712",
-    "name": "SAVEX Капсули 42/48 пранета различни видове",
-    "store": "Kaufland",
-    "oldPrice": null,
-    "price": 9.69,
-    "validFrom": "16.11",
-    "validUntil": "22.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20886712_596",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120796988",
     "name": "Savex Прах, Гел или Капсули различни видове",
     "store": "Kaufland",
@@ -20625,6 +20049,18 @@
     "validUntil": "15.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20796988_596",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Kaufland:120886712",
+    "name": "SAVEX Прах, Гел или Капсули различни видове",
+    "store": "Kaufland",
+    "oldPrice": null,
+    "price": 9.69,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
+    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20886712_596",
     "source": "SmartPazar"
   },
   {
@@ -20725,7 +20161,7 @@
   },
   {
     "id": "Kaufland:120973239",
-    "name": "SEMANA Омекотител 2х 100 пранета",
+    "name": "SEMANA Омекотител различни видове",
     "store": "Kaufland",
     "oldPrice": null,
     "price": 8.59,
@@ -20737,7 +20173,7 @@
   },
   {
     "id": "Kaufland:120973236",
-    "name": "SEMANA Омекотител 2х 100 пранета 2 х 100 пранета",
+    "name": "SEMANA Омекотител различни видове 2 х 100 пранета",
     "store": "Kaufland",
     "oldPrice": null,
     "price": 8.59,
@@ -23520,18 +22956,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11030746",
-    "name": "Био веган блок за мазане 200 g",
-    "store": "Lidl",
-    "oldPrice": 1.78,
-    "price": 1.39,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/bio-vegan-blok-za-mazane/p11030746",
-    "imageUrl": "https://www.lidl.bg/assets/gcp0465793acc1d44ffb40135ddf5407a94.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11311049",
     "name": "Бира 12 x 0.5 l",
     "store": "Lidl",
@@ -24009,6 +23433,18 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/evropeyska-salata/p11589446",
     "imageUrl": "https://www.lidl.bg/assets/gcpd6fa583d70e64be797c1b17fc8aaf02f.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11255041",
+    "name": "Ементал 150 g",
+    "store": "Lidl",
+    "oldPrice": 2.29,
+    "price": 1.89,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/emental/p11255041",
+    "imageUrl": "https://www.lidl.bg/assets/gcp7ab35a71e78f423babcac5bdb64007c9.png",
     "source": "SmartPazar"
   },
   {
@@ -24544,7 +23980,7 @@
     "name": "Лалета 7 бр.",
     "store": "Lidl",
     "oldPrice": null,
-    "price": 4.49,
+    "price": 4.39,
     "validFrom": "20.11",
     "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/laleta/p66000389",
@@ -24573,6 +24009,18 @@
     "validUntil": "06.12",
     "url": "https://www.lidl.bg/p/longanisa/p11137373",
     "imageUrl": "https://www.lidl.bg/assets/gcp325ffea9a8034d44a570c3f62b9e96bd.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11029564",
+    "name": "Лук за kg",
+    "store": "Lidl",
+    "oldPrice": 0.66,
+    "price": 0.39,
+    "validFrom": "16.11",
+    "validUntil": "22.11",
+    "url": "https://www.lidl.bg/p/luk/p11029564",
+    "imageUrl": "https://www.lidl.bg/assets/gcp581bd77574e844a899079097724fa391.png",
     "source": "SmartPazar"
   },
   {
@@ -25821,6 +25269,18 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/kamon-serrano-gran-rezerva/p11274013",
     "imageUrl": "https://www.lidl.bg/assets/gcp4b55dbb9a0714fc7ba8e26a8598b1296.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11330843",
+    "name": "Хапки в желе за котки 24 x 85 g",
+    "store": "Lidl",
+    "oldPrice": 6.89,
+    "price": 5.39,
+    "validFrom": "09.11",
+    "validUntil": "15.11",
+    "url": "https://www.lidl.bg/p/kapki-v-zele-za-kotki/p11330843",
+    "imageUrl": "https://www.lidl.bg/assets/gcpbfa9f40411fc449ebe1656d9e4b1b354.png",
     "source": "SmartPazar"
   },
   {
@@ -27249,6 +26709,18 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/esmara-men-suits'rt/p11113756",
     "imageUrl": "https://www.lidl.bg/assets/gcp275cd3a00461402886e694e7aba104a5.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11101102",
+    "name": "ESMARA MEN Термоблуза бр.",
+    "store": "Lidl",
+    "oldPrice": null,
+    "price": 4.49,
+    "validFrom": "19.11",
+    "validUntil": "22.11",
+    "url": "https://www.lidl.bg/p/esmara-men-termobluza/p11101102",
+    "imageUrl": "https://www.lidl.bg/assets/gcpad08b10f16924897a9763c69e21cd767.png",
     "source": "SmartPazar"
   },
   {
@@ -28728,18 +28200,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11330843",
-    "name": "MILA'S WORLD Хапки в желе за котки 24 x 85 g",
-    "store": "Lidl",
-    "oldPrice": 6.89,
-    "price": 5.39,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/mila-s-world-kapki-v-zele-za-kotki/p11330843",
-    "imageUrl": "https://www.lidl.bg/assets/gcpbfa9f40411fc449ebe1656d9e4b1b354.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11040521",
     "name": "MILBONA Британско сирене чедър 250 g",
     "store": "Lidl",
@@ -28761,18 +28221,6 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/milbona-burata/p11031013",
     "imageUrl": "https://www.lidl.bg/assets/gcp2d29adf21a0e496f9d29b2381d2a9c23.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11255041",
-    "name": "MILBONA Ементал 150 g",
-    "store": "Lidl",
-    "oldPrice": 2.29,
-    "price": 1.89,
-    "validFrom": "09.11",
-    "validUntil": "06.12",
-    "url": "https://www.lidl.bg/p/milbona-emental/p11255041",
-    "imageUrl": "https://www.lidl.bg/assets/gcp7ab35a71e78f423babcac5bdb64007c9.png",
     "source": "SmartPazar"
   },
   {
@@ -28857,6 +28305,18 @@
     "validUntil": "15.11",
     "url": "https://www.lidl.bg/p/mythos-bira/p11454500",
     "imageUrl": "https://www.lidl.bg/assets/gcpc22b43cbbca74363bd197e83d53e33f5.png",
+    "source": "SmartPazar"
+  },
+  {
+    "id": "Lidl:11030746",
+    "name": "NATURLI’ Био веган блок за мазане 200 g",
+    "store": "Lidl",
+    "oldPrice": 1.78,
+    "price": 1.39,
+    "validFrom": "09.11",
+    "validUntil": "06.12",
+    "url": "https://www.lidl.bg/p/naturli-bio-vegan-blok-za-mazane/p11030746",
+    "imageUrl": "https://www.lidl.bg/assets/gcp0465793acc1d44ffb40135ddf5407a94.png",
     "source": "SmartPazar"
   },
   {
@@ -29700,18 +29160,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11029564",
-    "name": "QUALITÉ SUISSE Лук за kg",
-    "store": "Lidl",
-    "oldPrice": 0.66,
-    "price": 0.39,
-    "validFrom": "16.11",
-    "validUntil": "22.11",
-    "url": "https://www.lidl.bg/p/qualite-suisse-luk/p11029564",
-    "imageUrl": "https://www.lidl.bg/assets/gcp581bd77574e844a899079097724fa391.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11583807",
     "name": "QUANTUM Пино Ноар и Мерло 0.75 l",
     "store": "Lidl",
@@ -29769,18 +29217,6 @@
     "validUntil": "06.12",
     "url": "https://www.lidl.bg/p/ritter-sport-sokolad/p11000152",
     "imageUrl": "https://www.lidl.bg/assets/gcp5cbd250195684517be58a4d26aa387ab.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11120407",
-    "name": "ROWENTA 2 в 1 акумулаторна прахосмукачка бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 142.99,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/rowenta-2-v-1-akumulatorna-prakosmukacka/p11120407",
-    "imageUrl": "https://www.lidl.bg/assets/gcpa1aa3e2f0aee470198ff7ce15a78e3a7.png",
     "source": "SmartPazar"
   },
   {
@@ -29892,18 +29328,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11101863",
-    "name": "SILVERCREST Алуминиев тиган бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 12.49,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-aluminiev-tigan/p11101863",
-    "imageUrl": "https://www.lidl.bg/assets/gcpd84914a53fad4167972299190315e149.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11120947",
     "name": "SILVERCREST Алуминиев тиган за палачинки бр.",
     "store": "Lidl",
@@ -29925,18 +29349,6 @@
     "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/silvercrest-blender/p11112458",
     "imageUrl": "https://www.lidl.bg/assets/gcpe0f7946f633a483ab8b10789596a0b72.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11131363",
-    "name": "SILVERCREST Гофретник бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 59.99,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-gofretnik/p11131363",
-    "imageUrl": "https://www.lidl.bg/assets/gcp065cc0aa53374471b5482e83fb2f5fed.png",
     "source": "SmartPazar"
   },
   {
@@ -29976,18 +29388,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11118704",
-    "name": "Silvercrest Електрическа мелничка бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 6.59,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-elektriceska-melnicka/p11118704",
-    "imageUrl": "https://www.lidl.bg/assets/gcp9bde4f05bc5140f3b7ed062949ed619b.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11123805",
     "name": "SILVERCREST Електрическа мелничка бр.",
     "store": "Lidl",
@@ -30009,18 +29409,6 @@
     "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/silvercrest-elektriceska-ploca-za-palacinki/p11111587",
     "imageUrl": "https://www.lidl.bg/assets/gcp5933d69b2c194270a588628fe429b6f6.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11131721",
-    "name": "SILVERCREST Комплект за приготвяне на матча",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 17.99,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-komplekt-za-prigotvyne-na-matca/p11131721",
-    "imageUrl": "https://www.lidl.bg/assets/gcpf91ea951bdb24f7c93d00994b49b2407.png",
     "source": "SmartPazar"
   },
   {
@@ -30060,18 +29448,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11124008",
-    "name": "SILVERCREST Кутия за съхранение бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 8.49,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-kutiy-za-s'kranenie/p11124008",
-    "imageUrl": "https://www.lidl.bg/assets/gcp9120ef64eead4ba1bff5b42449518fb4.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11131293",
     "name": "SILVERCREST Кутия за съхранение комплект",
     "store": "Lidl",
@@ -30108,18 +29484,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11121424",
-    "name": "Silvercrest Кухненски помощник бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 2.49,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-kuknenski-pomosnik/p11121424",
-    "imageUrl": "https://www.lidl.bg/assets/gcpe3f85d4a47c649bcbf109f5199078733.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11120948",
     "name": "SILVERCREST Кухненски помощник бр.",
     "store": "Lidl",
@@ -30141,18 +29505,6 @@
     "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/silvercrest-kuknenski-pomosnik/p11120949",
     "imageUrl": "https://www.lidl.bg/assets/gcp805094eb4c3440caa75c9279049c0643.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11028610",
-    "name": "SILVERCREST Кухненски робот бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 59.99,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-kuknenski-robot/p11028610",
-    "imageUrl": "https://www.lidl.bg/assets/gcpe342f7059c084887b77adb9acf2b51f5.png",
     "source": "SmartPazar"
   },
   {
@@ -30237,54 +29589,6 @@
     "validUntil": "22.11",
     "url": "https://www.lidl.bg/p/silvercrest-sito-za-brasno-ili-kupa-za-raztapyne-na-vodna-bany/p11111589",
     "imageUrl": "https://www.lidl.bg/assets/gcpdfc32fcb0128484da61470af1e5d0149.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11128655",
-    "name": "SILVERCREST Стъклен буркан за съхранение бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 6.49,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-st'klen-burkan-za-s'kranenie/p11128655",
-    "imageUrl": "https://www.lidl.bg/assets/gcp7d6c5bf41ab145468b80eb502cc339ab.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11111707",
-    "name": "SILVERCREST Стъклени буркани за съхранение комплект",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 6.59,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-st'kleni-burkani-za-s'kranenie/p11111707",
-    "imageUrl": "https://www.lidl.bg/assets/gcp430f2a21cbbf43bc96ba7bfce0f5dd1c.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11121492",
-    "name": "SILVERCREST Съд за печене комплект",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 54.99,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-s'd-za-pecene/p11121492",
-    "imageUrl": "https://www.lidl.bg/assets/gcpf6c6e11591ca420984a5e85649e7ecc0.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11112305",
-    "name": "SILVERCREST Точило за ножове бр.",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 1.99,
-    "validFrom": "09.11",
-    "validUntil": "15.11",
-    "url": "https://www.lidl.bg/p/silvercrest-tocilo-za-nozove/p11112305",
-    "imageUrl": "https://www.lidl.bg/assets/gcp5ee0afb757f34b0484bb841ca94bfb2f.png",
     "source": "SmartPazar"
   },
   {

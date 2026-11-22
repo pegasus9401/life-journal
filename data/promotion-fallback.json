@@ -60,30 +60,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100059631",
-    "name": "7 Days Max/7 Days Double Max Кроасан различни видове 70 - 92 г",
-    "store": "Kaufland",
-    "oldPrice": 0.81,
-    "price": 0.55,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00059631_P-1",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100059628",
-    "name": "7 DAYS MAX/7 DAYS DOUBLE MAX Кроасан различни вкусове 92 г",
-    "store": "Kaufland",
-    "oldPrice": 0.81,
-    "price": 0.55,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/7622201393632_BG_P-1",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100059090",
     "name": "Авокадо",
     "store": "Kaufland",
@@ -321,18 +297,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/283_00016231_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:109700011",
-    "name": "Банани",
-    "store": "Kaufland",
-    "oldPrice": 1.89,
-    "price": 1.35,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/09700011_P",
     "source": "SmartPazar"
   },
   {
@@ -852,18 +816,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100089540",
-    "name": "Брей! Лютеница различни видове 550 г",
-    "store": "Kaufland",
-    "oldPrice": 4.09,
-    "price": 2.99,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4049726010142_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100112434",
     "name": "Брей! Моркови 1 кг",
     "store": "Kaufland",
@@ -957,18 +909,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/406_00093988_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100115506",
-    "name": "Брей! Kайма смес от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 8.07,
-    "price": 5.59,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2800910000000_BG_P-1",
     "source": "SmartPazar"
   },
   {
@@ -1113,18 +1053,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4486_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100047534",
-    "name": "Бяла Река Сьомгова пъстърва",
-    "store": "Kaufland",
-    "oldPrice": 10.22,
-    "price": 7.89,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2816290000000_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -2220,18 +2148,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100501027",
-    "name": "Елена Сирене от краве мляко",
-    "store": "Kaufland",
-    "oldPrice": 11.95,
-    "price": 6.55,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/304_00501027_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100067598",
     "name": "Елена Сирене от овче мляко от свежата витрина",
     "store": "Kaufland",
@@ -2277,18 +2193,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800024035296_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102400343",
-    "name": "Еduscho Family Мляно кафе различни видове 250 г",
-    "store": "Kaufland",
-    "oldPrice": 5.19,
-    "price": 3.37,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/5997338148663_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -2541,66 +2445,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/283_00403041_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100030997",
-    "name": "Зелени маслини без костилка от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 4.08,
-    "price": 2.85,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2841260000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120950888",
-    "name": "Зелени маслини екстра големи",
-    "store": "Kaufland",
-    "oldPrice": 6.99,
-    "price": 4.89,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/143_2020950888_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100090038",
-    "name": "Зелени маслини от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 6.64,
-    "price": 4.64,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00090038_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101003250",
-    "name": "Зелени маслини с бадем от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 10.99,
-    "price": 7.69,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2855930000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120843362",
-    "name": "Зелени маслини с чушка и бадем",
-    "store": "Kaufland",
-    "oldPrice": 11.24,
-    "price": 7.86,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840720000000_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -2892,18 +2736,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120892892",
-    "name": "Кашу печено 1 кг",
-    "store": "Kaufland",
-    "oldPrice": 16.36,
-    "price": 11.99,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/516_20892892",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120893883",
     "name": "КЕН Деликатесен салам от свежата витрина",
     "store": "Kaufland",
@@ -3189,18 +3021,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800015762026_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120676449",
-    "name": "Кроасан с 24% масло от нашата пекарна 55 г",
-    "store": "Kaufland",
-    "oldPrice": 0.45,
-    "price": 0.27,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/152_2020676449C_P",
     "source": "SmartPazar"
   },
   {
@@ -3624,198 +3444,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:101003882",
-    "name": "Маслини Гръцка салата от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.15,
-    "price": 5,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/01003882_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120843360",
-    "name": "Маслини Зелени/Каламата с чушка и чесън",
-    "store": "Kaufland",
-    "oldPrice": 9.71,
-    "price": 6.79,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840940000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120715393",
-    "name": "Маслини Каламата 201/260",
-    "store": "Kaufland",
-    "oldPrice": 8.29,
-    "price": 5.8,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20715393_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120711321",
-    "name": "Маслини каламата блонд",
-    "store": "Kaufland",
-    "oldPrice": 5.62,
-    "price": 3.93,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20711321_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120711857",
-    "name": "Маслини Каламата брилянт 291/320",
-    "store": "Kaufland",
-    "oldPrice": 5.69,
-    "price": 3.98,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840930000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120716856",
-    "name": "Маслини Каламата Джъмбо 181/260",
-    "store": "Kaufland",
-    "oldPrice": 8.89,
-    "price": 6.22,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20716856_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100104622",
-    "name": "Маслини Каламата екстра от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 10.22,
-    "price": 7.15,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2848540000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120916192",
-    "name": "Маслини Каламата от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.15,
-    "price": 5,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20916192_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100032403",
-    "name": "Маслини Каламата от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.79,
-    "price": 5.45,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/143_00032403_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100065768",
-    "name": "Маслини Каламата от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.45,
-    "price": 5.21,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840920000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100098566",
-    "name": "Маслини Мамут Голд от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 8.18,
-    "price": 5.72,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00098566_P-1",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101004252",
-    "name": "Маслини микс натурални с марината",
-    "store": "Kaufland",
-    "oldPrice": 6.39,
-    "price": 4.47,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2857820000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100046838",
-    "name": "Маслини Супер Колосал от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.66,
-    "price": 5.36,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00046838_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120667890",
-    "name": "Маслини Таджаска без костилка",
-    "store": "Kaufland",
-    "oldPrice": 17.89,
-    "price": 12.52,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20667890_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100087213",
-    "name": "Маслини Услу от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 6.64,
-    "price": 4.64,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00087213_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101003460",
-    "name": "Маслинoва паста от нашата витрина",
-    "store": "Kaufland",
-    "oldPrice": 6.64,
-    "price": 4.64,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2856330000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120827129",
     "name": "Маятико / Хамачи филе размразено",
     "store": "Kaufland",
@@ -4044,18 +3672,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120936021",
-    "name": "МЛЕКАРКАТА Прясно мляко UHT 1 л",
-    "store": "Kaufland",
-    "oldPrice": 1.48,
-    "price": 0.99,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20936021_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:102500102",
     "name": "Млечен шоколад различни видове 80 г",
     "store": "Kaufland",
@@ -4272,18 +3888,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100096924",
-    "name": "Народен Шпек различни видове 700 г",
-    "store": "Kaufland",
-    "oldPrice": 8.29,
-    "price": 5.79,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00096924_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100048663",
     "name": "Насладки Бисквити с пълнеж различни видове 134 г",
     "store": "Kaufland",
@@ -4293,30 +3897,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800061605452_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120842198",
-    "name": "Натурални маслини Гемлик сушени, омазнени",
-    "store": "Kaufland",
-    "oldPrice": 7.61,
-    "price": 5.32,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840910000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100038883",
-    "name": "Натурални маслини Супер Колосал",
-    "store": "Kaufland",
-    "oldPrice": 6.9,
-    "price": 4.83,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840850000000_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -5148,18 +4728,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100079970",
-    "name": "Пчелинъ Пчелен мед 900 г",
-    "store": "Kaufland",
-    "oldPrice": 7.15,
-    "price": 5.29,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/00079970_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120922884",
     "name": "Пълнозърнест хляб с квас от нашата пекарна 500 г",
     "store": "Kaufland",
@@ -5325,18 +4893,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20275372_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:109700378",
-    "name": "Розови домати",
-    "store": "Kaufland",
-    "oldPrice": 3.05,
-    "price": 1.95,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2830920000000_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -5841,18 +5397,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://media.kaufland.com/images/PPIM/KMO/BG300_20969934_P.jpg",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120966968",
-    "name": "Ситово Сирене от краве мляко 800 г",
-    "store": "Kaufland",
-    "oldPrice": 10.99,
-    "price": 7.95,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/304_203800224850231_P",
     "source": "SmartPazar"
   },
   {
@@ -7116,18 +6660,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120843363",
-    "name": "Червени маслини Услу 280/360",
-    "store": "Kaufland",
-    "oldPrice": 6.64,
-    "price": 4.64,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840660000000_BG_P-1",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:109701733",
     "name": "Червени ябълки",
     "store": "Kaufland",
@@ -7161,90 +6693,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/09700166_Promo_436578",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100065769",
-    "name": "Черни маслини Джайънтс лайт от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.15,
-    "price": 5,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840960000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101003684",
-    "name": "Черни маслини Джайънтс от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 6.9,
-    "price": 4.83,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/01003684_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101003883",
-    "name": "Черни маслини Колосал от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 6.64,
-    "price": 4.64,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/01003883_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101003681",
-    "name": "Черни маслини Мамут от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 7.66,
-    "price": 5.36,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/143_01003681_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:101003669",
-    "name": "Черни маслини от свежата витрина",
-    "store": "Kaufland",
-    "oldPrice": 5.11,
-    "price": 3.57,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2856710000000_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120292525",
-    "name": "Черни маслини Стафидата",
-    "store": "Kaufland",
-    "oldPrice": 7.99,
-    "price": 5.59,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/143_2020292525_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100015678",
-    "name": "Черни маслини Супер супер Мамут",
-    "store": "Kaufland",
-    "oldPrice": 7.15,
-    "price": 5,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/2840830000000_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -9768,18 +9216,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:100087783",
-    "name": "Campese Бял боб, Червен боб, Нахут или Леща 540 г",
-    "store": "Kaufland",
-    "oldPrice": 1.73,
-    "price": 1.09,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800100629968_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:101002243",
     "name": "Cantorel Синьо сирене от свежата витрина",
     "store": "Kaufland",
@@ -11700,42 +11136,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120704386",
-    "name": "Eduscho Кафе на зърна различни видове 1 кг",
-    "store": "Kaufland",
-    "oldPrice": 20.99,
-    "price": 13.64,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/492_20704386",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:100075446",
-    "name": "Eduscho Мляно кафе Family 550 г",
-    "store": "Kaufland",
-    "oldPrice": 10.73,
-    "price": 6.97,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/491_00075446",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:120704388",
-    "name": "EDUSCHO Разтворимо кафе различни видове 200 г",
-    "store": "Kaufland",
-    "oldPrice": 9.69,
-    "price": 6.29,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/493_20704388",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:120788985",
     "name": "Eisberg Салата Айсберг 180 г",
     "store": "Kaufland",
@@ -13413,18 +12813,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/03400930_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:103400114",
-    "name": "Gourmet Gold Храна за котки различни видове 85 г",
-    "store": "Kaufland",
-    "oldPrice": 0.86,
-    "price": 0.55,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/03400114_P",
     "source": "SmartPazar"
   },
   {
@@ -21000,18 +20388,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:120767324",
-    "name": "S POWER Зимна течност за чистачки до -20° С",
-    "store": "Kaufland",
-    "oldPrice": 4.59,
-    "price": 2.75,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20767324_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:100051276",
     "name": "Salza Гризини различни видове 190 - 220 г",
     "store": "Kaufland",
@@ -22800,18 +22176,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Kaufland:102401700",
-    "name": "Tchibo Разтворимо кафе Family 200 г",
-    "store": "Kaufland",
-    "oldPrice": 9.69,
-    "price": 6.29,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4006067842566_BG_P",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Kaufland:102401331",
     "name": "Tchibo Разтворимо кафе Gold Selection 200 г",
     "store": "Kaufland",
@@ -22821,18 +22185,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4046234767650_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102401291",
-    "name": "Tchibo Eduscho Мляно кафе различни видове 500 г",
-    "store": "Kaufland",
-    "oldPrice": 8.99,
-    "price": 5.84,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/4006067089848_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -23133,18 +22485,6 @@
     "validUntil": "22.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/20622001_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102303290",
-    "name": "Tuborg Бира 1 л РЕТ",
-    "store": "Kaufland",
-    "oldPrice": 1.22,
-    "price": 0.79,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/3800069005377_BG_P",
     "source": "SmartPazar"
   },
   {
@@ -23565,18 +22905,6 @@
     "validUntil": "29.11",
     "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
     "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/5900951014055_BG_P",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Kaufland:102100851",
-    "name": "White Horse Шотландско уиски 0,7 л",
-    "store": "Kaufland",
-    "oldPrice": 13.8,
-    "price": 7.59,
-    "validFrom": "18.11",
-    "validUntil": "21.11",
-    "url": "https://www.kaufland.bg/aktualni-predlozheniya/oferti.html",
-    "imageUrl": "https://kaufland.media.schwarz/is/image/schwarz/02100851_P",
     "source": "SmartPazar"
   },
   {

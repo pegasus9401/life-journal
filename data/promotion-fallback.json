@@ -13812,18 +13812,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11036354",
-    "name": "- Закуска 110 g",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 0.79,
-    "validFrom": "23.11",
-    "validUntil": "25.11",
-    "url": "https://www.lidl.bg/p/zakuska/p11036354",
-    "imageUrl": "https://www.lidl.bg/assets/gcp0e030bd0955b4440ae58afa09f4d627c.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11274616",
     "name": "- Замразени вишни 450 g",
     "store": "Lidl",
@@ -13833,18 +13821,6 @@
     "validUntil": "06.12",
     "url": "https://www.lidl.bg/p/zamrazeni-visni/p11274616",
     "imageUrl": "https://www.lidl.bg/assets/gcp0204f7b67d594f06958efcc9f7abc8de.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11006211",
-    "name": "- Кроасан с крем брюле 60 g",
-    "store": "Lidl",
-    "oldPrice": null,
-    "price": 0.59,
-    "validFrom": "23.11",
-    "validUntil": "25.11",
-    "url": "https://www.lidl.bg/p/kroasan-s-krem-bryle/p11006211",
-    "imageUrl": "https://www.lidl.bg/assets/gcp59ffa8b1beea4e4f99192be698ed0777.jpg",
     "source": "SmartPazar"
   },
   {
@@ -13860,18 +13836,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Lidl:11151344",
-    "name": "- Мини пърленка 50 g",
-    "store": "Lidl",
-    "oldPrice": 0.19,
-    "price": 0.1,
-    "validFrom": "23.11",
-    "validUntil": "25.11",
-    "url": "https://www.lidl.bg/p/mini-p'rlenka/p11151344",
-    "imageUrl": "https://www.lidl.bg/assets/gcpe39bda11cb2a4151bf404e98e8857fb8.png",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Lidl:11028906",
     "name": "- Пърленка 160 g",
     "store": "Lidl",
@@ -13881,18 +13845,6 @@
     "validUntil": "06.12",
     "url": "https://www.lidl.bg/p/p'rlenka/p11028906",
     "imageUrl": "https://www.lidl.bg/assets/gcp25a6afb106574c979852c16de796a5ab.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11258132",
-    "name": "- Ръжено-пшеничен хляб 600 g",
-    "store": "Lidl",
-    "oldPrice": 1.15,
-    "price": 0.69,
-    "validFrom": "23.11",
-    "validUntil": "25.11",
-    "url": "https://www.lidl.bg/p/r'zeno-psenicen-klyb/p11258132",
-    "imageUrl": "https://www.lidl.bg/assets/gcpdd89d22a2c1f416ab4f7ff22c2a8b967.jpg",
     "source": "SmartPazar"
   },
   {
@@ -14253,18 +14205,6 @@
     "validUntil": "29.11",
     "url": "https://www.lidl.bg/p/estestveno-mini-koledno-dr'vce/p11002141",
     "imageUrl": "https://www.lidl.bg/assets/gcpb0260ece59104392a1d75006dca5141c.jpg",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11255191",
-    "name": "Закуска 90 g",
-    "store": "Lidl",
-    "oldPrice": 0.59,
-    "price": 0.45,
-    "validFrom": "23.11",
-    "validUntil": "25.11",
-    "url": "https://www.lidl.bg/p/zakuska/p11255191",
-    "imageUrl": "https://www.lidl.bg/assets/gcp0415a0be0db04668891189997cad6f5c.jpg",
     "source": "SmartPazar"
   },
   {
@@ -14949,18 +14889,6 @@
     "validUntil": "06.12",
     "url": "https://www.lidl.bg/p/puseni-svinski-rebra/p11274050",
     "imageUrl": "https://www.lidl.bg/assets/gcpdaa52f126f0540a4869fa77704da9268.png",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Lidl:11547966",
-    "name": "Рогче 95 g",
-    "store": "Lidl",
-    "oldPrice": 0.59,
-    "price": 0.39,
-    "validFrom": "23.11",
-    "validUntil": "25.11",
-    "url": "https://www.lidl.bg/p/rogce/p11547966",
-    "imageUrl": "https://www.lidl.bg/assets/gcp0f63bc4eccc7434e9081aa7340f94f7c.jpg",
     "source": "SmartPazar"
   },
   {
@@ -18192,18 +18120,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:271379661",
-    "name": "7 Days Кроасан 70 - 92 г",
-    "store": "Billa",
-    "oldPrice": 0.81,
-    "price": 0.57,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/138708/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:245473934",
     "name": "Авокадо Хас 1 бр.",
     "store": "Billa",
@@ -18240,30 +18156,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:239805289",
-    "name": "Балкан кисело мляко 3,6% 400 г",
-    "store": "Billa",
-    "oldPrice": 1.02,
-    "price": 0.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/195706/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:270724817",
-    "name": "Баница с тиква 175 г",
-    "store": "Billa",
-    "oldPrice": 1.43,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/99966/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:203351954",
     "name": "Баница със сирене на хапки 190 г",
     "store": "Billa",
@@ -18288,18 +18180,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:297490280",
-    "name": "Баничка със сирене или със сирене и спанак 120 г",
-    "store": "Billa",
-    "oldPrice": 1.03,
-    "price": 0.45,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/94515/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:209746465",
     "name": "Бейби багета 50 г",
     "store": "Billa",
@@ -18309,18 +18189,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/70579/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:231697077",
-    "name": "Беленско Краве сирене",
-    "store": "Billa",
-    "oldPrice": 9.97,
-    "price": 6.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -18336,30 +18204,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:227950448",
-    "name": "Белииса Краве сирене",
-    "store": "Billa",
-    "oldPrice": 9.71,
-    "price": 5.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:240739157",
-    "name": "Боб яхния",
-    "store": "Billa",
-    "oldPrice": 7.69,
-    "price": 5.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/184453/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:240953953",
     "name": "Боженци кисело мляко 2,2% 400 г",
     "store": "Billa",
@@ -18369,42 +18213,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/186550/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:241369499",
-    "name": "Боженци Краве сирене 400 г",
-    "store": "Billa",
-    "oldPrice": 4.49,
-    "price": 3.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/141064/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:262966386",
-    "name": "Бони Луканка Карловска 210 г",
-    "store": "Billa",
-    "oldPrice": 5.62,
-    "price": 3.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/190567/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:223899025",
-    "name": "Бони Удивителна луканкова наденица 330 г",
-    "store": "Billa",
-    "oldPrice": 3.73,
-    "price": 2.75,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/86263/200",
     "source": "SmartPazar"
   },
   {
@@ -18420,18 +18228,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:289889504",
-    "name": "Боровец Тунквана вафла Боровец 52 - 55 г",
-    "store": "Billa",
-    "oldPrice": 0.35,
-    "price": 0.23,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/141283/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:285632246",
     "name": "Боровинки 125 г",
     "store": "Billa",
@@ -18440,30 +18236,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:242269306",
-    "name": "Боровинки 250 г",
-    "store": "Billa",
-    "oldPrice": 5.29,
-    "price": 3.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:289519111",
-    "name": "Бочко Детска паста за зъби 3+ години, 75 мл",
-    "store": "Billa",
-    "oldPrice": 1.53,
-    "price": 1.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -18504,30 +18276,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:205291991",
-    "name": "Бургаско бира 2 л",
-    "store": "Billa",
-    "oldPrice": 1.82,
-    "price": 1.12,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/126253/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:299105357",
-    "name": "Българска ферма Печено пилешко бутче",
-    "store": "Billa",
-    "oldPrice": 1.89,
-    "price": 1.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:248127344",
     "name": "Българска ферма Свински бут без кост За 1 кг",
     "store": "Billa",
@@ -18540,30 +18288,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:264304300",
-    "name": "Българска ферма Свински гърди стек без кост За 1 кг",
-    "store": "Billa",
-    "oldPrice": 8.65,
-    "price": 6.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/205781/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:273427358",
-    "name": "Българска ферма Свински Котлети За 1 кг",
-    "store": "Billa",
-    "oldPrice": 6.99,
-    "price": 4.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/84118/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:219665010",
     "name": "Бял хляб 300 г",
     "store": "Billa",
@@ -18573,54 +18297,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/163405/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:261058619",
-    "name": "Бяла риба замразена За 1 кг",
-    "store": "Billa",
-    "oldPrice": 4.95,
-    "price": 3.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/185782/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:231603487",
-    "name": "Бяло грозде без семки За 1 кг",
-    "store": "Billa",
-    "oldPrice": 2.99,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/205792/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:240984343",
-    "name": "Верея кисело мляко 2% 400 г",
-    "store": "Billa",
-    "oldPrice": 0.81,
-    "price": 0.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/184195/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:293060141",
-    "name": "Верея Краве масло 200 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -18672,30 +18348,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:225371448",
-    "name": "Възглавница с коледен мотив 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 8.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:267993711",
-    "name": "Горна Баня минерална вода 1,5 л",
-    "store": "Billa",
-    "oldPrice": 0.61,
-    "price": 0.35,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/144886/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:290290141",
     "name": "Горна баня минерална вода 10 л",
     "store": "Billa",
@@ -18705,66 +18357,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/144886/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:214542293",
-    "name": "Градус Прясно пиле клас А За 1 кг",
-    "store": "Billa",
-    "oldPrice": 4.6,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/47502/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:206196204",
-    "name": "Грахам багета 40 г",
-    "store": "Billa",
-    "oldPrice": 0.15,
-    "price": 0.11,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:226148208",
-    "name": "Грил наденица с чушка",
-    "store": "Billa",
-    "oldPrice": 1.17,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/206903/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:221557350",
-    "name": "Гръцка салата с хайвер 200 г",
-    "store": "Billa",
-    "oldPrice": 1.22,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/143659/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:231241068",
-    "name": "Гъби бейби печурки 300 г",
-    "store": "Billa",
-    "oldPrice": 1.79,
-    "price": 1.45,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/178320/200",
     "source": "SmartPazar"
   },
   {
@@ -18780,66 +18372,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:293444083",
-    "name": "Дамски меки чорапи, 2 чифта, с противоплъзгащи бутончета",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:247597847",
-    "name": "Дамски чехли, размер 38 - 41, цвят бежов",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 17.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:288143329",
-    "name": "Декоративен гном с LED светлина, 30 см 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 6.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:299830572",
-    "name": "Декоративна възглавничка с коледни мотиви 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:248320967",
-    "name": "Декоративна фигура 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:281679322",
     "name": "Делиа Кайма от пуешко месо 400 г",
     "store": "Billa",
@@ -18849,42 +18381,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/94672/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:253536323",
-    "name": "Делиа Пуешко филе, нарязано 400 г",
-    "store": "Billa",
-    "oldPrice": 6.59,
-    "price": 4.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/94671/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:206210132",
-    "name": "Деликатес Житница Варено пушен бекон слайс XXL 500 г",
-    "store": "Billa",
-    "oldPrice": 6.64,
-    "price": 4.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:291067108",
-    "name": "Деликатес Житница Хамбурски",
-    "store": "Billa",
-    "oldPrice": 7.66,
-    "price": 4.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/192933/200",
     "source": "SmartPazar"
   },
   {
@@ -18900,18 +18396,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:296454219",
-    "name": "Детство мое Обикновени бисквити 200 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 0.95,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/142337/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:280428583",
     "name": "Джени Яйца от свободно отглеждани кокошки Размер L 10 бр. в опаковка",
     "store": "Billa",
@@ -18921,42 +18405,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:271878845",
-    "name": "Димитър Маджаров Кашкавал от краве мляко БДС 800 г Български държавен стандарт",
-    "store": "Billa",
-    "oldPrice": 15.33,
-    "price": 10.12,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/112023/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224035291",
-    "name": "Димитър Маджаров Козе сирене ЗНП 700 г",
-    "store": "Billa",
-    "oldPrice": 13.29,
-    "price": 10.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/140233/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:286022884",
-    "name": "Димитър Маджаров Краве сирене ЗНП",
-    "store": "Billa",
-    "oldPrice": 12.78,
-    "price": 9.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/134986/200",
     "source": "SmartPazar"
   },
   {
@@ -18984,18 +18432,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:240633545",
-    "name": "Дончево яйца от подово оглеждани кокошки размер L 10 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": 3.16,
-    "price": 2.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/181354/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:232514519",
     "name": "ДончевоЯйца от подово отглеждани кокошки 6 бр. в опаковка",
     "store": "Billa",
@@ -19004,18 +18440,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:243978116",
-    "name": "Дряново Сирене свежо кутия 900 г",
-    "store": "Billa",
-    "oldPrice": 5.29,
-    "price": 3.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -19032,18 +18456,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:231761585",
-    "name": "Еко Мес Мини сушеница слайс ХХL 300 г",
-    "store": "Billa",
-    "oldPrice": 5.87,
-    "price": 3.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/51637969-0b0b-412a-a42e-4b5dbfe7e11e.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:278788957",
     "name": "Еко Мес Промопакет Свински език + Джолан + Телешко шкембе 3 x 170 г",
     "store": "Billa",
@@ -19053,54 +18465,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/80649/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:273405137",
-    "name": "Ел Би Сирене от краве мляко 800 г",
-    "store": "Billa",
-    "oldPrice": 10.73,
-    "price": 8.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:234685447",
-    "name": "Елена Кисело мляко 2% 400 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 0.78,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/75445/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:217275181",
-    "name": "Елит Мес Търновска оплетка 170 г",
-    "store": "Billa",
-    "oldPrice": 2.33,
-    "price": 1.55,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:255585801",
-    "name": "Етажерка за обувки с 4 нива",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -19116,30 +18480,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:275280444",
-    "name": "Закачалка за дрехи, 61 х 35 х 67 - 114 см",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 10.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:295530948",
-    "name": "Закуска с кайсия и крем 85 г",
-    "store": "Billa",
-    "oldPrice": 0.66,
-    "price": 0.55,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/192975/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:227101561",
     "name": "Закуска с топено сирене 110 г",
     "store": "Billa",
@@ -19149,18 +18489,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:232033645",
-    "name": "Захира бяла захар 1 кг",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.6,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/207015/200",
     "source": "SmartPazar"
   },
   {
@@ -19176,18 +18504,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:219991786",
-    "name": "Кайма пакетче 250 г",
-    "store": "Billa",
-    "oldPrice": 0.78,
-    "price": 0.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:281746751",
     "name": "Кайма смес 440 г",
     "store": "Billa",
@@ -19197,30 +18513,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/198971/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:273214732",
-    "name": "Каламата Джъмбо маслини 181-200**",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 7.81,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/195662/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:260558361",
-    "name": "Калиакра Слънчогледово олио първа преса 1 л До 5 бр. на клиент на ден*",
-    "store": "Billa",
-    "oldPrice": 2.04,
-    "price": 1.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/104737/200",
     "source": "SmartPazar"
   },
   {
@@ -19236,30 +18528,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:255884452",
-    "name": "Калмари пипала За 1 кг",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 8.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/122074/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:217650702",
-    "name": "Карнобатска Ракия гроздова 0,7 л г",
-    "store": "Billa",
-    "oldPrice": 7.92,
-    "price": 6.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:295898995",
     "name": "Картофи жълти мити Произход - Франция За 1 кг",
     "store": "Billa",
@@ -19269,18 +18537,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/94563/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:256542999",
-    "name": "Картофи с подправки",
-    "store": "Billa",
-    "oldPrice": 8.69,
-    "price": 6.64,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -19296,18 +18552,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:246944859",
-    "name": "Кашкавалка 120 г",
-    "store": "Billa",
-    "oldPrice": 0.86,
-    "price": 0.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:216544730",
     "name": "Клементини За 1 кг",
     "store": "Billa",
@@ -19316,42 +18560,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224437775",
-    "name": "Коледна декорация Лешникотрошач, 15 см 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/205736/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:255379268",
-    "name": "Коледна звезда саксия Ф10,5* 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/205742/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:216755915",
-    "name": "Коледна изтривалка, 40 х60 см различни мотиви 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -19380,42 +18588,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:292191080",
-    "name": "Кроасан с шунка и топено сирене 90 г",
-    "store": "Billa",
-    "oldPrice": 0.95,
-    "price": 0.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:265044302",
-    "name": "Кромид лук За 1 кг",
-    "store": "Billa",
-    "oldPrice": 0.75,
-    "price": 0.33,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/191857/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:231127353",
-    "name": "Кутия за съхранение, 30 х 30 х 30 см, различни цветове",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:210749634",
     "name": "КФМ Бекон маестро слайс 100 г",
     "store": "Billa",
@@ -19425,18 +18597,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/179815/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:238769134",
-    "name": "Кюфтета и кебапчета от свинско месо 480 г",
-    "store": "Billa",
-    "oldPrice": 3.83,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/206891/200",
     "source": "SmartPazar"
   },
   {
@@ -19476,30 +18636,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:254935406",
-    "name": "Леки Наденица Македонска",
-    "store": "Billa",
-    "oldPrice": 8.99,
-    "price": 5.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/144618/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:257448740",
-    "name": "Лесидрен Кашкавал от краве мляко 350 г",
-    "store": "Billa",
-    "oldPrice": 6.64,
-    "price": 3.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:217400404",
     "name": "Лимони За 1 кг",
     "store": "Billa",
@@ -19509,42 +18645,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:296091848",
-    "name": "Майстор Цветко Жарено свинско филе",
-    "store": "Billa",
-    "oldPrice": 13.69,
-    "price": 8.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:256600854",
-    "name": "Маслен радиатор, 600 - 900 - 1500W, три степени на отопление, 35х23х54см, захранващ кабел 1,5м",
-    "store": "Billa",
-    "oldPrice": 49.99,
-    "price": 34.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224019032",
-    "name": "Маслини Каламата Блонд 231 - 260**",
-    "store": "Billa",
-    "oldPrice": 8.45,
-    "price": 5.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/195662/200",
     "source": "SmartPazar"
   },
   {
@@ -19572,30 +18672,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:277668365",
-    "name": "Мини сомун 120 г",
-    "store": "Billa",
-    "oldPrice": 0.42,
-    "price": 0.3,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:214286633",
-    "name": "Млечен шоколад 160 г",
-    "store": "Billa",
-    "oldPrice": 2.35,
-    "price": 1.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/140750/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:250226045",
     "name": "Молерите Джумайска луканка или Бански старец 220 г",
     "store": "Billa",
@@ -19617,18 +18693,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/143387/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:292346060",
-    "name": "Моп Ролка лукс 1 бр.",
-    "store": "Billa",
-    "oldPrice": 7.66,
-    "price": 3.57,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -19848,78 +18912,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:247448021",
-    "name": "Мургаш Извара",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.9,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:283270920",
-    "name": "Мургаш Краве сирене",
-    "store": "Billa",
-    "oldPrice": 10.22,
-    "price": 7.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/87171/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:207880740",
-    "name": "Мъфин 100 г",
-    "store": "Billa",
-    "oldPrice": 0.76,
-    "price": 0.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:258460976",
-    "name": "На Шефа Печено кюфте или кебапче",
-    "store": "Billa",
-    "oldPrice": 1.09,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:292089646",
-    "name": "Наборъ кашкавал",
-    "store": "Billa",
-    "oldPrice": 12.27,
-    "price": 8.18,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:265666742",
-    "name": "Народен Кренвирш пилешки",
-    "store": "Billa",
-    "oldPrice": 4.59,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:243116396",
     "name": "Народен Наденица Македонска",
     "store": "Billa",
@@ -19944,18 +18936,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:266817008",
-    "name": "Ная Нетунквани вафли 653 г",
-    "store": "Billa",
-    "oldPrice": 4.17,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/108355/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:296592717",
     "name": "Невенна Кашкавал от краве мляко 1,5 кг",
     "store": "Billa",
@@ -19976,18 +18956,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:215241913",
-    "name": "Ново в Billa - Подправки микс, 60 г",
-    "store": "Billa",
-    "oldPrice": 1.99,
-    "price": 1.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -20016,18 +18984,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:242211648",
-    "name": "Ново в Billa - Billa Подправки микс, 60 г",
-    "store": "Billa",
-    "oldPrice": 1.99,
-    "price": 1.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:291137860",
     "name": "Ново в Billa - Dina Лаваш Високопротеинов със спирулина 275 г",
     "store": "Billa",
@@ -20040,18 +18996,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:292241642",
-    "name": "Ново в Billa - Parodontax Intense Gum Clean Паста за зъби 75 мл",
-    "store": "Billa",
-    "oldPrice": 6.99,
-    "price": 3.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:249974582",
     "name": "Ново в Billa - Philadelphia Чийзкейк 2 х 80 г или Milka Суфле 2 х 90 г 1 опаковка",
     "store": "Billa",
@@ -20060,18 +19004,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:231568108",
-    "name": "Обичам Айвар 300 г",
-    "store": "Billa",
-    "oldPrice": 2.99,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -20100,42 +19032,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:263145770",
-    "name": "Обичам Варена селска Наденица с чубрица 400 г",
-    "store": "Billa",
-    "oldPrice": 4.49,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:274109542",
-    "name": "Обичам Говежда саздърма 200 г",
-    "store": "Billa",
-    "oldPrice": 3.49,
-    "price": 2.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:205690328",
-    "name": "Обичам Грах 680 г",
-    "store": "Billa",
-    "oldPrice": 1.45,
-    "price": 1.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:285405927",
     "name": "Обичам Гюбек от краве мляко 500 г",
     "store": "Billa",
@@ -20156,54 +19052,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:238581093",
-    "name": "Обичам Кашкавал от краве мляко БДС 800 г . Български държавен стандарт",
-    "store": "Billa",
-    "oldPrice": 10.99,
-    "price": 8.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:268157883",
-    "name": "Обичам Кашкавалена извара 500 г",
-    "store": "Billa",
-    "oldPrice": 1.95,
-    "price": 1.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:271140302",
-    "name": "Обичам Краве сирене ЗНП 400 г",
-    "store": "Billa",
-    "oldPrice": 4.59,
-    "price": 3.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:292547518",
-    "name": "Обичам Кренвирши Стара планина 400 г",
-    "store": "Billa",
-    "oldPrice": 3.99,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -20280,30 +19128,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:213115517",
-    "name": "Обичам Сладко ягоди 230 г",
-    "store": "Billa",
-    "oldPrice": 2.19,
-    "price": 1.85,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:271235029",
-    "name": "Одеяло 150х200см, различни цветове",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 17.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:299614977",
     "name": "Орехите Луканка Добруджанска или Чардака",
     "store": "Billa",
@@ -20313,54 +19137,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/144599/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:234084241",
-    "name": "Орехите Луканка Смядовска",
-    "store": "Billa",
-    "oldPrice": 22.76,
-    "price": 13.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/144857/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:240614882",
-    "name": "Орехите Луканков салам 230 г",
-    "store": "Billa",
-    "oldPrice": 6.49,
-    "price": 3.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/30a144f2-b29e-434e-ab72-8976c9b1c603.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:296170880",
-    "name": "Орехите Салам Шпеков или Бургас 230 г",
-    "store": "Billa",
-    "oldPrice": 4.89,
-    "price": 3.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/144635/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:229546986",
-    "name": "Орехите Суджук Добруджански или Телешки 160 г",
-    "store": "Billa",
-    "oldPrice": 6.49,
-    "price": 4.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/144626/200",
     "source": "SmartPazar"
   },
   {
@@ -20376,30 +19152,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:283513579",
-    "name": "Орхидея Фаленопсис с 2 разклонения саксия Ф12* 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 8.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:266588053",
-    "name": "Пескадо Груп Разбит салатен хайвер",
-    "store": "Billa",
-    "oldPrice": 9.2,
-    "price": 5.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:206328665",
     "name": "Пескадо Тарама хайвер по гръцки",
     "store": "Billa",
@@ -20408,18 +19160,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:202307501",
-    "name": "Петрохан",
-    "store": "Billa",
-    "oldPrice": 1.32,
-    "price": 0.95,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -20472,18 +19212,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:275001108",
-    "name": "Пиле с грах",
-    "store": "Billa",
-    "oldPrice": 8.94,
-    "price": 6.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:216015112",
     "name": "Пилешка вешалица",
     "store": "Billa",
@@ -20496,18 +19224,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:238780261",
-    "name": "Пилешки обезкостен бут с кожа За 1 кг",
-    "store": "Billa",
-    "oldPrice": 6.64,
-    "price": 4.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/185789/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:233367947",
     "name": "Пиперки червени 500 г",
     "store": "Billa",
@@ -20517,18 +19233,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/185281/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:211510083",
-    "name": "Пиринско бира 0,5 л",
-    "store": "Billa",
-    "oldPrice": 0.88,
-    "price": 0.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/120476/200",
     "source": "SmartPazar"
   },
   {
@@ -20552,78 +19256,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:247729927",
-    "name": "Поке с риба тон 300 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/207183/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:261837030",
-    "name": "Портокали За 1 кг",
-    "store": "Billa",
-    "oldPrice": 1.59,
-    "price": 1.05,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/207752/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:219688298",
-    "name": "Права баница със сирене 200 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.17,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/144642/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:246386798",
-    "name": "Праз лук Градините в с. Ивайло 3 бр. връзка",
-    "store": "Billa",
-    "oldPrice": 1.49,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/135427/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:246196978",
-    "name": "Престиж Суха паста 300 г",
-    "store": "Billa",
-    "oldPrice": 2.75,
-    "price": 1.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/47546/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224916100",
-    "name": "Пържено кюфте",
-    "store": "Billa",
-    "oldPrice": 0.85,
-    "price": 0.68,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -20664,18 +19296,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:295209535",
-    "name": "Рикас Кашкавал от краве мляко 400 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.55,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:272314890",
     "name": "Сами М Панирани пръчици моцарела замразени 250 г",
     "store": "Billa",
@@ -20700,54 +19320,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:298369119",
-    "name": "Саяна краве сирене 400 г",
-    "store": "Billa",
-    "oldPrice": 4.79,
-    "price": 3.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/183009/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:297303356",
-    "name": "Саяна прясно мляко 3% 1 л",
-    "store": "Billa",
-    "oldPrice": 1.84,
-    "price": 1.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/175297/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:276010222",
-    "name": "Свинска вратна пържола",
-    "store": "Billa",
-    "oldPrice": 2.3,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/85848/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:218707524",
-    "name": "Свинска плешка без кост За 1 кг",
-    "store": "Billa",
-    "oldPrice": 6.75,
-    "price": 2.55,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/198954/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:231394696",
     "name": "Свински джолан без кост За 1 кг",
     "store": "Billa",
@@ -20760,18 +19332,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:249052010",
-    "name": "Свински медальони на шиш",
-    "store": "Billa",
-    "oldPrice": 1.38,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/194751/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:215402517",
     "name": "Свинско контрафиле За 1кг",
     "store": "Billa",
@@ -20781,18 +19341,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/86164/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:262173351",
-    "name": "Селска питка с чубрица и сминдух 300 г",
-    "store": "Billa",
-    "oldPrice": 1.1,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -20816,42 +19364,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:245300161",
-    "name": "Сладея Захар 1 кг До 10 бр. на клиент на ден**",
-    "store": "Billa",
-    "oldPrice": 1.32,
-    "price": 0.64,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:218768987",
-    "name": "Сладки картофи За 1 кг",
-    "store": "Billa",
-    "oldPrice": 1.79,
-    "price": 1.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/121396/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:291890503",
-    "name": "Соколово Варено-пушена свинска плешка",
-    "store": "Billa",
-    "oldPrice": 7.92,
-    "price": 6.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -20880,42 +19392,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:249140027",
-    "name": "Спагети с четири сирена",
-    "store": "Billa",
-    "oldPrice": 9.71,
-    "price": 8.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:225834704",
-    "name": "Стъклена топка 8 см 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:246508943",
-    "name": "Стъклена фигурка, 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:267382470",
     "name": "Сунгурларска Ракия отлежала 0,7 л",
     "store": "Billa",
@@ -20925,42 +19401,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/183190/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:239701631",
-    "name": "Тандем Кренвирши 250 г",
-    "store": "Billa",
-    "oldPrice": 3.06,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/206894/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:211692072",
-    "name": "Тандем Шунка 300 г",
-    "store": "Billa",
-    "oldPrice": 4.6,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/207718/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:269080226",
-    "name": "Тед Иглика Меденки с глазура 270 г",
-    "store": "Billa",
-    "oldPrice": 2.55,
-    "price": 2.15,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -20976,18 +19416,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:223322593",
-    "name": "Трапезен хляб 500 г",
-    "store": "Billa",
-    "oldPrice": 1.16,
-    "price": 1.07,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/162514/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:201135767",
     "name": "Три лъжици Сладко ягода 260 г",
     "store": "Billa",
@@ -20997,18 +19425,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/164640/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:296730433",
-    "name": "Фамилия точени кори 500 г",
-    "store": "Billa",
-    "oldPrice": 2.34,
-    "price": 1.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/149594/200",
     "source": "SmartPazar"
   },
   {
@@ -21048,18 +19464,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:256921813",
-    "name": "Хек филе пане",
-    "store": "Billa",
-    "oldPrice": 14.48,
-    "price": 11.75,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/185781/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:203574735",
     "name": "Херинга филе мариновано пикантно 220 г",
     "store": "Billa",
@@ -21093,42 +19497,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:241731728",
-    "name": "Чабата с люспи червен пипер 110 г",
-    "store": "Billa",
-    "oldPrice": 0.69,
-    "price": 0.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:259438408",
-    "name": "Чери домати За 1 кг",
-    "store": "Billa",
-    "oldPrice": 3.49,
-    "price": 2.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/183445/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:289011915",
-    "name": "Черни маслини супер супер мамут",
-    "store": "Billa",
-    "oldPrice": 8.34,
-    "price": 4.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/206460/200",
     "source": "SmartPazar"
   },
   {
@@ -21204,18 +19572,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:203574287",
-    "name": "Ябълки червени Фуджи или Гала За 1 кг",
-    "store": "Billa",
-    "oldPrice": 1.29,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/207111/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:210065236",
     "name": "Aea Тарали 280 г",
     "store": "Billa",
@@ -21237,18 +19593,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/88251/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:272578921",
-    "name": "Airwick Ратанови пръчици 250 мл",
-    "store": "Billa",
-    "oldPrice": 9.2,
-    "price": 6.13,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/108764/200",
     "source": "SmartPazar"
   },
   {
@@ -21336,30 +19680,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:249579811",
-    "name": "Ammerland Гауда",
-    "store": "Billa",
-    "oldPrice": 11.24,
-    "price": 8.18,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:210042845",
-    "name": "Amos Желирани бонбони 65 г",
-    "store": "Billa",
-    "oldPrice": 1.43,
-    "price": 1.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/198254/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:255808213",
     "name": "Angel's Вино 0,75 л",
     "store": "Billa",
@@ -21372,30 +19692,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:208528686",
-    "name": "Aquafresh детска четка за зъби 3 - 5 години или 6 - 8 години",
-    "store": "Billa",
-    "oldPrice": 4.29,
-    "price": 2.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:277995649",
-    "name": "Ariel Гел за пране Touch of Lenor 60 пранета или гел капсули Liquid Gel Touch 60 бр. 1 опаковка 1 изпиране = 0,25 € / 60 пранета",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 15.28,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/198224/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:258521267",
     "name": "Barni Кексче 150 г",
     "store": "Billa",
@@ -21405,30 +19701,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/99290/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:227039708",
-    "name": "Barni Кексче 30 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 0.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/99290/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:212148731",
-    "name": "Barska Водка 0,7 л",
-    "store": "Billa",
-    "oldPrice": 6.13,
-    "price": 4.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/51047/200",
     "source": "SmartPazar"
   },
   {
@@ -21456,42 +19728,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:284503453",
-    "name": "Bertolli Маслиново масло спрей 200 мл",
-    "store": "Billa",
-    "oldPrice": 5.11,
-    "price": 3.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/179464/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:243246431",
-    "name": "Bianchi Мляно кафе Nero Fine 250 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.94,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:268539166",
-    "name": "Billa Бебешки мокри кърпи 64 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.03,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/207365/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:252943440",
     "name": "Billa Белени скариди, замразени 225 г",
     "store": "Billa",
@@ -21501,18 +19737,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/136417/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:249037164",
-    "name": "Billa Боб 500 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.3,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -21540,18 +19764,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:241078430",
-    "name": "Billa газирана вода 1,5 л",
-    "store": "Billa",
-    "oldPrice": 0.56,
-    "price": 0.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/90771/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:298043034",
     "name": "Billa Газирана напитка 1 л",
     "store": "Billa",
@@ -21561,18 +19773,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/184885/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:244036347",
-    "name": "Billa Градини Картофи Градините в с. Милево и с. Ивайло За 1 кг",
-    "store": "Billa",
-    "oldPrice": 0.79,
-    "price": 0.45,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -21612,18 +19812,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:200176428",
-    "name": "Billa Десерт с шоколадова глазура 30 г",
-    "store": "Billa",
-    "oldPrice": 0.51,
-    "price": 0.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:215957457",
     "name": "Billa Домати 400 г",
     "store": "Billa",
@@ -21632,18 +19820,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:287571636",
-    "name": "Billa Ементал настърган 150 г",
-    "store": "Billa",
-    "oldPrice": 1.48,
-    "price": 1.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -21660,18 +19836,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:257607708",
-    "name": "Billa Йодирана морска сол фина или едра 1 кг",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 0.67,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/184412/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:207629762",
     "name": "Billa Кетчуп 585 г или Кетчуп без добавена захар 560 г",
     "store": "Billa",
@@ -21681,18 +19845,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224988723",
-    "name": "Billa Кухненска ролка 3 пласта 2 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": 1.53,
-    "price": 1.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/191373/200",
     "source": "SmartPazar"
   },
   {
@@ -21729,30 +19881,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/191822/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:244336938",
-    "name": "Billa Меденки с пълнеж 200 г",
-    "store": "Billa",
-    "oldPrice": 1.63,
-    "price": 1.38,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/165794/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:242942774",
-    "name": "Billa моцарела 125 г",
-    "store": "Billa",
-    "oldPrice": 1.29,
-    "price": 1.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -21828,42 +19956,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:267553355",
-    "name": "Billa Пъстърва чистена 500 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.91,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/99335/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:236661931",
-    "name": "Billa скир 500 г",
-    "store": "Billa",
-    "oldPrice": 1.94,
-    "price": 1.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:240808322",
-    "name": "Billa Спагети, пене или фусили 500 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.01,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:246952151",
     "name": "Billa Телешки колбас 300 г",
     "store": "Billa",
@@ -21873,18 +19965,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/206900/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:272372717",
-    "name": "Billa Тоалетна хартия 3 пласта 8 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/191771/200",
     "source": "SmartPazar"
   },
   {
@@ -21924,18 +20004,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:278449540",
-    "name": "Billa Херинга филе 200 г",
-    "store": "Billa",
-    "oldPrice": 1.94,
-    "price": 1.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/154655/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:291223474",
     "name": "Billa Чиа 150 г",
     "store": "Billa",
@@ -21960,18 +20028,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:243208472",
-    "name": "Billa Шпеков кобас слайс 100 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.56,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/143618/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:252482958",
     "name": "Billa Шунка 300 г",
     "store": "Billa",
@@ -21980,30 +20036,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:248198797",
-    "name": "Billa Indian tonic газирана напитка 1 л",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 0.86,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:270123632",
-    "name": "Billa Premium Високоолеиново слънчогледово олио 1 л",
-    "store": "Billa",
-    "oldPrice": 3.19,
-    "price": 2.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -22032,18 +20064,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:227816132",
-    "name": "Billa Premium Краве сирене 500 г",
-    "store": "Billa",
-    "oldPrice": 5.62,
-    "price": 4.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/192032/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:202564854",
     "name": "Billa Premium тигрови скариди 450 г",
     "store": "Billa",
@@ -22052,18 +20072,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:238048098",
-    "name": "Billa Premium Cookies с Лешников крем 200 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.6,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -22088,30 +20096,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:268135117",
-    "name": "Bon Via Айсберг салата 1 бр.",
-    "store": "Billa",
-    "oldPrice": 1.99,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:298702802",
-    "name": "Bon Via Домати Рома 500 г",
-    "store": "Billa",
-    "oldPrice": 2.69,
-    "price": 1.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -22176,30 +20160,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:291016375",
-    "name": "Borkoni Кисели краставички 680 г",
-    "store": "Billa",
-    "oldPrice": 1.99,
-    "price": 1.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:250656327",
-    "name": "Born Winner Протеинов шейк шоколадов сладолед 500 мл",
-    "store": "Billa",
-    "oldPrice": 3.57,
-    "price": 2.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/186392/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:213534522",
     "name": "Born Winner Active Протеинов бар кокос или чийзкейк ягода 2х30 г",
     "store": "Billa",
@@ -22224,18 +20184,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:268083435",
-    "name": "Budweiser Budvar бира 0,5 л",
-    "store": "Billa",
-    "oldPrice": 1.5,
-    "price": 1.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/128641/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:216264054",
     "name": "Bulcons Първомай Лютеница едросмляна 260 г",
     "store": "Billa",
@@ -22257,30 +20205,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/82203/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:263784493",
-    "name": "Bushmills Уиски Black Bush 0,7 л",
-    "store": "Billa",
-    "oldPrice": 24.48,
-    "price": 16.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/82203/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:246312809",
-    "name": "Caffarel Бонбони Hazelnut Nocciolotta 150 г",
-    "store": "Billa",
-    "oldPrice": 8.82,
-    "price": 6.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -22332,42 +20256,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:263901538",
-    "name": "Clatronic Вентилаторна печка HL 1095, 2000W",
-    "store": "Billa",
-    "oldPrice": 27.99,
-    "price": 18.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:214662039",
-    "name": "Clatronic Конвекторна печка KH 3077 N, 750 - 1250 - 2000W, 3 степени на отопление",
-    "store": "Billa",
-    "oldPrice": 39.99,
-    "price": 29.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:272103867",
-    "name": "Clever Варено пушен Свински бут 1 кг",
-    "store": "Billa",
-    "oldPrice": 9.2,
-    "price": 7.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:250598166",
     "name": "Clever вафла с карамел 40 г",
     "store": "Billa",
@@ -22376,18 +20264,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:264529402",
-    "name": "Clever газирана напитка 0,33 л",
-    "store": "Billa",
-    "oldPrice": 0.51,
-    "price": 0.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -22413,30 +20289,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/00e4aaff-57b9-4ffd-b5e8-cd7d3009c1eb.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:242322410",
-    "name": "Clever Зелени маслини без костилка 690 г",
-    "store": "Billa",
-    "oldPrice": 2.99,
-    "price": 2.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:211873286",
-    "name": "Clever Колбас тип Телешки, Камчия или Хамбурски 330 г",
-    "store": "Billa",
-    "oldPrice": 1.29,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -22476,30 +20328,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:253296460",
-    "name": "Clever Салам Бургас 450 г",
-    "store": "Billa",
-    "oldPrice": 2.9,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:292472607",
-    "name": "Clever салам за кучета 1 кг -",
-    "store": "Billa",
-    "oldPrice": 2.04,
-    "price": 1.63,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:221096376",
     "name": "Clever Трапезна вода 1,5 л",
     "store": "Billa",
@@ -22508,42 +20336,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:286397172",
-    "name": "Clever трапезна вода 10 л",
-    "store": "Billa",
-    "oldPrice": 1.02,
-    "price": 0.85,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:234172896",
-    "name": "Clever Царевица 330 г",
-    "store": "Billa",
-    "oldPrice": 1.27,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:214513640",
-    "name": "Clever Шоколад 100 г",
-    "store": "Billa",
-    "oldPrice": 1.3,
-    "price": 1.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -22560,18 +20352,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:203357023",
-    "name": "Coccolino Омекотител 74 пранета 1 изпиране = 0,06 € / 74 пранета",
-    "store": "Billa",
-    "oldPrice": 6.99,
-    "price": 4.45,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/201433/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:283393769",
     "name": "Colgate Advanced White Charcoal или Max Fresh Паста за зъби 75 мл 1 опаковка",
     "store": "Billa",
@@ -22581,30 +20361,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/98119/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:286699085",
-    "name": "Colgate Triple Action Паста за зъби 125 мл",
-    "store": "Billa",
-    "oldPrice": 2.35,
-    "price": 1.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/176240/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:222829504",
-    "name": "Compass Пастет 300 г",
-    "store": "Billa",
-    "oldPrice": 2.04,
-    "price": 1.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/130442/200",
     "source": "SmartPazar"
   },
   {
@@ -22668,54 +20424,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:224548930",
-    "name": "Danone Заквасена сметана 380 г",
-    "store": "Billa",
-    "oldPrice": 2.65,
-    "price": 2.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/121606/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:235723507",
-    "name": "Deroni Лютеница финосмляна домашна 525 г или без добавена захар 500 г 1 бр.",
-    "store": "Billa",
-    "oldPrice": 3.29,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/60901/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:245502962",
-    "name": "Detelina's Микс с червени боровинки 160 г",
-    "store": "Billa",
-    "oldPrice": 2.76,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/200372/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:299692602",
-    "name": "Deutche Markenbutter краве масло 250 г",
-    "store": "Billa",
-    "oldPrice": 3.79,
-    "price": 1.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/30366/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:210231073",
     "name": "Devin минерална или изворна вода 1,5 л",
     "store": "Billa",
@@ -22740,18 +20448,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:203562392",
-    "name": "Dolce Gusto Кафе капсули 30 бр.",
-    "store": "Billa",
-    "oldPrice": 11.35,
-    "price": 9.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/197010/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:209850171",
     "name": "Dolce Gusto Кафе капсули 48 бр. в опаковка",
     "store": "Billa",
@@ -22761,18 +20457,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/163259/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:282112494",
-    "name": "Domestos Почистващ препарат 1,250 л или Тоалетно блокче 3 х 55 г 1 опаковка",
-    "store": "Billa",
-    "oldPrice": 5.62,
-    "price": 3.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/90159/200",
     "source": "SmartPazar"
   },
   {
@@ -22872,18 +20556,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:229649279",
-    "name": "Every Day Дамски превръзки 18 бр. в опаковка, 1 опаковка",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/186893/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:212168226",
     "name": "Exquisa Кварк с овесени ядки 400 г",
     "store": "Billa",
@@ -22920,78 +20592,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:264211552",
-    "name": "Fa Душ гел 400 мл",
-    "store": "Billa",
-    "oldPrice": 4.6,
-    "price": 2.55,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/201457/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:243018594",
-    "name": "Fairy Препарат за съдове 900 мл",
-    "store": "Billa",
-    "oldPrice": 4.09,
-    "price": 3.06,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/186900/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:201281501",
-    "name": "Familia Тоалетна хартия 32 + 8 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": 9.99,
-    "price": 8.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/191771/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:265825843",
-    "name": "Familia Collection сладолед 481 - 529 г",
-    "store": "Billa",
-    "oldPrice": 6.44,
-    "price": 2.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/195005/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:248780518",
-    "name": "Favrskov Синьо сирене",
-    "store": "Billa",
-    "oldPrice": 15.33,
-    "price": 10.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/136101/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:226284443",
-    "name": "Ferrero Rocher Шоколад 90 г",
-    "store": "Billa",
-    "oldPrice": 3.32,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/113390/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:246756106",
     "name": "Finlandia Водка 0,7 л",
     "store": "Billa",
@@ -23001,30 +20601,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/139970/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:217417797",
-    "name": "Florina нектар 25% банан 1 л",
-    "store": "Billa",
-    "oldPrice": 1.78,
-    "price": 1.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/190131/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224418191",
-    "name": "Friskies Суха храна за котки 300 г или пауч за куче 4 x 85 г -",
-    "store": "Billa",
-    "oldPrice": 1.78,
-    "price": 1.27,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/191939/200",
     "source": "SmartPazar"
   },
   {
@@ -23100,18 +20676,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:237421717",
-    "name": "Glade Ароматна свещ, време на горене около 30 часа различни аромати 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:274890591",
     "name": "Gliss Шампоан 400мл или Спрей балсам 200 мл, 1 бр.",
     "store": "Billa",
@@ -23160,18 +20724,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:286445328",
-    "name": "Grant's Уиски 1 л",
-    "store": "Billa",
-    "oldPrice": 23.62,
-    "price": 12.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/89393/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:209201658",
     "name": "Grill Party Бургер Black Angus 300 г",
     "store": "Billa",
@@ -23184,54 +20736,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:210825960",
-    "name": "Grill Party Карначе 300 г",
-    "store": "Billa",
-    "oldPrice": 2.99,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:282335953",
-    "name": "Grill Party Свински врат с кост маринован 700 г",
-    "store": "Billa",
-    "oldPrice": 5.62,
-    "price": 4.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:254930288",
-    "name": "Guinness Бира 0,44 л",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.78,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/196781/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:203369678",
-    "name": "Heineken бира 0,5 л",
-    "store": "Billa",
-    "oldPrice": 1.35,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/107123/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:249344061",
     "name": "Hell енергийна напитка 0,250 л",
     "store": "Billa",
@@ -23241,18 +20745,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/206163/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:208095411",
-    "name": "Hellmann's Майонеза 405 мл",
-    "store": "Billa",
-    "oldPrice": 4.79,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/66957/200",
     "source": "SmartPazar"
   },
   {
@@ -23280,54 +20772,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:292244038",
-    "name": "Hochland Крема сирене за мазане 200 г",
-    "store": "Billa",
-    "oldPrice": 2.86,
-    "price": 2.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/137939/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:295968629",
-    "name": "Illy мляно кафе 250 г",
-    "store": "Billa",
-    "oldPrice": 13.99,
-    "price": 7.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/102836/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:298445608",
-    "name": "Ion Тъмен шоколад 90 г",
-    "store": "Billa",
-    "oldPrice": 2.55,
-    "price": 1.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:296884573",
-    "name": "Jack Daniel's Тенеси Уиски 1 л",
-    "store": "Billa",
-    "oldPrice": 31.57,
-    "price": 24.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/182700/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:218809943",
     "name": "Jacobs Разтворима напитка 3 в 1, плик 20 бр. x 15,1 г",
     "store": "Billa",
@@ -23337,30 +20781,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/183344/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:280631066",
-    "name": "Jacobs Разтворима напитка 3in1 10 х 15,1 г",
-    "store": "Billa",
-    "oldPrice": 2.84,
-    "price": 1.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/183344/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:296968286",
-    "name": "Jagermeister Ликьор 0,7 л",
-    "store": "Billa",
-    "oldPrice": 14.06,
-    "price": 11.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/31595/200",
     "source": "SmartPazar"
   },
   {
@@ -23388,18 +20808,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:263103316",
-    "name": "JP. Chenet Вино 0,75 л",
-    "store": "Billa",
-    "oldPrice": 7.09,
-    "price": 5.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/79292/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:289007084",
     "name": "Kinder Шоколадово яйце Surprise 20 г",
     "store": "Billa",
@@ -23409,18 +20817,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/202364/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:289363684",
-    "name": "La Vashe Топено сирене сметана 120 г",
-    "store": "Billa",
-    "oldPrice": 2.3,
-    "price": 1.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/197034/200",
     "source": "SmartPazar"
   },
   {
@@ -23436,18 +20832,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:272163108",
-    "name": "Landfrisch Сирене котидж 4,5% 150 г",
-    "store": "Billa",
-    "oldPrice": 1.78,
-    "price": 1.15,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/194863/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:273313092",
     "name": "Lavazza Капсули Crema e Gusto 10 бр. в опаковка",
     "store": "Billa",
@@ -23457,54 +20841,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/e41b58a3-e581-40f7-894c-c5759df06192.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:276567079",
-    "name": "Lay's Чипс 125 г",
-    "store": "Billa",
-    "oldPrice": 2.05,
-    "price": 1.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/83994/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:282294511",
-    "name": "LED декорация, 576 лампички, дължина: 4 м 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 9.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/188485/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:259744178",
-    "name": "LED Преспапие - Карусел, 26 см 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 20.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/204949/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:257517956",
-    "name": "LED светлинна верига, 200 LED, бяла,топла или многоцветна светлина 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -23520,66 +20856,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:201494538",
-    "name": "Libresse Ultra Дамски превръзки 40 бр. 1 опаковка",
-    "store": "Billa",
-    "oldPrice": 5.31,
-    "price": 3.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/204315/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:244931346",
-    "name": "Lindt Шоколад Excellence 100 г",
-    "store": "Billa",
-    "oldPrice": 4.19,
-    "price": 3.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/105781/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:262616389",
-    "name": "Lindt Extra Creamy Тъмен шоколад 80 г",
-    "store": "Billa",
-    "oldPrice": 3.78,
-    "price": 2.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/181243/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:293382666",
-    "name": "Lion Шоколадов десерт 2 pack 60 г",
-    "store": "Billa",
-    "oldPrice": 1.12,
-    "price": 0.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:240717722",
-    "name": "Listerine Total Care Вода за уста 500 мл",
-    "store": "Billa",
-    "oldPrice": 6.13,
-    "price": 4.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/204707/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:205387459",
     "name": "Little Moons Mочи 6 x 32 г",
     "store": "Billa",
@@ -23589,54 +20865,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:251330655",
-    "name": "Loacker Шоколад 85 - 87 г",
-    "store": "Billa",
-    "oldPrice": 2.7,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/125878/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:259102655",
-    "name": "Loctite Super Bond Секундно лепило 3 г",
-    "store": "Billa",
-    "oldPrice": 1.53,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/100503/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:285522887",
-    "name": "Loreal Excellence Боя за коса 1 опаковка,различни цветове",
-    "store": "Billa",
-    "oldPrice": 7.95,
-    "price": 5.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/164721/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:290117696",
-    "name": "Lovita Бисквити с шоколад 150 г",
-    "store": "Billa",
-    "oldPrice": 1.53,
-    "price": 1.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/142078/200",
     "source": "SmartPazar"
   },
   {
@@ -23664,18 +20892,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:228720797",
-    "name": "Maliva Тоалетна хартия 3 пласта 32 + 16 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 10.22,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:278946173",
     "name": "Maretti Брускети 140 г",
     "store": "Billa",
@@ -23700,18 +20916,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:297271769",
-    "name": "Meat Revolution Black Angus Чък рол стек 250 г",
-    "store": "Billa",
-    "oldPrice": 8.18,
-    "price": 6.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/133787/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:288720890",
     "name": "Medix Clean & Easy Препарат за съдове 800 мл",
     "store": "Billa",
@@ -23724,30 +20928,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:294014269",
-    "name": "Medix Max Power Препарат за съдове 750 мл",
-    "store": "Billa",
-    "oldPrice": 1.78,
-    "price": 1.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/136514/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:230903758",
-    "name": "Meggle Крем за разбиване 500 мл",
-    "store": "Billa",
-    "oldPrice": 2.96,
-    "price": 1.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:282367528",
     "name": "Menada Вино 3 л",
     "store": "Billa",
@@ -23757,30 +20937,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://glovo.dhmedia.io/image/pim-glovo/6554eaec0832b0b17583d808.jpg?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:252056142",
-    "name": "Merci Шоколадови бонбони 400 г",
-    "store": "Billa",
-    "oldPrice": 11.75,
-    "price": 8.35,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/140130/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:235202984",
-    "name": "Midalidare Вино Silver Angel 0,75 л",
-    "store": "Billa",
-    "oldPrice": 8.95,
-    "price": 6.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/31578/200",
     "source": "SmartPazar"
   },
   {
@@ -23808,42 +20964,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:271487881",
-    "name": "Milka Кроасан 50 г",
-    "store": "Billa",
-    "oldPrice": 0.99,
-    "price": 0.75,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/200411/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:290427038",
-    "name": "Milka Шоколад млечен или Oreo 90 - 100 г",
-    "store": "Billa",
-    "oldPrice": 1.99,
-    "price": 1.35,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/110520/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:242245829",
-    "name": "Milka Шоколад с цял лешник 250 г",
-    "store": "Billa",
-    "oldPrice": 5.5,
-    "price": 3.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/187822/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:222382462",
     "name": "Milora Шоколадови дражета 100 г",
     "store": "Billa",
@@ -23852,18 +20972,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224703713",
-    "name": "Minerva Маслиново масло от кюспе 1 л",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 7.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -23889,18 +20997,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/165125/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:222183119",
-    "name": "Monster енергийна напитка 0,5 л",
-    "store": "Billa",
-    "oldPrice": 1.37,
-    "price": 1.09,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/143410/200",
     "source": "SmartPazar"
   },
   {
@@ -23940,18 +21036,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:278009742",
-    "name": "Nemiroff Водка 0,7 л",
-    "store": "Billa",
-    "oldPrice": 10.49,
-    "price": 6.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/106911/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:200625992",
     "name": "Nemiroff Водка 1 л",
     "store": "Billa",
@@ -23976,18 +21060,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:277030923",
-    "name": "Nice Bites Пържени бадеми 150 г",
-    "store": "Billa",
-    "oldPrice": 2.38,
-    "price": 1.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/7b214015-c33e-430b-9206-c7cc303f40be.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:262047349",
     "name": "Nivea Дезодорант спрей 250 мл",
     "store": "Billa",
@@ -24000,18 +21072,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:234500234",
-    "name": "Nivea Душ гел 500 мл,",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 4.47,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/130413/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:229281702",
     "name": "Nucrema Какаов крем 380 г",
     "store": "Billa",
@@ -24020,30 +21080,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:268249796",
-    "name": "Nutella Лешников какаов крем 750 г",
-    "store": "Billa",
-    "oldPrice": 9.09,
-    "price": 6.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:236605923",
-    "name": "Oberon Домати на кубчета 400 г",
-    "store": "Billa",
-    "oldPrice": 1.15,
-    "price": 0.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -24072,18 +21108,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:283478858",
-    "name": "Ocean Fish Пушена сьомга филе 100 г",
-    "store": "Billa",
-    "oldPrice": 4.95,
-    "price": 2.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/128005/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:256201308",
     "name": "Ocean fish Суши Филаделфия 240 г",
     "store": "Billa",
@@ -24105,18 +21129,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/143659/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:261271402",
-    "name": "Old Spice Дезодорант спрей 150 мл или стик 50 мл 1 бр.",
-    "store": "Billa",
-    "oldPrice": 4.55,
-    "price": 3.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/142537/200",
     "source": "SmartPazar"
   },
   {
@@ -24144,30 +21156,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:249590229",
-    "name": "Olympus прясно мляко 1,7% 1 л",
-    "store": "Billa",
-    "oldPrice": 1.71,
-    "price": 1.38,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/188425/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:272810109",
-    "name": "Olympus цедено кисело мляко 10% 350 г",
-    "store": "Billa",
-    "oldPrice": 2.3,
-    "price": 1.75,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/135986/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:209330252",
     "name": "Orbit Дъвки 46 дражета",
     "store": "Billa",
@@ -24177,54 +21165,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/149884/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:233726193",
-    "name": "Oreo Бисквити 154 г",
-    "store": "Billa",
-    "oldPrice": 1.94,
-    "price": 1.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/163580/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:216069226",
-    "name": "Ozbasak Бяло брашно тип 480 1 кг",
-    "store": "Billa",
-    "oldPrice": 2.04,
-    "price": 1.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:236526080",
-    "name": "Paddy Ирландско уиски 0,7 л",
-    "store": "Billa",
-    "oldPrice": 16.87,
-    "price": 11.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/31796/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:222426708",
-    "name": "Palmolive Тоалетен сапун 90 г",
-    "store": "Billa",
-    "oldPrice": 1.17,
-    "price": 0.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/179813/200",
     "source": "SmartPazar"
   },
   {
@@ -24252,18 +21192,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:297267176",
-    "name": "Pantene Шампоан 360 мл",
-    "store": "Billa",
-    "oldPrice": 6.8,
-    "price": 4.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/103892/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:248096063",
     "name": "Papia Кухненска ролка 3 пласта 2 бр. в опаковка",
     "store": "Billa",
@@ -24273,30 +21201,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/191374/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:200510643",
-    "name": "Parodontax Вода за уста 500 мл",
-    "store": "Billa",
-    "oldPrice": 7.36,
-    "price": 4.6,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/134963/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:283705909",
-    "name": "Pasquier Desvignes Beaujolais Nouveau 0,75 л",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 7.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -24312,18 +21216,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:249465505",
-    "name": "Passport Selection Спиртна напитка 0,7 л",
-    "store": "Billa",
-    "oldPrice": 11.24,
-    "price": 6.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:219402923",
     "name": "Pepsi газирана напитка 1,5 л",
     "store": "Billa",
@@ -24336,30 +21228,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:261849353",
-    "name": "Pepsi газирана напитка бутилка 0,5 л",
-    "store": "Billa",
-    "oldPrice": 0.99,
-    "price": 0.65,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/1410c0b7-13b6-4708-83f5-0df8f097c542.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:224418033",
-    "name": "Perfex Тоалетна хартия 3 пласта, 8 + 2бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.25,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:276474100",
     "name": "Persil Гел за пране 100 пранета 1 изпиране = 0,18 € / 100 пранета",
     "store": "Billa",
@@ -24369,54 +21237,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/204529/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:208159349",
-    "name": "Persil Гел за пране 22 пранета 1 изпиране = 0,25 € / 22 пранета",
-    "store": "Billa",
-    "oldPrice": 8.69,
-    "price": 5.62,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/204529/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:289629244",
-    "name": "Persil Гел за пране 44 пранета или Дискове за пране 28 бр. 1 опаковка",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 8.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/204529/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:220261819",
-    "name": "Perwoll Гел за пране 40 пранета",
-    "store": "Billa",
-    "oldPrice": 15.33,
-    "price": 8.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/138988/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:265859529",
-    "name": "Pescado Бял боб 540 г",
-    "store": "Billa",
-    "oldPrice": 2.04,
-    "price": 1.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -24444,66 +21264,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:220073608",
-    "name": "Pom - Bar Снакс Original 50 г",
-    "store": "Billa",
-    "oldPrice": 1.27,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/107457/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:279285904",
-    "name": "President пълномаслено краве сирене 250 г",
-    "store": "Billa",
-    "oldPrice": 4.85,
-    "price": 3.59,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/136051/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:227769936",
-    "name": "Prim Препарат за съдове 800 мл",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 1.35,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:273139019",
-    "name": "Prisun негазирана напитка 1,5 л",
-    "store": "Billa",
-    "oldPrice": 1.63,
-    "price": 0.89,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:288754540",
-    "name": "Pufies Бебешки пелени или гащички,различни размери 1 опаковка",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 9.49,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/206629/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:221471598",
     "name": "Pufies Giant Pack Бебешки гащички или пелени различни размери, 1 опаковка",
     "store": "Billa",
@@ -24513,18 +21273,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/206727/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:226777791",
-    "name": "Quantum Вино 0,75 л г",
-    "store": "Billa",
-    "oldPrice": 6.08,
-    "price": 4.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/72070/200",
     "source": "SmartPazar"
   },
   {
@@ -24552,30 +21300,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:293954313",
-    "name": "Rexona Дезодорант спрей 150 мл или стик 50 мл, различни аромати 1 бр.",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 2.74,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/142563/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:284637941",
-    "name": "Riceup Овесен бар боровинка Zero sugar 70 г",
-    "store": "Billa",
-    "oldPrice": 1.32,
-    "price": 0.85,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/185294/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:211597182",
     "name": "Rois Стафиди златни 80 г",
     "store": "Billa",
@@ -24600,18 +21324,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:201572802",
-    "name": "Safeguard Течен сапун 225 мл",
-    "store": "Billa",
-    "oldPrice": 3.27,
-    "price": 2.05,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/85589/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:259582186",
     "name": "Salmaris Хайвер от шаран с лук 150 г",
     "store": "Billa",
@@ -24621,18 +21333,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:237487631",
-    "name": "Salza Соленки с вкус на сирене 200 г",
-    "store": "Billa",
-    "oldPrice": 1.99,
-    "price": 1.25,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/104209/200",
     "source": "SmartPazar"
   },
   {
@@ -24648,18 +21348,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:230207840",
-    "name": "Sano Омекотител 40 пранета 1 изпиране = 0,13 € / 40 пранета",
-    "store": "Billa",
-    "oldPrice": 7.65,
-    "price": 5.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/124160/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:253523795",
     "name": "Sano Mix & Wash Гел за пране 60 пранета",
     "store": "Billa",
@@ -24669,18 +21357,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/100386/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:265501293",
-    "name": "Savex Color Гел или прах за пране 68 пранета 1 изпиране = 0,14 € / 68 пранета",
-    "store": "Billa",
-    "oldPrice": 16.87,
-    "price": 9.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/189290/200",
     "source": "SmartPazar"
   },
   {
@@ -24720,54 +21396,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:241754569",
-    "name": "Semana Aura Омекотител 60 пранета 1 изпиране = 0,05 € / 60 пранета",
-    "store": "Billa",
-    "oldPrice": 4.7,
-    "price": 3.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/193746/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:272995057",
-    "name": "Sensodyne Junior Детска паста за зъби, 6 до 12 години, 50 мл",
-    "store": "Billa",
-    "oldPrice": 4.29,
-    "price": 2.55,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:278861488",
-    "name": "Sensodyne Whitening Паста за зъби 2 x 75 мл",
-    "store": "Billa",
-    "oldPrice": 9.56,
-    "price": 4.6,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/134957/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:214656070",
-    "name": "Smirnoff 21 Водка 1 л",
-    "store": "Billa",
-    "oldPrice": 16.36,
-    "price": 10.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/164435/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:233700608",
     "name": "Snickers Шоколадов десерт Super +1, 112,5 г",
     "store": "Billa",
@@ -24777,30 +21405,6 @@
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
     "imageUrl": "https://ebag.bg/products/images/35654/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:280732226",
-    "name": "Somat All In 1 Таблетки за съдомиялна 75 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": 23.16,
-    "price": 14.82,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/186790/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:235641593",
-    "name": "Somat All in 1 Таблетки за съдомиялна 85 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": 25.56,
-    "price": 15.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
     "source": "SmartPazar"
   },
   {
@@ -24864,30 +21468,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:232641566",
-    "name": "STR8 Original Афтършейв за след бръснене 50 мл",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 3.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:200775665",
-    "name": "Suchard Бонбониера 117 - 138 г",
-    "store": "Billa",
-    "oldPrice": 3.83,
-    "price": 2.39,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:248245870",
     "name": "Sweet Way Сладък салам 210 г",
     "store": "Billa",
@@ -24924,18 +21504,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:212878331",
-    "name": "Tchibo Мляно кафе Gold selection 250 г",
-    "store": "Billa",
-    "oldPrice": 7.87,
-    "price": 3.69,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/204970/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:257036316",
     "name": "Teo Bouquet Сапун 70 г",
     "store": "Billa",
@@ -24948,30 +21516,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:280899551",
-    "name": "Thomy Сос чеснов или тартар или за бургер 160 г",
-    "store": "Billa",
-    "oldPrice": 1.59,
-    "price": 0.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/200200/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:293717478",
-    "name": "Tikves Ракия Жълта Лозова 0,7 л",
-    "store": "Billa",
-    "oldPrice": 14.69,
-    "price": 9.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/197439/200",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:215422229",
     "name": "Tira мляно кафе Crema 250 г",
     "store": "Billa",
@@ -24980,18 +21524,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:201127140",
-    "name": "Tira Мляно кафе Gold 500 г",
-    "store": "Billa",
-    "oldPrice": 10.22,
-    "price": 4.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
@@ -25032,66 +21564,6 @@
     "source": "SmartPazar"
   },
   {
-    "id": "Billa:299733450",
-    "name": "Vici Сельодка филе херинга традиционна или розова 240 г",
-    "store": "Billa",
-    "oldPrice": 2.82,
-    "price": 2.19,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:249039219",
-    "name": "Vileda Маса за гладене, 110х30 см",
-    "store": "Billa",
-    "oldPrice": 49.99,
-    "price": 35.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:212157622",
-    "name": "Villa Yambol Вино 3 л",
-    "store": "Billa",
-    "oldPrice": 10.37,
-    "price": 6.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/163148/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:228003603",
-    "name": "Vivess къси чорапи бели или черни,размери 35 - 38 / 39 - 42 / 43 - 46, 2 чифта",
-    "store": "Billa",
-    "oldPrice": 2.55,
-    "price": 2.04,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:288382429",
-    "name": "Vivess LED настолни лампи, 2 броя, с включена батерия, USB кабел, 3 степени на осветеност",
-    "store": "Billa",
-    "oldPrice": 28.99,
-    "price": 18.99,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
     "id": "Billa:298361259",
     "name": "Vivo Fragolino Bianco 0,75 л Сорт - Бленд от бяло грозде. Произход - Италия. Температура на консумация - 10 - 12⁰ C.",
     "store": "Billa",
@@ -25100,66 +21572,6 @@
     "validFrom": "26.11",
     "validUntil": "02.12",
     "url": "https://ssbbilla.site/catalog/predstoyashta-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:271481329",
-    "name": "Yummy Бяло млечно блокче 85 г",
-    "store": "Billa",
-    "oldPrice": null,
-    "price": 0.86,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:200062883",
-    "name": "Zatecky Hus бира 1 л",
-    "store": "Billa",
-    "oldPrice": 1.3,
-    "price": 0.91,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:283645560",
-    "name": "Zewa Deluxe Кърпи за лице 3 пласта 90 бр. в опаковка",
-    "store": "Billa",
-    "oldPrice": 2.7,
-    "price": 1.79,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://ebag.bg/products/images/206935/200",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:289590347",
-    "name": "Zott Пудинг 175 г",
-    "store": "Billa",
-    "oldPrice": 0.69,
-    "price": 0.45,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
-    "imageUrl": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/xe/06b13e03-47d0-4570-bf92-31ecee55728f.png?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MzIwLCJoZWlnaHQiOjMyMH19XQ==",
-    "source": "SmartPazar"
-  },
-  {
-    "id": "Billa:260166633",
-    "name": "Zuegg Конфитюр ягода 320 г",
-    "store": "Billa",
-    "oldPrice": 3.32,
-    "price": 2.29,
-    "validFrom": "19.11",
-    "validUntil": "25.11",
-    "url": "https://ssbbilla.site/catalog/sedmichna-broshura",
     "imageUrl": "",
     "source": "SmartPazar"
   },
